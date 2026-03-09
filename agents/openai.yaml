@@ -1,0 +1,7 @@
+interface:
+  display_name: "AI大管家"
+  short_description: "统筹 skill 路由、低打扰执行、验真收尾与递归进化"
+  default_prompt: "Use $ai-da-guan-jia to inventory the best local skills, choose the minimal sufficient combination, minimize interruption, and finish with an evolution log plus optional Feishu sync."
+
+policy:
+  allow_implicit_invocation: false
