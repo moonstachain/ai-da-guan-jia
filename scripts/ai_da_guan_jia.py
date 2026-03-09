@@ -26,7 +26,7 @@ SOUL_ROOT = ARTIFACTS_ROOT / "soul"
 DEFAULT_BRIDGE = (
     CODEX_HOME / "skills" / "feishu-bitable-bridge" / "scripts" / "feishu_bitable_bridge.py"
 )
-DEFAULT_FEISHU_LINK = "https://h52xu4gwob.feishu.cn/wiki/FwG2wbljSiQrtPkTt8RcLAbxnvd?table=tblRho6nKw6aC0IO&view=vewNwnYDbj"
+DEFAULT_FEISHU_LINK = "https://h52xu4gwob.feishu.cn/wiki/FwG2wbljSiQrtPkTt8RcLAbxnvd?from=from_copylink&table=tblDR8XbK5fxun4x&view=vewbJgjzHr"
 ROUTING_ORDER = [
     "task_fit_score",
     "verification_score",
@@ -145,6 +145,50 @@ CORE_PROFILES: dict[str, SkillProfile] = {
         verification_strength=5,
         cost_efficiency=5,
         auth_reuse=1,
+        complexity_penalty=1,
+    ),
+    "skill-trainer-recursive": SkillProfile(
+        name="skill-trainer-recursive",
+        role="Train new skills through strategic intent, first principles, benchmark alignment, and recursive MVP evaluation.",
+        strengths=["Intent modeling", "First-principles decomposition", "Benchmark alignment", "Skill training loops"],
+        weaknesses=["Heavier than direct scaffolding when the user only needs a quick one-off skill file"],
+        boundary="Use before direct scaffolding when the user wants to train a skill method, not merely generate one.",
+        keywords=[
+            "skill-trainer-recursive",
+            "训练新技能",
+            "训练技能",
+            "技能训练",
+            "设计技能方法学",
+            "训练技能的技能",
+            "first principles",
+            "benchmark",
+        ],
+        verification_strength=5,
+        cost_efficiency=4,
+        auth_reuse=1,
+        complexity_penalty=2,
+    ),
+    "openclaw-xhs-coevolution-lab": SkillProfile(
+        name="openclaw-xhs-coevolution-lab",
+        role="Turn real OpenClaw co-evolution experiments into Xiaohongshu viral note blueprints and iterative content systems.",
+        strengths=["Content positioning", "Topic ideation", "Evidence-first Xiaohongshu blueprints", "Co-evolution narrative framing"],
+        weaknesses=["Does not publish content by itself in v1"],
+        boundary="Use when the task is about OpenClaw, Xiaohongshu, co-evolution storytelling, or viral note strategy rather than direct publishing.",
+        keywords=[
+            "openclaw-xhs-coevolution-lab",
+            "openclaw",
+            "open claw",
+            "小红书",
+            "xhs",
+            "爆款",
+            "博主",
+            "图文笔记",
+            "共进化",
+            "内容赛道",
+        ],
+        verification_strength=4,
+        cost_efficiency=4,
+        auth_reuse=2,
         complexity_penalty=1,
     ),
     "knowledge-orchestrator": SkillProfile(
@@ -364,12 +408,48 @@ def normalize_list(value: Any) -> list[str]:
 
 def detect_signals(prompt: str) -> dict[str, bool]:
     text = normalize_prompt(prompt)
+    openclaw_xhs = any(
+        phrase in text
+        for phrase in [
+            "openclaw",
+            "open claw",
+            "小红书",
+            "xhs",
+            "爆款",
+            "博主",
+            "共进化",
+            "图文笔记",
+            "内容赛道",
+        ]
+    )
+    skill_training = any(
+        phrase in text
+        for phrase in [
+            "训练新技能",
+            "训练一种新技能",
+            "训练一个新技能",
+            "训练技能",
+            "训练 skill",
+            "skill trainer",
+            "skill training",
+            "设计技能方法学",
+            "训练技能的技能",
+        ]
+    )
     skill_creation = any(
         phrase in text
         for phrase in [
             "做一个 skill",
             "做一个新 skill",
             "新 skill",
+            "新技能",
+            "训练新技能",
+            "训练一种新技能",
+            "训练一个新技能",
+            "训练 skill",
+            "训练一个 skill",
+            "打造一个 skill",
+            "封装成 skill",
             "做个 skill",
             "create skill",
             "new skill",
@@ -418,6 +498,8 @@ def detect_signals(prompt: str) -> dict[str, bool]:
         for phrase in ["授权", "登录", "login", "payment", "支付", "发布", "删除", "审批", "approval"]
     )
     return {
+        "openclaw_xhs": openclaw_xhs,
+        "skill_training": skill_training,
         "skill_creation": skill_creation,
         "knowledge_first": knowledge_first,
         "feishu": feishu,
@@ -440,6 +522,14 @@ def explicit_mentions(prompt: str, skill_names: list[str]) -> list[str]:
 
 def verification_targets(signals: dict[str, bool]) -> list[str]:
     targets: list[str] = []
+    if signals["openclaw_xhs"]:
+        targets.append(
+            "Need account positioning, topic hooks, note structure, evidence requirements, and viral logic before the OpenClaw Xiaohongshu strategy can be called complete."
+        )
+    if signals["skill_training"]:
+        targets.append(
+            "Need intent-canvas.json, first_principles.md, benchmark-map.json, candidate-skill-spec.md, and eval-report.json before the run can be called trained."
+        )
     if signals["skill_creation"]:
         targets.append("Need SKILL.md, agents/openai.yaml, required resources, and validator success.")
     if signals["knowledge_first"]:
@@ -464,6 +554,10 @@ def score_candidate(
     hits = [kw for kw in keywords if kw and kw in text]
     explicit_bonus = 4 if name in mentioned else 0
     special_bonus = 0
+    if name == "openclaw-xhs-coevolution-lab" and signals["openclaw_xhs"]:
+        special_bonus = 4
+    if name == "skill-trainer-recursive" and signals["skill_training"]:
+        special_bonus = 4
     if name == "skill-creator" and signals["skill_creation"]:
         special_bonus = 4
     if name == "knowledge-orchestrator" and signals["knowledge_first"]:
@@ -528,6 +622,10 @@ def choose_skills(
     wanted: list[str] = []
 
     wanted.extend(mentioned)
+    if signals["openclaw_xhs"]:
+        wanted.append("openclaw-xhs-coevolution-lab")
+    if signals["skill_training"]:
+        wanted.append("skill-trainer-recursive")
     if signals["skill_creation"]:
         wanted.append("skill-creator")
     if signals["knowledge_first"]:
@@ -608,6 +706,10 @@ def determine_human_boundary(signals: dict[str, bool]) -> str:
 
 
 def determine_max_distortion(signals: dict[str, bool]) -> str:
+    if signals["openclaw_xhs"]:
+        return "把 OpenClaw 共进化内容做成泛 AI 资讯或空洞教程，而没有真实实验感和可模仿张力。"
+    if signals["skill_training"]:
+        return "把技能训练误解成直接生成 SKILL.md，而没有先吃透战略意图、第一性原理和标杆。"
     if signals["skill_creation"]:
         return "把大管家做成口号，而不是可调用、可验证、可沉淀的 skill 包。"
     if signals["knowledge_first"]:

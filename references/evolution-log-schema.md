@@ -18,6 +18,16 @@ Write each run to:
 - `feishu-payload.json`
 - `feishu-sync-result.json`
 
+## Closure Discipline
+
+Every meaningful task must record three self-evaluation dimensions before Feishu sync:
+
+- `effective_patterns`: what the run genuinely gained or validated.
+- `wasted_patterns`: what created friction, waste, or pseudo-progress.
+- `evolution_candidates`: what should change next time.
+
+Do not sync stale open questions. `verification_result.open_questions` must reflect only the real remaining issues after closure.
+
 ## evolution.json Required Fields
 
 - `run_id`
@@ -50,6 +60,7 @@ Write each run to:
 - `effective_patterns`: array of strings.
 - `wasted_patterns`: array of strings.
 - `evolution_candidates`: array of strings. Keep them as proposals, not applied mutations.
+- Treat the three fields above as the minimum self-review payload for every meaningful run.
 - `evolution_judgment_detail`: object with `hit`, `positive_signals`, `blockers`, and trace counters.
 - `evolution_writeback_applied`: bool. True only when this run wrote validated updates into this skill.
 - `evolution_writeback_commit`: git commit hash for automatic writeback, or empty.

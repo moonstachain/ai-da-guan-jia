@@ -28,6 +28,20 @@
 - Weaknesses: not a meta-judgment system on its own.
 - Boundary: route here first for any request to build or modify a skill.
 
+## skill-trainer-recursive
+
+- Role: train a new skill method through strategic intent discovery, first-principles decomposition, benchmark alignment, and recursive MVP evaluation.
+- Strengths: turns vague skill ideas into a methodical training loop with explicit artifacts and release gates.
+- Weaknesses: heavier than direct scaffolding when the user only needs a fast one-off skill file.
+- Boundary: route here before raw scaffolding when the user wants to train a skill or design a skill-training method.
+
+## openclaw-xhs-coevolution-lab
+
+- Role: turn real OpenClaw experiments into Xiaohongshu viral-note blueprints and a co-evolution content system.
+- Strengths: strong on account positioning, topic hooks, evidence requirements, and note-structure design for this niche.
+- Weaknesses: does not publish content and should not replace real experimentation.
+- Boundary: use when the job is OpenClaw + 小红书 + 共进化 + 爆款内容 strategy, not generic social posting.
+
 ## knowledge-orchestrator
 
 - Role: ask the knowledge base first, then synthesize and plan from the answers.

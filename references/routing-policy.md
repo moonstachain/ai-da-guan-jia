@@ -14,6 +14,8 @@ Do not let a cheaper path outrank a clearly better-fit path. Do not let a famili
 
 ## Hard Routing Rules
 
+- If the prompt is about `OpenClaw`, `小红书`, `博主`, `爆款`, `共进化`, or this content niche, route `openclaw-xhs-coevolution-lab` first.
+- If the prompt asks to train a skill or design a skill-training method, route `skill-trainer-recursive` first.
 - If the prompt asks to create or update a skill, route `skill-creator` first.
 - If the prompt says to ask the knowledge base first, route `knowledge-orchestrator` first.
 - If the prompt requires Feishu table writes, keep Feishu last in the chain:
@@ -38,6 +40,8 @@ Do not let a cheaper path outrank a clearly better-fit path. Do not let a famili
 Every route must carry a verification target, not just a chosen skill name. Examples:
 
 - skill creation: `SKILL.md`, `agents/openai.yaml`, resource files, validator pass
+- skill training: `intent-canvas.json`, `first_principles.md`, `benchmark-map.json`, `candidate-skill-spec.md`, `eval-report.json`
+- OpenClaw Xiaohongshu strategy: account plan, topic plan, note blueprint, evidence requirements, and viral logic
 - knowledge-first planning: raw KB answers saved before synthesis
 - Feishu mirror: canonical local log plus preview output before apply
 - Recursive closure: use `close-task` to force recap, sync, and evolution writeback checks

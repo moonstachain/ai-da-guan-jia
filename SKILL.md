@@ -30,6 +30,7 @@ Use the local router when the user gives a task:
 
 ```bash
 python3 scripts/ai_da_guan_jia.py route --prompt "帮我做一个新 skill，并且少打扰我"
+python3 scripts/ai_da_guan_jia.py route --prompt "帮我训练一种新技能，而且尽量少打扰我"
 ```
 
 The router must write `situation-map.md` and `route.json` before any later evolution sync.
@@ -42,6 +43,8 @@ The router must write `situation-map.md` and `route.json` before any later evolu
 - Follow the fixed ranking order in [references/routing-policy.md](references/routing-policy.md): `任务适配度 > 验真能力 > 成本/算力 > 已有认证/登录态复用 > 新增复杂度`.
 - Prefer the smallest sufficient downstream combination. The default ceiling is 3 skills.
 - Route `skill` creation or update requests to `skill-creator` first.
+- Route skill-training or skill-methodology requests to `skill-trainer-recursive` before direct scaffolding.
+- Route OpenClaw Xiaohongshu co-evolution and viral-note requests to `openclaw-xhs-coevolution-lab`.
 - Route knowledge-base-first requests to `knowledge-orchestrator` first.
 - Route Feishu write requests to `feishu-bitable-bridge` only after the local canonical log exists.
 - Treat the missing immune organs named by `ai-metacognitive-core` as absorbed responsibilities here. Do not require them as installed dependencies.
@@ -64,8 +67,10 @@ python3 scripts/ai_da_guan_jia.py inventory-skills
 
 - After every meaningful run, write the canonical evolution record locally.
 - Always write artifacts under `artifacts/ai-da-guan-jia/runs/YYYY-MM-DD/<run-id>/`.
+- Every meaningful task must include one explicit self-evaluation: what was gained, what was wasted, and what should iterate next.
 - Always generate `feishu-payload.json`, then run `sync-feishu --dry-run`, then `sync-feishu --apply`.
-- Every meaningful task must end with one shared recap and one Feishu work log mirror.
+- Every meaningful task must end with one shared recap and one human-readable Feishu work log mirror.
+- Do not leave stale closure text in the mirror. Sync only the final task state, real remaining open questions, and the current self-evaluation.
 - Run the evolution gate after sync. If it hits, auto-write validated improvements into this skill and create a local commit.
 - Auto-writeback is limited to this skill only; do not auto-edit other skills.
 - Use the schema in [references/evolution-log-schema.md](references/evolution-log-schema.md) and the sync contract in [references/feishu-sync-contract.md](references/feishu-sync-contract.md).

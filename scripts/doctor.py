@@ -30,6 +30,8 @@ ROSTER_NAMES = [
     "jiyao-youyao-haiyao",
     "jiyao-youyao-haiyao-zaiyao",
     "skill-creator",
+    "skill-trainer-recursive",
+    "openclaw-xhs-coevolution-lab",
     "knowledge-orchestrator",
     "self-evolution-max",
     "agency-agents-orchestrator",
