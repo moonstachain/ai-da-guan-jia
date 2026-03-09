@@ -26,6 +26,7 @@ SOUL_ROOT = ARTIFACTS_ROOT / "soul"
 DEFAULT_BRIDGE = (
     CODEX_HOME / "skills" / "feishu-bitable-bridge" / "scripts" / "feishu_bitable_bridge.py"
 )
+DEFAULT_FEISHU_LINK = "https://h52xu4gwob.feishu.cn/wiki/FwG2wbljSiQrtPkTt8RcLAbxnvd?table=tblRho6nKw6aC0IO&view=vewNwnYDbj"
 ROUTING_ORDER = [
     "task_fit_score",
     "verification_score",
@@ -52,6 +53,9 @@ REQUIRED_EVOLUTION_FIELDS = [
     "wasted_patterns",
     "evolution_candidates",
     "feishu_sync_status",
+    "evolution_judgment_detail",
+    "evolution_writeback_applied",
+    "evolution_writeback_commit",
 ]
 
 
@@ -856,6 +860,149 @@ def append_daily_soul_log(evolution: dict[str, Any]) -> Path:
     return daily_path
 
 
+def iter_evolution_records(limit: int = 50) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    if not RUNS_ROOT.exists():
+        return records
+    run_dirs = sorted(
+        [path for path in RUNS_ROOT.glob("*/*") if path.is_dir()],
+        key=lambda item: str(item),
+    )
+    for run_dir in reversed(run_dirs):
+        evolution_path = run_dir / "evolution.json"
+        if not evolution_path.exists():
+            continue
+        try:
+            payload = read_json(evolution_path)
+        except Exception:
+            continue
+        if isinstance(payload, dict):
+            records.append(payload)
+        if len(records) >= limit:
+            break
+    return records
+
+
+def normalize_text_list(value: Any) -> list[str]:
+    return [item.strip().lower() for item in normalize_list(value)]
+
+
+def evaluate_evolution_judgment(evolution: dict[str, Any]) -> dict[str, Any]:
+    evidence = normalize_list(evolution.get("verification_result", {}).get("evidence"))
+    open_questions = normalize_list(evolution.get("verification_result", {}).get("open_questions"))
+    candidates = normalize_list(evolution.get("evolution_candidates"))
+    wasted = normalize_text_list(evolution.get("wasted_patterns"))
+    verification_status = str(evolution.get("verification_result", {}).get("status") or "").strip().lower()
+    history = iter_evolution_records(limit=80)
+    history = [item for item in history if str(item.get("run_id")) != str(evolution.get("run_id"))]
+    historical_wasted: list[str] = []
+    for item in history:
+        historical_wasted.extend(normalize_text_list(item.get("wasted_patterns")))
+
+    repeat_hits = sorted({item for item in wasted if item and item in historical_wasted})
+    has_repeated_failure_pattern = bool(repeat_hits)
+    has_reusable_routing_or_verification = bool(
+        [text for text in candidates if any(key in text.lower() for key in ("route", "routing", "验真", "verify", "verification", "规则", "policy"))]
+    )
+    has_boundary_adjustment_with_evidence = bool(
+        evidence and [text for text in candidates if any(key in text.lower() for key in ("边界", "boundary", "授权", "interrupt", "打扰"))]
+    )
+    has_cost_or_interrupt_reduction = bool(
+        [text for text in candidates if any(key in text.lower() for key in ("算力", "compute", "cost", "少打扰", "低打扰", "autonomy", "自动化"))]
+    ) and verification_status in {"passed", "success", "done", "complete", "completed", "partial", "warning", "warn", "mixed"}
+
+    blockers: list[str] = []
+    if not evidence and not open_questions:
+        blockers.append("no_evidence")
+    if candidates and all(any(key in item.lower() for key in ("感觉", "主观", "guess", "maybe")) for item in candidates):
+        blockers.append("subjective_only")
+    if not has_repeated_failure_pattern and len(candidates) <= 1 and not has_reusable_routing_or_verification:
+        blockers.append("one_off_or_weak_signal")
+    dna_conflicts = [
+        item
+        for item in candidates
+        if any(key in item.lower() for key in ("skip verification", "ignore verification", "treat feishu as canonical", "跳过验真", "飞书作为唯一真相"))
+    ]
+    if dna_conflicts:
+        blockers.append("dna_conflict")
+
+    positive_signals: list[str] = []
+    if has_repeated_failure_pattern:
+        positive_signals.append("repeated_failure_pattern")
+    if has_reusable_routing_or_verification:
+        positive_signals.append("reusable_routing_or_verification_rule")
+    if has_boundary_adjustment_with_evidence:
+        positive_signals.append("boundary_adjustment_with_evidence")
+    if has_cost_or_interrupt_reduction:
+        positive_signals.append("cost_or_interrupt_reduction_without_verification_loss")
+
+    hit = bool(positive_signals) and not blockers
+    return {
+        "hit": hit,
+        "positive_signals": positive_signals,
+        "repeat_hits": repeat_hits,
+        "blockers": blockers,
+        "evidence_count": len(evidence),
+        "open_question_count": len(open_questions),
+    }
+
+
+def apply_evolution_writeback(evolution: dict[str, Any]) -> tuple[bool, list[Path]]:
+    candidates = normalize_list(evolution.get("evolution_candidates"))
+    if not candidates:
+        return False, []
+    path = SKILL_DIR / "references" / "validated-evolution-rules.md"
+    existing = path.read_text(encoding="utf-8") if path.exists() else ""
+    if not existing.strip():
+        existing = "# Validated Evolution Rules\n\n"
+    lines = existing.rstrip().splitlines()
+    changed = False
+    run_id = str(evolution["run_id"])
+    timestamp = str(evolution["created_at"])
+    for candidate in candidates:
+        entry = f"- [{run_id}] {timestamp} :: {candidate}"
+        if entry in lines:
+            continue
+        lines.append(entry)
+        changed = True
+    if changed:
+        path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return changed, [path] if changed else []
+
+
+def git_commit_paths(paths: list[Path], run_id: str) -> str:
+    if not paths:
+        return ""
+    add_command = ["git", "-C", str(SKILL_DIR), "add", *[str(path) for path in paths]]
+    added = subprocess.run(add_command, capture_output=True, text=True, check=False)
+    if added.returncode != 0:
+        return ""
+    check = subprocess.run(
+        ["git", "-C", str(SKILL_DIR), "diff", "--cached", "--name-only"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if check.returncode != 0 or not check.stdout.strip():
+        return ""
+    message = f"evolve(ai-da-guan-jia): apply validated loop improvement {run_id}"
+    committed = subprocess.run(
+        ["git", "-C", str(SKILL_DIR), "commit", "-m", message],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if committed.returncode != 0:
+        return ""
+    sha = subprocess.run(
+        ["git", "-C", str(SKILL_DIR), "rev-parse", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return sha.stdout.strip() if sha.returncode == 0 else ""
+
+
 def make_feishu_payload(
     worklog: dict[str, Any],
     *,
@@ -935,6 +1082,7 @@ def save_evolution_bundle(run_dir: Path, evolution: dict[str, Any], route_payloa
 
 def render_evolution_markdown(evolution: dict[str, Any]) -> str:
     verification = evolution["verification_result"]
+    detail = evolution.get("evolution_judgment_detail") or {}
     lines = [
         "# Evolution Log",
         "",
@@ -981,6 +1129,18 @@ def render_evolution_markdown(evolution: dict[str, Any]) -> str:
     lines.extend(["", "## Evolution Candidates", ""])
     candidates = normalize_list(evolution["evolution_candidates"]) or ["none"]
     lines.extend(f"- {item}" for item in candidates)
+    lines.extend(
+        [
+            "",
+            "## Evolution Gate",
+            "",
+            f"- Hit: {detail.get('hit', False)}",
+            f"- Positive Signals: {' | '.join(normalize_list(detail.get('positive_signals'))) or 'none'}",
+            f"- Blockers: {' | '.join(normalize_list(detail.get('blockers'))) or 'none'}",
+            f"- Writeback Applied: {bool(evolution.get('evolution_writeback_applied', False))}",
+            f"- Writeback Commit: {str(evolution.get('evolution_writeback_commit') or 'none')}",
+        ]
+    )
     lines.extend(["", f"- Feishu Sync Status: `{evolution['feishu_sync_status']}`", ""])
     return "\n".join(lines)
 
@@ -1092,6 +1252,9 @@ def command_record_evolution(args: argparse.Namespace) -> int:
         "wasted_patterns": normalize_list(payload.get("wasted_patterns")),
         "evolution_candidates": normalize_list(payload.get("evolution_candidates")),
         "feishu_sync_status": str(payload.get("feishu_sync_status") or "payload_only_local"),
+        "evolution_judgment_detail": payload.get("evolution_judgment_detail") if isinstance(payload.get("evolution_judgment_detail"), dict) else {},
+        "evolution_writeback_applied": bool(payload.get("evolution_writeback_applied") or False),
+        "evolution_writeback_commit": str(payload.get("evolution_writeback_commit") or ""),
     }
 
     route_payload = {
@@ -1139,28 +1302,36 @@ def update_evolution_sync_status(run_dir: Path, status: str) -> None:
     (run_dir / "evolution.md").write_text(render_evolution_markdown(evolution), encoding="utf-8")
 
 
-def command_sync_feishu(args: argparse.Namespace) -> int:
-    run_dir = find_run_dir(args.run_id)
+def run_feishu_sync(
+    run_id: str,
+    *,
+    apply: bool,
+    link_override: str | None,
+    primary_field_override: str | None,
+    bridge_script_override: str | None,
+    print_status: bool = True,
+) -> tuple[int, str]:
+    run_dir = find_run_dir(run_id)
     evolution_path = run_dir / "evolution.json"
     if not evolution_path.exists():
-        raise FileNotFoundError(f"missing evolution.json for run {args.run_id}")
+        raise FileNotFoundError(f"missing evolution.json for run {run_id}")
     evolution = read_json(evolution_path)
     worklog = build_worklog(evolution, run_dir)
     payload_path = run_dir / "feishu-payload.json"
-    payload_status = "已同步" if args.apply else "待同步预览"
+    payload_status = "已同步" if apply else "待同步预览"
     write_json(payload_path, make_feishu_payload(worklog, sync_status_override=payload_status))
 
     bridge_script = Path(
-        args.bridge_script
+        bridge_script_override
         or os.getenv("AI_DA_GUAN_JIA_FEISHU_BRIDGE_SCRIPT", str(DEFAULT_BRIDGE))
     ).resolve()
-    link = args.link or os.getenv("AI_DA_GUAN_JIA_FEISHU_LINK", "").strip()
-    primary_field = args.primary_field or os.getenv("AI_DA_GUAN_JIA_FEISHU_PRIMARY_FIELD", "日志ID")
-    mode = "apply" if args.apply else "dry-run"
+    link = (link_override or os.getenv("AI_DA_GUAN_JIA_FEISHU_LINK", DEFAULT_FEISHU_LINK)).strip()
+    primary_field = primary_field_override or os.getenv("AI_DA_GUAN_JIA_FEISHU_PRIMARY_FIELD", "日志ID")
+    mode = "apply" if apply else "dry-run"
     result_path = run_dir / "feishu-sync-result.json"
 
     if not link:
-        status = "payload_only_missing_link" if args.dry_run else "apply_blocked_missing_link"
+        status = "apply_blocked_missing_link" if apply else "payload_only_missing_link"
         result = {
             "mode": mode,
             "status": status,
@@ -1170,11 +1341,12 @@ def command_sync_feishu(args: argparse.Namespace) -> int:
         }
         write_json(result_path, result)
         update_evolution_sync_status(run_dir, status)
-        print(status)
-        return 0 if args.dry_run else 1
+        if print_status:
+            print(status)
+        return (1, status) if apply else (0, status)
 
     if not bridge_script.exists():
-        status = "payload_only_missing_bridge" if args.dry_run else "apply_blocked_missing_bridge"
+        status = "apply_blocked_missing_bridge" if apply else "payload_only_missing_bridge"
         result = {
             "mode": mode,
             "status": status,
@@ -1184,8 +1356,9 @@ def command_sync_feishu(args: argparse.Namespace) -> int:
         }
         write_json(result_path, result)
         update_evolution_sync_status(run_dir, status)
-        print(status)
-        return 0 if args.dry_run else 1
+        if print_status:
+            print(status)
+        return (1, status) if apply else (0, status)
 
     command = [
         "python3",
@@ -1197,11 +1370,19 @@ def command_sync_feishu(args: argparse.Namespace) -> int:
         primary_field,
         "--payload-file",
         str(payload_path),
-        "--apply" if args.apply else "--dry-run",
+        "--apply" if apply else "--dry-run",
     ]
     completed = subprocess.run(command, capture_output=True, text=True, check=False)
     success = completed.returncode == 0
-    status = "synced_applied" if (success and args.apply) else "dry_run_preview_ready" if success else "apply_failed" if args.apply else "dry_run_failed"
+    status = (
+        "synced_applied"
+        if (success and apply)
+        else "dry_run_preview_ready"
+        if success
+        else "apply_failed"
+        if apply
+        else "dry_run_failed"
+    )
     result = {
         "mode": mode,
         "status": status,
@@ -1216,8 +1397,152 @@ def command_sync_feishu(args: argparse.Namespace) -> int:
     }
     write_json(result_path, result)
     update_evolution_sync_status(run_dir, status)
-    print(status)
-    return completed.returncode
+    if print_status:
+        print(status)
+    return completed.returncode, status
+
+
+def command_sync_feishu(args: argparse.Namespace) -> int:
+    returncode, _ = run_feishu_sync(
+        args.run_id,
+        apply=bool(args.apply),
+        link_override=args.link,
+        primary_field_override=args.primary_field,
+        bridge_script_override=args.bridge_script,
+    )
+    return returncode
+
+
+def command_close_task(args: argparse.Namespace) -> int:
+    task_text = args.task.strip()
+    if not task_text:
+        raise ValueError("--task cannot be empty")
+
+    created_at = str(args.created_at or iso_now())
+    run_id = str(args.run_id or allocate_run_id(created_at))
+    run_dir = run_dir_for(run_id, created_at)
+
+    skills = discover_skills()
+    signals = detect_signals(task_text)
+    mentioned = explicit_mentions(task_text, [item["name"] for item in skills])
+    ranked = [score_candidate(task_text, skill, signals, mentioned) for skill in skills]
+    ranked.sort(key=lambda item: item["total_score"], reverse=True)
+    selected, omitted = choose_skills(task_text, ranked, signals, mentioned)
+    situation_map = build_situation_map(task_text, selected, signals)
+    human_boundary = str(args.human_boundary or determine_human_boundary(signals))
+    route_payload = {
+        "run_id": run_id,
+        "created_at": created_at,
+        "task_text": task_text,
+        "routing_order": ROUTING_ORDER,
+        "signals": signals,
+        "skills_considered": [item["name"] for item in ranked],
+        "candidate_rankings": ranked[:10],
+        "selected_skills": selected,
+        "omitted_due_to_selection_ceiling": omitted,
+        "selection_ceiling": 3,
+        "human_boundary": human_boundary,
+        "verification_targets": verification_targets(signals),
+        "feishu_plan": [
+            "write local canonical evolution log",
+            "generate feishu-payload.json",
+            "run sync-feishu --dry-run",
+            "run sync-feishu --apply",
+        ],
+        "situation_map": situation_map,
+    }
+
+    evolution = {
+        "run_id": run_id,
+        "created_at": created_at,
+        "task_text": task_text,
+        "goal_model": str(args.goal or "Close the task with verification, reusable patterns, and recursive improvement."),
+        "autonomy_judgment": situation_map["自治判断"],
+        "global_optimum_judgment": situation_map["全局最优判断"],
+        "reuse_judgment": situation_map["能力复用判断"],
+        "verification_judgment": situation_map["验真判断"],
+        "evolution_judgment": situation_map["进化判断"],
+        "max_distortion": str(args.max_distortion or situation_map["当前最大失真"]),
+        "skills_considered": route_payload["skills_considered"],
+        "skills_selected": selected,
+        "human_boundary": human_boundary,
+        "verification_result": {
+            "status": str(args.verification_status or "completed"),
+            "evidence": normalize_list(args.evidence),
+            "open_questions": normalize_list(args.open_question),
+        },
+        "effective_patterns": normalize_list(args.effective_pattern),
+        "wasted_patterns": normalize_list(args.wasted_pattern),
+        "evolution_candidates": normalize_list(args.evolution_candidate),
+        "feishu_sync_status": "payload_only_local",
+        "evolution_judgment_detail": {},
+        "evolution_writeback_applied": False,
+        "evolution_writeback_commit": "",
+    }
+    save_evolution_bundle(run_dir, evolution, route_payload)
+
+    dry_code, dry_status = run_feishu_sync(
+        run_id,
+        apply=False,
+        link_override=args.link,
+        primary_field_override=args.primary_field,
+        bridge_script_override=args.bridge_script,
+        print_status=False,
+    )
+    if dry_code != 0 or dry_status != "dry_run_preview_ready":
+        print(f"run_id: {run_id}")
+        print(f"run_dir: {run_dir}")
+        print(f"sync_dry_run: {dry_status}")
+        print("sync_apply: skipped")
+        return dry_code if dry_code != 0 else 1
+
+    apply_code, apply_status = run_feishu_sync(
+        run_id,
+        apply=True,
+        link_override=args.link,
+        primary_field_override=args.primary_field,
+        bridge_script_override=args.bridge_script,
+        print_status=False,
+    )
+    if apply_code != 0:
+        print(f"run_id: {run_id}")
+        print(f"run_dir: {run_dir}")
+        print(f"sync_dry_run: {dry_status}")
+        print(f"sync_apply: {apply_status}")
+        return apply_code
+
+    evolution_path = run_dir / "evolution.json"
+    evolution_after_sync = read_json(evolution_path)
+    detail = evaluate_evolution_judgment(evolution_after_sync)
+    evolution_after_sync["evolution_judgment_detail"] = detail
+    evolution_after_sync["evolution_judgment"] = (
+        "Hit validated evolution rules; writeback applied."
+        if detail["hit"]
+        else "No validated evolution writeback this run."
+    )
+    changed, paths = apply_evolution_writeback(evolution_after_sync) if detail["hit"] else (False, [])
+    commit_sha = git_commit_paths(paths, run_id) if changed else ""
+    evolution_after_sync["evolution_writeback_applied"] = bool(commit_sha)
+    evolution_after_sync["evolution_writeback_commit"] = commit_sha
+    write_json(evolution_path, evolution_after_sync)
+    write_json(run_dir / "worklog.json", build_worklog(evolution_after_sync, run_dir))
+    write_json(run_dir / "feishu-payload.json", make_feishu_payload(build_worklog(evolution_after_sync, run_dir)))
+    (run_dir / "worklog.md").write_text(
+        render_worklog_markdown(build_worklog(evolution_after_sync, run_dir)),
+        encoding="utf-8",
+    )
+    (run_dir / "soul.md").write_text(render_soul_markdown(evolution_after_sync, run_dir), encoding="utf-8")
+    (run_dir / "evolution.md").write_text(render_evolution_markdown(evolution_after_sync), encoding="utf-8")
+
+    print(f"run_id: {run_id}")
+    print(f"run_dir: {run_dir}")
+    print(f"sync_dry_run: {dry_status}")
+    print(f"sync_apply: {apply_status}")
+    print(f"evolution_hit: {detail['hit']}")
+    print(f"evolution_writeback_applied: {evolution_after_sync['evolution_writeback_applied']}")
+    if evolution_after_sync["evolution_writeback_commit"]:
+        print(f"evolution_writeback_commit: {evolution_after_sync['evolution_writeback_commit']}")
+    return 0
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -1246,6 +1571,27 @@ def build_parser() -> argparse.ArgumentParser:
     sync.add_argument("--primary-field", help="Optional primary field override.")
     sync.add_argument("--bridge-script", help="Optional bridge script path override.")
     sync.set_defaults(func=command_sync_feishu)
+
+    close_task = subparsers.add_parser(
+        "close-task",
+        help="Run the mandatory closure loop: recap, Feishu dry-run/apply, and evolution writeback.",
+    )
+    close_task.add_argument("--task", required=True, help="Task summary for this run.")
+    close_task.add_argument("--goal", help="Goal model statement.")
+    close_task.add_argument("--verification-status", default="completed", help="Verification status for this task.")
+    close_task.add_argument("--evidence", action="append", help="Verification evidence item. Repeatable.")
+    close_task.add_argument("--open-question", action="append", help="Open verification question. Repeatable.")
+    close_task.add_argument("--effective-pattern", action="append", help="Effective pattern. Repeatable.")
+    close_task.add_argument("--wasted-pattern", action="append", help="Wasted pattern. Repeatable.")
+    close_task.add_argument("--evolution-candidate", action="append", help="Evolution candidate. Repeatable.")
+    close_task.add_argument("--human-boundary", help="Optional explicit human boundary statement.")
+    close_task.add_argument("--max-distortion", help="Optional max distortion statement.")
+    close_task.add_argument("--run-id", help="Optional run id override.")
+    close_task.add_argument("--created-at", help="Optional ISO datetime override.")
+    close_task.add_argument("--link", help="Optional Feishu wiki/base link override.")
+    close_task.add_argument("--primary-field", help="Optional primary field override.")
+    close_task.add_argument("--bridge-script", help="Optional bridge script path override.")
+    close_task.set_defaults(func=command_close_task)
 
     return parser
 

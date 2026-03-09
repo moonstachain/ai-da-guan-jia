@@ -21,6 +21,7 @@ REQUIRED_FILES = [
     ROOT / "references" / "routing-policy.md",
     ROOT / "references" / "evolution-log-schema.md",
     ROOT / "references" / "feishu-sync-contract.md",
+    ROOT / "references" / "validated-evolution-rules.md",
     MAIN_SCRIPT,
     ROOT / "scripts" / "doctor.py",
 ]
@@ -100,6 +101,7 @@ def check_entrypoints(errors: list[str]) -> None:
         ["python3", str(MAIN_SCRIPT), "route", "--help"],
         ["python3", str(MAIN_SCRIPT), "record-evolution", "--help"],
         ["python3", str(MAIN_SCRIPT), "sync-feishu", "--help"],
+        ["python3", str(MAIN_SCRIPT), "close-task", "--help"],
     ):
         completed = subprocess.run(command, capture_output=True, text=True, check=False)
         if completed.returncode != 0:
@@ -127,7 +129,7 @@ def main() -> int:
         check_entrypoints(errors)
 
     if "AI_DA_GUAN_JIA_FEISHU_LINK" not in os.environ:
-        warnings.append("AI_DA_GUAN_JIA_FEISHU_LINK is not configured; sync-feishu will stay payload-only by default.")
+        warnings.append("AI_DA_GUAN_JIA_FEISHU_LINK is not configured; built-in default link will be used.")
 
     if errors:
         print("FAILED")

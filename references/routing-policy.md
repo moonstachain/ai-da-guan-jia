@@ -20,7 +20,8 @@ Do not let a cheaper path outrank a clearly better-fit path. Do not let a famili
   1. create local canonical record
   2. generate `feishu-payload.json`
   3. run dry-run preview
-  4. apply only after explicit authorization
+  4. apply sync
+  5. run evolution gate and write back validated rules if hit
 - If the prompt emphasizes autonomy, minimal interruption, or cheapest reliable path, prefer `jiyao-youyao-haiyao` as the execution layer.
 - If the prompt emphasizes distortion, meta-judgment, or false completion risk, prefer `ai-metacognitive-core` as the judgment layer.
 - If the prompt is iterative by nature, prefer `self-evolution-max`.
@@ -39,3 +40,4 @@ Every route must carry a verification target, not just a chosen skill name. Exam
 - skill creation: `SKILL.md`, `agents/openai.yaml`, resource files, validator pass
 - knowledge-first planning: raw KB answers saved before synthesis
 - Feishu mirror: canonical local log plus preview output before apply
+- Recursive closure: use `close-task` to force recap, sync, and evolution writeback checks

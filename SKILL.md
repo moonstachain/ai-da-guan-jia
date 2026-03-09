@@ -64,10 +64,12 @@ python3 scripts/ai_da_guan_jia.py inventory-skills
 
 - After every meaningful run, write the canonical evolution record locally.
 - Always write artifacts under `artifacts/ai-da-guan-jia/runs/YYYY-MM-DD/<run-id>/`.
-- Always generate `feishu-payload.json`, even when Feishu is not configured.
-- Run `sync-feishu --dry-run` before any apply.
-- Produce candidate changes for future skill or script improvements, but do not auto-edit other skills.
+- Always generate `feishu-payload.json`, then run `sync-feishu --dry-run`, then `sync-feishu --apply`.
+- Every meaningful task must end with one shared recap and one Feishu work log mirror.
+- Run the evolution gate after sync. If it hits, auto-write validated improvements into this skill and create a local commit.
+- Auto-writeback is limited to this skill only; do not auto-edit other skills.
 - Use the schema in [references/evolution-log-schema.md](references/evolution-log-schema.md) and the sync contract in [references/feishu-sync-contract.md](references/feishu-sync-contract.md).
+- Persist validated rules in [references/validated-evolution-rules.md](references/validated-evolution-rules.md).
 
 Record an evolution run from JSON:
 
@@ -81,6 +83,12 @@ Mirror a completed run to Feishu after the local log exists:
 python3 scripts/ai_da_guan_jia.py sync-feishu --run-id adagj-20260309-101500 --dry-run
 ```
 
+Run the mandatory recursive closure in one command:
+
+```bash
+python3 scripts/ai_da_guan_jia.py close-task --task "同步 AI大管家 到 GitHub 并验证"
+```
+
 ## Commands
 
 ```bash
@@ -88,6 +96,7 @@ python3 scripts/ai_da_guan_jia.py inventory-skills
 python3 scripts/ai_da_guan_jia.py route --prompt "先问我的知识库，再帮我规划下一步"
 python3 scripts/ai_da_guan_jia.py record-evolution --input -
 python3 scripts/ai_da_guan_jia.py sync-feishu --run-id adagj-20260309-101500 --dry-run
+python3 scripts/ai_da_guan_jia.py close-task --task "完成本次任务并闭环"
 python3 scripts/doctor.py
 ```
 
@@ -98,3 +107,4 @@ python3 scripts/doctor.py
 - [references/routing-policy.md](references/routing-policy.md)
 - [references/evolution-log-schema.md](references/evolution-log-schema.md)
 - [references/feishu-sync-contract.md](references/feishu-sync-contract.md)
+- [references/validated-evolution-rules.md](references/validated-evolution-rules.md)

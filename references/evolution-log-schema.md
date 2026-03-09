@@ -12,7 +12,11 @@ Write each run to:
 - `route.json`
 - `evolution.json`
 - `evolution.md`
+- `worklog.json`
+- `worklog.md`
+- `soul.md`
 - `feishu-payload.json`
+- `feishu-sync-result.json`
 
 ## evolution.json Required Fields
 
@@ -34,6 +38,9 @@ Write each run to:
 - `wasted_patterns`
 - `evolution_candidates`
 - `feishu_sync_status`
+- `evolution_judgment_detail`
+- `evolution_writeback_applied`
+- `evolution_writeback_commit`
 
 ## Type Conventions
 
@@ -43,21 +50,28 @@ Write each run to:
 - `effective_patterns`: array of strings.
 - `wasted_patterns`: array of strings.
 - `evolution_candidates`: array of strings. Keep them as proposals, not applied mutations.
+- `evolution_judgment_detail`: object with `hit`, `positive_signals`, `blockers`, and trace counters.
+- `evolution_writeback_applied`: bool. True only when this run wrote validated updates into this skill.
+- `evolution_writeback_commit`: git commit hash for automatic writeback, or empty.
 
 ## Feishu Mirror Mapping
 
-Flatten `evolution.json` into these human-readable fields:
+Flatten `worklog.json` into these human-readable fields:
 
 - `日志ID`
+- `运行标题`
 - `时间`
-- `任务简述`
-- `目标模型`
-- `当前最大失真`
-- `已评估技能`
-- `最终调用技能`
+- `记录日期`
+- `接收任务`
+- `工作目标`
+- `工作状态`
+- `完成情况`
+- `完成方式`
+- `调用技能`
+- `技能数量`
+- `验真状态`
+- `验真证据摘要`
+- `验真开放问题`
 - `人类边界`
-- `验真结论`
-- `有效做法`
-- `浪费动作`
-- `进化候选`
+- `后续建议`
 - `同步状态`
