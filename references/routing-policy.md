@@ -14,6 +14,9 @@ Do not let a cheaper path outrank a clearly better-fit path. Do not let a famili
 
 ## Hard Routing Rules
 
+- If the prompt is about skill inventory review, capability mapping, duplicate detection, system-wide skill evaluation, or a daily skill review, route `AI大管家` native `review-skills` flow first.
+- If the prompt is about learning an unfamiliar API, platform, tool, workflow, or method and explicitly mentions manuals, official docs, guides, tutorials, best practices, or benchmark comparison, route `guide-benchmark-learning` first.
+- If that unfamiliar-domain prompt is specifically about OpenAI products or APIs, route `openai-docs` after `guide-benchmark-learning`.
 - If the prompt is about `OpenClaw`, `小红书`, `博主`, `爆款`, `共进化`, or this content niche, route `openclaw-xhs-coevolution-lab` first.
 - If the prompt asks to train a skill or design a skill-training method, route `skill-trainer-recursive` first.
 - If the prompt asks to create or update a skill, route `skill-creator` first.
@@ -41,6 +44,8 @@ Every route must carry a verification target, not just a chosen skill name. Exam
 
 - skill creation: `SKILL.md`, `agents/openai.yaml`, resource files, validator pass
 - skill training: `intent-canvas.json`, `first_principles.md`, `benchmark-map.json`, `candidate-skill-spec.md`, `eval-report.json`
+- skill inventory review: correct top-level skill count, explicit exclusion of `artifacts/**`, structured review summary, and exactly 3 candidate evolution actions
+- manual-first learning: `source-map.json`, `benchmark-grid.md`, `learning-handbook.md`, `execution-readiness.md`, and an explicit source-of-truth vs reference-guide split
 - OpenClaw Xiaohongshu strategy: account plan, topic plan, note blueprint, evidence requirements, and viral logic
 - knowledge-first planning: raw KB answers saved before synthesis
 - Feishu mirror: canonical local log plus preview output before apply

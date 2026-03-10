@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -22,11 +23,16 @@ SKILLS_ROOT = CODEX_HOME / "skills"
 ARTIFACTS_ROOT = SKILL_DIR / "artifacts" / "ai-da-guan-jia"
 RUNS_ROOT = ARTIFACTS_ROOT / "runs"
 INVENTORY_ROOT = ARTIFACTS_ROOT / "inventory"
+REVIEWS_ROOT = ARTIFACTS_ROOT / "reviews"
+REVIEW_STATE_PATH = ARTIFACTS_ROOT / "review-state.json"
 SOUL_ROOT = ARTIFACTS_ROOT / "soul"
 DEFAULT_BRIDGE = (
     CODEX_HOME / "skills" / "feishu-bitable-bridge" / "scripts" / "feishu_bitable_bridge.py"
 )
 DEFAULT_FEISHU_LINK = "https://h52xu4gwob.feishu.cn/wiki/FwG2wbljSiQrtPkTt8RcLAbxnvd?from=from_copylink&table=tblDR8XbK5fxun4x&view=vewbJgjzHr"
+DEFAULT_REVIEW_FEISHU_LINK = "https://h52xu4gwob.feishu.cn/wiki/UzRjwDDLyi9OP4kEIHkcin1Gnhc?from=from_copylink"
+REVIEW_SCHEMA_MANIFEST = SKILL_DIR / "references" / "feishu-review-base-schema.json"
+REVIEW_SYNC_CONTRACT = SKILL_DIR / "references" / "feishu-review-sync-contract.md"
 ROUTING_ORDER = [
     "task_fit_score",
     "verification_score",
@@ -58,6 +64,22 @@ REQUIRED_EVOLUTION_FIELDS = [
     "evolution_writeback_commit",
 ]
 
+REVIEW_RUBRIC = [
+    "顺手度",
+    "闭环度",
+    "复用度",
+    "证据度",
+    "边界清晰度",
+    "进化潜力",
+]
+
+REVIEW_ACTION_TYPES = [
+    "路由修正",
+    "workflow hardening",
+    "去重/合并",
+    "新建中层 skill",
+]
+
 
 @dataclass(frozen=True)
 class SkillProfile:
@@ -74,6 +96,18 @@ class SkillProfile:
 
 
 CORE_PROFILES: dict[str, SkillProfile] = {
+    "ai-da-guan-jia": SkillProfile(
+        name="ai-da-guan-jia",
+        role="Govern the local skill system, route to the smallest sufficient combination, and close the loop with review and evolution artifacts.",
+        strengths=["Skill inventory", "Intentional routing", "Review and evolution closure"],
+        weaknesses=["Needs middle-layer skills and clear route rules to stay smooth"],
+        boundary="Use as the top-level governor when the job is choosing, reviewing, or evolving the local skill system itself.",
+        keywords=["ai-da-guan-jia", "大管家", "盘点", "能力地图", "评估", "skill review", "inventory review"],
+        verification_strength=5,
+        cost_efficiency=4,
+        auth_reuse=2,
+        complexity_penalty=1,
+    ),
     "ai-metacognitive-core": SkillProfile(
         name="ai-metacognitive-core",
         role="Expose distortion risk, truth conditions, and collaboration boundaries.",
@@ -167,6 +201,55 @@ CORE_PROFILES: dict[str, SkillProfile] = {
         cost_efficiency=4,
         auth_reuse=1,
         complexity_penalty=2,
+    ),
+    "guide-benchmark-learning": SkillProfile(
+        name="guide-benchmark-learning",
+        role="Learn unfamiliar capabilities by reading manuals, official docs, benchmark guides, and comparable cases before execution.",
+        strengths=["Manual-first learning", "Source hierarchy discipline", "Execution-readiness judgment", "Reusable handbooks"],
+        weaknesses=["Does not execute domain work by itself"],
+        boundary="Use when the task is unfamiliar enough that learning should happen before execution or skill training.",
+        keywords=[
+            "guide-benchmark-learning",
+            "学习",
+            "入门",
+            "先读",
+            "官方文档",
+            "说明书",
+            "攻略",
+            "教程",
+            "最佳实践",
+            "对标",
+            "benchmark",
+            "best practice",
+            "api 文档",
+            "manual",
+            "guide",
+        ],
+        verification_strength=5,
+        cost_efficiency=4,
+        auth_reuse=2,
+        complexity_penalty=1,
+    ),
+    "openai-docs": SkillProfile(
+        name="openai-docs",
+        role="Fetch authoritative OpenAI documentation and treat official docs as the source of truth.",
+        strengths=["Official docs first", "Current citations", "Product-specific scope control"],
+        weaknesses=["Only covers OpenAI domains"],
+        boundary="Use after a manual-first learning decision when the domain is OpenAI products or APIs.",
+        keywords=[
+            "openai",
+            "chatgpt",
+            "responses api",
+            "realtime api",
+            "apps sdk",
+            "agents sdk",
+            "codex",
+            "openai docs",
+        ],
+        verification_strength=5,
+        cost_efficiency=4,
+        auth_reuse=2,
+        complexity_penalty=1,
     ),
     "openclaw-xhs-coevolution-lab": SkillProfile(
         name="openclaw-xhs-coevolution-lab",
@@ -339,7 +422,9 @@ def read_skill_metadata(skill_md: Path) -> dict[str, Any] | None:
     description = str(payload.get("description") or "").strip()
     if not name:
         return None
-    return {"name": name, "description": description}
+    metadata = payload.get("metadata") if isinstance(payload.get("metadata"), dict) else {}
+    source = str(metadata.get("source") or "").strip() if isinstance(metadata, dict) else ""
+    return {"name": name, "description": description, "source": source}
 
 
 def discover_skill_files() -> list[Path]:
@@ -376,6 +461,818 @@ def discover_skills() -> list[dict[str, Any]]:
     return sorted(skills, key=lambda item: item["name"])
 
 
+def discover_top_level_skill_files() -> list[Path]:
+    if not SKILLS_ROOT.exists():
+        return []
+    return sorted(path.resolve() for path in SKILLS_ROOT.glob("*/SKILL.md") if path.is_file())
+
+
+def skill_layer(name: str) -> str:
+    if name.startswith(("ai-", "jiyao-", "skill-")) or name in {"knowledge-orchestrator", "self-evolution-max", "guide-benchmark-learning"}:
+        return "元治理层"
+    if name.startswith("agency-"):
+        return "专家角色层"
+    if name.startswith(("feishu-", "notion-", "github-", "gh-")) or name in {
+        "figma",
+        "figma-implement-design",
+        "playwright",
+        "playwright-interactive",
+        "openai-docs",
+        "cloudflare-deploy",
+        "linear",
+        "atlas",
+        "chatgpt-apps",
+        "screenshot",
+    }:
+        return "平台/工具集成层"
+    return "垂直工作流层"
+
+
+def skill_resource_flags(skill_dir: Path) -> dict[str, bool]:
+    return {
+        "scripts": (skill_dir / "scripts").exists(),
+        "references": (skill_dir / "references").exists(),
+        "assets": (skill_dir / "assets").exists(),
+        "agents": (skill_dir / "agents").exists(),
+    }
+
+
+def metadata_source_repo(source: str) -> str:
+    value = source.strip()
+    if not value:
+        return ""
+    return value.split(":", 1)[0].strip()
+
+
+def git_origin_repo(skill_dir: Path) -> str:
+    if not (skill_dir / ".git").exists():
+        return ""
+    completed = subprocess.run(
+        ["git", "-C", str(skill_dir), "remote", "get-url", "origin"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if completed.returncode != 0:
+        return ""
+    raw = completed.stdout.strip()
+    if raw.startswith("git@github.com:"):
+        raw = raw.split(":", 1)[1]
+    elif "github.com/" in raw:
+        raw = raw.split("github.com/", 1)[1]
+    raw = raw.removesuffix(".git").strip("/")
+    return raw
+
+
+def skill_cluster(name: str) -> str:
+    if name in {"ai-da-guan-jia", "ai-metacognitive-core", "routing-playbook", "self-evolution-max", "guide-benchmark-learning"} or name.startswith("jiyao-"):
+        return "AI大管家治理簇"
+    if name.startswith("skill-") or name == "strategy-skill-template":
+        return "技能生产簇"
+    if skill_layer(name) == "平台/工具集成层":
+        return "平台簇"
+    if name.startswith("agency-"):
+        return "agency簇"
+    return "垂直workflow簇"
+
+
+def skill_type(name: str) -> str:
+    layer = skill_layer(name)
+    if layer == "元治理层":
+        return "governance"
+    if layer == "平台/工具集成层":
+        return "platform"
+    if name.startswith("agency-"):
+        return "persona"
+    return "workflow"
+
+
+def resource_completeness(resources: dict[str, bool]) -> str:
+    enabled = [key for key, value in resources.items() if value]
+    if len(enabled) == 4:
+        return "full-stack"
+    if len(enabled) >= 2:
+        return "partial"
+    if enabled:
+        return "minimal"
+    return "empty"
+
+
+def ease_of_use_judgment(item: dict[str, Any]) -> str:
+    if item["type"] == "persona":
+        return "更像角色说明，需 hardening 才顺手"
+    if item["resource_score"] == 4:
+        return "闭环强，适合高频调用"
+    if item["layer"] == "平台/工具集成层" and item["resource_score"] >= 2:
+        return "平台边界清楚，日常较顺手"
+    if item["resource_score"] <= 1:
+        return "轻结构，顺手度依赖记忆"
+    return "可用，但仍需更清楚的组合手册"
+
+
+def boundary_note(name: str) -> str:
+    notes = {
+        "figma": "与 figma-implement-design 共享设计入口，需要按总入口 vs 1:1 实现分流。",
+        "figma-implement-design": "与 figma 的边界在 1:1 设计实现，而不是泛 Figma 上下文读取。",
+        "jiyao-youyao-haiyao": "与 zaiyao 的边界在复杂度；简单自治优先用本 skill。",
+        "jiyao-youyao-haiyao-zaiyao": "只有复杂多阶段任务才升级到 zaiyao。",
+        "knowledge-orchestrator": "不要与 Notion 研究型 skill 混成同一个入口。",
+        "youquant-backtest": "与 youquant-backtest-automation 存在明确重叠，应优先收敛。",
+        "youquant-backtest-automation": "与 youquant-backtest 存在明确重叠，应优先收敛。",
+    }
+    return notes.get(name, "")
+
+
+def build_review_inventory() -> list[dict[str, Any]]:
+    inventory: list[dict[str, Any]] = []
+    for skill_md in discover_top_level_skill_files():
+        metadata = read_skill_metadata(skill_md)
+        if not metadata:
+            continue
+        resources = skill_resource_flags(skill_md.parent)
+        metadata_repo = metadata_source_repo(str(metadata.get("source") or ""))
+        git_repo = git_origin_repo(skill_md.parent)
+        source_repo = metadata_repo or git_repo
+        source_type = "metadata.source" if metadata_repo else "git-origin" if git_repo else "local-native"
+        item = {
+            "name": metadata["name"],
+            "directory_name": skill_md.parent.name,
+            "description": metadata["description"],
+            "path": str(skill_md.parent),
+            "layer": skill_layer(metadata["name"]),
+            "cluster": skill_cluster(metadata["name"]),
+            "type": skill_type(metadata["name"]),
+            "resources": resources,
+            "resource_score": sum(1 for value in resources.values() if value),
+            "resource_completeness": resource_completeness(resources),
+            "source": str(metadata.get("source") or ""),
+            "source_repo": source_repo,
+            "source_type": source_type,
+            "git_origin_repo": git_repo,
+        }
+        item["ease_of_use_judgment"] = ease_of_use_judgment(item)
+        item["boundary_note"] = boundary_note(item["name"])
+        inventory.append(
+            item
+        )
+    return sorted(inventory, key=lambda item: item["name"])
+
+
+def load_review_state() -> dict[str, Any]:
+    if not REVIEW_STATE_PATH.exists():
+        return {"status": "idle", "latest_run_id": "", "pending_action_ids": []}
+    try:
+        payload = read_json(REVIEW_STATE_PATH)
+    except Exception:
+        return {"status": "idle", "latest_run_id": "", "pending_action_ids": []}
+    if not isinstance(payload, dict):
+        return {"status": "idle", "latest_run_id": "", "pending_action_ids": []}
+    return payload
+
+
+def save_review_state(payload: dict[str, Any]) -> None:
+    ensure_dir(ARTIFACTS_ROOT)
+    write_json(REVIEW_STATE_PATH, payload)
+
+
+def generate_review_run_id(timestamp: datetime | None = None) -> str:
+    stamp = (timestamp or now_local()).strftime("%Y%m%d-%H%M%S")
+    return f"adagj-review-{stamp}"
+
+
+def allocate_review_run_id(created_at: str) -> str:
+    dt = parse_datetime(created_at)
+    base = generate_review_run_id(dt)
+    candidate = base
+    index = 1
+    while (REVIEWS_ROOT / dt.strftime("%Y-%m-%d") / candidate).exists():
+        candidate = f"{base}-{index:02d}"
+        index += 1
+    return candidate
+
+
+def review_run_dir_for(run_id: str, created_at: str | None = None) -> Path:
+    dt = parse_datetime(created_at)
+    return ensure_dir(REVIEWS_ROOT / dt.strftime("%Y-%m-%d") / run_id)
+
+
+def latest_review_inventory() -> list[dict[str, Any]]:
+    if not REVIEWS_ROOT.exists():
+        return []
+    review_dirs = sorted([path for path in REVIEWS_ROOT.glob("*/*") if path.is_dir()], key=lambda item: str(item))
+    for run_dir in reversed(review_dirs):
+        inventory_path = run_dir / "inventory.json"
+        if not inventory_path.exists():
+            continue
+        payload = read_json(inventory_path)
+        if isinstance(payload, dict):
+            items = payload.get("skills")
+            if isinstance(items, list):
+                return items
+    return []
+
+
+def inventory_changes(current: list[dict[str, Any]], previous: list[dict[str, Any]]) -> dict[str, Any]:
+    if not previous:
+        return {
+            "added": [],
+            "removed": [],
+            "delta": 0,
+            "baseline_created": True,
+        }
+    current_names = {str(item.get("directory_name") or item["name"]) for item in current}
+    previous_names = {str(item.get("directory_name") or item["name"]) for item in previous}
+    added = sorted(current_names - previous_names)
+    removed = sorted(previous_names - current_names)
+    return {
+        "added": added,
+        "removed": removed,
+        "delta": len(current_names) - len(previous_names),
+        "baseline_created": False,
+    }
+
+
+def display_skill_label(item: dict[str, Any]) -> str:
+    directory_name = str(item.get("directory_name") or "").strip()
+    name = str(item.get("name") or "").strip()
+    if directory_name and directory_name != name:
+        return f"{directory_name} ({name})"
+    return name
+
+
+def duplicate_description_pairs(inventory: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    descriptions: dict[str, list[dict[str, Any]]] = {}
+    for item in inventory:
+        description = str(item.get("description") or "").strip()
+        if not description:
+            continue
+        descriptions.setdefault(description, []).append(item)
+    pairs: list[dict[str, Any]] = []
+    for description, items in sorted(descriptions.items()):
+        if len(items) <= 1:
+            continue
+        pairs.append(
+            {
+                "skills": sorted(display_skill_label(item) for item in items),
+                "reason": "description_duplicate",
+                "evidence": description,
+            }
+        )
+    return pairs
+
+
+def boundary_overlap_pairs(inventory: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    names = {item["name"] for item in inventory}
+    explicit_pairs = [
+        ("figma", "figma-implement-design", "总入口 vs 1:1 设计实现"),
+        ("jiyao-youyao-haiyao", "jiyao-youyao-haiyao-zaiyao", "自治执行 vs 复杂多阶段执行"),
+        ("knowledge-orchestrator", "notion-research-documentation", "知识库优先规划 vs Notion 研究沉淀"),
+        ("knowledge-orchestrator", "notion-meeting-intelligence", "知识库优先规划 vs Notion 会议材料"),
+    ]
+    overlaps: list[dict[str, Any]] = []
+    for left, right, reason in explicit_pairs:
+        if left in names and right in names:
+            overlaps.append({"skills": [left, right], "reason": reason})
+    overlaps.extend(duplicate_description_pairs(inventory))
+    return overlaps
+
+
+def strong_clusters(inventory: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    full_stack = [item["name"] for item in inventory if item["resource_score"] == 4]
+    platform_strong = [
+        item["name"]
+        for item in inventory
+        if item["name"] in {"figma", "playwright", "spreadsheet", "slides", "speech", "cloudflare-deploy", "feishu-open-platform"}
+    ]
+    clusters: list[dict[str, Any]] = []
+    if full_stack:
+        clusters.append(
+            {
+                "name": "工作流完整度高",
+                "skills": full_stack,
+                "why": "scripts/references/assets/agents 四件套齐，闭环和证据度都更强。",
+            }
+        )
+    if platform_strong:
+        clusters.append(
+            {
+                "name": "平台证据型技能",
+                "skills": platform_strong,
+                "why": "依赖明确工具链和官方来源，调用边界清晰，实战顺手度高。",
+            }
+        )
+    return clusters
+
+
+def weak_clusters(inventory: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    agency_skills = [item["name"] for item in inventory if item["name"].startswith("agency-")]
+    low_evidence = [item["name"] for item in inventory if item["resource_score"] <= 1]
+    clusters: list[dict[str, Any]] = []
+    if agency_skills:
+        clusters.append(
+            {
+                "name": "人格说明型技能过多",
+                "skills": agency_skills[:12],
+                "skill_count": len(agency_skills),
+                "why": "大量 skill 更像专家 persona，而不是有脚本、有验真的工作流 skill。",
+            }
+        )
+    if low_evidence:
+        clusters.append(
+            {
+                "name": "轻结构技能偏多",
+                "skills": low_evidence[:12],
+                "skill_count": len(low_evidence),
+                "why": "references/assets 缺失较多，导致顺手度和复用度依赖记忆而不是工件。",
+            }
+        )
+    return clusters
+
+
+def missing_middle_layer_capabilities(inventory: list[dict[str, Any]]) -> list[str]:
+    names = {item["name"] for item in inventory}
+    missing: list[str] = []
+    if "routing-playbook" not in names:
+        missing.append("routing-playbook")
+    if "guide-benchmark-learning" not in names:
+        missing.append("guide-benchmark-learning")
+    if "workflow-hardening" not in names:
+        missing.append("workflow-hardening")
+    if "skill-deduper" not in names:
+        missing.append("skill-deduper")
+    if "skill-inventory-review" not in names:
+        missing.append("skill-inventory-review")
+    return missing
+
+
+def candidate_actions_for_review(
+    inventory: list[dict[str, Any]],
+    overlaps: list[dict[str, Any]],
+    missing_capabilities: list[str],
+) -> list[dict[str, Any]]:
+    agency_count = len([item for item in inventory if item["name"].startswith("agency-")])
+    duplicate_names = sorted(
+        {
+            skill
+            for pair in overlaps
+            if pair.get("reason") == "description_duplicate"
+            for skill in pair.get("skills", [])
+        }
+    )
+    actions: list[dict[str, Any]] = []
+    if "routing-playbook" in missing_capabilities:
+        actions.append(
+            {
+                "id": "A",
+                "type": "新建中层 skill",
+                "title": "新建 routing-playbook",
+                "problem": f"现有 {len(inventory)} 个顶层 skill 缺少一个把常见任务映射成稳定组合的中层调用手册。",
+                "proposed_change": "创建 routing-playbook，沉淀高频任务到 skill 组合、默认顺序、边界和验真清单。",
+                "expected_gain": "显著降低调用摩擦，让 AI大管家 从会选 skill 进化到会稳定编排 skill。",
+                "risk": "如果 playbook 写得过宽，会重新制造路由重叠。",
+                "recommended_next_step": "先选 8 到 12 个高频任务，写成最小组合 playbook MVP。",
+            }
+        )
+    if agency_count >= 20:
+        actions.append(
+            {
+                "id": "B",
+                "type": "workflow hardening",
+                "title": "加厚高频 agency 技能",
+                "problem": f"当前有 {agency_count} 个 agency 角色型 skill，很多更像 persona，而不是可验证的工作流。",
+                "proposed_change": "优先把 engineering/testing/project 三簇里最常用的 5 到 8 个 role 加上 scripts、references、固定输出契约。",
+                "expected_gain": "把‘会思考’升级成‘能稳定交付’，明显提升日常顺手度。",
+                "risk": "如果一次加厚太多，会把 hardening 变成大范围重写。",
+                "recommended_next_step": "先挑一个簇做试点，例如 agency-engineering-*。",
+            }
+        )
+    actions.append(
+        {
+            "id": "C",
+            "type": "去重/合并",
+            "title": "处理重复和边界冲突",
+            "problem": "当前已经出现重复 description 和相邻 skill 边界不够利落的问题。",
+            "proposed_change": (
+                "先处理 youquant-backtest / youquant-backtest-automation 这类明确重复，"
+                "再为 figma / figma-implement-design、jiyao-*、knowledge-orchestrator vs notion-* 增加边界说明。"
+            ),
+            "expected_gain": "降低命名噪音和误路由，提升边界清晰度。",
+            "risk": "如果合并过猛，可能破坏已有习惯触发词。",
+            "recommended_next_step": (
+                "先做一张 overlap 清单，再决定哪些合并、哪些只补边界说明。"
+                if duplicate_names
+                else "先补一轮边界说明，再决定是否继续收敛名称。"
+            ),
+        }
+    )
+    if len(actions) < 3:
+        actions.append(
+            {
+                "id": "Z",
+                "type": "路由修正",
+                "title": "收紧 review 和高频任务的路由信号",
+                "problem": "当前路由仍主要依赖关键词命中，容易在相近技能之间产生偏差。",
+                "proposed_change": "为高频任务补硬路由和边界词，尤其是 review、平台研究、知识优先和复杂自治执行之间的分流。",
+                "expected_gain": "减少误路由，让 AI大管家 更像真正顺手的总调度器。",
+                "risk": "如果规则写得过死，会牺牲新场景的灵活性。",
+                "recommended_next_step": "先从最近 10 次任务里抽取误路由样本，补最小一轮信号词和边界规则。",
+            }
+        )
+    for index, action in enumerate(actions[:3]):
+        action["id"] = chr(ord("A") + index)
+    return actions[:3]
+
+
+def build_review_payload(
+    inventory: list[dict[str, Any]],
+    *,
+    created_at: str,
+    run_id: str,
+) -> dict[str, Any]:
+    by_layer: dict[str, int] = {}
+    for item in inventory:
+        by_layer[item["layer"]] = by_layer.get(item["layer"], 0) + 1
+    previous = latest_review_inventory()
+    changes = inventory_changes(inventory, previous)
+    overlaps = boundary_overlap_pairs(inventory)
+    missing_capabilities = missing_middle_layer_capabilities(inventory)
+    actions = candidate_actions_for_review(inventory, overlaps, missing_capabilities)
+    return {
+        "run_id": run_id,
+        "created_at": created_at,
+        "skills_total": len(inventory),
+        "skills_by_layer": by_layer,
+        "github_sources_count": len(build_github_sources(inventory)),
+        "structure_changes": changes,
+        "rubric": REVIEW_RUBRIC,
+        "strong_clusters": strong_clusters(inventory),
+        "weak_clusters": weak_clusters(inventory),
+        "overlap_pairs": overlaps,
+        "missing_middle_layer_capabilities": missing_capabilities,
+        "candidate_actions": actions,
+        "status": "awaiting_human_choice",
+    }
+
+
+def build_github_sources(inventory: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, dict[str, Any]] = {}
+    for item in inventory:
+        repo = str(item.get("source_repo") or "").strip()
+        if not repo:
+            continue
+        entry = grouped.setdefault(
+            repo,
+            {
+                "repo": repo,
+                "evidence_types": set(),
+                "skill_names": [],
+                "representative_skills": [],
+            },
+        )
+        entry["evidence_types"].add(str(item.get("source_type") or "local-native"))
+        entry["skill_names"].append(item["name"])
+        if len(entry["representative_skills"]) < 6:
+            entry["representative_skills"].append(item["name"])
+
+    results: list[dict[str, Any]] = []
+    for repo, entry in sorted(grouped.items()):
+        count = len(entry["skill_names"])
+        recommend_back_publish = repo.startswith("moonstachain/")
+        evaluation = (
+            "大规模 persona 来源库，适合作为角色母体，不适合作为本地闭环工作的直接替代。"
+            if repo == "msitarzewski/agency-agents"
+            else "本地原生演化仓库，值得继续沉淀方法与工作流。"
+            if recommend_back_publish
+            else "上游来源可作为 benchmark 或导入证据。"
+        )
+        results.append(
+            {
+                "repo": repo,
+                "evidence_types": sorted(entry["evidence_types"]),
+                "mapped_skill_count": count,
+                "representative_skills": sorted(entry["representative_skills"]),
+                "evaluation": evaluation,
+                "suggest_back_publish": recommend_back_publish,
+            }
+        )
+    return results
+
+
+def review_summary_text(review: dict[str, Any]) -> str:
+    strong = review["strong_clusters"][0]["name"] if review["strong_clusters"] else "none"
+    weak = review["weak_clusters"][0]["name"] if review["weak_clusters"] else "none"
+    missing = " / ".join(review["missing_middle_layer_capabilities"][:3]) or "none"
+    return (
+        f"本轮共盘点 {review['skills_total']} 个顶层 skill；"
+        f"当前最强集群是 {strong}，最弱集群是 {weak}；"
+        f"最值得优先补的中层能力是 {missing}。"
+    )
+
+
+def review_findings(review: dict[str, Any]) -> list[dict[str, Any]]:
+    findings: list[dict[str, Any]] = []
+    usage_counts = recent_selected_skill_counts(limit=80)
+    for cluster in review.get("strong_clusters", []):
+        findings.append(
+            {
+                "type": "strong_cluster",
+                "title": cluster["name"],
+                "object_1": " | ".join(cluster.get("skills", [])[:6]),
+                "object_2": "",
+                "conclusion": cluster.get("why", ""),
+                "suggested_rule": "继续加厚 playbook、失败样例和跨 skill 组合说明。",
+            }
+        )
+    for cluster in review.get("weak_clusters", []):
+        findings.append(
+            {
+                "type": "weak_cluster",
+                "title": cluster["name"],
+                "object_1": " | ".join(cluster.get("skills", [])[:6]),
+                "object_2": "",
+                "conclusion": cluster.get("why", ""),
+                "suggested_rule": "优先 hardening 高频项，不做大范围同时重写。",
+            }
+        )
+    if "guide-benchmark-learning" in {item["name"] for item in build_review_inventory()}:
+        guide_usage = usage_counts.get("guide-benchmark-learning", 0)
+        if guide_usage == 0:
+            findings.append(
+                {
+                    "type": "weak_cluster",
+                    "title": "说明书优先学习层未形成使用习惯",
+                    "object_1": "guide-benchmark-learning",
+                    "object_2": "",
+                    "conclusion": "本地已经安装 manual-first learning skill，但最近运行记录还没有把它真正用起来。",
+                    "suggested_rule": "遇到陌生 API、平台、方法或新流程时，先走 guide-benchmark-learning 再决定执行链。",
+                }
+            )
+    for pair in review.get("overlap_pairs", []):
+        skills = pair.get("skills", [])
+        findings.append(
+            {
+                "type": "overlap_pair",
+                "title": " / ".join(skills),
+                "object_1": skills[0] if skills else "",
+                "object_2": skills[1] if len(skills) > 1 else "",
+                "conclusion": pair.get("reason", ""),
+                "suggested_rule": "补边界说明，确认是收敛命名还是仅修正文案。",
+            }
+        )
+    for missing in review.get("missing_middle_layer_capabilities", []):
+        findings.append(
+            {
+                "type": "missing_middle_layer",
+                "title": missing,
+                "object_1": missing,
+                "object_2": "",
+                "conclusion": f"当前仍缺少 {missing} 这一类中层能力。",
+                "suggested_rule": "只在高频场景成立后再补，不追求一次补齐所有空位。",
+            }
+        )
+    findings.extend(
+        [
+            {
+                "type": "best_path",
+                "title": "skill 训练主路径",
+                "object_1": "ai-da-guan-jia",
+                "object_2": "skill-trainer-recursive -> skill-creator",
+                "conclusion": "训练 skill 应先过方法训练，再做脚手架落地。",
+                "suggested_rule": "不要因为 prompt 出现 skill 一词就直接吸到 skill-creator。",
+            },
+            {
+                "type": "misroute_risk",
+                "title": "复盘误吸到 self-evolution-max",
+                "object_1": "ai-da-guan-jia review",
+                "object_2": "self-evolution-max",
+                "conclusion": "系统盘点与能力地图应优先走 review path，而不是多轮迭代实验路径。",
+                "suggested_rule": "出现 盘点/能力地图/去重/skill review 时先走 review-skills。",
+            },
+        ]
+    )
+    return findings
+
+
+def review_artifact_paths(run_dir: Path) -> dict[str, str]:
+    return {
+        "review_md_path": str((run_dir / "review.md").resolve()),
+        "review_json_path": str((run_dir / "review.json").resolve()),
+        "inventory_json_path": str((run_dir / "inventory.json").resolve()),
+        "action_candidates_json_path": str((run_dir / "action-candidates.json").resolve()),
+        "github_sources_json_path": str((run_dir / "github-sources.json").resolve()),
+        "findings_json_path": str((run_dir / "findings.json").resolve()),
+        "feishu_sync_bundle_path": str((run_dir / "feishu-sync-bundle.json").resolve()),
+        "sync_result_path": str((run_dir / "sync-result.json").resolve()),
+    }
+
+
+def build_review_sync_bundle(
+    review: dict[str, Any],
+    inventory: list[dict[str, Any]],
+    github_sources: list[dict[str, Any]],
+    findings: list[dict[str, Any]],
+    *,
+    run_dir: Path,
+) -> dict[str, Any]:
+    artifact_paths = review_artifact_paths(run_dir)
+    selected_action_id = str(review.get("selected_action_id") or "")
+    review_status = str(review.get("status") or "awaiting_human_choice")
+    actions = []
+    for action in review["candidate_actions"]:
+        actions.append(
+            {
+                "Action Key": f"{review['run_id']}::{action['id']}",
+                "Review ID": review["run_id"],
+                "动作ID": action["id"],
+                "动作类型": action["type"],
+                "标题": action["title"],
+                "问题": action["problem"],
+                "建议改动": action["proposed_change"],
+                "预期收益": action["expected_gain"],
+                "风险": action["risk"],
+                "下一步建议": action["recommended_next_step"],
+                "是否被选中": "是" if selected_action_id == action["id"] else "否",
+                "是否已完成": "是" if review_status == "resolved" and selected_action_id == action["id"] else "否",
+            }
+        )
+
+    snapshot_rows = []
+    for item in inventory:
+        snapshot_key = str(item.get("directory_name") or item["name"])
+        snapshot_rows.append(
+            {
+                "Snapshot ID": f"{review['run_id']}::{snapshot_key}",
+                "Review ID": review["run_id"],
+                "Skill 名": display_skill_label(item),
+                "主层级": item["layer"],
+                "簇": item["cluster"],
+                "类型": item["type"],
+                "资源完整度": item["resource_completeness"],
+                "有无 scripts": "是" if item["resources"]["scripts"] else "否",
+                "有无 references": "是" if item["resources"]["references"] else "否",
+                "GitHub来源": item["source_repo"],
+                "来源类型": item["source_type"],
+                "顺手度判断": item["ease_of_use_judgment"],
+                "边界备注": item["boundary_note"],
+            }
+        )
+
+    finding_rows = []
+    for finding in findings:
+        slug = re.sub(r"[^a-z0-9]+", "-", finding["title"].lower()).strip("-")
+        if not slug:
+            slug = hashlib.sha1(finding["title"].encode("utf-8")).hexdigest()[:10]
+        finding_rows.append(
+            {
+                "Finding ID": f"{review['run_id']}::{finding['type']}::{slug}",
+                "Review ID": review["run_id"],
+                "发现类型": finding["type"],
+                "标题": finding["title"],
+                "对象1": finding["object_1"],
+                "对象2": finding["object_2"],
+                "结论": finding["conclusion"],
+                "建议规则": finding["suggested_rule"],
+            }
+        )
+
+    github_rows = []
+    for source in github_sources:
+        github_rows.append(
+            {
+                "Source Key": f"{review['run_id']}::{source['repo']}",
+                "Review ID": review["run_id"],
+                "仓库": source["repo"],
+                "证据类型": " | ".join(source["evidence_types"]),
+                "本地映射 skill 数": str(source["mapped_skill_count"]),
+                "代表 skill": " | ".join(source["representative_skills"]),
+                "评价": source["evaluation"],
+                "是否建议反向沉淀": "是" if source["suggest_back_publish"] else "否",
+            }
+        )
+
+    batch_row = {
+        "Review ID": review["run_id"],
+        "日期": parse_datetime(review["created_at"]).strftime("%Y-%m-%d"),
+        "创建时间": review["created_at"],
+        "状态": review_status,
+        "本地技能数": str(review["skills_total"]),
+        "GitHub来源数": str(len(github_sources)),
+        "层级分布": json.dumps(review["skills_by_layer"], ensure_ascii=False),
+        "总评摘要": review_summary_text(review),
+        "最强区块": " | ".join(cluster["name"] for cluster in review["strong_clusters"]) or "none",
+        "最弱区块": " | ".join(cluster["name"] for cluster in review["weak_clusters"]) or "none",
+        "中层缺口": " | ".join(review["missing_middle_layer_capabilities"]) or "none",
+        "推荐动作": " | ".join(f"{action['id']}: {action['title']}" for action in review["candidate_actions"]),
+        "已选动作": selected_action_id or "",
+        "review.md路径": artifact_paths["review_md_path"],
+        "review.json路径": artifact_paths["review_json_path"],
+    }
+    if review.get("resolved_at"):
+        batch_row["resolved_at"] = str(review["resolved_at"])
+
+    return {
+        "generated_at": iso_now(),
+        "run_id": review["run_id"],
+        "skills_total": review["skills_total"],
+        "github_sources_count": len(github_sources),
+        "summary": review_summary_text(review),
+        "tables": {
+            "复盘批次": [batch_row],
+            "技能清单快照": snapshot_rows,
+            "候选进化动作": actions,
+            "关键发现": finding_rows,
+            "GitHub来源": github_rows,
+        },
+    }
+
+
+def write_review_materials(
+    run_dir: Path,
+    *,
+    inventory_payload: dict[str, Any],
+    review: dict[str, Any],
+) -> dict[str, Any]:
+    github_sources = build_github_sources(inventory_payload["skills"])
+    findings = review_findings(review)
+    bundle = build_review_sync_bundle(
+        review,
+        inventory_payload["skills"],
+        github_sources,
+        findings,
+        run_dir=run_dir,
+    )
+    write_json(run_dir / "inventory.json", inventory_payload)
+    write_json(run_dir / "review.json", review)
+    write_json(run_dir / "action-candidates.json", review["candidate_actions"])
+    write_json(run_dir / "github-sources.json", github_sources)
+    write_json(run_dir / "findings.json", findings)
+    write_json(run_dir / "feishu-sync-bundle.json", bundle)
+    (run_dir / "review.md").write_text(render_review_markdown(review), encoding="utf-8")
+    return {"github_sources": github_sources, "findings": findings, "bundle": bundle}
+
+
+def render_review_markdown(review: dict[str, Any]) -> str:
+    changes = review["structure_changes"]
+    strong_names = [cluster["name"] for cluster in review["strong_clusters"]]
+    weak_names = [cluster["name"] for cluster in review["weak_clusters"]]
+    overlap_preview = [
+        f"{' / '.join(item['skills'])}: {item['reason']}"
+        for item in review["overlap_pairs"][:5]
+    ]
+    lines = [
+        "# Daily Skill Review",
+        "",
+        "## 今日结构变化",
+        "",
+        f"- 顶层 skill 总数: {review['skills_total']}",
+        f"- GitHub 来源数: {review.get('github_sources_count', 0)}",
+        f"- 分层统计: {json.dumps(review['skills_by_layer'], ensure_ascii=False)}",
+        (
+            "- 这是第一轮 review，后续才会开始比较新增/移除。"
+            if changes.get("baseline_created")
+            else f"- 新增: {', '.join(changes['added'][:10]) or 'none'}"
+        ),
+        (
+            ""
+            if changes.get("baseline_created")
+            else f"- 移除: {', '.join(changes['removed'][:10]) or 'none'}"
+        ),
+        "",
+        "## 当前最值得关注的问题",
+        "",
+        f"- 当前最强集群: {' | '.join(strong_names) or 'none'}",
+        f"- 当前最弱集群: {' | '.join(weak_names) or 'none'}",
+        f"- 主要重叠: {' | '.join(overlap_preview) or 'none'}",
+        f"- 缺失的中层能力: {' | '.join(review['missing_middle_layer_capabilities']) or 'none'}",
+        "",
+        "## 3 个候选进化动作",
+        "",
+    ]
+    for action in review["candidate_actions"]:
+        lines.extend(
+            [
+                f"### {action['id']}. {action['title']}",
+                "",
+                f"- 类型: {action['type']}",
+                f"- 问题: {action['problem']}",
+                f"- 改动: {action['proposed_change']}",
+                f"- 收益: {action['expected_gain']}",
+                f"- 风险: {action['risk']}",
+                f"- 下一步: {action['recommended_next_step']}",
+                "",
+            ]
+        )
+    lines.extend(
+        [
+            "## 当前等待你做的选择",
+            "",
+            "请用户回复 `A` / `B` / `C` 之一；在你选择之前，不开新一轮每日盘点。",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
 def write_json(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
@@ -408,6 +1305,37 @@ def normalize_list(value: Any) -> list[str]:
 
 def detect_signals(prompt: str) -> dict[str, bool]:
     text = normalize_prompt(prompt)
+    manual_first_learning = any(
+        phrase in text
+        for phrase in [
+            "学习",
+            "入门",
+            "先读",
+            "官方文档",
+            "说明书",
+            "攻略",
+            "教程",
+            "最佳实践",
+            "对标",
+            "benchmark",
+            "best practice",
+            "api 文档",
+            "manual",
+            "guide",
+        ]
+    )
+    openai_learning = any(
+        phrase in text
+        for phrase in [
+            "openai",
+            "chatgpt",
+            "responses api",
+            "agents sdk",
+            "apps sdk",
+            "realtime api",
+            "codex",
+        ]
+    )
     openclaw_xhs = any(
         phrase in text
         for phrase in [
@@ -434,8 +1362,13 @@ def detect_signals(prompt: str) -> dict[str, bool]:
             "skill training",
             "设计技能方法学",
             "训练技能的技能",
+            "学会",
+            "内化",
+            "母题库",
         ]
     )
+    if not skill_training and ("训练" in text or "train" in text) and "skill" in text:
+        skill_training = True
     skill_creation = any(
         phrase in text
         for phrase in [
@@ -459,16 +1392,37 @@ def detect_signals(prompt: str) -> dict[str, bool]:
             "skill.md",
         ]
     )
+    skill_inventory_review = any(
+        phrase in text
+        for phrase in [
+            "盘点",
+            "能力地图",
+            "评估",
+            "审计",
+            "去重",
+            "skill review",
+            "inventory review",
+            "skill inventory",
+        ]
+    )
+    if skill_inventory_review:
+        skill_creation = False
+        skill_training = False
     knowledge_first = (
         "知识库" in text
         or "knowledge base" in text
         or "notebooklm" in text
         or ("先问" in text and ("知识库" in text or "资料库" in text))
     )
-    feishu = any(
+    feishu_reference = any(
         phrase in text
-        for phrase in ["飞书", "feishu", "多维表", "bitable", "wiki", "同步飞书", "base"]
+        for phrase in ["飞书", "feishu", "多维表", "bitable", "wiki", "base"]
     )
+    feishu_action = any(
+        phrase in text
+        for phrase in ["同步", "回写", "写入", "读取", "抓取", "打开", "新建表", "upsert", "sync", "mirror"]
+    )
+    feishu = feishu_reference and feishu_action
     evolution = any(
         phrase in text
         for phrase in ["迭代", "进化", "feedback", "mvp", "复盘", "self-evolution"]
@@ -498,9 +1452,12 @@ def detect_signals(prompt: str) -> dict[str, bool]:
         for phrase in ["授权", "登录", "login", "payment", "支付", "发布", "删除", "审批", "approval"]
     )
     return {
+        "manual_first_learning": manual_first_learning,
+        "openai_learning": openai_learning,
         "openclaw_xhs": openclaw_xhs,
         "skill_training": skill_training,
         "skill_creation": skill_creation,
+        "skill_inventory_review": skill_inventory_review,
         "knowledge_first": knowledge_first,
         "feishu": feishu,
         "evolution": evolution,
@@ -522,6 +1479,14 @@ def explicit_mentions(prompt: str, skill_names: list[str]) -> list[str]:
 
 def verification_targets(signals: dict[str, bool]) -> list[str]:
     targets: list[str] = []
+    if signals["manual_first_learning"]:
+        targets.append(
+            "Need source-map.json, benchmark-grid.md, learning-handbook.md, execution-readiness.md, and an explicit source-of-truth versus reference-guide split before execution."
+        )
+    if signals["skill_inventory_review"]:
+        targets.append(
+            "Need correct top-level skill counting, explicit exclusion of artifacts/**, a structured review summary, and exactly 3 candidate evolution actions."
+        )
     if signals["openclaw_xhs"]:
         targets.append(
             "Need account positioning, topic hooks, note structure, evidence requirements, and viral logic before the OpenClaw Xiaohongshu strategy can be called complete."
@@ -556,7 +1521,13 @@ def score_candidate(
     special_bonus = 0
     if name == "openclaw-xhs-coevolution-lab" and signals["openclaw_xhs"]:
         special_bonus = 4
+    if name == "ai-da-guan-jia" and signals["skill_inventory_review"]:
+        special_bonus = 5
     if name == "skill-trainer-recursive" and signals["skill_training"]:
+        special_bonus = 4
+    if name == "guide-benchmark-learning" and signals["manual_first_learning"]:
+        special_bonus = 5
+    if name == "openai-docs" and signals["manual_first_learning"] and signals["openai_learning"]:
         special_bonus = 4
     if name == "skill-creator" and signals["skill_creation"]:
         special_bonus = 4
@@ -573,6 +1544,8 @@ def score_candidate(
     if name == "ai-metacognitive-core" and signals["metacognition"]:
         special_bonus = 3
     task_fit = min(5, len(hits) + explicit_bonus + special_bonus)
+    if signals["skill_inventory_review"] and name in {"skill-creator", "self-evolution-max"}:
+        task_fit = 0
     if task_fit == 0 and name == "jiyao-youyao-haiyao" and not any(signals.values()):
         task_fit = 1
 
@@ -622,6 +1595,13 @@ def choose_skills(
     wanted: list[str] = []
 
     wanted.extend(mentioned)
+    if signals["manual_first_learning"]:
+        wanted.append("guide-benchmark-learning")
+        if signals["openai_learning"]:
+            wanted.append("openai-docs")
+    if signals["skill_inventory_review"]:
+        wanted.append("ai-da-guan-jia")
+        wanted.append("ai-metacognitive-core")
     if signals["openclaw_xhs"]:
         wanted.append("openclaw-xhs-coevolution-lab")
     if signals["skill_training"]:
@@ -632,7 +1612,7 @@ def choose_skills(
         wanted.append("knowledge-orchestrator")
     if signals["feishu"]:
         wanted.append("feishu-bitable-bridge")
-    if signals["evolution"]:
+    if signals["evolution"] and not signals["skill_inventory_review"]:
         wanted.append("self-evolution-max")
     if signals["multi_agent"]:
         wanted.append("agency-agents-orchestrator")
@@ -651,15 +1631,22 @@ def choose_skills(
                 selected.append(item["name"])
                 break
 
+    ceiling = selection_ceiling(signals)
     for item in ranked:
-        if len(selected) >= 3:
+        if len(selected) >= ceiling:
             break
         if item["name"] in selected or item["task_fit_score"] <= 0:
             continue
         selected.append(item["name"])
 
     omitted = [name for name in wanted if name not in selected]
-    return selected[:3], normalize_list(omitted)
+    return selected[:ceiling], normalize_list(omitted)
+
+
+def selection_ceiling(signals: dict[str, bool]) -> int:
+    if signals["manual_first_learning"] and signals["skill_training"]:
+        return 4
+    return 3
 
 
 def generate_run_id(timestamp: datetime | None = None) -> str:
@@ -706,12 +1693,16 @@ def determine_human_boundary(signals: dict[str, bool]) -> str:
 
 
 def determine_max_distortion(signals: dict[str, bool]) -> str:
+    if signals["manual_first_learning"]:
+        return "在陌生领域里直接执行，而没有先读说明书、官方文档、攻略和 benchmark。"
     if signals["openclaw_xhs"]:
         return "把 OpenClaw 共进化内容做成泛 AI 资讯或空洞教程，而没有真实实验感和可模仿张力。"
     if signals["skill_training"]:
         return "把技能训练误解成直接生成 SKILL.md，而没有先吃透战略意图、第一性原理和标杆。"
     if signals["skill_creation"]:
         return "把大管家做成口号，而不是可调用、可验证、可沉淀的 skill 包。"
+    if signals["skill_inventory_review"]:
+        return "把一次盘点写成抽象评论，而没有形成可执行进化动作。"
     if signals["knowledge_first"]:
         return "跳过知识库原始答案，直接凭印象规划。"
     if signals["feishu"]:
@@ -985,6 +1976,14 @@ def iter_evolution_records(limit: int = 50) -> list[dict[str, Any]]:
     return records
 
 
+def recent_selected_skill_counts(limit: int = 50) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for record in iter_evolution_records(limit=limit):
+        for name in normalize_list(record.get("skills_selected")):
+            counts[name] = counts.get(name, 0) + 1
+    return counts
+
+
 def normalize_text_list(value: Any) -> list[str]:
     return [item.strip().lower() for item in normalize_list(value)]
 
@@ -1103,6 +2102,207 @@ def git_commit_paths(paths: list[Path], run_id: str) -> str:
         check=False,
     )
     return sha.stdout.strip() if sha.returncode == 0 else ""
+
+
+def find_review_run_dir(run_id: str) -> Path:
+    for date_dir in sorted(REVIEWS_ROOT.glob("*")) if REVIEWS_ROOT.exists() else []:
+        candidate = date_dir / run_id
+        if candidate.exists():
+            return candidate
+    raise FileNotFoundError(f"review run_id not found: {run_id}")
+
+
+def resolve_review_feishu_link(link_override: str | None = None) -> str:
+    return (
+        link_override
+        or os.getenv("AI_DA_GUAN_JIA_REVIEW_FEISHU_LINK")
+        or os.getenv("AI_DA_GUAN_JIA_FEISHU_LINK")
+        or DEFAULT_REVIEW_FEISHU_LINK
+    ).strip()
+
+
+def sync_result_payload(
+    *,
+    run_id: str,
+    mode: str,
+    status: str,
+    link: str,
+    reason: str = "",
+    command_results: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    return {
+        "run_id": run_id,
+        "mode": mode,
+        "status": status,
+        "executed_at": iso_now(),
+        "link": link,
+        "reason": reason,
+        "command_results": command_results or [],
+    }
+
+
+def run_json_command(command: list[str]) -> tuple[subprocess.CompletedProcess[str], dict[str, Any] | None]:
+    completed = subprocess.run(command, capture_output=True, text=True, check=False)
+    parsed: dict[str, Any] | None = None
+    if completed.stdout.strip():
+        try:
+            payload = json.loads(completed.stdout)
+            if isinstance(payload, dict):
+                parsed = payload
+        except Exception:
+            parsed = None
+    return completed, parsed
+
+
+def write_review_sync_result(run_dir: Path, payload: dict[str, Any]) -> None:
+    write_json(run_dir / "sync-result.json", payload)
+    review_path = run_dir / "review.json"
+    if not review_path.exists():
+        return
+    review = read_json(review_path)
+    if not isinstance(review, dict):
+        return
+    review["feishu_sync_status"] = payload["status"]
+    review["feishu_sync_result_path"] = str((run_dir / "sync-result.json").resolve())
+    review["last_synced_at"] = payload["executed_at"]
+    write_json(review_path, review)
+
+
+def sync_review_to_feishu(
+    run_id: str,
+    *,
+    link_override: str | None = None,
+    bridge_script_override: str | None = None,
+) -> tuple[int, str]:
+    run_dir = find_review_run_dir(run_id)
+    review = read_json(run_dir / "review.json")
+    inventory_payload = read_json(run_dir / "inventory.json")
+    if not isinstance(review, dict) or not isinstance(inventory_payload, dict):
+        raise RuntimeError(f"review artifacts are incomplete for {run_id}")
+
+    materials = write_review_materials(run_dir, inventory_payload=inventory_payload, review=review)
+    bundle = materials["bundle"]
+    bridge_script = Path(
+        bridge_script_override
+        or os.getenv("AI_DA_GUAN_JIA_FEISHU_BRIDGE_SCRIPT", str(DEFAULT_BRIDGE))
+    ).resolve()
+    link = resolve_review_feishu_link(link_override)
+
+    if not link:
+        payload = sync_result_payload(
+            run_id=run_id,
+            mode="apply",
+            status="review_sync_blocked_missing_link",
+            link="",
+            reason="No review Feishu link configured.",
+        )
+        write_review_sync_result(run_dir, payload)
+        return 1, payload["status"]
+    if not bridge_script.exists():
+        payload = sync_result_payload(
+            run_id=run_id,
+            mode="apply",
+            status="review_sync_blocked_missing_bridge",
+            link=link,
+            reason=f"bridge script not found: {bridge_script}",
+        )
+        write_review_sync_result(run_dir, payload)
+        return 1, payload["status"]
+    if not REVIEW_SCHEMA_MANIFEST.exists():
+        payload = sync_result_payload(
+            run_id=run_id,
+            mode="apply",
+            status="review_sync_blocked_missing_manifest",
+            link=link,
+            reason=f"review schema manifest not found: {REVIEW_SCHEMA_MANIFEST}",
+        )
+        write_review_sync_result(run_dir, payload)
+        return 1, payload["status"]
+
+    command_results: list[dict[str, Any]] = []
+    schema_command = [
+        "python3",
+        str(bridge_script),
+        "sync-base-schema",
+        "--link",
+        link,
+        "--manifest",
+        str(REVIEW_SCHEMA_MANIFEST),
+        "--apply",
+    ]
+    schema_completed, schema_payload = run_json_command(schema_command)
+    command_results.append(
+        {
+            "step": "sync-base-schema",
+            "command": schema_command,
+            "returncode": schema_completed.returncode,
+            "stdout": schema_completed.stdout,
+            "stderr": schema_completed.stderr,
+            "parsed": schema_payload,
+        }
+    )
+    if schema_completed.returncode != 0 or not schema_payload:
+        payload = sync_result_payload(
+            run_id=run_id,
+            mode="apply",
+            status="review_sync_failed",
+            link=link,
+            reason="schema sync failed",
+            command_results=command_results,
+        )
+        write_review_sync_result(run_dir, payload)
+        return 1, payload["status"]
+
+    tables_meta = {
+        item["table_name"]: item
+        for item in schema_payload.get("tables", [])
+        if isinstance(item, dict) and item.get("table_name")
+    }
+
+    failed = False
+    for table_name, records in bundle["tables"].items():
+        payload_path = run_dir / f"{table_name}.payload.json"
+        write_json(payload_path, records)
+        meta = tables_meta.get(table_name, {})
+        upsert_command = [
+            "python3",
+            str(bridge_script),
+            "upsert-records",
+            "--link",
+            link,
+            "--table-id",
+            str(meta.get("table_id") or ""),
+            "--primary-field",
+            str(meta.get("primary_field") or ""),
+            "--payload-file",
+            str(payload_path),
+            "--apply",
+        ]
+        upsert_completed, upsert_payload = run_json_command(upsert_command)
+        command_results.append(
+            {
+                "step": f"upsert:{table_name}",
+                "table_name": table_name,
+                "command": upsert_command,
+                "returncode": upsert_completed.returncode,
+                "stdout": upsert_completed.stdout,
+                "stderr": upsert_completed.stderr,
+                "parsed": upsert_payload,
+            }
+        )
+        if upsert_completed.returncode != 0:
+            failed = True
+
+    payload = sync_result_payload(
+        run_id=run_id,
+        mode="apply",
+        status="review_synced_applied" if not failed else "review_sync_failed",
+        link=link,
+        reason="" if not failed else "One or more table upserts failed.",
+        command_results=command_results,
+    )
+    write_review_sync_result(run_dir, payload)
+    return (0 if not failed else 1), payload["status"]
 
 
 def make_feishu_payload(
@@ -1289,7 +2489,7 @@ def command_route(args: argparse.Namespace) -> int:
         "candidate_rankings": ranked[:10],
         "selected_skills": selected,
         "omitted_due_to_selection_ceiling": omitted,
-        "selection_ceiling": 3,
+        "selection_ceiling": selection_ceiling(signals),
         "human_boundary": determine_human_boundary(signals),
         "verification_targets": verification_targets(signals),
         "feishu_plan": (
@@ -1312,6 +2512,106 @@ def command_route(args: argparse.Namespace) -> int:
     print(f"run_id: {run_id}")
     print(f"run_dir: {run_dir}")
     print(f"selected: {', '.join(selected) if selected else 'none'}")
+    return 0
+
+
+def command_review_skills(args: argparse.Namespace) -> int:
+    state = load_review_state()
+    if args.resolve_action:
+        run_id = str(args.run_id or state.get("latest_run_id") or "").strip()
+        if not run_id:
+            raise ValueError("--run-id is required when no latest review run exists.")
+        status = {
+            "latest_run_id": run_id,
+            "status": "resolved",
+            "pending_action_ids": [],
+            "selected_action_id": str(args.resolve_action).strip(),
+            "resolved_at": iso_now(),
+        }
+        save_review_state(status)
+        run_dir = None
+        try:
+            run_dir = find_review_run_dir(run_id)
+        except FileNotFoundError:
+            run_dir = None
+        if run_dir is not None:
+            review_path = run_dir / "review.json"
+            if review_path.exists():
+                review_payload = read_json(review_path)
+                if isinstance(review_payload, dict):
+                    review_payload["status"] = "resolved"
+                    review_payload["selected_action_id"] = status["selected_action_id"]
+                    review_payload["resolved_at"] = status["resolved_at"]
+                    inventory_payload = read_json(run_dir / "inventory.json") if (run_dir / "inventory.json").exists() else None
+                    if isinstance(inventory_payload, dict):
+                        write_review_materials(run_dir, inventory_payload=inventory_payload, review=review_payload)
+                    else:
+                        write_json(review_path, review_payload)
+        print(f"status: resolved")
+        print(f"run_id: {run_id}")
+        print(f"selected_action_id: {status['selected_action_id']}")
+        if args.sync_feishu and run_dir is not None:
+            sync_code, sync_status = sync_review_to_feishu(
+                run_id,
+                link_override=args.link,
+                bridge_script_override=args.bridge_script,
+            )
+            print(f"sync_status: {sync_status}")
+            return sync_code
+        return 0
+
+    if not args.daily:
+        raise ValueError("review-skills requires --daily or --resolve-action.")
+
+    if state.get("status") == "awaiting_human_choice":
+        print("status: awaiting_human_choice")
+        print(f"run_id: {state.get('latest_run_id', '')}")
+        print(f"pending_action_ids: {', '.join(normalize_list(state.get('pending_action_ids')))}")
+        if args.sync_feishu and args.run_id:
+            sync_code, sync_status = sync_review_to_feishu(
+                str(args.run_id),
+                link_override=args.link,
+                bridge_script_override=args.bridge_script,
+            )
+            print(f"sync_status: {sync_status}")
+            return sync_code
+        return 0
+
+    created_at = iso_now()
+    run_id = allocate_review_run_id(created_at)
+    run_dir = review_run_dir_for(run_id, created_at)
+    inventory = build_review_inventory()
+    review = build_review_payload(inventory, created_at=created_at, run_id=run_id)
+    inventory_payload = {
+        "generated_at": created_at,
+        "skills_root": str(SKILLS_ROOT),
+        "mode": "top_level_only",
+        "excluded_patterns": ["artifacts/**/SKILL.md", ".system/*/SKILL.md"],
+        "count": len(inventory),
+        "skills": inventory,
+    }
+    write_review_materials(run_dir, inventory_payload=inventory_payload, review=review)
+    save_review_state(
+        {
+            "latest_run_id": run_id,
+            "status": "awaiting_human_choice",
+            "pending_action_ids": [action["id"] for action in review["candidate_actions"]],
+            "created_at": created_at,
+        }
+    )
+    print(f"status: awaiting_human_choice")
+    print(f"run_id: {run_id}")
+    print(f"run_dir: {run_dir}")
+    print(f"skills_total: {review['skills_total']}")
+    print(f"candidate_actions: {', '.join(action['id'] for action in review['candidate_actions'])}")
+    if args.sync_feishu:
+        sync_code, sync_status = sync_review_to_feishu(
+            run_id,
+            link_override=args.link,
+            bridge_script_override=args.bridge_script,
+        )
+        print(f"sync_status: {sync_status}")
+        return sync_code
     return 0
 
 
@@ -1369,7 +2669,7 @@ def command_record_evolution(args: argparse.Namespace) -> int:
         "candidate_rankings": route_payload.get("candidate_rankings", []),
         "selected_skills": evolution["skills_selected"],
         "omitted_due_to_selection_ceiling": route_payload.get("omitted_due_to_selection_ceiling", []),
-        "selection_ceiling": 3,
+        "selection_ceiling": selection_ceiling(signals),
         "human_boundary": human_boundary,
         "verification_targets": route_payload.get("verification_targets", verification_targets(signals)),
         "feishu_plan": route_payload.get("feishu_plan", []),
@@ -1542,7 +2842,7 @@ def command_close_task(args: argparse.Namespace) -> int:
         "candidate_rankings": ranked[:10],
         "selected_skills": selected,
         "omitted_due_to_selection_ceiling": omitted,
-        "selection_ceiling": 3,
+        "selection_ceiling": selection_ceiling(signals),
         "human_boundary": human_boundary,
         "verification_targets": verification_targets(signals),
         "feishu_plan": [
@@ -1659,6 +2959,19 @@ def build_parser() -> argparse.ArgumentParser:
     route.add_argument("--prompt", required=True, help="Task prompt to analyze.")
     route.add_argument("--run-id", help="Optional run id override.")
     route.set_defaults(func=command_route)
+
+    review = subparsers.add_parser(
+        "review-skills",
+        help="Review top-level installed skills, generate 3 candidate evolution actions, or resolve the current review choice.",
+    )
+    review_mode = review.add_mutually_exclusive_group(required=True)
+    review_mode.add_argument("--daily", action="store_true", help="Run the daily top-level skill review flow.")
+    review_mode.add_argument("--resolve-action", help="Mark the latest review or the provided run id as resolved by action id.")
+    review.add_argument("--run-id", help="Optional review run id override for --resolve-action.")
+    review.add_argument("--sync-feishu", action="store_true", help="Sync the review bundle into the review Feishu base.")
+    review.add_argument("--link", help="Optional review Feishu wiki/base link override.")
+    review.add_argument("--bridge-script", help="Optional bridge script path override.")
+    review.set_defaults(func=command_review_skills)
 
     record = subparsers.add_parser("record-evolution", help="Write the canonical evolution record from JSON input.")
     record.add_argument("--input", required=True, help="JSON file path or - for stdin.")

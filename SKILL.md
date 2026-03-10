@@ -1,6 +1,6 @@
 ---
 name: ai-da-guan-jia
-description: "Use when the user explicitly asks for AI大管家, or wants a top-level skill governor that inventories existing skills first, chooses the minimal sufficient combination, minimizes human interruption, writes a structured evolution log after each meaningful task, and optionally mirrors that log to 飞书多维表 through a dry-run-first workflow."
+description: "Use when the user explicitly asks for AI大管家, or wants a top-level skill governor that inventories existing skills first, chooses the minimal sufficient combination, minimizes human interruption, writes a structured evolution log after each meaningful task, and mirrors both task closure logs and daily review materials to 飞书多维表 through a schema-first workflow."
 ---
 
 # AI大管家
@@ -44,6 +44,9 @@ The router must write `situation-map.md` and `route.json` before any later evolu
 - Prefer the smallest sufficient downstream combination. The default ceiling is 3 skills.
 - Route `skill` creation or update requests to `skill-creator` first.
 - Route skill-training or skill-methodology requests to `skill-trainer-recursive` before direct scaffolding.
+- Route unfamiliar-domain learning, manual-first study, benchmark comparison, or "先读说明书/攻略/官方文档" requests to `guide-benchmark-learning` first.
+- Route skill inventory review, capability mapping, de-duplication review, or system-wide skill evaluation requests to `AI大管家`'s native `review-skills` flow first.
+- Use `routing-playbook` as a mid-layer combination handbook when a recurring task family needs a stable skill chain and clearer boundary explanation.
 - Route OpenClaw Xiaohongshu co-evolution and viral-note requests to `openclaw-xhs-coevolution-lab`.
 - Route knowledge-base-first requests to `knowledge-orchestrator` first.
 - Route Feishu write requests to `feishu-bitable-bridge` only after the local canonical log exists.
@@ -53,6 +56,13 @@ Inspect the current skill inventory:
 
 ```bash
 python3 scripts/ai_da_guan_jia.py inventory-skills
+```
+
+Run the native top-level skill review when the job is system-wide assessment rather than one task:
+
+```bash
+python3 scripts/ai_da_guan_jia.py review-skills --daily
+python3 scripts/ai_da_guan_jia.py review-skills --daily --sync-feishu
 ```
 
 ## 克制执行
@@ -73,7 +83,7 @@ python3 scripts/ai_da_guan_jia.py inventory-skills
 - Do not leave stale closure text in the mirror. Sync only the final task state, real remaining open questions, and the current self-evaluation.
 - Run the evolution gate after sync. If it hits, auto-write validated improvements into this skill and create a local commit.
 - Auto-writeback is limited to this skill only; do not auto-edit other skills.
-- Use the schema in [references/evolution-log-schema.md](references/evolution-log-schema.md) and the sync contract in [references/feishu-sync-contract.md](references/feishu-sync-contract.md).
+- Use the task-log schema in [references/evolution-log-schema.md](references/evolution-log-schema.md), the task sync contract in [references/feishu-sync-contract.md](references/feishu-sync-contract.md), and the review sync contract in [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md).
 - Persist validated rules in [references/validated-evolution-rules.md](references/validated-evolution-rules.md).
 
 Record an evolution run from JSON:
@@ -98,7 +108,12 @@ python3 scripts/ai_da_guan_jia.py close-task --task "同步 AI大管家 到 GitH
 
 ```bash
 python3 scripts/ai_da_guan_jia.py inventory-skills
+python3 scripts/ai_da_guan_jia.py review-skills --daily
+python3 scripts/ai_da_guan_jia.py review-skills --daily --sync-feishu
+python3 scripts/ai_da_guan_jia.py review-skills --resolve-action A --run-id adagj-review-20260310-090000
+python3 scripts/ai_da_guan_jia.py review-skills --resolve-action A --run-id adagj-review-20260310-090000 --sync-feishu
 python3 scripts/ai_da_guan_jia.py route --prompt "先问我的知识库，再帮我规划下一步"
+python3 scripts/ai_da_guan_jia.py route --prompt "帮我学一个陌生 API，先读官方说明书和攻略，再决定怎么做"
 python3 scripts/ai_da_guan_jia.py record-evolution --input -
 python3 scripts/ai_da_guan_jia.py sync-feishu --run-id adagj-20260309-101500 --dry-run
 python3 scripts/ai_da_guan_jia.py close-task --task "完成本次任务并闭环"
@@ -109,7 +124,11 @@ python3 scripts/doctor.py
 
 - [references/meta-constitution.md](references/meta-constitution.md)
 - [references/core-roster.md](references/core-roster.md)
+- [references/skill-review-rubric.md](references/skill-review-rubric.md)
+- [references/daily-review-contract.md](references/daily-review-contract.md)
 - [references/routing-policy.md](references/routing-policy.md)
 - [references/evolution-log-schema.md](references/evolution-log-schema.md)
 - [references/feishu-sync-contract.md](references/feishu-sync-contract.md)
+- [references/feishu-review-base-schema.json](references/feishu-review-base-schema.json)
+- [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md)
 - [references/validated-evolution-rules.md](references/validated-evolution-rules.md)

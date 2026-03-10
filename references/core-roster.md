@@ -35,6 +35,13 @@
 - Weaknesses: heavier than direct scaffolding when the user only needs a fast one-off skill file.
 - Boundary: route here before raw scaffolding when the user wants to train a skill or design a skill-training method.
 
+## guide-benchmark-learning
+
+- Role: learn unfamiliar capabilities by reading manuals, official docs, benchmark guides, and similar cases before execution.
+- Strengths: source hierarchy discipline, execution-readiness judgment, reusable learning handbook output.
+- Weaknesses: does not execute domain work and can be unnecessary when the domain is already locally mature.
+- Boundary: route here when the task is unfamiliar enough that learning should happen before execution or before training a new skill.
+
 ## openclaw-xhs-coevolution-lab
 
 - Role: turn real OpenClaw experiments into Xiaohongshu viral-note blueprints and a co-evolution content system.
@@ -69,6 +76,13 @@
 - Strengths: schema awareness, dry-run preview, safe application.
 - Weaknesses: external-system dependent, not canonical memory.
 - Boundary: use only after the local evolution record and Feishu payload already exist.
+
+## routing-playbook
+
+- Role: serve as a mid-layer routing handbook that maps recurring task families to the smallest sufficient skill combinations.
+- Strengths: stable task-to-skill mapping, boundary clarification, reusable combination rationale.
+- Weaknesses: does not execute work and should not replace the top-level governor.
+- Boundary: use when AI大管家 needs a repeatable combination guide for high-frequency task families.
 
 ## Absorbed Missing Organs
 

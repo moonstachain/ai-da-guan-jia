@@ -18,9 +18,13 @@ REQUIRED_FILES = [
     ROOT / "agents" / "openai.yaml",
     ROOT / "references" / "meta-constitution.md",
     ROOT / "references" / "core-roster.md",
+    ROOT / "references" / "skill-review-rubric.md",
+    ROOT / "references" / "daily-review-contract.md",
     ROOT / "references" / "routing-policy.md",
     ROOT / "references" / "evolution-log-schema.md",
     ROOT / "references" / "feishu-sync-contract.md",
+    ROOT / "references" / "feishu-review-base-schema.json",
+    ROOT / "references" / "feishu-review-sync-contract.md",
     ROOT / "references" / "validated-evolution-rules.md",
     MAIN_SCRIPT,
     ROOT / "scripts" / "doctor.py",
@@ -31,6 +35,7 @@ ROSTER_NAMES = [
     "jiyao-youyao-haiyao-zaiyao",
     "skill-creator",
     "skill-trainer-recursive",
+    "guide-benchmark-learning",
     "openclaw-xhs-coevolution-lab",
     "knowledge-orchestrator",
     "self-evolution-max",
@@ -100,6 +105,7 @@ def check_entrypoints(errors: list[str]) -> None:
     for command in (
         ["python3", str(MAIN_SCRIPT), "--help"],
         ["python3", str(MAIN_SCRIPT), "inventory-skills", "--help"],
+        ["python3", str(MAIN_SCRIPT), "review-skills", "--help"],
         ["python3", str(MAIN_SCRIPT), "route", "--help"],
         ["python3", str(MAIN_SCRIPT), "record-evolution", "--help"],
         ["python3", str(MAIN_SCRIPT), "sync-feishu", "--help"],
@@ -130,8 +136,8 @@ def main() -> int:
     if MAIN_SCRIPT.exists():
         check_entrypoints(errors)
 
-    if "AI_DA_GUAN_JIA_FEISHU_LINK" not in os.environ:
-        warnings.append("AI_DA_GUAN_JIA_FEISHU_LINK is not configured; built-in default link will be used.")
+    if "AI_DA_GUAN_JIA_FEISHU_LINK" not in os.environ and "AI_DA_GUAN_JIA_REVIEW_FEISHU_LINK" not in os.environ:
+        warnings.append("No Feishu link env var is configured; built-in defaults will be used.")
 
     if errors:
         print("FAILED")

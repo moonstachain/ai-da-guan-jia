@@ -4,6 +4,8 @@
 
 Use Feishu as a readable mirror of the local work log. Do not use it as the canonical record.
 
+This contract is only for task-closure work logs. Daily skill review materials use [feishu-review-sync-contract.md](feishu-review-sync-contract.md).
+
 ## Environment Variables
 
 - `AI_DA_GUAN_JIA_FEISHU_LINK`
