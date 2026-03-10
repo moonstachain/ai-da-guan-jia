@@ -17,6 +17,11 @@ Write each run to:
 - `soul.md`
 - `feishu-payload.json`
 - `feishu-sync-result.json`
+- `github-task.json`
+- `github-payload.json`
+- `github-sync-plan.md`
+- `github-sync-result.json`
+- `github-archive.md`
 
 ## Closure Discipline
 
@@ -51,6 +56,14 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `evolution_judgment_detail`
 - `evolution_writeback_applied`
 - `evolution_writeback_commit`
+- `github_task_key`
+- `github_issue_url`
+- `github_project_url`
+- `github_repo`
+- `github_sync_status`
+- `github_classification`
+- `github_archive_status`
+- `github_closure_comment_url`
 
 ## Type Conventions
 
@@ -64,6 +77,9 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `evolution_judgment_detail`: object with `hit`, `positive_signals`, `blockers`, and trace counters.
 - `evolution_writeback_applied`: bool. True only when this run wrote validated updates into this skill.
 - `evolution_writeback_commit`: git commit hash for automatic writeback, or empty.
+- `github_classification`: object with `type`, `domain`, `state`, `artifact`, `slug`, and `task_key`.
+- `github_sync_status`: machine-readable status for the GitHub mirror lifecycle.
+- `github_archive_status`: `not_archived`, `active`, or `archived`.
 
 ## Feishu Mirror Mapping
 
@@ -86,3 +102,14 @@ Flatten `worklog.json` into these human-readable fields:
 - `人类边界`
 - `后续建议`
 - `同步状态`
+
+## GitHub Mirror Mapping
+
+Use the local run directory as source of truth and mirror the task into GitHub with:
+
+- one central issue in the configured ops repo
+- prefixed labels for `type`, `domain`, `state`, and `artifact`
+- one stable closure comment keyed by `github_task_key`
+- one Project item when project config is available
+
+Do not treat GitHub as canonical if the local run files diverge.

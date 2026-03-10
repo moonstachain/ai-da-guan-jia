@@ -1,6 +1,6 @@
 ---
 name: ai-da-guan-jia
-description: "Use when the user explicitly asks for AI大管家, or wants a top-level skill governor that inventories existing skills first, chooses the minimal sufficient combination, minimizes human interruption, writes a structured evolution log after each meaningful task, and mirrors both task closure logs and daily review materials to 飞书多维表 through a schema-first workflow."
+description: "Use when the user explicitly asks for AI大管家, or wants a top-level skill governor that inventories existing skills first, chooses the minimal sufficient combination, minimizes human interruption, writes a structured evolution log after each meaningful task, and mirrors both task closure logs and daily review materials to 飞书多维表 plus GitHub through schema-first workflows."
 ---
 
 # AI大管家
@@ -33,7 +33,7 @@ python3 scripts/ai_da_guan_jia.py route --prompt "帮我做一个新 skill，并
 python3 scripts/ai_da_guan_jia.py route --prompt "帮我训练一种新技能，而且尽量少打扰我"
 ```
 
-The router must write `situation-map.md` and `route.json` before any later evolution sync.
+The router must write `situation-map.md` and `route.json` before any later evolution sync, and must also prepare the local GitHub intake artifacts.
 
 ## Skill 盘点与路由
 
@@ -72,18 +72,27 @@ python3 scripts/ai_da_guan_jia.py review-skills --daily --sync-feishu
 - If the task can be completed by AI or another skill, do not push it back to the human.
 - Stop exploring when more searching would not change the routing decision.
 - Prefer proof-bearing paths over impressive but weakly verifiable paths.
+- Treat local artifacts as canonical. GitHub is the collaboration and archive mirror, not the source of truth.
 
 ## 闭环进化
 
 - After every meaningful run, write the canonical evolution record locally.
 - Always write artifacts under `artifacts/ai-da-guan-jia/runs/YYYY-MM-DD/<run-id>/`.
 - Every meaningful task must include one explicit self-evaluation: what was gained, what was wasted, and what should iterate next.
+- Every meaningful task must also prepare GitHub governance artifacts:
+  - `github-task.json`
+  - `github-sync-plan.md`
+  - `github-payload.json`
+  - `github-sync-result.json`
+  - `github-archive.md`
 - Always generate `feishu-payload.json`, then run `sync-feishu --dry-run`, then `sync-feishu --apply`.
+- Always generate the GitHub payload, then run `sync-github --phase intake|closure --dry-run`, then `--apply` when GitHub auth is available.
 - Every meaningful task must end with one shared recap and one human-readable Feishu work log mirror.
 - Do not leave stale closure text in the mirror. Sync only the final task state, real remaining open questions, and the current self-evaluation.
+- Use GitHub labels, issue title format, and Project fields from the fixed taxonomy instead of improvising ad hoc classification.
 - Run the evolution gate after sync. If it hits, auto-write validated improvements into this skill and create a local commit.
 - Auto-writeback is limited to this skill only; do not auto-edit other skills.
-- Use the task-log schema in [references/evolution-log-schema.md](references/evolution-log-schema.md), the task sync contract in [references/feishu-sync-contract.md](references/feishu-sync-contract.md), and the review sync contract in [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md).
+- Use the task-log schema in [references/evolution-log-schema.md](references/evolution-log-schema.md), the task sync contracts in [references/feishu-sync-contract.md](references/feishu-sync-contract.md) and [references/github-sync-contract.md](references/github-sync-contract.md), and the review sync contract in [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md).
 - Persist validated rules in [references/validated-evolution-rules.md](references/validated-evolution-rules.md).
 
 Record an evolution run from JSON:
@@ -96,6 +105,13 @@ Mirror a completed run to Feishu after the local log exists:
 
 ```bash
 python3 scripts/ai_da_guan_jia.py sync-feishu --run-id adagj-20260309-101500 --dry-run
+```
+
+Mirror a run into GitHub after the local log exists:
+
+```bash
+python3 scripts/ai_da_guan_jia.py sync-github --run-id adagj-20260309-101500 --phase intake --dry-run
+python3 scripts/ai_da_guan_jia.py sync-github --run-id adagj-20260309-101500 --phase closure --apply
 ```
 
 Run the mandatory recursive closure in one command:
@@ -116,6 +132,8 @@ python3 scripts/ai_da_guan_jia.py route --prompt "先问我的知识库，再帮
 python3 scripts/ai_da_guan_jia.py route --prompt "帮我学一个陌生 API，先读官方说明书和攻略，再决定怎么做"
 python3 scripts/ai_da_guan_jia.py record-evolution --input -
 python3 scripts/ai_da_guan_jia.py sync-feishu --run-id adagj-20260309-101500 --dry-run
+python3 scripts/ai_da_guan_jia.py sync-github --run-id adagj-20260309-101500 --phase intake --dry-run
+python3 scripts/ai_da_guan_jia.py sync-github --run-id adagj-20260309-101500 --phase closure --apply
 python3 scripts/ai_da_guan_jia.py close-task --task "完成本次任务并闭环"
 python3 scripts/doctor.py
 ```
@@ -129,6 +147,11 @@ python3 scripts/doctor.py
 - [references/routing-policy.md](references/routing-policy.md)
 - [references/evolution-log-schema.md](references/evolution-log-schema.md)
 - [references/feishu-sync-contract.md](references/feishu-sync-contract.md)
+- [references/github-governance-contract.md](references/github-governance-contract.md)
+- [references/github-sync-contract.md](references/github-sync-contract.md)
+- [references/github-taxonomy.md](references/github-taxonomy.md)
+- [references/github-naming-policy.md](references/github-naming-policy.md)
+- [references/github-project-schema.md](references/github-project-schema.md)
 - [references/feishu-review-base-schema.json](references/feishu-review-base-schema.json)
 - [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md)
 - [references/validated-evolution-rules.md](references/validated-evolution-rules.md)

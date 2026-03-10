@@ -8,12 +8,16 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from urllib import error as urllib_error
+from urllib import parse as urllib_parse
+from urllib import request as urllib_request
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -33,6 +37,29 @@ DEFAULT_FEISHU_LINK = "https://h52xu4gwob.feishu.cn/wiki/FwG2wbljSiQrtPkTt8RcLAb
 DEFAULT_REVIEW_FEISHU_LINK = "https://h52xu4gwob.feishu.cn/wiki/UzRjwDDLyi9OP4kEIHkcin1Gnhc?from=from_copylink"
 REVIEW_SCHEMA_MANIFEST = SKILL_DIR / "references" / "feishu-review-base-schema.json"
 REVIEW_SYNC_CONTRACT = SKILL_DIR / "references" / "feishu-review-sync-contract.md"
+DEFAULT_GITHUB_BASE_URL = "https://github.com"
+DEFAULT_GITHUB_API_URL = "https://api.github.com"
+DEFAULT_GITHUB_OPS_REPO_NAME = "ai-task-ops"
+DEFAULT_GITHUB_DOT_GITHUB_REPO = ".github"
+GITHUB_TYPE_CHOICES = ["research", "spec", "implement", "debug", "review", "sync", "publish", "governance"]
+GITHUB_DOMAIN_CHOICES = ["github", "feishu", "openai", "skill-system", "content", "data", "ops"]
+GITHUB_STATE_CHOICES = ["intake", "routed", "in_progress", "waiting_human", "blocked", "verified", "archived"]
+GITHUB_ARTIFACT_CHOICES = ["skill", "code", "doc", "workflow", "dataset", "integration", "report"]
+GITHUB_SKIP_PATTERNS = {
+    "hi",
+    "hello",
+    "hey",
+    "yo",
+    "thanks",
+    "thank you",
+    "ok",
+    "okay",
+    "好的",
+    "收到",
+    "谢谢",
+    "你好",
+    "在吗",
+}
 ROUTING_ORDER = [
     "task_fit_score",
     "verification_score",
@@ -62,6 +89,14 @@ REQUIRED_EVOLUTION_FIELDS = [
     "evolution_judgment_detail",
     "evolution_writeback_applied",
     "evolution_writeback_commit",
+    "github_task_key",
+    "github_issue_url",
+    "github_project_url",
+    "github_repo",
+    "github_sync_status",
+    "github_classification",
+    "github_archive_status",
+    "github_closure_comment_url",
 ]
 
 REVIEW_RUBRIC = [
@@ -1751,6 +1786,1017 @@ def truncate_text(value: str, max_len: int) -> str:
     return text[: max_len - 1].rstrip() + "…"
 
 
+def normalize_slug_part(value: str) -> str:
+    text = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+    return re.sub(r"-{2,}", "-", text) or "task"
+
+
+def derive_prompt_keywords(prompt: str) -> list[str]:
+    ascii_words = re.findall(r"[A-Za-z0-9][A-Za-z0-9\-_/]{1,30}", prompt.lower())
+    cleaned: list[str] = []
+    stopwords = {
+        "please",
+        "help",
+        "with",
+        "this",
+        "that",
+        "task",
+        "need",
+        "want",
+        "make",
+        "build",
+        "update",
+        "sync",
+    }
+    for word in ascii_words:
+        token = word.strip("-_/")
+        if len(token) < 3 or token in stopwords:
+            continue
+        cleaned.append(normalize_slug_part(token))
+    return cleaned[:4]
+
+
+def infer_github_type(prompt: str) -> str:
+    text = normalize_prompt(prompt)
+    mapping = [
+        ("debug", ["debug", "bug", "报错", "修复", "异常", "失败", "排障", "fix ci"]),
+        ("review", ["review", "审查", "审计", "盘点", "评估", "复盘"]),
+        ("sync", ["sync", "同步", "镜像", "回写", "归档"]),
+        ("publish", ["publish", "发布", "上线", "推送", "deploy"]),
+        ("implement", ["implement", "实现", "开发", "编码", "写代码", "修"]),
+        ("spec", ["spec", "设计", "方案", "规划", "架构", "需求", "plan"]),
+        ("research", ["research", "调研", "研究", "benchmark", "攻略", "说明书", "官方文档"]),
+        ("governance", ["governance", "治理", "规范", "命名", "分类", "管理"]),
+    ]
+    for label, patterns in mapping:
+        if any(item in text for item in patterns):
+            return label
+    return "implement"
+
+
+def infer_github_domain(prompt: str, selected_skills: list[str]) -> str:
+    text = normalize_prompt(prompt)
+    if any(item in text for item in ["github", "pull request", "pr", "issue", "repo", "仓库"]):
+        return "github"
+    if any(item in text for item in ["飞书", "feishu", "bitable", "wiki", "lark"]):
+        return "feishu"
+    if any(item in text for item in ["openai", "chatgpt", "responses api", "apps sdk", "codex"]):
+        return "openai"
+    if any(item in text for item in ["skill", "skills", "大管家", "router", "路由", "盘点"]) or any(
+        name.startswith(("ai-", "skill-")) for name in selected_skills
+    ):
+        return "skill-system"
+    if any(item in text for item in ["内容", "选题", "小红书", "公众号", "文章", "publish"]):
+        return "content"
+    if any(item in text for item in ["dataset", "数据", "csv", "excel", "spreadsheet", "分析"]):
+        return "data"
+    return "ops"
+
+
+def infer_github_artifact(prompt: str, selected_skills: list[str]) -> str:
+    text = normalize_prompt(prompt)
+    if "skill" in text or any(name.startswith(("ai-", "skill-")) for name in selected_skills):
+        return "skill"
+    if any(item in text for item in ["workflow", "流程", "route", "router", "governance"]):
+        return "workflow"
+    if any(item in text for item in ["doc", "文档", "plan", "spec", "方案", "readme"]):
+        return "doc"
+    if any(item in text for item in ["dataset", "表", "csv", "excel", "jsonl"]):
+        return "dataset"
+    if any(item in text for item in ["api", "integration", "mcp", "bridge", "sync", "feishu"]):
+        return "integration"
+    if any(item in text for item in ["report", "summary", "brief", "review"]):
+        return "report"
+    return "code"
+
+
+def should_skip_github_management(prompt: str, signals: dict[str, bool]) -> tuple[bool, str]:
+    normalized = normalize_prompt(prompt)
+    compact = normalized.replace(" ", "")
+    if compact in GITHUB_SKIP_PATTERNS:
+        return True, "casual_prompt"
+    if len(compact) <= 4 and not any(signals.values()):
+        return True, "too_short_without_verifiable_work"
+    if compact in {"?", "？", "1", "yes", "no"}:
+        return True, "non_actionable_prompt"
+    return False, ""
+
+
+def github_hash8(task_text: str) -> str:
+    return hashlib.sha1(task_text.strip().encode("utf-8")).hexdigest()[:8]
+
+
+def github_title_slug(prompt: str, type_name: str, domain: str) -> str:
+    keywords = derive_prompt_keywords(prompt)
+    if keywords:
+        return normalize_slug_part("-".join(keywords[:3]))
+    return normalize_slug_part(f"{type_name}-{domain}-task")
+
+
+def github_display_title(prompt: str) -> str:
+    return truncate_text(prompt.strip() or "未命名任务", 60)
+
+
+def github_issue_title(classification: dict[str, Any], prompt: str) -> str:
+    return f"[{classification['type']}/{classification['domain']}] {classification['slug']} | {github_display_title(prompt)}"
+
+
+def github_labels(classification: dict[str, Any]) -> list[str]:
+    return [
+        f"type:{classification['type']}",
+        f"domain:{classification['domain']}",
+        f"state:{classification['state']}",
+        f"artifact:{classification['artifact']}",
+    ]
+
+
+def default_github_owner() -> str:
+    repo = git_origin_repo(SKILL_DIR)
+    if not repo or "/" not in repo:
+        return ""
+    return repo.split("/", 1)[0]
+
+
+def resolve_github_ops_repo(repo_override: str | None = None) -> str:
+    value = (repo_override or os.getenv("AI_DA_GUAN_JIA_GITHUB_OPS_REPO", "")).strip()
+    if value:
+        return value
+    owner = default_github_owner()
+    return f"{owner}/{DEFAULT_GITHUB_OPS_REPO_NAME}" if owner else ""
+
+
+def resolve_dot_github_repo(repo_override: str | None = None) -> str:
+    value = (repo_override or os.getenv("AI_DA_GUAN_JIA_GITHUB_DOT_GITHUB_REPO", "")).strip()
+    if value:
+        return value
+    owner = default_github_owner()
+    return f"{owner}/{DEFAULT_GITHUB_DOT_GITHUB_REPO}" if owner else ""
+
+
+def resolve_github_project_owner() -> str:
+    return (
+        os.getenv("AI_DA_GUAN_JIA_GITHUB_PROJECT_OWNER", "").strip()
+        or default_github_owner()
+    )
+
+
+def resolve_github_project_number() -> int:
+    raw = os.getenv("AI_DA_GUAN_JIA_GITHUB_PROJECT_NUMBER", "").strip()
+    if not raw:
+        return 0
+    try:
+        return int(raw)
+    except ValueError:
+        return 0
+
+
+def github_issue_body(
+    *,
+    task_key: str,
+    run_id: str,
+    prompt: str,
+    route_payload: dict[str, Any],
+    classification: dict[str, Any],
+    run_dir: Path,
+) -> str:
+    selected = ", ".join(normalize_list(route_payload.get("selected_skills"))) or "none"
+    verification_targets_text = "\n".join(f"- {item}" for item in normalize_list(route_payload.get("verification_targets")))
+    return "\n".join(
+        [
+            f"<!-- ai-da-guan-jia-task:{task_key} -->",
+            "# AI大管家 Task Mirror",
+            "",
+            f"- Task Key: `{task_key}`",
+            f"- Run ID: `{run_id}`",
+            f"- Local Run Dir: `{run_dir}`",
+            f"- Type: `{classification['type']}`",
+            f"- Domain: `{classification['domain']}`",
+            f"- Artifact: `{classification['artifact']}`",
+            f"- State: `{classification['state']}`",
+            f"- Selected Skills: {selected}",
+            "",
+            "## Request",
+            "",
+            prompt.strip(),
+            "",
+            "## Verification Targets",
+            "",
+            verification_targets_text or "- Need an artifact check plus a goal check before reporting completion.",
+        ]
+    )
+
+
+def build_github_classification(
+    *,
+    task_text: str,
+    created_at: str,
+    selected_skills: list[str],
+    verification_status: str | None = None,
+) -> dict[str, Any]:
+    type_name = infer_github_type(task_text)
+    domain = infer_github_domain(task_text, selected_skills)
+    artifact = infer_github_artifact(task_text, selected_skills)
+    verification_norm = (verification_status or "").strip().lower()
+    state = "verified" if verification_norm in {"passed", "success", "done", "complete", "completed"} else "routed"
+    slug = github_title_slug(task_text, type_name, domain)
+    task_key = f"tsk-{parse_datetime(created_at).strftime('%Y%m%d')}-{type_name}-{domain}-{slug}-{github_hash8(task_text)}"
+    return {
+        "type": type_name,
+        "domain": domain,
+        "state": state,
+        "artifact": artifact,
+        "slug": slug,
+        "task_key": task_key,
+    }
+
+
+def build_github_task_record(
+    *,
+    run_id: str,
+    created_at: str,
+    task_text: str,
+    route_payload: dict[str, Any],
+    run_dir: Path,
+    verification_status: str | None = None,
+    existing: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    existing = existing or {}
+    skip, reason = should_skip_github_management(task_text, route_payload.get("signals", {}))
+    selected = normalize_list(route_payload.get("selected_skills"))
+    classification = build_github_classification(
+        task_text=task_text,
+        created_at=created_at,
+        selected_skills=selected,
+        verification_status=verification_status,
+    )
+    classification["state"] = existing.get("classification", {}).get("state") or classification["state"]
+    if skip:
+        classification["state"] = "blocked"
+    target_repo = resolve_github_ops_repo(existing.get("github_repo"))
+    project_owner = resolve_github_project_owner()
+    project_number = resolve_github_project_number()
+    issue_title = github_issue_title(classification, task_text)
+    payload = {
+        "run_id": run_id,
+        "created_at": created_at,
+        "task_text": task_text,
+        "skip_github_management": skip,
+        "skip_reason": reason,
+        "classification": classification,
+        "issue_title": issue_title,
+        "issue_labels": github_labels(classification),
+        "issue_body": github_issue_body(
+            task_key=classification["task_key"],
+            run_id=run_id,
+            prompt=task_text,
+            route_payload=route_payload,
+            classification=classification,
+            run_dir=run_dir,
+        ),
+        "github_repo": target_repo,
+        "dot_github_repo": resolve_dot_github_repo(existing.get("dot_github_repo")),
+        "github_project_owner": project_owner,
+        "github_project_number": project_number,
+        "github_project_url": existing.get("github_project_url")
+        or (
+            f"{DEFAULT_GITHUB_BASE_URL}/orgs/{project_owner}/projects/{project_number}"
+            if project_owner and project_number
+            else ""
+        ),
+        "issue_number": existing.get("issue_number"),
+        "issue_url": existing.get("issue_url", ""),
+        "issue_node_id": existing.get("issue_node_id", ""),
+        "project_item_id": existing.get("project_item_id", ""),
+        "closure_comment_id": existing.get("closure_comment_id", ""),
+        "closure_comment_url": existing.get("closure_comment_url", ""),
+        "github_sync_status": existing.get("github_sync_status", "pending_intake"),
+        "github_archive_status": existing.get("github_archive_status", "not_archived"),
+    }
+    return payload
+
+
+def render_github_sync_plan(github_task: dict[str, Any], phase: str) -> str:
+    classification = github_task["classification"]
+    lines = [
+        "# GitHub Sync Plan",
+        "",
+        f"- Phase: `{phase}`",
+        f"- Skip GitHub Management: `{github_task['skip_github_management']}`",
+        f"- Task Key: `{classification['task_key']}`",
+        f"- Repo: `{github_task['github_repo'] or 'unconfigured'}`",
+        f"- Project: `{github_task['github_project_url'] or 'unconfigured'}`",
+        f"- Issue Title: {github_task['issue_title']}",
+        f"- Labels: {', '.join(github_task['issue_labels'])}",
+        "",
+        "## Classification",
+        "",
+        f"- Type: `{classification['type']}`",
+        f"- Domain: `{classification['domain']}`",
+        f"- State: `{classification['state']}`",
+        f"- Artifact: `{classification['artifact']}`",
+        "",
+    ]
+    if github_task["skip_github_management"]:
+        lines.extend(
+            [
+                "## Result",
+                "",
+                f"- Skip reason: `{github_task['skip_reason']}`",
+                "- No GitHub issue or project sync should be attempted for this run.",
+                "",
+            ]
+        )
+    else:
+        lines.extend(
+            [
+                "## Execution Order",
+                "",
+                "1. Ensure the central ops issue exists or reuse the existing issue by task key.",
+                "2. Normalize labels and issue body to the current task classification.",
+                "3. If project config exists, add or update the issue in the configured Project.",
+                "4. On closure, write a stable closure comment and update archive state.",
+                "",
+            ]
+        )
+    return "\n".join(lines)
+
+
+def render_github_archive_markdown(
+    github_task: dict[str, Any],
+    evolution: dict[str, Any],
+    run_dir: Path,
+) -> str:
+    verification = evolution["verification_result"]
+    lines = [
+        "# GitHub Archive",
+        "",
+        f"- Task Key: `{github_task['classification']['task_key']}`",
+        f"- Run ID: `{evolution['run_id']}`",
+        f"- Issue URL: {github_task.get('issue_url') or 'pending'}",
+        f"- Project URL: {github_task.get('github_project_url') or 'pending'}",
+        f"- Closure Comment URL: {github_task.get('closure_comment_url') or 'pending'}",
+        f"- Archive Status: `{github_task.get('github_archive_status') or 'not_archived'}`",
+        "",
+        "## Verification",
+        "",
+        f"- Status: `{verification['status']}`",
+        f"- Evidence: {' | '.join(normalize_list(verification.get('evidence'))) or 'none'}",
+        f"- Open Questions: {' | '.join(normalize_list(verification.get('open_questions'))) or 'none'}",
+        "",
+        "## Evolution",
+        "",
+        f"- Effective Patterns: {' | '.join(normalize_list(evolution.get('effective_patterns'))) or 'none'}",
+        f"- Wasted Patterns: {' | '.join(normalize_list(evolution.get('wasted_patterns'))) or 'none'}",
+        f"- Next Iteration: {' | '.join(normalize_list(evolution.get('evolution_candidates'))) or 'none'}",
+        "",
+        f"- Local Run Dir: `{run_dir}`",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def project_status_name(classification_state: str) -> str:
+    mapping = {
+        "intake": "Inbox",
+        "routed": "Inbox",
+        "in_progress": "In Progress",
+        "waiting_human": "Waiting",
+        "blocked": "Waiting",
+        "verified": "Verified",
+        "archived": "Archived",
+    }
+    return mapping.get(classification_state, "Inbox")
+
+
+def load_optional_json(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    payload = read_json(path)
+    return payload if isinstance(payload, dict) else {}
+
+
+def build_github_closure_comment(
+    github_task: dict[str, Any],
+    evolution: dict[str, Any],
+    run_dir: Path,
+) -> str:
+    verification = evolution["verification_result"]
+    task_key = github_task["classification"]["task_key"]
+    return "\n".join(
+        [
+            f"<!-- ai-da-guan-jia-closure:{task_key} -->",
+            "## AI大管家 Closure",
+            "",
+            f"- Run ID: `{evolution['run_id']}`",
+            f"- Verification: `{verification['status']}`",
+            f"- Evidence: {' | '.join(normalize_list(verification.get('evidence'))) or 'none'}",
+            f"- Open Questions: {' | '.join(normalize_list(verification.get('open_questions'))) or 'none'}",
+            f"- Effective Patterns: {' | '.join(normalize_list(evolution.get('effective_patterns'))) or 'none'}",
+            f"- Wasted Patterns: {' | '.join(normalize_list(evolution.get('wasted_patterns'))) or 'none'}",
+            f"- Next Iteration: {' | '.join(normalize_list(evolution.get('evolution_candidates'))) or 'none'}",
+            f"- Local Run Dir: `{run_dir}`",
+        ]
+    )
+
+
+def prepare_github_materials(run_dir: Path, phase: str) -> dict[str, Any]:
+    route_payload = load_optional_json(run_dir / "route.json")
+    evolution = load_optional_json(run_dir / "evolution.json")
+    existing = load_optional_json(run_dir / "github-task.json")
+    task_text = str(evolution.get("task_text") or route_payload.get("task_text") or "").strip()
+    created_at = str(evolution.get("created_at") or route_payload.get("created_at") or iso_now())
+    run_id = str(evolution.get("run_id") or route_payload.get("run_id") or run_dir.name)
+    selected_skills = normalize_list(evolution.get("skills_selected") or route_payload.get("selected_skills"))
+    verification = normalize_verification_result(evolution.get("verification_result"))
+    route_payload = {
+        "run_id": run_id,
+        "created_at": created_at,
+        "task_text": task_text,
+        "signals": route_payload.get("signals", detect_signals(task_text)),
+        "selected_skills": selected_skills,
+        "verification_targets": route_payload.get("verification_targets", verification_targets(detect_signals(task_text))),
+    }
+    github_task = build_github_task_record(
+        run_id=run_id,
+        created_at=created_at,
+        task_text=task_text,
+        route_payload=route_payload,
+        run_dir=run_dir,
+        verification_status=str(verification.get("status") or ""),
+        existing=existing,
+    )
+    if phase == "intake":
+        github_task["classification"]["state"] = "blocked" if github_task["skip_github_management"] else "routed"
+    else:
+        status = str(verification.get("status") or "").strip().lower()
+        has_open_questions = bool(normalize_list(verification.get("open_questions")))
+        if status in {"failed", "error", "blocked"}:
+            github_task["classification"]["state"] = "blocked"
+        elif status in {"partial", "warning", "warn", "mixed"}:
+            github_task["classification"]["state"] = "verified"
+        elif status in {"passed", "success", "done", "complete", "completed"} and not has_open_questions:
+            github_task["classification"]["state"] = "archived"
+        else:
+            github_task["classification"]["state"] = "verified"
+    github_task["issue_labels"] = github_labels(github_task["classification"])
+    github_task["issue_title"] = github_issue_title(github_task["classification"], task_text)
+    github_task["issue_body"] = github_issue_body(
+        task_key=github_task["classification"]["task_key"],
+        run_id=run_id,
+        prompt=task_text,
+        route_payload=route_payload,
+        classification=github_task["classification"],
+        run_dir=run_dir,
+    )
+    write_json(run_dir / "github-task.json", github_task)
+    (run_dir / "github-sync-plan.md").write_text(
+        render_github_sync_plan(github_task, phase),
+        encoding="utf-8",
+    )
+    payload = {
+        "phase": phase,
+        "run_id": run_id,
+        "created_at": created_at,
+        "task_key": github_task["classification"]["task_key"],
+        "repo": github_task["github_repo"],
+        "project_url": github_task["github_project_url"],
+        "classification": github_task["classification"],
+        "issue": {
+            "title": github_task["issue_title"],
+            "body": github_task["issue_body"],
+            "labels": github_task["issue_labels"],
+            "number": github_task.get("issue_number"),
+            "url": github_task.get("issue_url", ""),
+        },
+        "skip_github_management": github_task["skip_github_management"],
+        "skip_reason": github_task["skip_reason"],
+    }
+    if evolution:
+        payload["closure_comment"] = build_github_closure_comment(github_task, evolution, run_dir)
+        payload["archive_status"] = github_task["classification"]["state"]
+        (run_dir / "github-archive.md").write_text(
+            render_github_archive_markdown(github_task, evolution, run_dir),
+            encoding="utf-8",
+        )
+    write_json(run_dir / "github-payload.json", payload)
+    return {"route": route_payload, "evolution": evolution, "github_task": github_task, "payload": payload}
+
+
+def github_api_url(path: str) -> str:
+    base = os.getenv("AI_DA_GUAN_JIA_GITHUB_API_URL", DEFAULT_GITHUB_API_URL).rstrip("/")
+    return f"{base}/{path.lstrip('/')}"
+
+
+def detect_github_backend() -> dict[str, str]:
+    gh_path = shutil.which("gh")
+    if gh_path:
+        status = subprocess.run(
+            ["gh", "auth", "status", "--hostname", "github.com"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if status.returncode == 0:
+            return {"backend": "gh", "reason": ""}
+    token = os.getenv("GITHUB_TOKEN", "").strip()
+    if token:
+        return {"backend": "rest", "reason": ""}
+    if gh_path:
+        return {"backend": "", "reason": "gh_installed_but_not_authenticated"}
+    return {"backend": "", "reason": "gh_missing_and_github_token_missing"}
+
+
+def github_rest_json(method: str, path: str, payload: Any | None = None) -> tuple[int, Any, str]:
+    token = os.getenv("GITHUB_TOKEN", "").strip()
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "ai-da-guan-jia",
+    }
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    raw = None if payload is None else json.dumps(payload).encode("utf-8")
+    if raw is not None:
+        headers["Content-Type"] = "application/json"
+    request = urllib_request.Request(github_api_url(path), data=raw, method=method, headers=headers)
+    try:
+        with urllib_request.urlopen(request) as response:
+            text = response.read().decode("utf-8")
+            parsed = json.loads(text) if text.strip() else {}
+            return response.status, parsed, ""
+    except urllib_error.HTTPError as error:
+        body = error.read().decode("utf-8", errors="replace")
+        try:
+            parsed = json.loads(body)
+        except Exception:
+            parsed = None
+        message = body or str(error)
+        return error.code, parsed, message
+    except urllib_error.URLError as error:
+        return 0, None, str(error)
+
+
+def github_graphql_json(query: str, variables: dict[str, Any]) -> tuple[int, Any, str]:
+    backend = detect_github_backend()
+    if backend["backend"] == "gh":
+        command = ["gh", "api", "graphql", "-f", f"query={query}"]
+        for key, value in variables.items():
+            flag = "-F" if isinstance(value, int) else "-f"
+            command.extend([flag, f"{key}={value}"])
+        completed = subprocess.run(command, capture_output=True, text=True, check=False)
+        if completed.returncode != 0:
+            return completed.returncode, None, completed.stderr or completed.stdout
+        parsed = json.loads(completed.stdout) if completed.stdout.strip() else {}
+        return 200, parsed, ""
+    token = os.getenv("GITHUB_TOKEN", "").strip()
+    if not token:
+        return 0, None, backend["reason"] or "missing_github_auth"
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json",
+        "User-Agent": "ai-da-guan-jia",
+    }
+    request = urllib_request.Request(
+        github_api_url("graphql"),
+        data=json.dumps({"query": query, "variables": variables}).encode("utf-8"),
+        method="POST",
+        headers=headers,
+    )
+    try:
+        with urllib_request.urlopen(request) as response:
+            text = response.read().decode("utf-8")
+            parsed = json.loads(text) if text.strip() else {}
+            return response.status, parsed, ""
+    except urllib_error.HTTPError as error:
+        body = error.read().decode("utf-8", errors="replace")
+        try:
+            parsed = json.loads(body)
+        except Exception:
+            parsed = None
+        return error.code, parsed, body or str(error)
+
+
+def github_api_json(method: str, path: str, payload: Any | None = None) -> tuple[int, Any, str]:
+    backend = detect_github_backend()
+    if backend["backend"] == "gh":
+        command = ["gh", "api", "-X", method, path, "-H", "Accept: application/vnd.github+json"]
+        if payload is not None:
+            command.extend(["--input", "-"])
+            completed = subprocess.run(
+                command,
+                input=json.dumps(payload),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        else:
+            completed = subprocess.run(command, capture_output=True, text=True, check=False)
+        if completed.returncode != 0:
+            return completed.returncode, None, completed.stderr or completed.stdout
+        parsed = json.loads(completed.stdout) if completed.stdout.strip() else {}
+        return 200, parsed, ""
+    return github_rest_json(method, path, payload)
+
+
+def parse_repo(repo: str) -> tuple[str, str]:
+    owner, name = repo.split("/", 1)
+    return owner, name
+
+
+def find_existing_issue(repo: str, task_key: str) -> dict[str, Any] | None:
+    query = urllib_parse.quote_plus(f'repo:{repo} "{task_key}" in:body')
+    _, payload, _ = github_api_json("GET", f"search/issues?q={query}")
+    items = payload.get("items") if isinstance(payload, dict) else None
+    if isinstance(items, list) and items:
+        first = items[0]
+        return first if isinstance(first, dict) else None
+    return None
+
+
+def ensure_issue(repo: str, github_task: dict[str, Any]) -> tuple[dict[str, Any] | None, list[str]]:
+    notes: list[str] = []
+    owner, name = parse_repo(repo)
+    issue_number = github_task.get("issue_number")
+    issue = None
+    if issue_number:
+        _, issue, _ = github_api_json("GET", f"repos/{owner}/{name}/issues/{issue_number}")
+    if not issue:
+        issue = find_existing_issue(repo, github_task["classification"]["task_key"])
+        if issue:
+            notes.append("reused_existing_issue_by_task_key")
+    payload = {
+        "title": github_task["issue_title"],
+        "body": github_task["issue_body"],
+        "labels": github_task["issue_labels"],
+    }
+    if issue and issue.get("number"):
+        _, updated, _ = github_api_json("PATCH", f"repos/{owner}/{name}/issues/{issue['number']}", payload)
+        return (updated or issue), notes
+    _, created, _ = github_api_json("POST", f"repos/{owner}/{name}/issues", payload)
+    return created, notes
+
+
+def list_issue_comments(repo: str, issue_number: int) -> list[dict[str, Any]]:
+    owner, name = parse_repo(repo)
+    _, payload, _ = github_api_json("GET", f"repos/{owner}/{name}/issues/{issue_number}/comments?per_page=100")
+    if isinstance(payload, list):
+        return [item for item in payload if isinstance(item, dict)]
+    if isinstance(payload, dict) and isinstance(payload.get("items"), list):
+        return [item for item in payload["items"] if isinstance(item, dict)]
+    return []
+
+
+def upsert_closure_comment(repo: str, issue_number: int, task_key: str, body: str) -> dict[str, Any] | None:
+    marker = f"<!-- ai-da-guan-jia-closure:{task_key} -->"
+    owner, name = parse_repo(repo)
+    for comment in list_issue_comments(repo, issue_number):
+        if marker in str(comment.get("body") or ""):
+            _, updated, _ = github_api_json(
+                "PATCH",
+                f"repos/{owner}/{name}/issues/comments/{comment['id']}",
+                {"body": body},
+            )
+            return updated or comment
+    _, created, _ = github_api_json(
+        "POST",
+        f"repos/{owner}/{name}/issues/{issue_number}/comments",
+        {"body": body},
+    )
+    return created
+
+
+def fetch_project_meta(owner: str, number: int) -> dict[str, Any]:
+    query = """
+    query($owner:String!, $number:Int!) {
+      organization(login:$owner) {
+        projectV2(number:$number) {
+          id
+          url
+          fields(first:50) {
+            nodes {
+              __typename
+              ... on ProjectV2FieldCommon { id name }
+              ... on ProjectV2SingleSelectField { options { id name } }
+            }
+          }
+        }
+      }
+      user(login:$owner) {
+        projectV2(number:$number) {
+          id
+          url
+          fields(first:50) {
+            nodes {
+              __typename
+              ... on ProjectV2FieldCommon { id name }
+              ... on ProjectV2SingleSelectField { options { id name } }
+            }
+          }
+        }
+      }
+    }
+    """
+    _, payload, _ = github_graphql_json(query, {"owner": owner, "number": number})
+    data = payload.get("data") if isinstance(payload, dict) else {}
+    for root in ("organization", "user"):
+        node = data.get(root) if isinstance(data, dict) else None
+        if isinstance(node, dict) and isinstance(node.get("projectV2"), dict):
+            return node["projectV2"]
+    return {}
+
+
+def find_project_item(owner: str, number: int, issue_node_id: str) -> dict[str, Any]:
+    query = """
+    query($owner:String!, $number:Int!) {
+      organization(login:$owner) {
+        projectV2(number:$number) {
+          items(first:100) {
+            nodes { id content { ... on Issue { id url number } } }
+          }
+        }
+      }
+      user(login:$owner) {
+        projectV2(number:$number) {
+          items(first:100) {
+            nodes { id content { ... on Issue { id url number } } }
+          }
+        }
+      }
+    }
+    """
+    _, payload, _ = github_graphql_json(query, {"owner": owner, "number": number})
+    data = payload.get("data") if isinstance(payload, dict) else {}
+    for root in ("organization", "user"):
+        node = data.get(root) if isinstance(data, dict) else None
+        project = node.get("projectV2") if isinstance(node, dict) else None
+        items = project.get("items", {}).get("nodes") if isinstance(project, dict) else None
+        if not isinstance(items, list):
+            continue
+        for item in items:
+            content = item.get("content") if isinstance(item, dict) else None
+            if isinstance(content, dict) and str(content.get("id") or "") == issue_node_id:
+                return item
+    return {}
+
+
+def ensure_project_item(
+    github_task: dict[str, Any],
+    issue_node_id: str,
+    run_id: str,
+    verification_status: str,
+) -> tuple[str, str, list[str]]:
+    owner = github_task.get("github_project_owner") or resolve_github_project_owner()
+    number = int(github_task.get("github_project_number") or 0)
+    if not owner or not number or not issue_node_id:
+        return "", github_task.get("github_project_url", ""), ["project_unconfigured"]
+    project = fetch_project_meta(owner, number)
+    if not project:
+        return "", github_task.get("github_project_url", ""), ["project_lookup_failed"]
+    project_id = str(project.get("id") or "")
+    project_url = str(project.get("url") or github_task.get("github_project_url") or "")
+    item = find_project_item(owner, number, issue_node_id)
+    notes: list[str] = []
+    if item:
+        item_id = str(item.get("id") or "")
+    else:
+        mutation = """
+        mutation($projectId:ID!, $contentId:ID!) {
+          addProjectV2ItemById(input:{projectId:$projectId, contentId:$contentId}) {
+            item { id }
+          }
+        }
+        """
+        _, payload, _ = github_graphql_json(mutation, {"projectId": project_id, "contentId": issue_node_id})
+        item_id = (
+            payload.get("data", {})
+            .get("addProjectV2ItemById", {})
+            .get("item", {})
+            .get("id", "")
+            if isinstance(payload, dict)
+            else ""
+        )
+        if item_id:
+            notes.append("project_item_created")
+    fields = {}
+    for node in project.get("fields", {}).get("nodes", []):
+        if isinstance(node, dict) and node.get("name"):
+            fields[str(node["name"])] = node
+    updates = {
+        "Status": project_status_name(github_task["classification"]["state"]),
+        "Task Key": github_task["classification"]["task_key"],
+        "Type": github_task["classification"]["type"],
+        "Domain": github_task["classification"]["domain"],
+        "Verification": verification_status or "unverified",
+        "Target Repo": github_task["github_repo"],
+        "Run ID": run_id,
+        "Archived At": parse_datetime(iso_now()).strftime("%Y-%m-%d")
+        if github_task["classification"]["state"] == "archived"
+        else "",
+    }
+    for field_name, value in updates.items():
+        field = fields.get(field_name)
+        if not field or not item_id:
+            continue
+        typename = str(field.get("__typename") or "")
+        field_id = str(field.get("id") or "")
+        mutation = ""
+        variables: dict[str, Any] = {"projectId": project_id, "itemId": item_id, "fieldId": field_id}
+        if typename == "ProjectV2SingleSelectField":
+            options = {str(option.get("name")): str(option.get("id")) for option in field.get("options", []) if isinstance(option, dict)}
+            option_id = options.get(str(value))
+            if not option_id:
+                notes.append(f"project_field_option_missing:{field_name}")
+                continue
+            variables["optionId"] = option_id
+            mutation = """
+            mutation($projectId:ID!, $itemId:ID!, $fieldId:ID!, $optionId:String!) {
+              updateProjectV2ItemFieldValue(input:{
+                projectId:$projectId,
+                itemId:$itemId,
+                fieldId:$fieldId,
+                value:{singleSelectOptionId:$optionId}
+              }) { projectV2Item { id } }
+            }
+            """
+        elif field_name == "Archived At":
+            if not value:
+                continue
+            variables["date"] = str(value)
+            mutation = """
+            mutation($projectId:ID!, $itemId:ID!, $fieldId:ID!, $date:Date!) {
+              updateProjectV2ItemFieldValue(input:{
+                projectId:$projectId,
+                itemId:$itemId,
+                fieldId:$fieldId,
+                value:{date:$date}
+              }) { projectV2Item { id } }
+            }
+            """
+        else:
+            variables["text"] = str(value)
+            mutation = """
+            mutation($projectId:ID!, $itemId:ID!, $fieldId:ID!, $text:String!) {
+              updateProjectV2ItemFieldValue(input:{
+                projectId:$projectId,
+                itemId:$itemId,
+                fieldId:$fieldId,
+                value:{text:$text}
+              }) { projectV2Item { id } }
+            }
+            """
+        github_graphql_json(mutation, variables)
+    return item_id, project_url, notes
+
+
+def update_github_files_after_sync(run_dir: Path, github_task: dict[str, Any], payload: dict[str, Any]) -> None:
+    write_json(run_dir / "github-task.json", github_task)
+    write_json(run_dir / "github-sync-result.json", payload)
+    evolution_path = run_dir / "evolution.json"
+    if evolution_path.exists():
+        evolution = load_optional_json(evolution_path)
+        evolution["github_task_key"] = github_task["classification"]["task_key"]
+        evolution["github_issue_url"] = str(github_task.get("issue_url") or "")
+        evolution["github_project_url"] = str(github_task.get("github_project_url") or "")
+        evolution["github_repo"] = str(github_task.get("github_repo") or "")
+        evolution["github_sync_status"] = str(github_task.get("github_sync_status") or payload["status"])
+        evolution["github_classification"] = github_task["classification"]
+        evolution["github_archive_status"] = str(github_task.get("github_archive_status") or "not_archived")
+        evolution["github_closure_comment_url"] = str(github_task.get("closure_comment_url") or "")
+        write_json(evolution_path, evolution)
+        write_json(run_dir / "worklog.json", build_worklog(evolution, run_dir))
+        (run_dir / "worklog.md").write_text(render_worklog_markdown(build_worklog(evolution, run_dir)), encoding="utf-8")
+        (run_dir / "evolution.md").write_text(render_evolution_markdown(evolution), encoding="utf-8")
+        write_json(run_dir / "feishu-payload.json", make_feishu_payload(build_worklog(evolution, run_dir)))
+
+
+def sync_github_run(
+    run_id: str,
+    *,
+    phase: str,
+    apply: bool,
+    repo_override: str | None = None,
+) -> tuple[int, str]:
+    run_dir = find_run_dir(run_id)
+    materials = prepare_github_materials(run_dir, phase)
+    github_task = materials["github_task"]
+    if repo_override:
+        github_task["github_repo"] = repo_override.strip()
+    status = "github_preview_ready" if not apply else "github_synced_applied"
+    reason = ""
+    command_results: list[dict[str, Any]] = []
+    if github_task["skip_github_management"]:
+        status = "github_skipped_meaningless_task"
+        result = {
+            "phase": phase,
+            "mode": "apply" if apply else "dry-run",
+            "status": status,
+            "executed_at": iso_now(),
+            "reason": github_task["skip_reason"],
+            "command_results": [],
+        }
+        github_task["github_sync_status"] = status
+        update_github_files_after_sync(run_dir, github_task, result)
+        return 0, status
+    repo = str(github_task.get("github_repo") or "").strip()
+    if not repo:
+        status = "github_blocked_missing_repo"
+        reason = "AI_DA_GUAN_JIA_GITHUB_OPS_REPO is not configured."
+    backend = detect_github_backend()
+    if not reason and not backend["backend"]:
+        status = "github_blocked_missing_auth"
+        reason = backend["reason"]
+    if reason:
+        result = {
+            "phase": phase,
+            "mode": "apply" if apply else "dry-run",
+            "status": status,
+            "executed_at": iso_now(),
+            "reason": reason,
+            "repo": repo,
+            "command_results": command_results,
+        }
+        github_task["github_sync_status"] = status
+        update_github_files_after_sync(run_dir, github_task, result)
+        return (1 if apply else 0), status
+    if not apply:
+        status = f"github_{phase}_preview_ready"
+        result = {
+            "phase": phase,
+            "mode": "dry-run",
+            "status": status,
+            "executed_at": iso_now(),
+            "repo": repo,
+            "project_url": github_task.get("github_project_url", ""),
+            "payload_file": str((run_dir / "github-payload.json").resolve()),
+            "command_results": command_results,
+        }
+        github_task["github_sync_status"] = status
+        update_github_files_after_sync(run_dir, github_task, result)
+        return 0, status
+
+    issue, notes = ensure_issue(repo, github_task)
+    command_results.append({"step": "ensure_issue", "notes": notes, "issue_number": issue.get("number") if isinstance(issue, dict) else None})
+    if not issue or not issue.get("number"):
+        status = f"github_{phase}_apply_failed"
+        result = {
+            "phase": phase,
+            "mode": "apply",
+            "status": status,
+            "executed_at": iso_now(),
+            "repo": repo,
+            "reason": "Failed to create or update GitHub issue.",
+            "command_results": command_results,
+        }
+        github_task["github_sync_status"] = status
+        update_github_files_after_sync(run_dir, github_task, result)
+        return 1, status
+
+    github_task["issue_number"] = int(issue["number"])
+    github_task["issue_url"] = str(issue.get("html_url") or issue.get("url") or "")
+    github_task["issue_node_id"] = str(issue.get("node_id") or "")
+    if phase == "closure":
+        comment = upsert_closure_comment(
+            repo,
+            int(issue["number"]),
+            github_task["classification"]["task_key"],
+            materials["payload"].get("closure_comment", ""),
+        )
+        if comment:
+            github_task["closure_comment_id"] = str(comment.get("id") or "")
+            github_task["closure_comment_url"] = str(comment.get("html_url") or comment.get("url") or "")
+            command_results.append({"step": "upsert_closure_comment", "comment_id": github_task["closure_comment_id"]})
+    item_id, project_url, project_notes = ensure_project_item(
+        github_task,
+        github_task.get("issue_node_id", ""),
+        run_id,
+        str(materials["evolution"].get("verification_result", {}).get("status") or ""),
+    )
+    if item_id:
+        github_task["project_item_id"] = item_id
+    if project_url:
+        github_task["github_project_url"] = project_url
+    command_results.append({"step": "ensure_project_item", "item_id": item_id, "notes": project_notes})
+    github_task["github_sync_status"] = f"github_{phase}_synced_applied"
+    github_task["github_archive_status"] = (
+        "archived" if github_task["classification"]["state"] == "archived" else "active"
+    )
+    result = {
+        "phase": phase,
+        "mode": "apply",
+        "status": github_task["github_sync_status"],
+        "executed_at": iso_now(),
+        "repo": repo,
+        "issue_url": github_task["issue_url"],
+        "project_url": github_task["github_project_url"],
+        "closure_comment_url": github_task.get("closure_comment_url", ""),
+        "payload_file": str((run_dir / "github-payload.json").resolve()),
+        "command_results": command_results,
+    }
+    update_github_files_after_sync(run_dir, github_task, result)
+    return 0, github_task["github_sync_status"]
+
+
 def format_run_title(task_text: str, created_at: str) -> str:
     created = parse_datetime(created_at)
     task_part = truncate_text(task_text or "未命名任务", 32)
@@ -1829,6 +2875,10 @@ def build_worklog(evolution: dict[str, Any], run_dir: Path) -> dict[str, Any]:
         "human_boundary": str(evolution["human_boundary"]),
         "follow_up_suggestions": build_follow_up_suggestions(evolution),
         "sync_status": human_sync_status(str(evolution["feishu_sync_status"])),
+        "github_sync_status": str(evolution.get("github_sync_status") or ""),
+        "github_issue_url": str(evolution.get("github_issue_url") or ""),
+        "github_project_url": str(evolution.get("github_project_url") or ""),
+        "github_task_key": str(evolution.get("github_task_key") or ""),
         "local_run_dir": str(run_dir.resolve()),
         "worklog_json_path": str((run_dir / "worklog.json").resolve()),
         "soul_md_path": str(soul_path.resolve()),
@@ -1878,6 +2928,13 @@ def render_worklog_markdown(worklog: dict[str, Any]) -> str:
         "## 后续建议",
         "",
         worklog["follow_up_suggestions"] or "none",
+        "",
+        "## GitHub Mirror",
+        "",
+        f"- Task Key: {worklog['github_task_key'] or 'none'}",
+        f"- Sync Status: {worklog['github_sync_status'] or 'none'}",
+        f"- Issue URL: {worklog['github_issue_url'] or 'none'}",
+        f"- Project URL: {worklog['github_project_url'] or 'none'}",
         "",
     ]
     return "\n".join(lines)
@@ -2441,6 +3498,16 @@ def render_evolution_markdown(evolution: dict[str, Any]) -> str:
             f"- Blockers: {' | '.join(normalize_list(detail.get('blockers'))) or 'none'}",
             f"- Writeback Applied: {bool(evolution.get('evolution_writeback_applied', False))}",
             f"- Writeback Commit: {str(evolution.get('evolution_writeback_commit') or 'none')}",
+            "",
+            "## GitHub Mirror",
+            "",
+            f"- Task Key: `{evolution.get('github_task_key') or 'none'}`",
+            f"- Repo: `{evolution.get('github_repo') or 'none'}`",
+            f"- Issue URL: {evolution.get('github_issue_url') or 'none'}",
+            f"- Project URL: {evolution.get('github_project_url') or 'none'}",
+            f"- GitHub Sync Status: `{evolution.get('github_sync_status') or 'none'}`",
+            f"- Archive Status: `{evolution.get('github_archive_status') or 'none'}`",
+            f"- Closure Comment URL: {evolution.get('github_closure_comment_url') or 'none'}",
         ]
     )
     lines.extend(["", f"- Feishu Sync Status: `{evolution['feishu_sync_status']}`", ""])
@@ -2502,6 +3569,12 @@ def command_route(args: argparse.Namespace) -> int:
             if signals["feishu"]
             else []
         ),
+        "github_plan": [
+            "write github-task.json",
+            "write github-sync-plan.md",
+            "run sync-github --phase intake --dry-run",
+            "run sync-github --phase intake --apply when GitHub auth is available",
+        ],
         "situation_map": situation_map,
     }
     write_json(run_dir / "route.json", route_payload)
@@ -2509,9 +3582,19 @@ def command_route(args: argparse.Namespace) -> int:
         render_situation_map(situation_map, prompt),
         encoding="utf-8",
     )
+    materials = prepare_github_materials(run_dir, "intake")
+    github_dry_status = "skipped"
+    github_apply_status = "skipped"
+    _, github_dry_status = sync_github_run(run_id, phase="intake", apply=False)
+    if github_dry_status == "github_intake_preview_ready":
+        _, github_apply_status = sync_github_run(run_id, phase="intake", apply=True)
     print(f"run_id: {run_id}")
     print(f"run_dir: {run_dir}")
     print(f"selected: {', '.join(selected) if selected else 'none'}")
+    print(f"github_task_key: {materials['github_task']['classification']['task_key']}")
+    print(f"github_skip: {materials['github_task']['skip_github_management']}")
+    print(f"github_sync_dry_run: {github_dry_status}")
+    print(f"github_sync_apply: {github_apply_status}")
     return 0
 
 
@@ -2657,6 +3740,14 @@ def command_record_evolution(args: argparse.Namespace) -> int:
         "evolution_judgment_detail": payload.get("evolution_judgment_detail") if isinstance(payload.get("evolution_judgment_detail"), dict) else {},
         "evolution_writeback_applied": bool(payload.get("evolution_writeback_applied") or False),
         "evolution_writeback_commit": str(payload.get("evolution_writeback_commit") or ""),
+        "github_task_key": str(payload.get("github_task_key") or ""),
+        "github_issue_url": str(payload.get("github_issue_url") or ""),
+        "github_project_url": str(payload.get("github_project_url") or ""),
+        "github_repo": str(payload.get("github_repo") or resolve_github_ops_repo()),
+        "github_sync_status": str(payload.get("github_sync_status") or "pending_intake"),
+        "github_classification": payload.get("github_classification") if isinstance(payload.get("github_classification"), dict) else {},
+        "github_archive_status": str(payload.get("github_archive_status") or "not_archived"),
+        "github_closure_comment_url": str(payload.get("github_closure_comment_url") or ""),
     }
 
     route_payload = {
@@ -2683,6 +3774,7 @@ def command_record_evolution(args: argparse.Namespace) -> int:
         },
     }
     save_evolution_bundle(run_dir, evolution, route_payload)
+    prepare_github_materials(run_dir, "closure")
     print(f"run_id: {run_id}")
     print(f"run_dir: {run_dir}")
     for field in REQUIRED_EVOLUTION_FIELDS:
@@ -2815,6 +3907,17 @@ def command_sync_feishu(args: argparse.Namespace) -> int:
     return returncode
 
 
+def command_sync_github(args: argparse.Namespace) -> int:
+    returncode, status = sync_github_run(
+        args.run_id,
+        phase=str(args.phase),
+        apply=bool(args.apply),
+        repo_override=args.repo,
+    )
+    print(status)
+    return returncode
+
+
 def command_close_task(args: argparse.Namespace) -> int:
     task_text = args.task.strip()
     if not task_text:
@@ -2880,8 +3983,17 @@ def command_close_task(args: argparse.Namespace) -> int:
         "evolution_judgment_detail": {},
         "evolution_writeback_applied": False,
         "evolution_writeback_commit": "",
+        "github_task_key": "",
+        "github_issue_url": "",
+        "github_project_url": "",
+        "github_repo": resolve_github_ops_repo(),
+        "github_sync_status": "pending_intake",
+        "github_classification": {},
+        "github_archive_status": "not_archived",
+        "github_closure_comment_url": "",
     }
     save_evolution_bundle(run_dir, evolution, route_payload)
+    prepare_github_materials(run_dir, "closure")
 
     dry_code, dry_status = run_feishu_sync(
         run_id,
@@ -2913,6 +4025,11 @@ def command_close_task(args: argparse.Namespace) -> int:
         print(f"sync_apply: {apply_status}")
         return apply_code
 
+    github_dry_code, github_dry_status = sync_github_run(run_id, phase="closure", apply=False, repo_override=args.repo)
+    github_apply_status = "skipped"
+    if github_dry_status in {"github_closure_preview_ready"}:
+        _, github_apply_status = sync_github_run(run_id, phase="closure", apply=True, repo_override=args.repo)
+
     evolution_path = run_dir / "evolution.json"
     evolution_after_sync = read_json(evolution_path)
     detail = evaluate_evolution_judgment(evolution_after_sync)
@@ -2940,6 +4057,8 @@ def command_close_task(args: argparse.Namespace) -> int:
     print(f"run_dir: {run_dir}")
     print(f"sync_dry_run: {dry_status}")
     print(f"sync_apply: {apply_status}")
+    print(f"github_sync_dry_run: {github_dry_status}")
+    print(f"github_sync_apply: {github_apply_status}")
     print(f"evolution_hit: {detail['hit']}")
     print(f"evolution_writeback_applied: {evolution_after_sync['evolution_writeback_applied']}")
     if evolution_after_sync["evolution_writeback_commit"]:
@@ -2987,6 +4106,15 @@ def build_parser() -> argparse.ArgumentParser:
     sync.add_argument("--bridge-script", help="Optional bridge script path override.")
     sync.set_defaults(func=command_sync_feishu)
 
+    github_sync = subparsers.add_parser("sync-github", help="Mirror a completed local run into GitHub issue/project surfaces.")
+    github_mode = github_sync.add_mutually_exclusive_group(required=True)
+    github_mode.add_argument("--dry-run", action="store_true", help="Preview the GitHub sync without applying changes.")
+    github_mode.add_argument("--apply", action="store_true", help="Apply the GitHub sync.")
+    github_sync.add_argument("--run-id", required=True, help="Run id to mirror.")
+    github_sync.add_argument("--phase", choices=["intake", "closure"], required=True, help="Sync phase to execute.")
+    github_sync.add_argument("--repo", help="Optional GitHub ops repo override in owner/name format.")
+    github_sync.set_defaults(func=command_sync_github)
+
     close_task = subparsers.add_parser(
         "close-task",
         help="Run the mandatory closure loop: recap, Feishu dry-run/apply, and evolution writeback.",
@@ -3006,6 +4134,7 @@ def build_parser() -> argparse.ArgumentParser:
     close_task.add_argument("--link", help="Optional Feishu wiki/base link override.")
     close_task.add_argument("--primary-field", help="Optional primary field override.")
     close_task.add_argument("--bridge-script", help="Optional bridge script path override.")
+    close_task.add_argument("--repo", help="Optional GitHub ops repo override in owner/name format.")
     close_task.set_defaults(func=command_close_task)
 
     return parser

@@ -23,9 +23,16 @@ REQUIRED_FILES = [
     ROOT / "references" / "routing-policy.md",
     ROOT / "references" / "evolution-log-schema.md",
     ROOT / "references" / "feishu-sync-contract.md",
+    ROOT / "references" / "github-governance-contract.md",
+    ROOT / "references" / "github-sync-contract.md",
+    ROOT / "references" / "github-taxonomy.md",
+    ROOT / "references" / "github-naming-policy.md",
+    ROOT / "references" / "github-project-schema.md",
     ROOT / "references" / "feishu-review-base-schema.json",
     ROOT / "references" / "feishu-review-sync-contract.md",
     ROOT / "references" / "validated-evolution-rules.md",
+    ROOT / "assets" / "github-governance" / ".github" / "ISSUE_TEMPLATE" / "task-intake.yml",
+    ROOT / "assets" / "github-governance" / ".github" / "PULL_REQUEST_TEMPLATE.md",
     MAIN_SCRIPT,
     ROOT / "scripts" / "doctor.py",
 ]
@@ -109,6 +116,7 @@ def check_entrypoints(errors: list[str]) -> None:
         ["python3", str(MAIN_SCRIPT), "route", "--help"],
         ["python3", str(MAIN_SCRIPT), "record-evolution", "--help"],
         ["python3", str(MAIN_SCRIPT), "sync-feishu", "--help"],
+        ["python3", str(MAIN_SCRIPT), "sync-github", "--help"],
         ["python3", str(MAIN_SCRIPT), "close-task", "--help"],
     ):
         completed = subprocess.run(command, capture_output=True, text=True, check=False)
@@ -138,6 +146,8 @@ def main() -> int:
 
     if "AI_DA_GUAN_JIA_FEISHU_LINK" not in os.environ and "AI_DA_GUAN_JIA_REVIEW_FEISHU_LINK" not in os.environ:
         warnings.append("No Feishu link env var is configured; built-in defaults will be used.")
+    if "AI_DA_GUAN_JIA_GITHUB_OPS_REPO" not in os.environ:
+        warnings.append("AI_DA_GUAN_JIA_GITHUB_OPS_REPO is not configured; GitHub sync will stay local-only or blocked.")
 
     if errors:
         print("FAILED")
