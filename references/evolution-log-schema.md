@@ -6,6 +6,10 @@ Write each run to:
 
 `artifacts/ai-da-guan-jia/runs/YYYY-MM-DD/<run-id>/`
 
+Write the current strategic operating-system view to:
+
+`artifacts/ai-da-guan-jia/strategy/current/`
+
 ## Required Files
 
 - `situation-map.md`

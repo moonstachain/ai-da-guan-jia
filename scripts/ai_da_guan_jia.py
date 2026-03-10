@@ -30,6 +30,8 @@ INVENTORY_ROOT = ARTIFACTS_ROOT / "inventory"
 REVIEWS_ROOT = ARTIFACTS_ROOT / "reviews"
 REVIEW_STATE_PATH = ARTIFACTS_ROOT / "review-state.json"
 SOUL_ROOT = ARTIFACTS_ROOT / "soul"
+STRATEGY_ROOT = ARTIFACTS_ROOT / "strategy"
+STRATEGY_CURRENT_ROOT = STRATEGY_ROOT / "current"
 DEFAULT_BRIDGE = (
     CODEX_HOME / "skills" / "feishu-bitable-bridge" / "scripts" / "feishu_bitable_bridge.py"
 )
@@ -114,6 +116,7 @@ REVIEW_ACTION_TYPES = [
     "去重/合并",
     "新建中层 skill",
 ]
+AUTONOMY_TIERS = ["observe", "suggest", "trusted-suggest", "guarded-autonomy"]
 
 
 @dataclass(frozen=True)
@@ -932,6 +935,7 @@ def build_review_payload(
     overlaps = boundary_overlap_pairs(inventory)
     missing_capabilities = missing_middle_layer_capabilities(inventory)
     actions = candidate_actions_for_review(inventory, overlaps, missing_capabilities)
+    strategy_map = build_strategy_map(load_strategy_goals(), inventory)
     return {
         "run_id": run_id,
         "created_at": created_at,
@@ -945,6 +949,8 @@ def build_review_payload(
         "overlap_pairs": overlaps,
         "missing_middle_layer_capabilities": missing_capabilities,
         "candidate_actions": actions,
+        "strategy_stage_theme": strategy_map["stage_theme"],
+        "strategy_highest_goal": strategy_map["highest_goal"],
         "status": "awaiting_human_choice",
     }
 
@@ -1088,6 +1094,527 @@ def review_findings(review: dict[str, Any]) -> list[dict[str, Any]]:
     return findings
 
 
+def default_strategic_goals() -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "G1",
+            "title": "治理操作系统化",
+            "theme": "从技能集合升级为可治理的 AI operating system",
+            "success_definition": "任何任务、skill、initiative 都能被映射到统一 taxonomy 和治理视图。",
+            "priority": 1,
+        },
+        {
+            "id": "G2",
+            "title": "受控自治与提案推进",
+            "theme": "先做到高质量提案自治，而不是全自动执行",
+            "success_definition": "AI大管家 能围绕战略目标持续生成 thread proposals、initiative decomposition 和 skill 招募建议。",
+            "priority": 2,
+        },
+        {
+            "id": "G3",
+            "title": "AI 组织激励系统",
+            "theme": "奖励治理质量、低失真和可复用贡献",
+            "success_definition": "agent/skill 的路由优先级、自治权限和资源额度与 scorecard 挂钩。",
+            "priority": 3,
+        },
+    ]
+
+
+def load_strategy_goals() -> list[dict[str, Any]]:
+    ensure_dir(STRATEGY_CURRENT_ROOT)
+    path = STRATEGY_CURRENT_ROOT / "strategic-goals.json"
+    if path.exists():
+        payload = read_json(path)
+        if isinstance(payload, list) and payload:
+            return [item for item in payload if isinstance(item, dict)]
+    goals = default_strategic_goals()
+    write_json(path, goals)
+    return goals
+
+
+def strategic_goal_for_item(item: dict[str, Any]) -> str:
+    cluster = str(item.get("cluster") or "")
+    name = str(item.get("name") or "")
+    if cluster == "AI大管家治理簇" or name.startswith(("ai-", "jiyao-", "skill-")):
+        return "G1"
+    if name in {"agency-agents-orchestrator", "knowledge-orchestrator", "routing-playbook"}:
+        return "G2"
+    return "G3" if name.startswith("agency-") else "G1"
+
+
+def strategic_goal_for_run(record: dict[str, Any]) -> str:
+    task = normalize_prompt(str(record.get("task_text") or ""))
+    if any(word in task for word in ["治理", "taxonomy", "github", "命名", "盘点", "review"]):
+        return "G1"
+    if any(word in task for word in ["自治", "thread", "initiative", "招兵买马", "strategy"]):
+        return "G2"
+    if any(word in task for word in ["激励", "scorecard", "提权", "降权", "自治权", "资源权"]):
+        return "G3"
+    return "G1"
+
+
+def strategic_gap_candidates(inventory: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    names = {item["name"] for item in inventory}
+    candidates: list[dict[str, Any]] = []
+    wanted = [
+        ("workflow-hardening", "G1", "治理操作系统化", "缺少把高频 persona skill 加厚为可验证工作流的中层能力。"),
+        ("skill-deduper", "G1", "治理操作系统化", "缺少专门负责重复命名、边界冲突、合并策略的器官。"),
+        ("strategy-governor", "G2", "受控自治与提案推进", "缺少围绕战略目标做 initiative 和 thread proposal 的常驻器官。"),
+        ("agent-incentive-governor", "G3", "AI 组织激励系统", "缺少 scorecard、提权、降权和资源杠杆的治理器官。"),
+    ]
+    for name, goal_id, goal_title, reason in wanted:
+        if name not in names:
+            candidates.append(
+                {
+                    "candidate_skill": name,
+                    "goal_id": goal_id,
+                    "goal_title": goal_title,
+                    "reason": reason,
+                    "action": "recruit_or_incubate",
+                }
+            )
+    return candidates
+
+
+def build_strategy_map(goals: list[dict[str, Any]], inventory: list[dict[str, Any]]) -> dict[str, Any]:
+    counts = {"G1": 0, "G2": 0, "G3": 0}
+    for item in inventory:
+        counts[strategic_goal_for_item(item)] = counts.get(strategic_goal_for_item(item), 0) + 1
+    return {
+        "generated_at": iso_now(),
+        "stage_theme": "从强执行体升级为受控自治的 AI 治理系统",
+        "highest_goal": "让 AI大管家 从任务路由器进化成战略提案者 + 组织编排者 + 治理审计者。",
+        "goals": goals,
+        "skill_distribution_by_goal": counts,
+    }
+
+
+def build_initiative_registry(goals: list[dict[str, Any]], inventory: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    names = {item["name"] for item in inventory}
+    return [
+        {
+            "id": "I-GOV-001",
+            "goal_id": "G1",
+            "title": "统一治理视图",
+            "status": "active",
+            "summary": "把 strategic goals、initiative registry、active threads、taxonomy 统一成一个治理面板。",
+            "required_capabilities": ["ai-da-guan-jia", "routing-playbook"],
+            "gap_level": "medium" if "routing-playbook" not in names else "low",
+        },
+        {
+            "id": "I-AUTO-001",
+            "goal_id": "G2",
+            "title": "提案自治引擎",
+            "status": "active",
+            "summary": "围绕战略目标自动形成 initiative、thread、skill gap 和招募建议。",
+            "required_capabilities": ["ai-da-guan-jia", "strategy-governor", "skill-trainer-recursive"],
+            "gap_level": "high" if "strategy-governor" not in names else "medium",
+        },
+        {
+            "id": "I-INC-001",
+            "goal_id": "G3",
+            "title": "AI 激励评分体系",
+            "status": "active",
+            "summary": "把路由信用、自治层级、资源权和写回权绑定到 scorecard。",
+            "required_capabilities": ["ai-da-guan-jia", "agent-incentive-governor"],
+            "gap_level": "high" if "agent-incentive-governor" not in names else "medium",
+        },
+    ]
+
+
+def build_active_threads(goals: list[dict[str, Any]], limit: int = 20) -> list[dict[str, Any]]:
+    threads: list[dict[str, Any]] = []
+    for record in iter_evolution_records(limit=limit):
+        verification = normalize_verification_result(record.get("verification_result"))
+        status = str(verification.get("status") or "")
+        open_questions = normalize_list(verification.get("open_questions"))
+        thread_status = "archived" if status in {"completed", "done", "passed", "success"} and not open_questions else "active"
+        threads.append(
+            {
+                "run_id": str(record.get("run_id") or ""),
+                "task_text": str(record.get("task_text") or ""),
+                "goal_id": strategic_goal_for_run(record),
+                "status": thread_status,
+                "selected_skills": normalize_list(record.get("skills_selected")),
+                "open_questions": open_questions,
+            }
+        )
+    return threads
+
+
+def build_skill_gap_report(
+    inventory: list[dict[str, Any]],
+    initiatives: list[dict[str, Any]],
+    recent_runs: list[dict[str, Any]],
+) -> dict[str, Any]:
+    missing_middle = missing_middle_layer_capabilities(inventory)
+    overlaps = boundary_overlap_pairs(inventory)
+    frequently_used = recent_selected_skill_counts(limit=80)
+    under_hardened = sorted(
+        [
+            {
+                "skill": item["name"],
+                "use_count": frequently_used.get(item["name"], 0),
+                "resource_score": item["resource_score"],
+            }
+            for item in inventory
+            if frequently_used.get(item["name"], 0) >= 2 and item["resource_score"] <= 1
+        ],
+        key=lambda item: (item["use_count"], -item["resource_score"]),
+        reverse=True,
+    )
+    return {
+        "generated_at": iso_now(),
+        "missing_middle_layers": missing_middle,
+        "overlap_pairs": overlaps[:10],
+        "under_hardened_high_use_skills": under_hardened[:12],
+        "initiative_gaps": [item for item in initiatives if item["gap_level"] != "low"],
+        "summary": "优先补 strategy-governor / workflow-hardening / skill-deduper / incentive governor 这类中层器官。",
+    }
+
+
+def build_thread_proposals(
+    goals: list[dict[str, Any]],
+    initiatives: list[dict[str, Any]],
+    gap_report: dict[str, Any],
+) -> list[dict[str, Any]]:
+    proposals = [
+        {
+            "id": "TP-001",
+            "goal_id": "G1",
+            "initiative_id": "I-GOV-001",
+            "title": "建立统一治理视图与战略 review",
+            "expected_gain": "让系统能回答当前战略目标、initiative、blocked threads 和 skill gap。",
+            "resource_cost": "medium",
+            "verification": "生成 strategy-map.json、initiative-registry.json、governance-dashboard.md，并在 daily review 中引用。",
+            "required_skills": ["ai-da-guan-jia", "routing-playbook"],
+            "requires_human_approval": True,
+        },
+        {
+            "id": "TP-002",
+            "goal_id": "G2",
+            "initiative_id": "I-AUTO-001",
+            "title": "建立提案自治引擎",
+            "expected_gain": "能围绕战略目标稳定提出新线程和 skill 招募建议。",
+            "resource_cost": "medium",
+            "verification": "生成 3 个高质量 thread proposals，并给出复用 vs 新建判断。",
+            "required_skills": ["ai-da-guan-jia", "skill-trainer-recursive"],
+            "requires_human_approval": True,
+        },
+        {
+            "id": "TP-003",
+            "goal_id": "G3",
+            "initiative_id": "I-INC-001",
+            "title": "建立 agent scorecard 与提权机制",
+            "expected_gain": "把路由优先级、自治权限和资源预算绑定到治理质量。",
+            "resource_cost": "low",
+            "verification": "生成 agent-scorecard.json、routing-credit.json、autonomy-tier.json。",
+            "required_skills": ["ai-da-guan-jia"],
+            "requires_human_approval": True,
+        },
+    ]
+    if gap_report.get("missing_middle_layers"):
+        proposals[0]["notes"] = f"当前缺口: {' | '.join(gap_report['missing_middle_layers'][:4])}"
+    return proposals
+
+
+def build_recruitment_candidates(gap_report: dict[str, Any]) -> list[dict[str, Any]]:
+    return [
+        {
+            "id": "RC-001",
+            "candidate_skill": "strategy-governor",
+            "goal_id": "G2",
+            "why_now": "系统已经有 review 和 route，但还缺稳定的战略提案器官。",
+            "reuse_vs_new": "new",
+            "incubation_brief": "生成战略目标分解、initiative 候选、thread proposal 和招募建议。",
+        },
+        {
+            "id": "RC-002",
+            "candidate_skill": "workflow-hardening",
+            "goal_id": "G1",
+            "why_now": "高频 persona skill 需要向 scripts/references/output contract 加厚。",
+            "reuse_vs_new": "new",
+            "incubation_brief": "识别高使用低 resource_score skill，并生成 hardening brief。",
+        },
+        {
+            "id": "RC-003",
+            "candidate_skill": "agent-incentive-governor",
+            "goal_id": "G3",
+            "why_now": "当前还没有正式的提权/降权和路由信用治理器官。",
+            "reuse_vs_new": "new",
+            "incubation_brief": "根据 scorecard 生成 autonomy tier、routing credit 和 promotion/demotion 建议。",
+        },
+    ]
+
+
+def build_agent_scorecard(inventory: list[dict[str, Any]], recent_runs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    selected_counts = recent_selected_skill_counts(limit=120)
+    verification_counts: dict[str, list[dict[str, Any]]] = {}
+    for record in recent_runs:
+        verification = normalize_verification_result(record.get("verification_result"))
+        for skill in normalize_list(record.get("skills_selected")):
+            verification_counts.setdefault(skill, []).append(verification)
+    rows: list[dict[str, Any]] = []
+    for item in inventory:
+        name = item["name"]
+        verifications = verification_counts.get(name, [])
+        completed = len(
+            [
+                v for v in verifications
+                if str(v.get("status") or "").strip().lower() in {"completed", "done", "passed", "success"}
+            ]
+        )
+        evidence_total = sum(len(normalize_list(v.get("evidence"))) for v in verifications)
+        open_questions_total = sum(len(normalize_list(v.get("open_questions"))) for v in verifications)
+        selected_total = max(1, len(verifications))
+        closure_quality = round(completed / selected_total, 2)
+        verification_strength = round(evidence_total / selected_total, 2)
+        distortion_rate = round(open_questions_total / selected_total, 2)
+        reuse_contribution = selected_counts.get(name, 0)
+        strategic_alignment = 1.0 if strategic_goal_for_item(item) in {"G1", "G2", "G3"} else 0.5
+        human_interruption_cost = 1.0 if "授权" in item.get("boundary", "") or "human" in item.get("boundary", "").lower() else 0.4
+        rows.append(
+            {
+                "skill": name,
+                "closure_quality": closure_quality,
+                "verification_strength": verification_strength,
+                "reuse_contribution": reuse_contribution,
+                "distortion_rate": distortion_rate,
+                "strategic_alignment": strategic_alignment,
+                "human_interruption_cost": human_interruption_cost,
+            }
+        )
+    rows.sort(key=lambda item: (item["closure_quality"], item["verification_strength"], item["reuse_contribution"]), reverse=True)
+    return rows
+
+
+def build_routing_credit(scorecard: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    credits: list[dict[str, Any]] = []
+    for item in scorecard:
+        composite = round(
+            item["closure_quality"] * 40
+            + item["verification_strength"] * 15
+            + min(item["reuse_contribution"], 10) * 3
+            + item["strategic_alignment"] * 20
+            - item["distortion_rate"] * 10
+            - item["human_interruption_cost"] * 8,
+            2,
+        )
+        credits.append(
+            {
+                "skill": item["skill"],
+                "routing_credit": composite,
+                "explanation": "奖励真闭环、强验真、战略对齐和可复用贡献；惩罚高失真和高人类打扰成本。",
+            }
+        )
+    credits.sort(key=lambda item: item["routing_credit"], reverse=True)
+    return credits
+
+
+def build_autonomy_tiers(scorecard: list[dict[str, Any]], routing_credit: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    credits = {item["skill"]: item["routing_credit"] for item in routing_credit}
+    tiers: list[dict[str, Any]] = []
+    for item in scorecard:
+        credit = credits.get(item["skill"], 0.0)
+        if credit >= 55 and item["distortion_rate"] <= 0.3:
+            tier = "guarded-autonomy"
+        elif credit >= 35:
+            tier = "trusted-suggest"
+        elif credit >= 15:
+            tier = "suggest"
+        else:
+            tier = "observe"
+        tiers.append(
+            {
+                "skill": item["skill"],
+                "autonomy_tier": tier,
+                "routing_credit": credit,
+            }
+        )
+    tiers.sort(key=lambda item: (AUTONOMY_TIERS.index(item["autonomy_tier"]), -item["routing_credit"]))
+    return tiers
+
+
+def render_governance_dashboard(
+    strategy_map: dict[str, Any],
+    initiatives: list[dict[str, Any]],
+    active_threads: list[dict[str, Any]],
+    gap_report: dict[str, Any],
+    thread_proposals: list[dict[str, Any]],
+    scorecard: list[dict[str, Any]],
+) -> str:
+    lines = [
+        "# Governance Dashboard",
+        "",
+        f"- Stage Theme: {strategy_map['stage_theme']}",
+        f"- Highest Goal: {strategy_map['highest_goal']}",
+        "",
+        "## Strategic Goals",
+        "",
+    ]
+    for goal in strategy_map["goals"]:
+        lines.append(f"- {goal['id']}: {goal['title']} :: {goal['theme']}")
+    lines.extend(
+        [
+            "",
+            "## Active Initiatives",
+            "",
+        ]
+    )
+    for item in initiatives:
+        lines.append(f"- {item['id']} [{item['goal_id']}] {item['title']} :: {item['status']} :: gap={item['gap_level']}")
+    lines.extend(
+        [
+            "",
+            "## Active Threads",
+            "",
+            f"- Total tracked threads: {len(active_threads)}",
+            f"- Archived: {len([item for item in active_threads if item['status'] == 'archived'])}",
+            f"- Active: {len([item for item in active_threads if item['status'] != 'archived'])}",
+            "",
+            "## Current Gaps",
+            "",
+            f"- Missing middle layers: {' | '.join(gap_report['missing_middle_layers']) or 'none'}",
+            f"- Under-hardened high-use skills: {' | '.join(item['skill'] for item in gap_report['under_hardened_high_use_skills'][:6]) or 'none'}",
+            "",
+            "## Proposal Queue",
+            "",
+        ]
+    )
+    for item in thread_proposals:
+        lines.append(f"- {item['id']} [{item['goal_id']}] {item['title']} :: approval={item['requires_human_approval']}")
+    lines.extend(
+        [
+            "",
+            "## Top Routing Credit",
+            "",
+        ]
+    )
+    for item in scorecard[:10]:
+        lines.append(
+            f"- {item['skill']}: closure={item['closure_quality']} verify={item['verification_strength']} reuse={item['reuse_contribution']} distortion={item['distortion_rate']}"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def render_org_taxonomy(inventory: list[dict[str, Any]]) -> str:
+    by_cluster: dict[str, list[str]] = {}
+    for item in inventory:
+        by_cluster.setdefault(str(item["cluster"]), []).append(item["name"])
+    lines = ["# Org Taxonomy", "", "## Clusters", ""]
+    for cluster, names in sorted(by_cluster.items()):
+        lines.append(f"- {cluster}: {' | '.join(sorted(names)[:12])}")
+    lines.extend(
+        [
+            "",
+            "## Governance Axes",
+            "",
+            "- Goal Axis: G1 治理 / G2 受控自治 / G3 激励系统",
+            "- Skill Axis: governance / platform / workflow / persona",
+            "- Lifecycle Axis: active / archived / overlap-risk / under-hardened",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def render_governance_penalty_rules() -> str:
+    return "\n".join(
+        [
+            "# Governance Penalty Rules",
+            "",
+            "- Penalize pseudo-completion more than slow completion.",
+            "- Penalize high human interruption when the task did not require a human boundary.",
+            "- Penalize repeated overlap creation and redundant new-skill proposals.",
+            "- Penalize high throughput without evidence, closure, or reusable artifacts.",
+            "",
+        ]
+    )
+
+
+def render_promotion_demotion_policy() -> str:
+    return "\n".join(
+        [
+            "# Promotion Demotion Policy",
+            "",
+            "- Promote a skill when closure quality stays high, distortion stays low, and reuse contribution is proven.",
+            "- Demote a skill when it creates repeated open questions, overlap, or unnecessary human interruption.",
+            "- Promotion changes routing priority, autonomy tier, and writeback trust, not the skill's identity.",
+            "",
+        ]
+    )
+
+
+def write_strategy_operating_system(
+    goals: list[dict[str, Any]] | None = None,
+    *,
+    inventory: list[dict[str, Any]] | None = None,
+    recent_runs: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    ensure_dir(STRATEGY_CURRENT_ROOT)
+    inventory = inventory or build_review_inventory()
+    recent_runs = recent_runs or iter_evolution_records(limit=120)
+    goals = goals or load_strategy_goals()
+    strategy_map = build_strategy_map(goals, inventory)
+    initiatives = build_initiative_registry(goals, inventory)
+    active_threads = build_active_threads(goals, limit=30)
+    gap_report = build_skill_gap_report(inventory, initiatives, recent_runs)
+    thread_proposals = build_thread_proposals(goals, initiatives, gap_report)
+    recruitment = build_recruitment_candidates(gap_report)
+    scorecard = build_agent_scorecard(inventory, recent_runs)
+    routing_credit = build_routing_credit(scorecard)
+    autonomy_tier = build_autonomy_tiers(scorecard, routing_credit)
+    initiative_brief = initiatives[0] if initiatives else {}
+
+    write_json(STRATEGY_CURRENT_ROOT / "strategic-goals.json", goals)
+    write_json(STRATEGY_CURRENT_ROOT / "strategy-map.json", strategy_map)
+    write_json(STRATEGY_CURRENT_ROOT / "initiative-registry.json", initiatives)
+    write_json(STRATEGY_CURRENT_ROOT / "active-threads.json", active_threads)
+    write_json(STRATEGY_CURRENT_ROOT / "initiative-brief.json", initiative_brief)
+    write_json(STRATEGY_CURRENT_ROOT / "thread-proposal.json", thread_proposals)
+    write_json(STRATEGY_CURRENT_ROOT / "skill-gap-report.json", gap_report)
+    write_json(STRATEGY_CURRENT_ROOT / "recruitment-candidate.json", recruitment)
+    write_json(STRATEGY_CURRENT_ROOT / "agent-scorecard.json", scorecard)
+    write_json(STRATEGY_CURRENT_ROOT / "routing-credit.json", routing_credit)
+    write_json(STRATEGY_CURRENT_ROOT / "autonomy-tier.json", autonomy_tier)
+    (STRATEGY_CURRENT_ROOT / "governance-dashboard.md").write_text(
+        render_governance_dashboard(strategy_map, initiatives, active_threads, gap_report, thread_proposals, scorecard),
+        encoding="utf-8",
+    )
+    (STRATEGY_CURRENT_ROOT / "org-taxonomy.md").write_text(render_org_taxonomy(inventory), encoding="utf-8")
+    (STRATEGY_CURRENT_ROOT / "governance-penalty-rules.md").write_text(render_governance_penalty_rules(), encoding="utf-8")
+    (STRATEGY_CURRENT_ROOT / "promotion-demotion-policy.md").write_text(render_promotion_demotion_policy(), encoding="utf-8")
+    (STRATEGY_CURRENT_ROOT / "strategic-proposal.md").write_text(
+        "\n".join(
+            [
+                "# Strategic Proposal",
+                "",
+                "## Current Recommendation",
+                "",
+                "先做治理底座，再做提案自治，最后做激励制度化。",
+                "",
+                f"- Highest gap: {' | '.join(gap_report['missing_middle_layers'][:3]) or 'none'}",
+                f"- First initiative: {initiative_brief.get('title') or 'none'}",
+                f"- First thread proposal: {thread_proposals[0]['title'] if thread_proposals else 'none'}",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    return {
+        "strategy_map": strategy_map,
+        "initiatives": initiatives,
+        "active_threads": active_threads,
+        "gap_report": gap_report,
+        "thread_proposals": thread_proposals,
+        "recruitment": recruitment,
+        "scorecard": scorecard,
+        "routing_credit": routing_credit,
+        "autonomy_tier": autonomy_tier,
+    }
+
+
 def review_artifact_paths(run_dir: Path) -> dict[str, str]:
     return {
         "review_md_path": str((run_dir / "review.md").resolve()),
@@ -1098,6 +1625,10 @@ def review_artifact_paths(run_dir: Path) -> dict[str, str]:
         "findings_json_path": str((run_dir / "findings.json").resolve()),
         "feishu_sync_bundle_path": str((run_dir / "feishu-sync-bundle.json").resolve()),
         "sync_result_path": str((run_dir / "sync-result.json").resolve()),
+        "strategy_map_path": str((STRATEGY_CURRENT_ROOT / "strategy-map.json").resolve()),
+        "initiative_registry_path": str((STRATEGY_CURRENT_ROOT / "initiative-registry.json").resolve()),
+        "active_threads_path": str((STRATEGY_CURRENT_ROOT / "active-threads.json").resolve()),
+        "governance_dashboard_path": str((STRATEGY_CURRENT_ROOT / "governance-dashboard.md").resolve()),
     }
 
 
@@ -1197,10 +1728,14 @@ def build_review_sync_bundle(
         "最强区块": " | ".join(cluster["name"] for cluster in review["strong_clusters"]) or "none",
         "最弱区块": " | ".join(cluster["name"] for cluster in review["weak_clusters"]) or "none",
         "中层缺口": " | ".join(review["missing_middle_layer_capabilities"]) or "none",
+        "战略主题": str(review.get("strategy_stage_theme") or ""),
+        "最高目标": str(review.get("strategy_highest_goal") or ""),
         "推荐动作": " | ".join(f"{action['id']}: {action['title']}" for action in review["candidate_actions"]),
         "已选动作": selected_action_id or "",
         "review.md路径": artifact_paths["review_md_path"],
         "review.json路径": artifact_paths["review_json_path"],
+        "strategy-map路径": artifact_paths["strategy_map_path"],
+        "initiative-registry路径": artifact_paths["initiative_registry_path"],
     }
     if review.get("resolved_at"):
         batch_row["resolved_at"] = str(review["resolved_at"])
@@ -1227,6 +1762,7 @@ def write_review_materials(
     inventory_payload: dict[str, Any],
     review: dict[str, Any],
 ) -> dict[str, Any]:
+    strategy_bundle = write_strategy_operating_system(inventory=inventory_payload["skills"])
     github_sources = build_github_sources(inventory_payload["skills"])
     findings = review_findings(review)
     bundle = build_review_sync_bundle(
@@ -1243,7 +1779,7 @@ def write_review_materials(
     write_json(run_dir / "findings.json", findings)
     write_json(run_dir / "feishu-sync-bundle.json", bundle)
     (run_dir / "review.md").write_text(render_review_markdown(review), encoding="utf-8")
-    return {"github_sources": github_sources, "findings": findings, "bundle": bundle}
+    return {"github_sources": github_sources, "findings": findings, "bundle": bundle, "strategy_bundle": strategy_bundle}
 
 
 def render_review_markdown(review: dict[str, Any]) -> str:
@@ -1279,6 +1815,8 @@ def render_review_markdown(review: dict[str, Any]) -> str:
         f"- 当前最弱集群: {' | '.join(weak_names) or 'none'}",
         f"- 主要重叠: {' | '.join(overlap_preview) or 'none'}",
         f"- 缺失的中层能力: {' | '.join(review['missing_middle_layer_capabilities']) or 'none'}",
+        f"- 战略主题: {review.get('strategy_stage_theme') or 'none'}",
+        f"- 当前最高目标: {review.get('strategy_highest_goal') or 'none'}",
         "",
         "## 3 个候选进化动作",
         "",
@@ -3698,6 +4236,32 @@ def command_review_skills(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_strategy_governor(args: argparse.Namespace) -> int:
+    goals = load_strategy_goals()
+    if args.goal:
+        supplied = normalize_list(args.goal)
+        goals = []
+        for index, title in enumerate(supplied[:3], start=1):
+            goals.append(
+                {
+                    "id": f"G{index}",
+                    "title": title,
+                    "theme": title,
+                    "success_definition": "Need initiative mapping, thread proposals, and governance visibility.",
+                    "priority": index,
+                }
+            )
+        write_json(STRATEGY_CURRENT_ROOT / "strategic-goals.json", goals)
+    bundle = write_strategy_operating_system(goals=goals)
+    print(f"strategy_root: {STRATEGY_CURRENT_ROOT}")
+    print(f"goals: {len(bundle['strategy_map']['goals'])}")
+    print(f"initiatives: {len(bundle['initiatives'])}")
+    print(f"thread_proposals: {len(bundle['thread_proposals'])}")
+    print(f"recruitment_candidates: {len(bundle['recruitment'])}")
+    print(f"scorecard_entries: {len(bundle['scorecard'])}")
+    return 0
+
+
 def command_record_evolution(args: argparse.Namespace) -> int:
     payload = load_input_payload(args.input)
     created_at = str(payload.get("created_at") or iso_now())
@@ -4091,6 +4655,13 @@ def build_parser() -> argparse.ArgumentParser:
     review.add_argument("--link", help="Optional review Feishu wiki/base link override.")
     review.add_argument("--bridge-script", help="Optional bridge script path override.")
     review.set_defaults(func=command_review_skills)
+
+    strategy = subparsers.add_parser(
+        "strategy-governor",
+        help="Generate the strategic operating-system artifacts: goals, initiatives, threads, gaps, scorecards, and governance dashboard.",
+    )
+    strategy.add_argument("--goal", action="append", help="Override one strategic goal title. Repeatable; first three are used.")
+    strategy.set_defaults(func=command_strategy_governor)
 
     record = subparsers.add_parser("record-evolution", help="Write the canonical evolution record from JSON input.")
     record.add_argument("--input", required=True, help="JSON file path or - for stdin.")

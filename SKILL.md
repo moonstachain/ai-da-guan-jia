@@ -50,6 +50,7 @@ The router must write `situation-map.md` and `route.json` before any later evolu
 - Route OpenClaw Xiaohongshu co-evolution and viral-note requests to `openclaw-xhs-coevolution-lab`.
 - Route knowledge-base-first requests to `knowledge-orchestrator` first.
 - Route Feishu write requests to `feishu-bitable-bridge` only after the local canonical log exists.
+- Use `strategy-governor` as the built-in strategy layer for top goals, initiative registry, active thread proposals, and agent incentive views.
 - Treat the missing immune organs named by `ai-metacognitive-core` as absorbed responsibilities here. Do not require them as installed dependencies.
 
 Inspect the current skill inventory:
@@ -63,6 +64,13 @@ Run the native top-level skill review when the job is system-wide assessment rat
 ```bash
 python3 scripts/ai_da_guan_jia.py review-skills --daily
 python3 scripts/ai_da_guan_jia.py review-skills --daily --sync-feishu
+```
+
+Refresh the strategic operating system:
+
+```bash
+python3 scripts/ai_da_guan_jia.py strategy-governor
+python3 scripts/ai_da_guan_jia.py strategy-governor --goal "治理操作系统化" --goal "受控自治与提案推进" --goal "AI 组织激励系统"
 ```
 
 ## 克制执行
@@ -90,6 +98,7 @@ python3 scripts/ai_da_guan_jia.py review-skills --daily --sync-feishu
 - Every meaningful task must end with one shared recap and one human-readable Feishu work log mirror.
 - Do not leave stale closure text in the mirror. Sync only the final task state, real remaining open questions, and the current self-evaluation.
 - Use GitHub labels, issue title format, and Project fields from the fixed taxonomy instead of improvising ad hoc classification.
+- Maintain the strategic operating system under `artifacts/ai-da-guan-jia/strategy/current/`, including goals, initiatives, active threads, skill gaps, thread proposals, scorecards, and governance policy documents.
 - Run the evolution gate after sync. If it hits, auto-write validated improvements into this skill and create a local commit.
 - Auto-writeback is limited to this skill only; do not auto-edit other skills.
 - Use the task-log schema in [references/evolution-log-schema.md](references/evolution-log-schema.md), the task sync contracts in [references/feishu-sync-contract.md](references/feishu-sync-contract.md) and [references/github-sync-contract.md](references/github-sync-contract.md), and the review sync contract in [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md).
@@ -128,6 +137,7 @@ python3 scripts/ai_da_guan_jia.py review-skills --daily
 python3 scripts/ai_da_guan_jia.py review-skills --daily --sync-feishu
 python3 scripts/ai_da_guan_jia.py review-skills --resolve-action A --run-id adagj-review-20260310-090000
 python3 scripts/ai_da_guan_jia.py review-skills --resolve-action A --run-id adagj-review-20260310-090000 --sync-feishu
+python3 scripts/ai_da_guan_jia.py strategy-governor
 python3 scripts/ai_da_guan_jia.py route --prompt "先问我的知识库，再帮我规划下一步"
 python3 scripts/ai_da_guan_jia.py route --prompt "帮我学一个陌生 API，先读官方说明书和攻略，再决定怎么做"
 python3 scripts/ai_da_guan_jia.py record-evolution --input -
@@ -152,6 +162,9 @@ python3 scripts/doctor.py
 - [references/github-taxonomy.md](references/github-taxonomy.md)
 - [references/github-naming-policy.md](references/github-naming-policy.md)
 - [references/github-project-schema.md](references/github-project-schema.md)
+- [references/strategic-governor-contract.md](references/strategic-governor-contract.md)
+- [references/autonomy-proposal-contract.md](references/autonomy-proposal-contract.md)
+- [references/incentive-scorecard-contract.md](references/incentive-scorecard-contract.md)
 - [references/feishu-review-base-schema.json](references/feishu-review-base-schema.json)
 - [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md)
 - [references/validated-evolution-rules.md](references/validated-evolution-rules.md)
