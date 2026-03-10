@@ -99,6 +99,9 @@ REQUIRED_EVOLUTION_FIELDS = [
     "github_classification",
     "github_archive_status",
     "github_closure_comment_url",
+    "governance_signal_status",
+    "credit_influenced_selection",
+    "proposal_authority_summary",
 ]
 
 REVIEW_RUBRIC = [
@@ -117,6 +120,14 @@ REVIEW_ACTION_TYPES = [
     "新建中层 skill",
 ]
 AUTONOMY_TIERS = ["observe", "suggest", "trusted-suggest", "guarded-autonomy"]
+PROPOSAL_AUTHORITY_BY_TIER = {
+    "observe": "passive-candidate",
+    "suggest": "proposal-candidate",
+    "trusted-suggest": "priority-proposal-candidate",
+    "guarded-autonomy": "strong-proposal-candidate",
+}
+MAX_ROUTING_CREDIT_ADJUSTMENT = 1200
+MAX_ROUTING_CREDIT_RATIO = 0.12
 
 
 @dataclass(frozen=True)
@@ -1013,6 +1024,8 @@ def review_summary_text(review: dict[str, Any]) -> str:
 def review_findings(review: dict[str, Any]) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
     usage_counts = recent_selected_skill_counts(limit=80)
+    governance = load_governance_signals()
+    routing_credit_map = governance["routing_credit"] if isinstance(governance.get("routing_credit"), dict) else {}
     for cluster in review.get("strong_clusters", []):
         findings.append(
             {
@@ -1091,6 +1104,40 @@ def review_findings(review: dict[str, Any]) -> list[dict[str, Any]]:
             },
         ]
     )
+    if routing_credit_map:
+        sorted_credit = sorted(routing_credit_map.items(), key=lambda item: item[1], reverse=True)
+        risky = [
+            (name, credit)
+            for name, credit in sorted_credit
+            if credit >= 40 and usage_counts.get(name, 0) == 0
+        ]
+        fallback = [
+            (name, usage)
+            for name, usage in sorted(usage_counts.items(), key=lambda item: item[1], reverse=True)
+            if usage >= 2 and routing_credit_map.get(name, 0) < 20
+        ]
+        if risky:
+            findings.append(
+                {
+                    "type": "routing_credit_risk",
+                    "title": "高 credit 但低任务适配的风险 skill",
+                    "object_1": " | ".join(f"{name} ({credit:.1f})" for name, credit in risky[:5]),
+                    "object_2": "",
+                    "conclusion": "这些 skill 的治理信用较高，但近期没有进入实际闭环，说明它们更像潜力资产而不是当前稳态主力。",
+                    "suggested_rule": "补边界说明和失败样例，避免 routing credit 被误当成跨域通行证。",
+                }
+            )
+        if fallback:
+            findings.append(
+                {
+                    "type": "routing_credit_fallback",
+                    "title": "高使用但低 credit 的回退候选",
+                    "object_1": " | ".join(f"{name} ({usage})" for name, usage in fallback[:5]),
+                    "object_2": "",
+                    "conclusion": "这些 skill 仍在一线反复承担任务，但治理信用偏低，说明 scorecard 与真实使用之间还需要校准。",
+                    "suggested_rule": "复核闭环证据、失真惩罚和复用贡献，必要时调整 credit 公式。",
+                }
+            )
     return findings
 
 
@@ -2084,6 +2131,7 @@ def score_candidate(
     skill: dict[str, Any],
     signals: dict[str, bool],
     mentioned: list[str],
+    governance: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     text = normalize_prompt(prompt)
     name = skill["name"]
@@ -2126,13 +2174,24 @@ def score_candidate(
     cost_score = profile.cost_efficiency if profile else 2
     auth_reuse_score = profile.auth_reuse if profile else 1
     complexity_penalty = profile.complexity_penalty if profile else 2
-    total = (
+    base_total = (
         task_fit * 10000
         + verification_score * 100
         + cost_score * 10
         + auth_reuse_score
         - complexity_penalty
     )
+    governance = governance or {}
+    governance_status = str(governance.get("status") or "missing")
+    routing_credit_map = governance.get("routing_credit") if isinstance(governance.get("routing_credit"), dict) else {}
+    autonomy_tier_map = governance.get("autonomy_tier") if isinstance(governance.get("autonomy_tier"), dict) else {}
+    routing_credit = float(routing_credit_map.get(name, 0) or 0)
+    autonomy_tier = str(autonomy_tier_map.get(name, "observe") or "observe").strip() or "observe"
+    if autonomy_tier not in AUTONOMY_TIERS:
+        autonomy_tier = "observe"
+    proposal_authority = proposal_authority_for_tier(autonomy_tier)
+    credit_adjustment = routing_credit_adjustment(base_total, task_fit, routing_credit)
+    total = base_total + credit_adjustment
     if hits:
         rationale = f"Matched signals: {', '.join(hits[:4])}"
     elif name in mentioned:
@@ -2141,6 +2200,24 @@ def score_candidate(
         rationale = "Selected through a hard routing rule."
     else:
         rationale = "No strong match signal."
+    governance_reasons: list[str] = []
+    if governance_status == "missing":
+        governance_reasons.append("Governance signals unavailable; using rule-only routing.")
+    else:
+        governance_reasons.append(f"Governance signals {governance_status}.")
+        if credit_adjustment > 0:
+            governance_reasons.append(
+                f"Routing credit {routing_credit:.1f} added bounded adjustment +{credit_adjustment}."
+            )
+        elif routing_credit > 0 and task_fit <= 0:
+            governance_reasons.append("Routing credit ignored because task_fit_score is 0.")
+        elif routing_credit > 0:
+            governance_reasons.append(f"Routing credit {routing_credit:.1f} did not change ranking materially.")
+        else:
+            governance_reasons.append("No routing credit available for this skill.")
+        governance_reasons.append(
+            f"Autonomy tier {autonomy_tier} maps to proposal authority {proposal_authority}."
+        )
 
     return {
         "name": name,
@@ -2152,6 +2229,13 @@ def score_candidate(
         "cost_score": cost_score,
         "auth_reuse_score": auth_reuse_score,
         "complexity_penalty": complexity_penalty,
+        "base_total_score": base_total,
+        "routing_credit": routing_credit,
+        "routing_credit_adjustment": credit_adjustment,
+        "autonomy_tier": autonomy_tier,
+        "proposal_authority": proposal_authority,
+        "governance_signal_status": governance_status,
+        "governance_rationale": " ".join(governance_reasons),
         "total_score": total,
         "rationale": rationale,
     }
@@ -2214,6 +2298,40 @@ def choose_skills(
 
     omitted = [name for name in wanted if name not in selected]
     return selected[:ceiling], normalize_list(omitted)
+
+
+def credit_influenced_selection(ranked: list[dict[str, Any]], selected: list[str]) -> bool:
+    selected_set = set(selected)
+    for item in ranked:
+        if item["name"] not in selected_set:
+            continue
+        if int(item.get("routing_credit_adjustment") or 0) > 0:
+            return True
+    return False
+
+
+def selected_proposal_authority_summary(
+    ranked: list[dict[str, Any]],
+    selected: list[str],
+) -> dict[str, list[str]]:
+    ranked_by_name = {item["name"]: item for item in ranked}
+    summary = {
+        "strong_suggestion_skills": [],
+        "priority_suggestion_skills": [],
+        "execution_focused_skills": [],
+    }
+    for name in selected:
+        item = ranked_by_name.get(name, {})
+        authority = str(item.get("proposal_authority") or "passive-candidate")
+        if authority == "strong-proposal-candidate":
+            summary["strong_suggestion_skills"].append(name)
+        elif authority == "priority-proposal-candidate":
+            summary["priority_suggestion_skills"].append(name)
+        else:
+            summary["execution_focused_skills"].append(name)
+    for key, values in summary.items():
+        summary[key] = normalize_list(values)
+    return summary
 
 
 def selection_ceiling(signals: dict[str, bool]) -> int:
@@ -2305,6 +2423,9 @@ def render_situation_map(situation_map: dict[str, str], prompt: str) -> str:
     lines = ["# Situation Map", "", f"- `任务`: {prompt}", ""]
     for key in ["自治判断", "全局最优判断", "能力复用判断", "验真判断", "进化判断", "当前最大失真"]:
         lines.append(f"- `{key}`: {situation_map[key]}")
+    governance_note = str(situation_map.get("治理提权判断") or "").strip()
+    if governance_note:
+        lines.append(f"- `治理提权判断`: {governance_note}")
     lines.append("")
     return "\n".join(lines)
 
@@ -2711,6 +2832,64 @@ def load_optional_json(path: Path) -> dict[str, Any]:
         return {}
     payload = read_json(path)
     return payload if isinstance(payload, dict) else {}
+
+
+def load_optional_json_list(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    payload = read_json(path)
+    if not isinstance(payload, list):
+        return []
+    return [item for item in payload if isinstance(item, dict)]
+
+
+def load_governance_signals() -> dict[str, Any]:
+    routing_credit_items = load_optional_json_list(STRATEGY_CURRENT_ROOT / "routing-credit.json")
+    autonomy_tier_items = load_optional_json_list(STRATEGY_CURRENT_ROOT / "autonomy-tier.json")
+    scorecard_items = load_optional_json_list(STRATEGY_CURRENT_ROOT / "agent-scorecard.json")
+
+    if not routing_credit_items and not autonomy_tier_items and not scorecard_items:
+        return {
+            "status": "missing",
+            "routing_credit": {},
+            "autonomy_tier": {},
+            "scorecard": {},
+        }
+
+    routing_credit = {
+        str(item.get("skill") or "").strip(): float(item.get("routing_credit") or 0)
+        for item in routing_credit_items
+        if str(item.get("skill") or "").strip()
+    }
+    autonomy_tier = {
+        str(item.get("skill") or "").strip(): str(item.get("autonomy_tier") or "observe").strip() or "observe"
+        for item in autonomy_tier_items
+        if str(item.get("skill") or "").strip()
+    }
+    scorecard = {
+        str(item.get("skill") or "").strip(): item
+        for item in scorecard_items
+        if str(item.get("skill") or "").strip()
+    }
+    status = "loaded" if routing_credit_items and autonomy_tier_items else "partial"
+    return {
+        "status": status,
+        "routing_credit": routing_credit,
+        "autonomy_tier": autonomy_tier,
+        "scorecard": scorecard,
+    }
+
+
+def proposal_authority_for_tier(tier: str) -> str:
+    return PROPOSAL_AUTHORITY_BY_TIER.get(tier, "passive-candidate")
+
+
+def routing_credit_adjustment(base_total: float, task_fit_score: int, routing_credit: float) -> int:
+    if task_fit_score <= 0 or routing_credit <= 0:
+        return 0
+    bounded_by_base = int(base_total * MAX_ROUTING_CREDIT_RATIO)
+    bounded_by_credit = int(round(routing_credit * 10))
+    return max(0, min(MAX_ROUTING_CREDIT_ADJUSTMENT, bounded_by_base, bounded_by_credit))
 
 
 def build_github_closure_comment(
@@ -3961,6 +4140,11 @@ def save_evolution_bundle(run_dir: Path, evolution: dict[str, Any], route_payloa
         "验真判断": evolution["verification_judgment"],
         "进化判断": evolution["evolution_judgment"],
         "当前最大失真": evolution["max_distortion"],
+        "治理提权判断": (
+            "Governance-weighted routing influenced this run."
+            if evolution.get("governance_signal_status") != "missing"
+            else "Governance-weighted routing was unavailable for this run."
+        ),
     }
     (run_dir / "situation-map.md").write_text(
         render_situation_map(situation_map, evolution["task_text"]),
@@ -4008,6 +4192,9 @@ def render_evolution_markdown(evolution: dict[str, Any]) -> str:
         f"- Considered: {', '.join(normalize_list(evolution['skills_considered']))}",
         f"- Selected: {', '.join(normalize_list(evolution['skills_selected']))}",
         f"- Human Boundary: {evolution['human_boundary']}",
+        f"- Governance Signal Status: {evolution.get('governance_signal_status') or 'missing'}",
+        f"- Credit Influenced Selection: {bool(evolution.get('credit_influenced_selection', False))}",
+        f"- Proposal Authority Summary: {json.dumps(evolution.get('proposal_authority_summary') or {}, ensure_ascii=False)}",
         "",
         "## Verification",
         "",
@@ -4077,10 +4264,16 @@ def command_route(args: argparse.Namespace) -> int:
     skills = discover_skills()
     signals = detect_signals(prompt)
     mentioned = explicit_mentions(prompt, [item["name"] for item in skills])
-    ranked = [score_candidate(prompt, skill, signals, mentioned) for skill in skills]
+    governance = load_governance_signals()
+    ranked = [score_candidate(prompt, skill, signals, mentioned, governance) for skill in skills]
     ranked.sort(key=lambda item: item["total_score"], reverse=True)
     selected, omitted = choose_skills(prompt, ranked, signals, mentioned)
     situation_map = build_situation_map(prompt, selected, signals)
+    situation_map["治理提权判断"] = (
+        "Governance-weighted routing is active; routing credit only adjusts near-tie candidates."
+        if governance["status"] != "missing"
+        else "Governance-weighted routing is unavailable; fallback to rule-only routing."
+    )
     created_at = iso_now()
     run_id = args.run_id or allocate_run_id(created_at)
     run_dir = run_dir_for(run_id, created_at)
@@ -4090,9 +4283,12 @@ def command_route(args: argparse.Namespace) -> int:
         "task_text": prompt,
         "routing_order": ROUTING_ORDER,
         "signals": signals,
+        "governance_signal_status": governance["status"],
+        "credit_influenced_selection": credit_influenced_selection(ranked, selected),
         "skills_considered": [item["name"] for item in ranked],
         "candidate_rankings": ranked[:10],
         "selected_skills": selected,
+        "proposal_authority_summary": selected_proposal_authority_summary(ranked, selected),
         "omitted_due_to_selection_ceiling": omitted,
         "selection_ceiling": selection_ceiling(signals),
         "human_boundary": determine_human_boundary(signals),
@@ -4494,10 +4690,16 @@ def command_close_task(args: argparse.Namespace) -> int:
     skills = discover_skills()
     signals = detect_signals(task_text)
     mentioned = explicit_mentions(task_text, [item["name"] for item in skills])
-    ranked = [score_candidate(task_text, skill, signals, mentioned) for skill in skills]
+    governance = load_governance_signals()
+    ranked = [score_candidate(task_text, skill, signals, mentioned, governance) for skill in skills]
     ranked.sort(key=lambda item: item["total_score"], reverse=True)
     selected, omitted = choose_skills(task_text, ranked, signals, mentioned)
     situation_map = build_situation_map(task_text, selected, signals)
+    situation_map["治理提权判断"] = (
+        "Governance-weighted routing is active; routing credit only adjusts near-tie candidates."
+        if governance["status"] != "missing"
+        else "Governance-weighted routing is unavailable; fallback to rule-only routing."
+    )
     human_boundary = str(args.human_boundary or determine_human_boundary(signals))
     route_payload = {
         "run_id": run_id,
@@ -4505,9 +4707,12 @@ def command_close_task(args: argparse.Namespace) -> int:
         "task_text": task_text,
         "routing_order": ROUTING_ORDER,
         "signals": signals,
+        "governance_signal_status": governance["status"],
+        "credit_influenced_selection": credit_influenced_selection(ranked, selected),
         "skills_considered": [item["name"] for item in ranked],
         "candidate_rankings": ranked[:10],
         "selected_skills": selected,
+        "proposal_authority_summary": selected_proposal_authority_summary(ranked, selected),
         "omitted_due_to_selection_ceiling": omitted,
         "selection_ceiling": selection_ceiling(signals),
         "human_boundary": human_boundary,
@@ -4555,6 +4760,9 @@ def command_close_task(args: argparse.Namespace) -> int:
         "github_classification": {},
         "github_archive_status": "not_archived",
         "github_closure_comment_url": "",
+        "governance_signal_status": governance["status"],
+        "credit_influenced_selection": credit_influenced_selection(ranked, selected),
+        "proposal_authority_summary": selected_proposal_authority_summary(ranked, selected),
     }
     save_evolution_bundle(run_dir, evolution, route_payload)
     prepare_github_materials(run_dir, "closure")

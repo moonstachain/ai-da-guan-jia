@@ -68,6 +68,9 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `github_classification`
 - `github_archive_status`
 - `github_closure_comment_url`
+- `governance_signal_status`
+- `credit_influenced_selection`
+- `proposal_authority_summary`
 
 ## Type Conventions
 
@@ -84,6 +87,9 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `github_classification`: object with `type`, `domain`, `state`, `artifact`, `slug`, and `task_key`.
 - `github_sync_status`: machine-readable status for the GitHub mirror lifecycle.
 - `github_archive_status`: `not_archived`, `active`, or `archived`.
+- `governance_signal_status`: `missing`, `partial`, or `loaded`.
+- `credit_influenced_selection`: bool. True only when routing credit affected at least one selected skill.
+- `proposal_authority_summary`: object grouping selected skills into suggestion-capable vs execution-focused roles.
 
 ## Feishu Mirror Mapping
 
