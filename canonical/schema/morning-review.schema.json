@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "morning_review",
+  "type": "object",
+  "required": [
+    "review_id",
+    "generated_at",
+    "scope",
+    "structure_changes",
+    "external_signal_summary",
+    "top_risks",
+    "candidate_actions",
+    "waiting_choice",
+    "recommended_action"
+  ],
+  "properties": {
+    "review_id": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "scope": { "type": "string" },
+    "structure_changes": { "type": "array", "items": { "type": "string" } },
+    "external_signal_summary": { "type": "array", "items": { "type": "string" } },
+    "top_risks": { "type": "array", "items": { "type": "string" } },
+    "candidate_actions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "title"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "problem": { "type": "string" },
+          "recommended_next_step": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "seed_watch_items": { "type": "array", "items": { "type": "object" } },
+    "adoption_queue_count": { "type": "integer" },
+    "env_blockers": { "type": "array", "items": { "type": "string" } },
+    "waiting_choice": { "type": "string" },
+    "recommended_action": { "type": "string" }
+  },
+  "additionalProperties": true
+}

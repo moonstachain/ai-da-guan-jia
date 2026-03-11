@@ -1,0 +1,128 @@
+[
+  {
+    "id": "review-skill",
+    "action_id": "review-skill",
+    "title": "发起技能治理评审",
+    "scenario": "skill_governance",
+    "status": "active",
+    "target_entity_type": "skill",
+    "allowed_actor_types": [
+      "ai_agent",
+      "human"
+    ],
+    "required_policy_ids": [
+      "policy-read-governance",
+      "policy-propose-skill-review"
+    ],
+    "input_contract": {
+      "required": [
+        "skill_id",
+        "review_scope",
+        "evidence_refs"
+      ],
+      "optional": [
+        "risk_notes",
+        "candidate_actions"
+      ]
+    },
+    "output_contract": {
+      "required": [
+        "review_id",
+        "summary",
+        "candidate_actions"
+      ]
+    },
+    "writeback_targets": [
+      "canonical/entities/review_runs.json",
+      "derived/reports/governance-overview.md"
+    ],
+    "requires_human_approval": false,
+    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+    "confidence": 0.96,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "resolve-action",
+    "action_id": "resolve-action",
+    "title": "处理技能治理动作候选",
+    "scenario": "skill_governance",
+    "status": "active",
+    "target_entity_type": "review_run",
+    "allowed_actor_types": [
+      "ai_agent",
+      "human"
+    ],
+    "required_policy_ids": [
+      "policy-read-governance",
+      "policy-resolve-review-action"
+    ],
+    "input_contract": {
+      "required": [
+        "review_id",
+        "candidate_action_id",
+        "resolution"
+      ],
+      "optional": [
+        "decision_summary",
+        "evidence_refs"
+      ]
+    },
+    "output_contract": {
+      "required": [
+        "decision_id",
+        "resolution_state"
+      ]
+    },
+    "writeback_targets": [
+      "canonical/entities/tasks.json",
+      "canonical/entities/threads.json",
+      "canonical/entities/review_runs.json"
+    ],
+    "requires_human_approval": true,
+    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+    "confidence": 0.96,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "publish-governance-report",
+    "action_id": "publish-governance-report",
+    "title": "发布治理总览衍生报告",
+    "scenario": "skill_governance",
+    "status": "active",
+    "target_entity_type": "asset",
+    "allowed_actor_types": [
+      "ai_agent",
+      "human"
+    ],
+    "required_policy_ids": [
+      "policy-read-governance",
+      "policy-publish-derived-report"
+    ],
+    "input_contract": {
+      "required": [
+        "report_scope",
+        "source_entity_refs",
+        "evidence_refs"
+      ],
+      "optional": [
+        "decision_id",
+        "report_path"
+      ]
+    },
+    "output_contract": {
+      "required": [
+        "asset_id",
+        "writeback_id",
+        "verification_state"
+      ]
+    },
+    "writeback_targets": [
+      "derived/reports/governance-overview.md",
+      "canonical/entities/assets.json"
+    ],
+    "requires_human_approval": true,
+    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+    "confidence": 0.96,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ingestion_runs",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "ingestion_run_id",
+      "run_type",
+      "status",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "ingestion_run_id": { "type": "string" },
+      "run_type": { "type": "string" },
+      "status": { "type": "string" },
+      "scanned_file_count": { "type": "integer" },
+      "recognized_file_count": { "type": "integer" },
+      "source_feed_count": { "type": "integer" },
+      "order_count": { "type": "integer" },
+      "cashflow_count": { "type": "integer" },
+      "content_asset_count": { "type": "integer" },
+      "unclassified_file_count": { "type": "integer" },
+      "unclassified_paths": { "type": "array", "items": { "type": "string" } },
+      "sensitivity_check_status": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

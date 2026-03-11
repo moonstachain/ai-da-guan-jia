@@ -1,0 +1,207 @@
+{
+  "generated_at": "2026-03-11T19:39:02+08:00",
+  "goal": "原力全体系治理系统总览",
+  "audience": [
+    "治理负责人",
+    "人类协作者"
+  ],
+  "layers": {
+    "联邦层": [
+      "实例边界",
+      "主体编制",
+      "终端账号",
+      "模块责任"
+    ],
+    "运营层": [
+      "活跃线程",
+      "任务堵点",
+      "技能缺口",
+      "客户复制"
+    ],
+    "晨会层": [
+      "战略进化",
+      "今日 agenda",
+      "待你拍板项"
+    ]
+  },
+  "cards": [
+    {
+      "card_id": "card-01",
+      "question_id": "dq-001",
+      "question": "联邦体系里现在有哪些主体与实例边界？",
+      "layer": "federation",
+      "source_view_id": "view-dq-001",
+      "chart_type": "table",
+      "metric_ids": [
+        "space_count",
+        "subject_count"
+      ],
+      "dimension_ids": [
+        "space_role",
+        "subject_type"
+      ],
+      "action_target_ids": []
+    },
+    {
+      "card_id": "card-02",
+      "question_id": "dq-002",
+      "question": "终端与账号阵地覆盖到什么程度，哪里失管？",
+      "layer": "federation",
+      "source_view_id": "view-dq-002",
+      "chart_type": "bar_chart",
+      "metric_ids": [
+        "account_count"
+      ],
+      "dimension_ids": [
+        "account_platform",
+        "account_status"
+      ],
+      "action_target_ids": [
+        "account_risk_queue"
+      ]
+    },
+    {
+      "card_id": "card-03",
+      "question_id": "dq-003",
+      "question": "CBM 模块的人类 Owner 与 AI Copilot 是否齐备？",
+      "layer": "federation",
+      "source_view_id": "view-dq-003",
+      "chart_type": "table",
+      "metric_ids": [
+        "module_count"
+      ],
+      "dimension_ids": [
+        "module_status"
+      ],
+      "action_target_ids": [
+        "module_owner_gap_queue"
+      ]
+    },
+    {
+      "card_id": "card-04",
+      "question_id": "dq-004",
+      "question": "AI 编制是否形成 Agent + Skill 双层挂接？",
+      "layer": "federation",
+      "source_view_id": "view-dq-004",
+      "chart_type": "bar_chart",
+      "metric_ids": [
+        "ai_agent_count",
+        "skill_count"
+      ],
+      "dimension_ids": [
+        "subject_type",
+        "skill_cluster"
+      ],
+      "action_target_ids": [
+        "agent_skill_queue"
+      ]
+    },
+    {
+      "card_id": "card-05",
+      "question_id": "dq-005",
+      "question": "当前最重要的活跃线程是什么？",
+      "layer": "operations",
+      "source_view_id": "view-dq-005",
+      "chart_type": "table",
+      "metric_ids": [
+        "active_thread_count"
+      ],
+      "dimension_ids": [
+        "thread_goal"
+      ],
+      "action_target_ids": []
+    },
+    {
+      "card_id": "card-06",
+      "question_id": "dq-006",
+      "question": "哪些任务在推进，堵点在哪里？",
+      "layer": "operations",
+      "source_view_id": "view-dq-006",
+      "chart_type": "bar_chart",
+      "metric_ids": [
+        "task_count"
+      ],
+      "dimension_ids": [
+        "task_status"
+      ],
+      "action_target_ids": [
+        "pending_task_queue"
+      ]
+    },
+    {
+      "card_id": "card-07",
+      "question_id": "dq-007",
+      "question": "哪些技能在高频使用，哪里存在能力缺口？",
+      "layer": "operations",
+      "source_view_id": "view-dq-007",
+      "chart_type": "bar_chart",
+      "metric_ids": [
+        "skill_count"
+      ],
+      "dimension_ids": [
+        "skill_cluster"
+      ],
+      "action_target_ids": [
+        "skill_gap_queue"
+      ]
+    },
+    {
+      "card_id": "card-08",
+      "question_id": "dq-008",
+      "question": "客户复制实例推进到哪一层了？",
+      "layer": "operations",
+      "source_view_id": "view-dq-008",
+      "chart_type": "table",
+      "metric_ids": [
+        "client_space_count"
+      ],
+      "dimension_ids": [
+        "space_role"
+      ],
+      "action_target_ids": [
+        "client_rollout_queue"
+      ]
+    },
+    {
+      "card_id": "card-09",
+      "question_id": "dq-009",
+      "question": "原力治理系统正在往哪个战略目标进化？",
+      "layer": "action",
+      "source_view_id": "view-dq-009",
+      "chart_type": "line_chart",
+      "metric_ids": [
+        "review_count"
+      ],
+      "dimension_ids": [
+        "review_date"
+      ],
+      "action_target_ids": []
+    },
+    {
+      "card_id": "card-10",
+      "question_id": "dq-010",
+      "question": "今天早上 9 点要过什么，三种动作候选是什么？",
+      "layer": "action",
+      "source_view_id": "view-dq-010",
+      "chart_type": "table",
+      "metric_ids": [],
+      "dimension_ids": [],
+      "action_target_ids": [
+        "today_review_queue"
+      ]
+    }
+  ],
+  "automation_boundary": {
+    "supported": [
+      "bitable tables",
+      "views",
+      "records",
+      "dashboard source specs"
+    ],
+    "manual": [
+      "dashboard card creation",
+      "widget binding",
+      "layout placement"
+    ]
+  }
+}

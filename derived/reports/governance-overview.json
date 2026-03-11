@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-03-11T19:39:02+08:00",
+  "counts": {
+    "spaces": 5,
+    "subjects": 11,
+    "endpoints": 5,
+    "accounts": 7,
+    "operating_modules": 6,
+    "source_feeds": 7,
+    "ingestion_runs": 1,
+    "assets": 25,
+    "orders": 2,
+    "cashflows": 1,
+    "tasks": 5,
+    "threads": 5,
+    "skills": 3,
+    "actions": 3,
+    "agent_capabilities": 3,
+    "decision_records": 4,
+    "writeback_events": 1,
+    "knowledge_items": 1,
+    "review_runs": 1,
+    "relations": 112
+  },
+  "skills_by_cluster": {
+    "AI大管家治理簇": 1,
+    "垂直workflow簇": 2
+  },
+  "space_count": 5,
+  "subject_count": 11,
+  "endpoint_count": 5,
+  "account_count": 7,
+  "source_feed_count": 7,
+  "ingestion_run_count": 1,
+  "order_count": 2,
+  "cashflow_count": 1,
+  "module_coverage": {
+    "total": 6,
+    "human_owned": 6,
+    "ai_copilot_ready": 6,
+    "fully_staffed": 6
+  },
+  "active_thread_count": 4,
+  "blocked_task_count": 4,
+  "controlled_account_count": 7,
+  "client_space_count": 2,
+  "top_active_threads": [
+    "完成原力治理主图",
+    "内部销售协同节奏梳理",
+    "Palantir -> 原力OS operational ontology v0",
+    "给客户复制原力治理模板"
+  ],
+  "top_active_operational_threads": [
+    "Palantir -> 原力OS operational ontology v0"
+  ],
+  "action_catalog": [
+    "review-skill",
+    "resolve-action",
+    "publish-governance-report"
+  ],
+  "action_count": 3,
+  "pending_decision_count": 3,
+  "top_pending_decisions": [
+    "先补 workflow hardening",
+    "先清理 overlap",
+    "先优化 review 路由"
+  ],
+  "recent_writeback_count": 1,
+  "recent_writebacks": [
+    {
+      "writeback_id": "writeback-a1f9d00591",
+      "action_id": "publish-governance-report",
+      "verification_state": "completed"
+    }
+  ],
+  "top_blocked_tasks": [
+    "完成原力治理主图",
+    "内部销售协同节奏梳理",
+    "Palantir -> 原力OS operational ontology v0",
+    "给客户复制原力治理模板"
+  ]
+}

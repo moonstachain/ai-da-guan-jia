@@ -1,0 +1,89 @@
+[
+  {
+    "id": "decision-18319f80be",
+    "decision_id": "decision-18319f80be",
+    "title": "将 Palantir -> 原力OS operational ontology v0 设为 G1 当前一号实现线程",
+    "decision_type": "strategic_thread_priority",
+    "decision_state": "approved",
+    "target_entity_ids": [
+      "thread-adagj-op-ontology-001",
+      "G1"
+    ],
+    "decision_summary": "Operational ontology v0 is the current G1 implementation priority.",
+    "rationale": "Move from Palantir research into schema, action, policy, writeback, and audit implementation.",
+    "evidence_refs": [
+      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json"
+    ],
+    "decided_by": "human_owner",
+    "decision_time": "2026-03-11T19:39:02+08:00",
+    "writeback_event_ids": [
+      "writeback-a1f9d00591"
+    ],
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.94,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "decision-b8acc61635",
+    "decision_id": "decision-b8acc61635",
+    "title": "先补 workflow hardening",
+    "decision_type": "review_action_resolution",
+    "decision_state": "pending_approval",
+    "target_entity_ids": [
+      "adagj-review-001"
+    ],
+    "decision_summary": "先补 workflow hardening",
+    "rationale": "workflow-hardening",
+    "evidence_refs": [
+      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json"
+    ],
+    "decided_by": "",
+    "decision_time": "2026-03-11T09:00:00+08:00",
+    "writeback_event_ids": [],
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json",
+    "confidence": 0.88,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "decision-f3fe8ae34f",
+    "decision_id": "decision-f3fe8ae34f",
+    "title": "先清理 overlap",
+    "decision_type": "review_action_resolution",
+    "decision_state": "pending_approval",
+    "target_entity_ids": [
+      "adagj-review-001"
+    ],
+    "decision_summary": "先清理 overlap",
+    "rationale": "overlap",
+    "evidence_refs": [
+      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json"
+    ],
+    "decided_by": "",
+    "decision_time": "2026-03-11T09:00:00+08:00",
+    "writeback_event_ids": [],
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json",
+    "confidence": 0.88,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "decision-e5db336ab0",
+    "decision_id": "decision-e5db336ab0",
+    "title": "先优化 review 路由",
+    "decision_type": "review_action_resolution",
+    "decision_state": "pending_approval",
+    "target_entity_ids": [
+      "adagj-review-001"
+    ],
+    "decision_summary": "先优化 review 路由",
+    "rationale": "routing",
+    "evidence_refs": [
+      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json"
+    ],
+    "decided_by": "",
+    "decision_time": "2026-03-11T09:00:00+08:00",
+    "writeback_event_ids": [],
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json",
+    "confidence": 0.88,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

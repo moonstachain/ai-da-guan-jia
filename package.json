@@ -1,0 +1,9 @@
+{
+  "name": "yuanli-governance-system-runtime",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Runtime dependencies for Feishu knowledge-source validation.",
+  "dependencies": {
+    "playwright": "^1.52.0"
+  }
+}

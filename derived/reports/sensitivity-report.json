@@ -1,0 +1,11 @@
+{
+  "generated_at": "2026-03-11T21:17:08+08:00",
+  "ok": true,
+  "checks": [
+    {
+      "name": "no_raw_phone_or_long_id_in_feishu_payload",
+      "ok": true,
+      "details": []
+    }
+  ]
+}

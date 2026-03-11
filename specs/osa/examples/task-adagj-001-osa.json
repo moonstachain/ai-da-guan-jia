@@ -1,0 +1,273 @@
+{
+  "schema_version": "1.0",
+  "osa_id": "osa-task-adagj-001",
+  "generated_at": "2026-03-11T13:00:00+08:00",
+  "task_context": {
+    "task_id": "task-adagj-001",
+    "title": "完成原力治理主图",
+    "goal_id": "G1",
+    "space_id": "space-personal-zero",
+    "target_module_id": "module-governance",
+    "status": "active",
+    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/canonical/entities/tasks.json"
+  },
+  "governance_judgments": {
+    "autonomy_judgment": {
+      "decision": "ai_can_prepare_v1_map_and_pause_only_for_scope_confirmation",
+      "basis": "当前任务可先由 AI 完成结构化盘点与主图骨架，只有母题范围或展示取舍进入不可替代主观判断时才打断共同治理者。"
+    },
+    "global_optimum_judgment": {
+      "decision": "canonical_first_map_synthesis",
+      "basis": "先从本地 canonical 实体与关系出治理主干，再做可读表达，比先画图后回填真相源更稳。"
+    },
+    "capability_reuse_judgment": {
+      "decision": "reuse_ai_da_guan_jia_and_yuanli_core",
+      "basis": "本轮优先复用已有 skill 和 derived report，不新增外部 workflow。"
+    },
+    "verification_judgment": {
+      "decision": "require_visible_map_plus_canonical_backlinks",
+      "basis": "必须同时有主图表达和 canonical 回指，才能证明不是只做了表面说明。"
+    },
+    "evolution_judgment": {
+      "decision": "promote_map_structure_into_reusable_governance_template",
+      "basis": "如果这轮主图结构稳定，应沉淀为后续治理模板和 route 参考骨架。"
+    },
+    "current_max_distortion": {
+      "distortion": "只完成图形表达，没有把关键节点绑定到 canonical 实体、线程和证据。",
+      "why_it_matters": "这会制造“图做完了”的假象，但并不能支撑后续复用、审计和镜像同步。"
+    }
+  },
+  "objective": {
+    "origin_goal_alignment": {
+      "charter_relation": "这轮任务服务于合作宪章中的递归进化目标，不只是交付一张图，而是把治理真相组织成后续可复用骨架。",
+      "recursive_value": "若主图与 canonical 绑定清晰，后续战略提案、线程管理和 Feishu 镜像都能共享同一结构。"
+    },
+    "strategic_goal_alignment": {
+      "goal_id": "G1",
+      "strategic_goal": "治理操作系统化",
+      "relation": "治理主图是战略层的总览入口，没有这张主图，后续线程、模块和资产难以统一挂接。"
+    },
+    "task_goal_definition": {
+      "deliverable": "交付一份可读的原力治理主图说明，并明确回指到 canonical space / subject / module / task / thread 主干关系。",
+      "done_definition": [
+        "治理主图覆盖核心治理主干而不是只列概念",
+        "每个关键块都能回指到 canonical 或 derived 工件",
+        "主图说明能被下轮线程直接复用"
+      ],
+      "not_in_scope": [
+        "不在本轮做前端发布包装",
+        "不在本轮改 Feishu 仪表盘卡片",
+        "不在本轮修改运行时脚本"
+      ]
+    },
+    "distortion_boundary": {
+      "pseudo_completion_risk": "只产出一份好看的图或说明文，但没有对齐真实治理实体。",
+      "prevention_rule": "所有主图节点都要能追溯到 canonical entity、relation 或 derived report。"
+    }
+  },
+  "strategy": {
+    "external_benchmarking": [
+      "参考 operating system 式主图方法，而不是单页汇报思路",
+      "优先对标本地可验证治理工件，不以抽象理念替代结构"
+    ],
+    "prior_experience": [
+      "复用 canonical/entities 中现成的治理实体",
+      "复用 derived/reports/governance-overview.md 的现有治理汇总",
+      "复用 AI大管家的路由和验证优先级"
+    ],
+    "feasibility_assessment": {
+      "cost_level": "medium",
+      "dependencies": [
+        "现有 canonical 实体完整性",
+        "现有 derived governance report",
+        "任务与线程主干关系清晰"
+      ],
+      "risks": [
+        "概念层过多，真实实体层不足",
+        "图能看但回指不到真相源",
+        "过早追求展示层，忽略治理骨架"
+      ],
+      "verification_difficulty": "medium"
+    },
+    "path_decision": {
+      "chosen_path": "先整理 canonical-first 治理主干，再形成主图说明和回指列表。",
+      "rejected_alternatives": [
+        {
+          "path": "先画主图再反向补 canonical 对齐",
+          "reason": "容易把展示层误当真相源，后续复用成本高。"
+        },
+        {
+          "path": "直接做汇报式摘要页",
+          "reason": "摘要页适合展示，不适合治理骨架沉淀。"
+        }
+      ],
+      "rationale": "本轮的关键不是图像速度，而是让治理表达与本地 canonical 保持单一真相链。"
+    },
+    "verification_target": {
+      "evidence_required": [
+        "治理主图说明文档",
+        "主图关键块到 canonical 实体的回指列表",
+        "至少一个线程样例能挂回主图"
+      ],
+      "pass_condition": "审阅者能从主图说明直接追到 canonical 任务、线程、模块和支撑资产。"
+    }
+  },
+  "action": {
+    "work_breakdown": [
+      {
+        "step_id": "A1",
+        "description": "收拢与治理主图相关的 canonical entities、relations 和 derived report。",
+        "depends_on": []
+      },
+      {
+        "step_id": "A2",
+        "description": "整理 space / subject / module / task / thread 的主干结构，确定主图骨架。",
+        "depends_on": ["A1"]
+      },
+      {
+        "step_id": "A3",
+        "description": "输出主图说明与回指列表，并标出仍需共同治理者确认的范围边界。",
+        "depends_on": ["A2"]
+      },
+      {
+        "step_id": "A4",
+        "description": "执行 closure gate，沉淀 gain / waste / next iterate。",
+        "depends_on": ["A3"]
+      }
+    ],
+    "capability_orchestration": [
+      {
+        "step_id": "A1",
+        "primary_executor": "ai-da-guan-jia",
+        "selected_tools": ["ai-da-guan-jia", "local canonical files"],
+        "reason": "由顶层治理 skill 统一判断边界、证据和主干抽取。"
+      },
+      {
+        "step_id": "A2",
+        "primary_executor": "yuanli-core",
+        "selected_tools": ["yuanli-core", "derived/reports/governance-overview.md"],
+        "reason": "借助上层认知框架把治理主干压成清晰的结构表达。"
+      },
+      {
+        "step_id": "A3",
+        "primary_executor": "ai-da-guan-jia",
+        "selected_tools": ["markdown docs", "canonical backlinks"],
+        "reason": "保持治理说明与真相源一致，不引入新 workflow。"
+      },
+      {
+        "step_id": "A4",
+        "primary_executor": "ai-da-guan-jia",
+        "selected_tools": ["close-task style recap"],
+        "reason": "用统一收尾门判断是否真闭环。"
+      }
+    ],
+    "control_gates": [
+      {
+        "gate": "goal_gate",
+        "trigger": "进入主图整理前",
+        "check": "确认原目标、战略目标、任务目标都已写清",
+        "escalation_condition": "若任务范围仍混杂展示层与治理层，由共同治理者拍板"
+      },
+      {
+        "gate": "verification_gate",
+        "trigger": "主图说明初稿完成后",
+        "check": "确认每个关键块都能回指到 canonical 或 derived 工件",
+        "escalation_condition": "若主图块无法回指真相源，则停止宣称完成"
+      },
+      {
+        "gate": "closure_gate",
+        "trigger": "准备收尾时",
+        "check": "确认 result / evidence / gain / waste / next iterate 齐全",
+        "escalation_condition": "若只剩摘要而无证据，则不能关任务"
+      }
+    ],
+    "human_boundary": {
+      "default_mode": "ai_autonomy_with_governance_boundary",
+      "escalate_only_when": [
+        "需要不可替代的主观取舍来收缩主图范围",
+        "需要做不可逆发布或删除",
+        "需要新的登录态、授权或付费动作"
+      ]
+    },
+    "closure_outputs": {
+      "final_result": "治理主图说明文档与回指列表",
+      "evidence": [
+        "主图说明中列出的 canonical backlinks",
+        "对应的任务和线程样例",
+        "治理主干结构说明"
+      ],
+      "retrospective": [
+        "记录本轮 gain / waste / next iterate",
+        "明确哪些结构值得提升为模板"
+      ],
+      "next_iteration_candidates": [
+        "把主图骨架变成稳定模板",
+        "把主图和 strategy-governor thread proposal 对齐",
+        "后续再考虑展示层包装"
+      ]
+    }
+  },
+  "closure_gate": {
+    "result_status": "planned_example",
+    "evidence": [
+      "治理主图说明文档",
+      "canonical 回指列表",
+      "至少一个线程样例"
+    ],
+    "gain": [
+      "把治理主图从概念表达压成可验证结构",
+      "明确了主图必须附带 canonical 回指"
+    ],
+    "waste": [
+      "如果先做展示层再回填真相源，会造成双重维护",
+      "如果只讲理念不落回实体，会让任务看起来完成得过早"
+    ],
+    "next_iterate": [
+      "把 OSA card 接入后续 route 产物",
+      "把治理主图模板用于其他线程场景"
+    ],
+    "rule_candidate": "凡是治理型表达任务，必须先出 canonical skeleton，再出展示层或摘要层。"
+  },
+  "interface_projection": {
+    "route": {
+      "recommended_skill_chain": [
+        "ai-da-guan-jia",
+        "yuanli-core"
+      ],
+      "verification_target": [
+        "治理主图说明文档",
+        "canonical 回指列表",
+        "线程样例挂接"
+      ],
+      "control_gates": [
+        "goal_gate",
+        "verification_gate",
+        "closure_gate"
+      ]
+    },
+    "strategy_governor": {
+      "origin_goal": "递归进化",
+      "strategic_goal": "G1 / 治理操作系统化",
+      "thread_id": "thread-adagj-001",
+      "task_id": "task-adagj-001"
+    },
+    "review_close_task": {
+      "result_status": "planned_example",
+      "evidence": [
+        "治理主图说明文档",
+        "canonical 回指列表",
+        "线程样例挂接"
+      ],
+      "gain": [
+        "治理主图结构可复用",
+        "验真门从一开始就被写进任务闭环"
+      ],
+      "waste": [
+        "展示先行会制造回填成本"
+      ],
+      "next_iterate": [
+        "后续把该结构接入 route 和 close-task 产物"
+      ]
+    }
+  }
+}

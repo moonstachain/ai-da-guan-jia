@@ -1,0 +1,8 @@
+version = 1
+id = "yuanli-governance-morning-review"
+name = "Yuanli governance review"
+prompt = "Use [$ai-da-guan-jia](/Users/hay2045/.codex/skills/ai-da-guan-jia/SKILL.md) as the top-level governor for the single 09:00 morning run. First run the local daily skill review, then run `python3 /Users/hay2045/.codex/skills/ai-da-guan-jia/scripts/ai_da_guan_jia.py skill-scout --daily`, then refresh the Yuanli governance canonical inventory and generate the dedicated morning review. The final morning review must include exactly these 5 sections: 今日结构变化, 外部线索摘要, 当前最值得关注的问题, 3 个候选进化动作, 当前等待你做的选择. Keep exactly 3 candidate actions and one waiting decision. Treat GitHub and official install docs as source of truth; X/小红书/B站 only provide discovery and heat signals. Do not auto-install any external skill or tool."
+status = "ACTIVE"
+rrule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;BYHOUR=9;BYMINUTE=0"
+execution_environment = "worktree"
+cwds = ["/Users/hay2045/Documents/codex-ai-gua-jia-01"]

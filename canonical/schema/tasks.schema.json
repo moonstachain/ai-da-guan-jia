@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "tasks",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "task_id",
+      "title",
+      "status",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "task_id": { "type": "string" },
+      "title": { "type": "string" },
+      "goal_id": { "type": "string" },
+      "status": { "type": "string" },
+      "priority": { "type": "string" },
+      "owner_mode": { "type": "string" },
+      "selected_skills": { "type": "array", "items": { "type": "string" } },
+      "verification_state": { "type": "string" },
+      "evidence_ref": { "type": "string" },
+      "next_action": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "last_updated_at": { "type": "string" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

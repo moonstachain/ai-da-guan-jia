@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "endpoints",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "endpoint_id",
+      "title",
+      "endpoint_type",
+      "space_id",
+      "status",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "endpoint_id": { "type": "string" },
+      "title": { "type": "string" },
+      "endpoint_type": { "type": "string" },
+      "space_id": { "type": "string" },
+      "owner_subject_id": { "type": "string" },
+      "health_status": { "type": "string" },
+      "status": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

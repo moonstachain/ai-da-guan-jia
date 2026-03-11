@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "decision_records",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "decision_id",
+      "title",
+      "decision_type",
+      "decision_state",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "decision_id": { "type": "string" },
+      "title": { "type": "string" },
+      "decision_type": { "type": "string" },
+      "decision_state": { "type": "string" },
+      "target_entity_ids": { "type": "array", "items": { "type": "string" } },
+      "decision_summary": { "type": "string" },
+      "rationale": { "type": "string" },
+      "evidence_refs": { "type": "array", "items": { "type": "string" } },
+      "decided_by": { "type": "string" },
+      "decision_time": { "type": "string" },
+      "writeback_event_ids": { "type": "array", "items": { "type": "string" } },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

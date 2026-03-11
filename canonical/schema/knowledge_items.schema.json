@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "knowledge_items",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "knowledge_id",
+      "title",
+      "governance_layer",
+      "material_type",
+      "source_system",
+      "source_ref",
+      "canonical_path",
+      "summary",
+      "importance",
+      "sync_tier",
+      "status",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "knowledge_id": { "type": "string" },
+      "title": { "type": "string" },
+      "governance_layer": {
+        "type": "string",
+        "enum": ["治理层", "规则层", "线程层", "资产层", "交付层"]
+      },
+      "material_type": { "type": "string" },
+      "source_system": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "source_id": { "type": "string" },
+      "canonical_path": { "type": "string" },
+      "summary": { "type": "string" },
+      "importance": { "type": "string" },
+      "sync_tier": {
+        "type": "string",
+        "enum": ["core", "candidate", "ignore"]
+      },
+      "status": {
+        "type": "string",
+        "enum": ["active", "pending_review", "archived"]
+      },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

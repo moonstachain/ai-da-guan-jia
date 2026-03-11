@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-03-11T19:39:01+08:00",
+  "orders": [
+    {
+      "id": "ord-002",
+      "order_id": "ord-002",
+      "order_date": "2024-03-02",
+      "payment_amount": 365.0,
+      "payment_platform": "微信转账",
+      "order_source": "咨询",
+      "customer_name": "王小姐",
+      "customer_phone": "13900000000",
+      "service_line": "",
+      "lead_owner": "",
+      "primary_conversion_owner": "",
+      "secondary_conversion_owner": "",
+      "opportunity_id": "",
+      "note": "",
+      "card_note": "",
+      "source_feed_id": "feed-d7bc714149",
+      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/business/consulting-first-batch-orders.json",
+      "source_family": "order_facts",
+      "module_code": "sales",
+      "sensitivity_level": "restricted",
+      "parse_status": "parsed",
+      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/business/consulting-first-batch-orders.json",
+      "confidence": 0.9,
+      "updated_at": "2026-03-11T19:39:01+08:00"
+    },
+    {
+      "id": "ord-001",
+      "order_id": "ord-001",
+      "order_date": "2024-03-01",
+      "payment_amount": 6980.0,
+      "payment_platform": "小鹅通",
+      "order_source": "1V1",
+      "customer_name": "刘长凯",
+      "customer_phone": "13812345678",
+      "service_line": "线下课/密训",
+      "lead_owner": "施子超",
+      "primary_conversion_owner": "施子超",
+      "secondary_conversion_owner": "",
+      "opportunity_id": "opp-001",
+      "note": "5月上海线下",
+      "card_note": "续费",
+      "source_feed_id": "feed-d7bc714149",
+      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/business/templates/order-facts.json",
+      "source_family": "order_facts",
+      "module_code": "sales",
+      "sensitivity_level": "restricted",
+      "parse_status": "parsed",
+      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/business/templates/order-facts.json",
+      "confidence": 0.9,
+      "updated_at": "2026-03-11T19:39:01+08:00"
+    }
+  ],
+  "cashflows": [
+    {
+      "id": "cf-a53d3fbe96",
+      "cashflow_id": "cf-a53d3fbe96",
+      "transaction_date": "2024-03-03",
+      "amount": 365.0,
+      "direction": "inflow",
+      "account_name": "经营账户",
+      "counterparty": "王小姐",
+      "summary": "订单回款13812345678",
+      "source_feed_id": "feed-9928fd02b0",
+      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/business/cashflow-ledger.csv",
+      "source_family": "cashflow_ledger",
+      "module_code": "finance",
+      "sensitivity_level": "restricted",
+      "parse_status": "parsed",
+      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/business/cashflow-ledger.csv",
+      "confidence": 0.9,
+      "updated_at": "2026-03-11T19:39:01+08:00"
+    }
+  ],
+  "counts": {
+    "orders": 2,
+    "cashflows": 1
+  }
+}

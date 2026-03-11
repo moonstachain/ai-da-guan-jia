@@ -1,5 +1,8 @@
 __pycache__/
 *.pyc
+.DS_Store
+node_modules/
+.env.codex-mcp
 state/
 artifacts/
 .tmp/
@@ -17,3 +20,5 @@ restore-bundle/
 migration-dist/
 skills-mirror-staging/
 .venv/
+.playwright-cli/
+.venv-feishu-dashboard/

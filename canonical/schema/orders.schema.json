@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "orders",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "order_id",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "order_id": { "type": "string" },
+      "order_date": { "type": "string" },
+      "payment_amount": { "type": "number" },
+      "payment_platform": { "type": "string" },
+      "order_source": { "type": "string" },
+      "customer_name": { "type": "string" },
+      "customer_phone": { "type": "string" },
+      "service_line": { "type": "string" },
+      "lead_owner": { "type": "string" },
+      "primary_conversion_owner": { "type": "string" },
+      "secondary_conversion_owner": { "type": "string" },
+      "opportunity_id": { "type": "string" },
+      "note": { "type": "string" },
+      "card_note": { "type": "string" },
+      "source_feed_id": { "type": "string" },
+      "source_path": { "type": "string" },
+      "source_family": { "type": "string" },
+      "module_code": { "type": "string" },
+      "sensitivity_level": { "type": "string" },
+      "parse_status": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

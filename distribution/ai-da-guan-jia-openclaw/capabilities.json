@@ -1,0 +1,104 @@
+{
+  "bundle_id": "ai-da-guan-jia-openclaw",
+  "display_name": "AI大管家",
+  "short_description": "接任务、做判断、查知识、收口闭环的治理前台能力包",
+  "frontdesk_scenes": [
+    {
+      "scene": "task_intake",
+      "label": "给任务",
+      "prompt": "帮我研究飞书 claw 接入",
+      "returns": ["任务理解", "技能链", "验真目标", "run id"]
+    },
+    {
+      "scene": "judgment",
+      "label": "做判断",
+      "prompt": "这件事该不该做",
+      "returns": ["自治判断", "全局最优判断", "当前最大失真"]
+    },
+    {
+      "scene": "knowledge_lookup",
+      "label": "查资料",
+      "prompt": "帮我查飞书知识库里关于客户分层的结论",
+      "returns": ["原始来源", "摘要结论", "还缺什么"]
+    },
+    {
+      "scene": "close_loop",
+      "label": "收口",
+      "prompt": "把这事闭环",
+      "returns": ["完成情况", "验真状态", "next iterate"]
+    },
+    {
+      "scene": "approval",
+      "label": "审批",
+      "prompt": "这条消息要不要发",
+      "returns": ["推荐方案", "不推荐方案", "为什么现在该由人决定"]
+    }
+  ],
+  "tool_contracts": [
+    {
+      "name": "route_task",
+      "description": "Classify a natural-language task, choose the smallest sufficient skill chain, and persist the route bundle.",
+      "required_fields": ["input_text"],
+      "optional_fields": ["user_context"],
+      "returns": ["route", "verification_targets", "run_id"]
+    },
+    {
+      "name": "ask_knowledge",
+      "description": "Query knowledge-first paths with source boundary preserved.",
+      "required_fields": ["input_text"],
+      "optional_fields": ["user_context", "allow_execute"],
+      "returns": ["source_label", "summary", "missing", "run_id"]
+    },
+    {
+      "name": "close_task",
+      "description": "Assess closure readiness from the current frontdesk session state and optionally execute low-risk closure.",
+      "required_fields": [],
+      "optional_fields": ["chat_id", "session_state", "allow_execute"],
+      "returns": ["summary", "verification_status", "next_iterate", "run_id"]
+    },
+    {
+      "name": "get_run_status",
+      "description": "Read the persisted run bundle and summarize current route or closure state.",
+      "required_fields": ["run_id"],
+      "optional_fields": [],
+      "returns": ["status", "run_id", "task_text", "selected_skills"]
+    },
+    {
+      "name": "list_frontdesk_capabilities",
+      "description": "List supported frontdesk scenes, minimal tool contracts, and install/readiness metadata.",
+      "required_fields": [],
+      "optional_fields": ["verify_runtime"],
+      "returns": ["frontdesk_scenes", "tool_contracts", "installation_state"]
+    },
+    {
+      "name": "suggest_human_decision",
+      "description": "Frame a human-only decision with recommended path, anti-pattern, and reason for escalation.",
+      "required_fields": ["context"],
+      "optional_fields": ["user_context"],
+      "returns": ["recommended", "not_recommended", "why_human_now", "run_id"]
+    }
+  ],
+  "credential_guides": [
+    {
+      "id": "feishu_bot",
+      "label": "飞书机器人凭证",
+      "required": true,
+      "env": ["FEISHU_APP_ID", "FEISHU_APP_SECRET"],
+      "guide_url": "https://open.feishu.cn/"
+    },
+    {
+      "id": "get_biji_api",
+      "label": "Get笔记 API",
+      "required": false,
+      "env": ["GET_BIJI_API_KEY", "GET_BIJI_TOPIC_ID"],
+      "guide_url": "https://www.biji.com/openapi"
+    },
+    {
+      "id": "feishu_km",
+      "label": "飞书知识问答",
+      "required": false,
+      "env": ["FEISHU_APP_ID", "FEISHU_APP_SECRET"],
+      "guide_url": "https://open.feishu.cn/"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "views": [
+    {
+      "view_id": "view-dq-001",
+      "table_id": "spaces",
+      "question_id": "dq-001",
+      "layer": "federation",
+      "filter_hint": "默认展示联邦总图的当前实例和责任覆盖"
+    },
+    {
+      "view_id": "view-dq-002",
+      "table_id": "accounts",
+      "question_id": "dq-002",
+      "layer": "federation",
+      "filter_hint": "默认展示联邦总图的当前实例和责任覆盖"
+    },
+    {
+      "view_id": "view-dq-003",
+      "table_id": "operating_modules",
+      "question_id": "dq-003",
+      "layer": "federation",
+      "filter_hint": "默认展示联邦总图的当前实例和责任覆盖"
+    },
+    {
+      "view_id": "view-dq-004",
+      "table_id": "subjects",
+      "question_id": "dq-004",
+      "layer": "federation",
+      "filter_hint": "默认展示联邦总图的当前实例和责任覆盖"
+    },
+    {
+      "view_id": "view-dq-005",
+      "table_id": "threads",
+      "question_id": "dq-005",
+      "layer": "operations",
+      "filter_hint": "默认筛出 active / pending / needs follow-up"
+    },
+    {
+      "view_id": "view-dq-006",
+      "table_id": "tasks",
+      "question_id": "dq-006",
+      "layer": "operations",
+      "filter_hint": "默认筛出 active / pending / needs follow-up"
+    },
+    {
+      "view_id": "view-dq-007",
+      "table_id": "skills",
+      "question_id": "dq-007",
+      "layer": "operations",
+      "filter_hint": "默认筛出 active / pending / needs follow-up"
+    },
+    {
+      "view_id": "view-dq-008",
+      "table_id": "spaces",
+      "question_id": "dq-008",
+      "layer": "operations",
+      "filter_hint": "默认筛出 active / pending / needs follow-up"
+    },
+    {
+      "view_id": "view-dq-009",
+      "table_id": "review_runs",
+      "question_id": "dq-009",
+      "layer": "action",
+      "filter_hint": "默认筛出今日待处理或待拍板记录"
+    },
+    {
+      "view_id": "view-dq-010",
+      "table_id": "review_runs",
+      "question_id": "dq-010",
+      "layer": "action",
+      "filter_hint": "默认筛出今日待处理或待拍板记录"
+    }
+  ]
+}

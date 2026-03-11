@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CBM-RGX Scorecard",
+  "type": "object",
+  "required": [
+    "meta",
+    "weights",
+    "summary",
+    "business_cells",
+    "governance_systems",
+    "infrastructure_components"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object"
+    },
+    "weights": {
+      "type": "object"
+    },
+    "summary": {
+      "type": "object"
+    },
+    "business_cells": {
+      "type": "array"
+    },
+    "governance_systems": {
+      "type": "array"
+    },
+    "infrastructure_components": {
+      "type": "array"
+    },
+    "support_asset_pool": {
+      "type": "array"
+    },
+    "key_findings": {
+      "type": "array"
+    }
+  }
+}

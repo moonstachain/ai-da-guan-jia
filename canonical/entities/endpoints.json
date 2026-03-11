@@ -1,0 +1,67 @@
+[
+  {
+    "id": "endpoint-local-workstation",
+    "endpoint_id": "endpoint-local-workstation",
+    "title": "本地工作站",
+    "endpoint_type": "workstation",
+    "space_id": "space-personal-zero",
+    "owner_subject_id": "subject-hay2045",
+    "status": "active",
+    "health_status": "healthy",
+    "source_ref": "generated://endpoint/local-workstation",
+    "confidence": 0.95,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "endpoint-terminal-a",
+    "endpoint_id": "endpoint-terminal-a",
+    "title": "终端A",
+    "endpoint_type": "terminal",
+    "space_id": "space-personal-zero",
+    "owner_subject_id": "subject-hay2045",
+    "status": "active",
+    "health_status": "healthy",
+    "source_ref": "generated://endpoint/terminal-a",
+    "confidence": 0.92,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "endpoint-terminal-b",
+    "endpoint_id": "endpoint-terminal-b",
+    "title": "终端B",
+    "endpoint_type": "terminal",
+    "space_id": "space-personal-zero",
+    "owner_subject_id": "subject-hay2045",
+    "status": "active",
+    "health_status": "healthy",
+    "source_ref": "generated://endpoint/terminal-b",
+    "confidence": 0.92,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "endpoint-terminal-c",
+    "endpoint_id": "endpoint-terminal-c",
+    "title": "终端C",
+    "endpoint_type": "terminal",
+    "space_id": "space-personal-zero",
+    "owner_subject_id": "subject-hay2045",
+    "status": "planned",
+    "health_status": "planned",
+    "source_ref": "generated://endpoint/terminal-c",
+    "confidence": 0.9,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "endpoint-feishu-mobile",
+    "endpoint_id": "endpoint-feishu-mobile",
+    "title": "飞书手机端",
+    "endpoint_type": "mobile",
+    "space_id": "space-personal-zero",
+    "owner_subject_id": "subject-hay2045",
+    "status": "planned",
+    "health_status": "planned",
+    "source_ref": "generated://endpoint/feishu-mobile",
+    "confidence": 0.88,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

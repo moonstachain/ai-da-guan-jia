@@ -1,0 +1,114 @@
+[
+  {
+    "id": "task-adagj-001",
+    "task_id": "task-adagj-001",
+    "title": "完成原力治理主图",
+    "goal_id": "G1",
+    "space_id": "space-personal-zero",
+    "target_subject_id": "subject-hay2045",
+    "target_module_id": "module-governance",
+    "status": "active",
+    "priority": "P1",
+    "owner_mode": "ai",
+    "selected_skills": [
+      "ai-da-guan-jia",
+      "yuanli-core"
+    ],
+    "verification_state": "needs_follow_up",
+    "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-001",
+    "next_action": "先确认 v1 母题范围",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "last_updated_at": "2026-03-11T19:39:02+08:00",
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "task-adagj-ops-001",
+    "task_id": "task-adagj-ops-001",
+    "title": "内部销售协同节奏梳理",
+    "goal_id": "G1",
+    "space_id": "space-internal-team",
+    "target_subject_id": "subject-collab-owner",
+    "target_module_id": "module-sales",
+    "status": "active",
+    "priority": "P1",
+    "owner_mode": "ai",
+    "selected_skills": [
+      "knowledge-orchestrator"
+    ],
+    "verification_state": "needs_follow_up",
+    "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-ops-001",
+    "next_action": "先确认内部 owner 分工",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "last_updated_at": "2026-03-11T19:39:02+08:00",
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "task-adagj-op-ontology-001",
+    "task_id": "task-adagj-op-ontology-001",
+    "title": "Palantir -> 原力OS operational ontology v0",
+    "goal_id": "G1",
+    "space_id": "space-personal-zero",
+    "target_subject_id": "subject-hay2045",
+    "target_module_id": "module-governance",
+    "status": "active",
+    "priority": "P1",
+    "owner_mode": "ai",
+    "selected_skills": [
+      "ai-da-guan-jia"
+    ],
+    "verification_state": "needs_follow_up",
+    "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-op-ontology-001",
+    "next_action": "先补 canonical -> derived 镜像链",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "last_updated_at": "2026-03-11T19:39:02+08:00",
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "task-adagj-client-001",
+    "task_id": "task-adagj-client-001",
+    "title": "给客户复制原力治理模板",
+    "goal_id": "G2",
+    "space_id": "space-client-template",
+    "target_subject_id": "subject-hay2045",
+    "target_module_id": "module-governance",
+    "status": "active",
+    "priority": "P2",
+    "owner_mode": "ai",
+    "selected_skills": [
+      "ai-da-guan-jia",
+      "knowledge-orchestrator"
+    ],
+    "verification_state": "needs_follow_up",
+    "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-client-001",
+    "next_action": "先确认客户要复制到哪一层",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "last_updated_at": "2026-03-11T19:39:02+08:00",
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "task-adagj-002",
+    "task_id": "task-adagj-002",
+    "title": "同步原力知识资产",
+    "goal_id": "G2",
+    "space_id": "space-personal-zero",
+    "target_subject_id": "subject-hay2045",
+    "target_module_id": "module-governance",
+    "status": "archived",
+    "priority": "P2",
+    "owner_mode": "ai",
+    "selected_skills": [
+      "knowledge-orchestrator"
+    ],
+    "verification_state": "verified_or_closed",
+    "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-002",
+    "next_action": "",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "last_updated_at": "2026-03-11T19:39:02+08:00",
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

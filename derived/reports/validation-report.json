@@ -1,0 +1,189 @@
+{
+  "generated_at": "2026-03-11T21:17:08+08:00",
+  "checks": [
+    {
+      "name": "no_orphan_relations",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relation_types_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "daily_review_automation_preserved",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "dashboard_blueprint_present",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "operational_spec_files_present",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "actions_bootstrapped",
+      "ok": true,
+      "details": [
+        "review-skill",
+        "resolve-action",
+        "publish-governance-report"
+      ]
+    },
+    {
+      "name": "agent_capabilities_bootstrapped",
+      "ok": true,
+      "details": [
+        "capability-skill-review-proposal",
+        "capability-review-resolution-draft",
+        "capability-report-publication"
+      ]
+    },
+    {
+      "name": "writebacks_reference_existing_actions",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "approved_writebacks_have_decision",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "source_registry_groups_present",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "source_feeds_unique",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "orders_unique",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "cashflows_unique",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "knowledge_source_statuses_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "configured_knowledge_sources_registered",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "configured_tencent_meeting_sources_registered",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "configured_tencent_meeting_samples_verified",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "knowledge_source_urls_unique",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "knowledge_item_layers_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "knowledge_item_sync_tiers_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "knowledge_item_statuses_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "knowledge_items_reference_known_sources",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "tencent_meeting_capture_statuses_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "tencent_meeting_transcript_statuses_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "tencent_meeting_native_transcript_capabilities_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "tencent_meeting_native_transcript_enabled_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "tencent_meeting_share_page_transcript_visible_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "tencent_meeting_transcript_access_paths_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "accounts_have_subject_owner",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "endpoints_have_subject_owner",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "modules_have_human_owner",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "modules_have_ai_copilot",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "tasks_are_attached_to_subject_and_module",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "threads_track_space",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "feishu_payload_masked",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "ok": true
+}

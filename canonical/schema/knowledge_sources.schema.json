@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "knowledge_sources",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "source_id",
+      "title",
+      "url",
+      "page_type",
+      "source_role",
+      "validation_status",
+      "artifact_dir",
+      "last_validated_at",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "source_id": { "type": "string" },
+      "title": { "type": "string" },
+      "url": { "type": "string" },
+      "canonical_url": { "type": "string" },
+      "page_type": { "type": "string" },
+      "source_platform": { "type": "string" },
+      "source_kind": { "type": "string" },
+      "source_role": { "type": "string" },
+      "validation_status": {
+        "type": "string",
+        "enum": [
+          "validated",
+          "auth_required",
+          "access_denied",
+          "not_found",
+          "empty_extraction",
+          "blocked_runtime_missing"
+        ]
+      },
+      "auth_mode_used": { "type": "string" },
+      "artifact_dir": { "type": "string" },
+      "notes": { "type": "string" },
+      "record_created_at": { "type": "string" },
+      "meeting_code": { "type": "string" },
+      "meeting_id": { "type": "string" },
+      "recording_duration_ms": { "type": "integer" },
+      "recording_size_bytes": { "type": "integer" },
+      "thumbnail_url": { "type": "string" },
+      "page_accessible": { "type": "boolean" },
+      "transcript_present": { "type": "boolean" },
+      "minutes_present": { "type": "boolean" },
+      "media_url_present": { "type": "boolean" },
+      "auth_required": { "type": "boolean" },
+      "share_invalid_or_expired": { "type": "boolean" },
+      "capture_status": { "type": "string" },
+      "transcript_status": { "type": "string" },
+      "native_transcript_capability": { "type": "string" },
+      "native_transcript_enabled": { "type": "string" },
+      "share_page_transcript_visible": { "type": "string" },
+      "transcript_access_path": { "type": "string" },
+      "fallback_action": { "type": "string" },
+      "can_use_as_primary_material": { "type": "boolean" },
+      "normalized_capture_ref": { "type": "string" },
+      "raw_capture_ref": { "type": "string" },
+      "assessment_ref": { "type": "string" },
+      "last_validated_at": { "type": "string" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

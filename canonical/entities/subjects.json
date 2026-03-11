@@ -1,0 +1,190 @@
+[
+  {
+    "id": "subject-hay2045",
+    "subject_id": "subject-hay2045",
+    "title": "hay2045",
+    "subject_type": "human",
+    "space_id": "space-personal-zero",
+    "status": "active",
+    "owner_mode": "human",
+    "autonomy_tier": "human_owner",
+    "responsibility_scope": [
+      "public",
+      "private",
+      "governance"
+    ],
+    "source_ref": "generated://subject/hay2045",
+    "confidence": 0.96,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-collab-owner",
+    "subject_id": "subject-collab-owner",
+    "title": "内部协作责任人",
+    "subject_type": "human",
+    "space_id": "space-internal-team",
+    "status": "active",
+    "owner_mode": "human",
+    "autonomy_tier": "human_delegate",
+    "responsibility_scope": [
+      "sales",
+      "delivery",
+      "finance"
+    ],
+    "source_ref": "generated://subject/internal-owner",
+    "confidence": 0.88,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-internal-org",
+    "subject_id": "subject-internal-org",
+    "title": "原力内部组织",
+    "subject_type": "org",
+    "space_id": "space-internal-team",
+    "status": "active",
+    "owner_mode": "hybrid",
+    "autonomy_tier": "org_boundary",
+    "responsibility_scope": [
+      "sales",
+      "delivery",
+      "finance",
+      "governance"
+    ],
+    "source_ref": "generated://subject/internal-org",
+    "confidence": 0.9,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-client-org-template",
+    "subject_id": "subject-client-org-template",
+    "title": "客户组织样板",
+    "subject_type": "client_org",
+    "space_id": "space-client-template",
+    "status": "planned",
+    "owner_mode": "hybrid",
+    "autonomy_tier": "client_boundary",
+    "responsibility_scope": [
+      "public",
+      "private",
+      "sales",
+      "delivery"
+    ],
+    "source_ref": "generated://subject/client-template",
+    "confidence": 0.85,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-downstream-client-template",
+    "subject_id": "subject-downstream-client-template",
+    "title": "客户的客户样板",
+    "subject_type": "client_org",
+    "space_id": "space-downstream-template",
+    "status": "planned",
+    "owner_mode": "hybrid",
+    "autonomy_tier": "downstream_boundary",
+    "responsibility_scope": [
+      "public",
+      "private",
+      "sales"
+    ],
+    "source_ref": "generated://subject/downstream-template",
+    "confidence": 0.82,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-agent-public",
+    "subject_id": "subject-agent-public",
+    "title": "公域增长 Agent",
+    "subject_type": "ai_agent",
+    "space_id": "space-federation-root",
+    "status": "active",
+    "owner_mode": "ai",
+    "autonomy_tier": "copilot",
+    "responsibility_scope": [
+      "public"
+    ],
+    "source_ref": "generated://subject-agent/public",
+    "confidence": 0.94,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-agent-private",
+    "subject_id": "subject-agent-private",
+    "title": "私域转化 Agent",
+    "subject_type": "ai_agent",
+    "space_id": "space-federation-root",
+    "status": "active",
+    "owner_mode": "ai",
+    "autonomy_tier": "copilot",
+    "responsibility_scope": [
+      "private"
+    ],
+    "source_ref": "generated://subject-agent/private",
+    "confidence": 0.94,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-agent-sales",
+    "subject_id": "subject-agent-sales",
+    "title": "销售 Agent",
+    "subject_type": "ai_agent",
+    "space_id": "space-federation-root",
+    "status": "active",
+    "owner_mode": "ai",
+    "autonomy_tier": "copilot",
+    "responsibility_scope": [
+      "sales"
+    ],
+    "source_ref": "generated://subject-agent/sales",
+    "confidence": 0.94,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-agent-delivery",
+    "subject_id": "subject-agent-delivery",
+    "title": "交付 Agent",
+    "subject_type": "ai_agent",
+    "space_id": "space-federation-root",
+    "status": "active",
+    "owner_mode": "ai",
+    "autonomy_tier": "copilot",
+    "responsibility_scope": [
+      "delivery"
+    ],
+    "source_ref": "generated://subject-agent/delivery",
+    "confidence": 0.94,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-agent-finance",
+    "subject_id": "subject-agent-finance",
+    "title": "财务 Agent",
+    "subject_type": "ai_agent",
+    "space_id": "space-federation-root",
+    "status": "active",
+    "owner_mode": "ai",
+    "autonomy_tier": "copilot",
+    "responsibility_scope": [
+      "finance"
+    ],
+    "source_ref": "generated://subject-agent/finance",
+    "confidence": 0.94,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "subject-agent-governance",
+    "subject_id": "subject-agent-governance",
+    "title": "治理 Agent",
+    "subject_type": "ai_agent",
+    "space_id": "space-federation-root",
+    "status": "active",
+    "owner_mode": "ai",
+    "autonomy_tier": "copilot",
+    "responsibility_scope": [
+      "governance"
+    ],
+    "source_ref": "generated://subject-agent/governance",
+    "confidence": 0.97,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

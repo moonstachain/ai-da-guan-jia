@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "skills",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "skill_id",
+      "name",
+      "status",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "skill_id": { "type": "string" },
+      "name": { "type": "string" },
+      "title": { "type": "string" },
+      "cluster": { "type": "string" },
+      "role": { "type": "string" },
+      "verification_strength": { "type": "integer" },
+      "cost_efficiency": { "type": "integer" },
+      "auth_reuse": { "type": "integer" },
+      "complexity_penalty": { "type": "integer" },
+      "routing_credit": { "type": "number" },
+      "status": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

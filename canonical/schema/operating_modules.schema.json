@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "operating_modules",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "module_id",
+      "title",
+      "module_code",
+      "space_id",
+      "status",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "module_id": { "type": "string" },
+      "title": { "type": "string" },
+      "module_code": { "type": "string" },
+      "module_type": { "type": "string" },
+      "space_id": { "type": "string" },
+      "owner_subject_id": { "type": "string" },
+      "ai_subject_id": { "type": "string" },
+      "kpi_hint": { "type": "string" },
+      "status": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

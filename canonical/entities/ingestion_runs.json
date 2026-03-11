@@ -1,0 +1,22 @@
+[
+  {
+    "id": "ingest-20260311-193902",
+    "ingestion_run_id": "ingest-20260311-193902",
+    "run_type": "full_inventory",
+    "status": "completed",
+    "scanned_file_count": 21,
+    "recognized_file_count": 20,
+    "source_feed_count": 7,
+    "order_count": 2,
+    "cashflow_count": 1,
+    "content_asset_count": 3,
+    "unclassified_file_count": 1,
+    "unclassified_paths": [
+      "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/mystery.data"
+    ],
+    "sensitivity_check_status": "pending",
+    "source_ref": "registry://full_inventory",
+    "confidence": 0.9,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

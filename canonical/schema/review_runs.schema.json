@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "review_runs",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "review_id",
+      "review_date",
+      "scope",
+      "sync_state",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "review_id": { "type": "string" },
+      "review_date": { "type": "string" },
+      "scope": { "type": "string" },
+      "summary": { "type": "string" },
+      "top_risks": { "type": "array", "items": { "type": "string" } },
+      "candidate_actions": { "type": "array", "items": { "type": "string" } },
+      "human_decision": { "type": "string" },
+      "sync_state": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

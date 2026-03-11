@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "source_feeds",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "source_feed_id",
+      "title",
+      "source_family",
+      "registry_group",
+      "root_path",
+      "status",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "source_feed_id": { "type": "string" },
+      "title": { "type": "string" },
+      "source_family": { "type": "string" },
+      "registry_group": { "type": "string" },
+      "root_path": { "type": "string" },
+      "origin_device": { "type": "string" },
+      "owner_account_id": { "type": "string" },
+      "status": { "type": "string" },
+      "recognized_file_count": { "type": "integer" },
+      "unclassified_file_count": { "type": "integer" },
+      "last_scanned_at": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

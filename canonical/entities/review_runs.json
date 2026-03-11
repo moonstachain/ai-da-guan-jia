@@ -1,0 +1,22 @@
+[
+  {
+    "id": "adagj-review-001",
+    "review_id": "adagj-review-001",
+    "review_date": "2026-03-11",
+    "scope": "AI大管家日常 review",
+    "summary": "skills_total=3 / status=awaiting_human_choice",
+    "top_risks": [
+      "agency簇"
+    ],
+    "candidate_actions": [
+      "先补 workflow hardening",
+      "先清理 overlap",
+      "先优化 review 路由"
+    ],
+    "human_decision": "",
+    "sync_state": "review_synced_applied",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json",
+    "confidence": 0.9,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "capability-skill-review-proposal",
+    "capability_id": "capability-skill-review-proposal",
+    "title": "技能治理评审提案",
+    "status": "active",
+    "actor_type": "ai_agent",
+    "allowed_action_ids": [
+      "review-skill"
+    ],
+    "bound_policy_ids": [
+      "policy-read-governance",
+      "policy-propose-skill-review"
+    ],
+    "requires_human_approval": false,
+    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+    "confidence": 0.95,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "capability-review-resolution-draft",
+    "capability_id": "capability-review-resolution-draft",
+    "title": "技能治理决议草拟",
+    "status": "active",
+    "actor_type": "ai_agent",
+    "allowed_action_ids": [
+      "resolve-action"
+    ],
+    "bound_policy_ids": [
+      "policy-read-governance",
+      "policy-resolve-review-action"
+    ],
+    "requires_human_approval": true,
+    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+    "confidence": 0.95,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "capability-report-publication",
+    "capability_id": "capability-report-publication",
+    "title": "治理报告发布执行",
+    "status": "active",
+    "actor_type": "automation",
+    "allowed_action_ids": [
+      "publish-governance-report"
+    ],
+    "bound_policy_ids": [
+      "policy-read-governance",
+      "policy-publish-derived-report"
+    ],
+    "requires_human_approval": true,
+    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+    "confidence": 0.95,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

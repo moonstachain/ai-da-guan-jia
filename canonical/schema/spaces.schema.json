@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "spaces",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "space_id",
+      "title",
+      "space_type",
+      "status",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "space_id": { "type": "string" },
+      "title": { "type": "string" },
+      "space_type": { "type": "string" },
+      "parent_space_id": { "type": "string" },
+      "federation_role": { "type": "string" },
+      "status": { "type": "string" },
+      "owner_mode": { "type": "string" },
+      "description": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

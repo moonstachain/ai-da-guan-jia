@@ -1,0 +1,53 @@
+[
+  {
+    "id": "ai-da-guan-jia",
+    "skill_id": "ai-da-guan-jia",
+    "name": "ai-da-guan-jia",
+    "title": "ai-da-guan-jia",
+    "cluster": "AI大管家治理簇",
+    "role": "Govern",
+    "verification_strength": 5,
+    "cost_efficiency": 4,
+    "auth_reuse": 2,
+    "complexity_penalty": 1,
+    "routing_credit": 77.8,
+    "status": "active",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/ai-da-guan-jia/SKILL.md",
+    "confidence": 0.95,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "knowledge-orchestrator",
+    "skill_id": "knowledge-orchestrator",
+    "name": "knowledge-orchestrator",
+    "title": "knowledge-orchestrator",
+    "cluster": "垂直workflow簇",
+    "role": "Knowledge-first orchestration",
+    "verification_strength": 4,
+    "cost_efficiency": 4,
+    "auth_reuse": 2,
+    "complexity_penalty": 2,
+    "routing_credit": 65.0,
+    "status": "active",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/knowledge-orchestrator/SKILL.md",
+    "confidence": 0.95,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "yuanli-core",
+    "skill_id": "yuanli-core",
+    "name": "yuanli-core",
+    "title": "yuanli-core",
+    "cluster": "垂直workflow簇",
+    "role": "Yuanli thinking core",
+    "verification_strength": 4,
+    "cost_efficiency": 4,
+    "auth_reuse": 2,
+    "complexity_penalty": 2,
+    "routing_credit": 97.8,
+    "status": "active",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/yuanli-core/SKILL.md",
+    "confidence": 0.95,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

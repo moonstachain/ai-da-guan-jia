@@ -1,0 +1,111 @@
+{
+  "base_name": "原力全体系治理系统",
+  "canonical_policy": "local_json_markdown_primary",
+  "tables": [
+    {
+      "table_id": "assets",
+      "table_name": "资产总表",
+      "primary_field": "资产ID",
+      "fields": [
+        "标题",
+        "资产类型",
+        "领域",
+        "来源路径",
+        "来源类型",
+        "状态",
+        "拥有方式",
+        "置信度",
+        "最后发现时间"
+      ]
+    },
+    {
+      "table_id": "tasks",
+      "table_name": "任务总表",
+      "primary_field": "任务ID",
+      "fields": [
+        "标题",
+        "目标ID",
+        "状态",
+        "优先级",
+        "拥有方式",
+        "调用技能",
+        "验真状态",
+        "证据引用",
+        "下一步动作",
+        "最后更新时间"
+      ]
+    },
+    {
+      "table_id": "threads",
+      "table_name": "线程总表",
+      "primary_field": "线程ID",
+      "fields": [
+        "标题",
+        "主题",
+        "目标ID",
+        "状态",
+        "来源运行ID",
+        "开放问题",
+        "晨会关注",
+        "下次复盘日期"
+      ]
+    },
+    {
+      "table_id": "skills",
+      "table_name": "技能能力表",
+      "primary_field": "技能ID",
+      "fields": [
+        "技能名",
+        "簇",
+        "角色",
+        "验真强度",
+        "成本效率",
+        "登录态复用",
+        "复杂度惩罚",
+        "状态",
+        "路由信用"
+      ]
+    },
+    {
+      "table_id": "review_runs",
+      "table_name": "专项晨会记录表",
+      "primary_field": "Review ID",
+      "fields": [
+        "复盘日期",
+        "范围",
+        "摘要",
+        "主要风险",
+        "候选动作",
+        "待你拍板",
+        "同步状态"
+      ]
+    }
+  ],
+  "views": [
+    {
+      "name": "资产总览",
+      "table_id": "assets",
+      "purpose": "看高价值资产、来源类型和知识簇"
+    },
+    {
+      "name": "任务推进",
+      "table_id": "tasks",
+      "purpose": "看在推进的任务和堵点"
+    },
+    {
+      "name": "线程优先级",
+      "table_id": "threads",
+      "purpose": "看当前最重要的专题线程"
+    },
+    {
+      "name": "技能能力地图",
+      "table_id": "skills",
+      "purpose": "看高频技能和能力缺口"
+    },
+    {
+      "name": "专项晨会",
+      "table_id": "review_runs",
+      "purpose": "看 09:00 晨会议程、A/B/C 候选动作和待拍板项"
+    }
+  ]
+}

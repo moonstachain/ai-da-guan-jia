@@ -1,0 +1,28 @@
+[
+  {
+    "id": "writeback-a1f9d00591",
+    "writeback_id": "writeback-a1f9d00591",
+    "action_id": "publish-governance-report",
+    "decision_id": "decision-18319f80be",
+    "target_refs": [
+      "/Users/hay2045/Documents/codex-ai-gua-jia-01/derived/reports/governance-overview.md",
+      "/Users/hay2045/Documents/codex-ai-gua-jia-01/derived/reports/governance-overview.json",
+      "/Users/hay2045/Documents/codex-ai-gua-jia-01/canonical/snapshots/latest.json"
+    ],
+    "changed_fields": [
+      "governance_overview",
+      "inventory_snapshot",
+      "summary_counts"
+    ],
+    "evidence_refs": [
+      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+      "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json"
+    ],
+    "triggered_by": "automation",
+    "writeback_time": "2026-03-11T19:39:02+08:00",
+    "verification_state": "completed",
+    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/derived/reports/governance-overview.md",
+    "confidence": 0.9,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

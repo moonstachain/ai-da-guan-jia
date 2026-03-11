@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "actions",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "action_id",
+      "title",
+      "target_entity_type",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "action_id": { "type": "string" },
+      "title": { "type": "string" },
+      "scenario": { "type": "string" },
+      "status": { "type": "string" },
+      "target_entity_type": { "type": "string" },
+      "allowed_actor_types": { "type": "array", "items": { "type": "string" } },
+      "required_policy_ids": { "type": "array", "items": { "type": "string" } },
+      "input_contract": { "type": "object" },
+      "output_contract": { "type": "object" },
+      "writeback_targets": { "type": "array", "items": { "type": "string" } },
+      "requires_human_approval": { "type": "boolean" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

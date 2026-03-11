@@ -1,0 +1,135 @@
+{
+  "manifest_version": "2026-03-11-v1",
+  "versioned_assets": [
+    {
+      "id": "ai-da-guan-jia-skill",
+      "kind": "git_repo",
+      "source": "$HOME/.codex/skills/ai-da-guan-jia",
+      "restore_target": "$HOME/.codex/skills/ai-da-guan-jia",
+      "repo_url": "git@github.com:moonstachain/ai-da-guan-jia.git",
+      "notes": "Commit and push pending local changes before the new Mac arrives."
+    },
+    {
+      "id": "skill-trainer-recursive",
+      "kind": "git_repo",
+      "source": "$HOME/.codex/skills/skill-trainer-recursive",
+      "restore_target": "$HOME/.codex/skills/skill-trainer-recursive",
+      "repo_url": "git@github.com:moonstachain/skill-trainer-recursive.git",
+      "notes": "Keep as an independent repo instead of folding it into skills-mirror."
+    },
+    {
+      "id": "skills-mirror",
+      "kind": "mirror_export",
+      "source": "$HOME/.codex/skills",
+      "restore_target": "$SKILLS_MIRROR_ROOT",
+      "prepare_command": "python3 scripts/export_skills_mirror.py --source \"$HOME/.codex/skills\" --destination \"$SKILLS_MIRROR_ROOT\" --clean",
+      "notes": "Private mirror repo that keeps all skill source files but excludes runtime state."
+    },
+    {
+      "id": "active-workspace",
+      "kind": "git_repo",
+      "source": "$WORKSPACE_ROOT",
+      "restore_target": "$WORKSPACE_ROOT",
+      "notes": "Private repo for canonical source, docs, scripts, tests, and automations."
+    }
+  ],
+  "secret_assets": [
+    {
+      "id": "codex-auth",
+      "source": "$HOME/.codex/auth.json",
+      "bundle_path": "secret/codex/auth.json",
+      "restore_target": "$HOME/.codex/auth.json",
+      "required": true
+    },
+    {
+      "id": "codex-config",
+      "source": "$HOME/.codex/config.toml",
+      "bundle_path": "secret/codex/config.toml",
+      "restore_target": "$HOME/.codex/config.toml",
+      "required": true
+    },
+    {
+      "id": "codex-automations",
+      "source": "$HOME/.codex/automations",
+      "bundle_path": "secret/codex/automations",
+      "restore_target": "$HOME/.codex/automations",
+      "required": true
+    },
+    {
+      "id": "codex-skills-raw",
+      "source": "$HOME/.codex/skills",
+      "bundle_path": "secret/codex/skills-raw",
+      "restore_target": "$HOME/.codex/skills",
+      "required": true
+    },
+    {
+      "id": "workspace-output",
+      "source": "$WORKSPACE_ROOT/output",
+      "bundle_path": "secret/workspace/output",
+      "restore_target": "$WORKSPACE_ROOT/output",
+      "required": false
+    },
+    {
+      "id": "workspace-artifacts",
+      "source": "$WORKSPACE_ROOT/artifacts",
+      "bundle_path": "secret/workspace/artifacts",
+      "restore_target": "$WORKSPACE_ROOT/artifacts",
+      "required": false
+    }
+  ],
+  "optional_history_assets": [
+    {
+      "id": "codex-state-sqlite",
+      "source": "$HOME/.codex/state_5.sqlite",
+      "bundle_path": "history/codex/state_5.sqlite",
+      "restore_target": "$HOME/.codex/state_5.sqlite"
+    },
+    {
+      "id": "codex-sessions",
+      "source": "$HOME/.codex/sessions",
+      "bundle_path": "history/codex/sessions",
+      "restore_target": "$HOME/.codex/sessions"
+    },
+    {
+      "id": "codex-archived-sessions",
+      "source": "$HOME/.codex/archived_sessions",
+      "bundle_path": "history/codex/archived_sessions",
+      "restore_target": "$HOME/.codex/archived_sessions"
+    },
+    {
+      "id": "codex-shell-snapshots",
+      "source": "$HOME/.codex/shell_snapshots",
+      "bundle_path": "history/codex/shell_snapshots",
+      "restore_target": "$HOME/.codex/shell_snapshots"
+    }
+  ],
+  "exclude_rules": [
+    ".git/",
+    "node_modules/",
+    "artifacts/",
+    "output/",
+    "__pycache__/",
+    "*.pyc",
+    "*.tar",
+    "*.tar.gz",
+    "*.tgz",
+    "*.enc"
+  ],
+  "restore_order": [
+    "Install Codex app, git, Homebrew Python 3.11+, and Node 20 LTS.",
+    "Clone the active workspace private repo to $WORKSPACE_ROOT.",
+    "Clone ai-da-guan-jia and skill-trainer-recursive into $HOME/.codex/skills if you want them as first-class git repos.",
+    "Clone or export the private skills-mirror repo to $SKILLS_MIRROR_ROOT.",
+    "Transfer the encrypted restore bundle locally, decrypt it, and extract it to $SECRET_BUNDLE_ROOT.",
+    "Run ./bootstrap-new-mac.sh from the active workspace root.",
+    "Re-login Codex, GitHub, Feishu, and Get笔记 on the new Mac.",
+    "Run ./verify-restore.sh and treat the restore as incomplete until it passes."
+  ],
+  "verification_commands": [
+    "python3 \"$HOME/.codex/skills/ai-da-guan-jia/scripts/doctor.py\"",
+    "python3 \"$WORKSPACE_ROOT/scripts/check_codex_mcp.py\"",
+    "python3 \"$HOME/.codex/skills/ai-da-guan-jia/scripts/ai_da_guan_jia.py\" inventory-skills",
+    "python3 -m unittest discover -s \"$WORKSPACE_ROOT/tests\"",
+    "python3 \"$HOME/.codex/skills/ai-da-guan-jia/scripts/ai_da_guan_jia.py\" route --prompt \"帮我学一个陌生 API，先读官方说明书和攻略，再决定怎么做\""
+  ]
+}

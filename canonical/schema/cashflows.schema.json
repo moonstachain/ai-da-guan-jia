@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "cashflows",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "cashflow_id",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "cashflow_id": { "type": "string" },
+      "transaction_date": { "type": "string" },
+      "amount": { "type": "number" },
+      "direction": { "type": "string" },
+      "account_name": { "type": "string" },
+      "counterparty": { "type": "string" },
+      "summary": { "type": "string" },
+      "source_feed_id": { "type": "string" },
+      "source_path": { "type": "string" },
+      "source_family": { "type": "string" },
+      "module_code": { "type": "string" },
+      "sensitivity_level": { "type": "string" },
+      "parse_status": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

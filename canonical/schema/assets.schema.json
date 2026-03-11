@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "assets",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "asset_id",
+      "title",
+      "asset_type",
+      "status",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "asset_id": { "type": "string" },
+      "title": { "type": "string" },
+      "asset_type": { "type": "string" },
+      "domain": { "type": "string" },
+      "source_path": { "type": "string" },
+      "source_kind": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "content_class": { "type": "string" },
+      "source_family": { "type": "string" },
+      "module_code": { "type": "string" },
+      "owner_account_id": { "type": "string" },
+      "origin_device": { "type": "string" },
+      "sensitivity_level": { "type": "string" },
+      "checksum": { "type": "string" },
+      "parse_status": { "type": "string" },
+      "status": { "type": "string" },
+      "owner_mode": { "type": "string" },
+      "confidence": { "type": "number" },
+      "last_seen_at": { "type": "string" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

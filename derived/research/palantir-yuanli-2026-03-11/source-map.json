@@ -1,0 +1,254 @@
+{
+  "target_capability": "Research Palantir's full methodology, compare it with adjacent academic and industry work, and extract a usable Yuanli OS adoption model.",
+  "created_at": "2026-03-11",
+  "status": "complete",
+  "source_hierarchy": [
+    {
+      "level": 1,
+      "label": "source_of_truth",
+      "rule": "Use official Palantir docs and investor materials for Palantir product and delivery claims."
+    },
+    {
+      "level": 2,
+      "label": "standards_and_peer_review",
+      "rule": "Use standards bodies and peer-reviewed papers to anchor enterprise ontology, knowledge graph, digital twin, and decision-support concepts."
+    },
+    {
+      "level": 3,
+      "label": "industry_research",
+      "rule": "Use McKinsey, Gartner, and comparable public research to assess adoption patterns and enterprise implications."
+    },
+    {
+      "level": 4,
+      "label": "inference",
+      "rule": "Use inference only to connect Palantir's stack to Yuanli OS design decisions, and label it explicitly."
+    }
+  ],
+  "remaining_unknowns": [
+    "Palantir's deepest internal implementation details remain proprietary.",
+    "Paid analyst reports were not used as core evidence.",
+    "No claim is made that Palantir invented every underlying concept; the comparison focuses on engineering synthesis and delivery method."
+  ],
+  "sources": [
+    {
+      "id": "pal-01",
+      "title": "Platform Overview",
+      "bucket": "Palantir official",
+      "strand": "platform",
+      "type": "official documentation",
+      "authority": "high",
+      "confidence": 0.98,
+      "url": "https://www.palantir.com/docs/foundry/platform-overview/overview/",
+      "notes": "Primary source for Foundry platform shape and operating model."
+    },
+    {
+      "id": "pal-02",
+      "title": "Ontology Overview",
+      "bucket": "Palantir official",
+      "strand": "enterprise ontology",
+      "type": "official documentation",
+      "authority": "high",
+      "confidence": 0.99,
+      "url": "https://www.palantir.com/docs/foundry/ontology/overview/",
+      "notes": "Primary source for object, link, action, and operational ontology claims."
+    },
+    {
+      "id": "pal-03",
+      "title": "Why create an Ontology?",
+      "bucket": "Palantir official",
+      "strand": "enterprise ontology",
+      "type": "official documentation",
+      "authority": "high",
+      "confidence": 0.98,
+      "url": "https://www.palantir.com/docs/foundry/ontology/why-ontology",
+      "notes": "Best source for the business rationale behind the ontology layer."
+    },
+    {
+      "id": "pal-04",
+      "title": "AIP Features",
+      "bucket": "Palantir official",
+      "strand": "agentic enterprise systems",
+      "type": "official documentation",
+      "authority": "high",
+      "confidence": 0.97,
+      "url": "https://www.palantir.com/docs/foundry/aip/aip-features",
+      "notes": "Primary source for AI functions, agents, semantic grounding, and governance patterns."
+    },
+    {
+      "id": "pal-05",
+      "title": "Architecture Center Overview",
+      "bucket": "Palantir official",
+      "strand": "deployment and operations",
+      "type": "official documentation",
+      "authority": "high",
+      "confidence": 0.96,
+      "url": "https://www.palantir.com/docs/foundry/architecture-center/overview/",
+      "notes": "Primary source for deployment, architecture, and operational hardening."
+    },
+    {
+      "id": "pal-06",
+      "title": "Q3 2023 Business Update",
+      "bucket": "Palantir official",
+      "strand": "delivery method",
+      "type": "investor material",
+      "authority": "high",
+      "confidence": 0.94,
+      "url": "https://investors.palantir.com/files/Palantir%20Q3%202023%20Business%20Update.pdf",
+      "notes": "Primary source for AIP bootcamp framing and time-to-value claims."
+    },
+    {
+      "id": "pal-07",
+      "title": "Reports 2024",
+      "bucket": "Palantir official",
+      "strand": "business traction",
+      "type": "investor portal",
+      "authority": "high",
+      "confidence": 0.9,
+      "url": "https://investors.palantir.com/reports-2024.html",
+      "notes": "Used to anchor reported business updates and official communications."
+    },
+    {
+      "id": "pal-08",
+      "title": "Events",
+      "bucket": "Palantir official",
+      "strand": "business traction",
+      "type": "investor portal",
+      "authority": "high",
+      "confidence": 0.87,
+      "url": "https://investors.palantir.com/events.html",
+      "notes": "Used to confirm latest public reporting cadence."
+    },
+    {
+      "id": "ext-01",
+      "title": "ORG Ontology",
+      "bucket": "Standards",
+      "strand": "enterprise ontology",
+      "type": "W3C recommendation",
+      "authority": "high",
+      "confidence": 0.93,
+      "url": "https://www.w3.org/TR/vocab-org/",
+      "notes": "Represents a standards-based view of organizational entities, roles, and reporting lines."
+    },
+    {
+      "id": "ext-02",
+      "title": "Knowledge Graphs, Large Language Models and Large Multimodal Models: A Survey",
+      "bucket": "Academic",
+      "strand": "knowledge graph / OBDA",
+      "type": "arXiv survey",
+      "authority": "medium-high",
+      "confidence": 0.85,
+      "url": "https://arxiv.org/abs/2403.03111",
+      "notes": "Useful to separate semantic grounding from raw LLM behavior."
+    },
+    {
+      "id": "ext-03",
+      "title": "Large Language Models and Knowledge Graphs: Opportunities and Challenges",
+      "bucket": "Academic",
+      "strand": "knowledge graph / OBDA",
+      "type": "arXiv survey",
+      "authority": "medium-high",
+      "confidence": 0.83,
+      "url": "https://arxiv.org/abs/2308.06374",
+      "notes": "Used for the bridge between symbolic structure and generative systems."
+    },
+    {
+      "id": "ext-04",
+      "title": "Digital Twin: State-of-the-Art Future Challenge and Research Directions",
+      "bucket": "Academic",
+      "strand": "digital twin / cognitive twin",
+      "type": "peer-reviewed review",
+      "authority": "high",
+      "confidence": 0.9,
+      "url": "https://www.mdpi.com/1099-4300/23/2/204",
+      "notes": "Anchor source for digital twin as model plus data plus feedback loop."
+    },
+    {
+      "id": "ext-05",
+      "title": "A Cognitive Digital Twin for Intelligent Decision-Making",
+      "bucket": "Academic",
+      "strand": "digital twin / cognitive twin",
+      "type": "peer-reviewed paper",
+      "authority": "high",
+      "confidence": 0.86,
+      "url": "https://link.springer.com/article/10.1007/s12559-022-10037-4",
+      "notes": "Useful for the move from passive twin to decision-support twin."
+    },
+    {
+      "id": "ext-06",
+      "title": "Gartner Identifies Top Trends in Data and Analytics for 2022",
+      "bucket": "Industry research",
+      "strand": "decision intelligence",
+      "type": "research press release",
+      "authority": "medium-high",
+      "confidence": 0.8,
+      "url": "https://www.gartner.com/en/newsroom/press-releases/2022-03-14-gartner-identifies-top-trends-in-data-and-analytics-for-2022",
+      "notes": "Used as the clearest public Gartner statement on decision intelligence."
+    },
+    {
+      "id": "ext-07",
+      "title": "Why Agents Are the Next Frontier of Generative AI",
+      "bucket": "Industry research",
+      "strand": "agentic enterprise systems",
+      "type": "McKinsey article",
+      "authority": "medium-high",
+      "confidence": 0.82,
+      "url": "https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/why-agents-are-the-next-frontier-of-generative-ai",
+      "notes": "Useful for the enterprise framing of agents beyond chatbot use cases."
+    },
+    {
+      "id": "ext-08",
+      "title": "Azure Digital Twins Overview",
+      "bucket": "Industry implementation",
+      "strand": "digital twin / cognitive twin",
+      "type": "platform documentation",
+      "authority": "medium-high",
+      "confidence": 0.78,
+      "url": "https://learn.microsoft.com/en-us/azure/digital-twins/overview",
+      "notes": "Used to compare a mainstream digital twin implementation model with Palantir's broader operational layer."
+    },
+    {
+      "id": "ext-09",
+      "title": "OWL 2 Web Ontology Language Document Overview",
+      "bucket": "Standards",
+      "strand": "knowledge graph / OBDA",
+      "type": "W3C recommendation",
+      "authority": "high",
+      "confidence": 0.91,
+      "url": "https://www.w3.org/TR/owl2-overview/",
+      "notes": "Useful for separating formal ontology tooling from Palantir's productized operational ontology."
+    },
+    {
+      "id": "ext-10",
+      "title": "RDF 1.1 Concepts and Abstract Syntax",
+      "bucket": "Standards",
+      "strand": "knowledge graph / OBDA",
+      "type": "W3C recommendation",
+      "authority": "high",
+      "confidence": 0.9,
+      "url": "https://www.w3.org/TR/rdf11-concepts/",
+      "notes": "Anchor source for graph data modeling fundamentals."
+    },
+    {
+      "id": "ext-11",
+      "title": "Shapes Constraint Language (SHACL)",
+      "bucket": "Standards",
+      "strand": "knowledge graph / OBDA",
+      "type": "W3C recommendation",
+      "authority": "high",
+      "confidence": 0.9,
+      "url": "https://www.w3.org/TR/shacl/",
+      "notes": "Useful for understanding graph constraints and validation, which Palantir handles in a more product-specific way."
+    },
+    {
+      "id": "ext-12",
+      "title": "SPARQL 1.1 Overview",
+      "bucket": "Standards",
+      "strand": "knowledge graph / OBDA",
+      "type": "W3C recommendation",
+      "authority": "high",
+      "confidence": 0.88,
+      "url": "https://www.w3.org/TR/sparql11-overview/",
+      "notes": "Useful as a contrast case: semantic query power alone is not the same as operational execution."
+    }
+  ]
+}

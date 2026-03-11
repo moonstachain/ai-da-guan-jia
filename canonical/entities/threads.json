@@ -1,0 +1,95 @@
+[
+  {
+    "id": "thread-adagj-001",
+    "thread_id": "thread-adagj-001",
+    "title": "完成原力治理主图",
+    "theme": "G1",
+    "goal_id": "G1",
+    "space_id": "space-personal-zero",
+    "module_id": "module-governance",
+    "status": "active",
+    "source_run_id": "adagj-001",
+    "open_questions": [
+      "先确认 v1 母题范围"
+    ],
+    "morning_review_flag": true,
+    "next_review_date": "2026-03-11",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "thread-adagj-ops-001",
+    "thread_id": "thread-adagj-ops-001",
+    "title": "内部销售协同节奏梳理",
+    "theme": "G1",
+    "goal_id": "G1",
+    "space_id": "space-internal-team",
+    "module_id": "module-sales",
+    "status": "active",
+    "source_run_id": "adagj-ops-001",
+    "open_questions": [
+      "先确认内部 owner 分工"
+    ],
+    "morning_review_flag": true,
+    "next_review_date": "2026-03-11",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "thread-adagj-op-ontology-001",
+    "thread_id": "thread-adagj-op-ontology-001",
+    "title": "Palantir -> 原力OS operational ontology v0",
+    "theme": "G1",
+    "goal_id": "G1",
+    "space_id": "space-personal-zero",
+    "module_id": "module-governance",
+    "status": "active",
+    "source_run_id": "adagj-op-ontology-001",
+    "open_questions": [
+      "先补 canonical -> derived 镜像链"
+    ],
+    "morning_review_flag": true,
+    "next_review_date": "2026-03-11",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "thread-adagj-client-001",
+    "thread_id": "thread-adagj-client-001",
+    "title": "给客户复制原力治理模板",
+    "theme": "G2",
+    "goal_id": "G2",
+    "space_id": "space-client-template",
+    "module_id": "module-governance",
+    "status": "active",
+    "source_run_id": "adagj-client-001",
+    "open_questions": [
+      "先确认客户要复制到哪一层"
+    ],
+    "morning_review_flag": true,
+    "next_review_date": "2026-03-11",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "thread-adagj-002",
+    "thread_id": "thread-adagj-002",
+    "title": "同步原力知识资产",
+    "theme": "G2",
+    "goal_id": "G2",
+    "space_id": "space-personal-zero",
+    "module_id": "module-governance",
+    "status": "archived",
+    "source_run_id": "adagj-002",
+    "open_questions": [],
+    "morning_review_flag": false,
+    "next_review_date": "",
+    "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+    "confidence": 0.92,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

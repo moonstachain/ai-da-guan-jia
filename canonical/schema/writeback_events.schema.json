@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "writeback_events",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "writeback_id",
+      "action_id",
+      "verification_state",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "writeback_id": { "type": "string" },
+      "action_id": { "type": "string" },
+      "decision_id": { "type": "string" },
+      "target_refs": { "type": "array", "items": { "type": "string" } },
+      "changed_fields": { "type": "array", "items": { "type": "string" } },
+      "evidence_refs": { "type": "array", "items": { "type": "string" } },
+      "triggered_by": { "type": "string" },
+      "writeback_time": { "type": "string" },
+      "verification_state": { "type": "string" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

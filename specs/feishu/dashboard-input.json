@@ -1,0 +1,621 @@
+{
+  "goal": "原力全体系治理系统总览",
+  "audience": [
+    "治理负责人",
+    "人类协作者"
+  ],
+  "decision_questions": [
+    {
+      "id": "dq-001",
+      "layer": "federation",
+      "question": "联邦体系里现在有哪些主体与实例边界？",
+      "metric_ids": [
+        "space_count",
+        "subject_count"
+      ],
+      "dimension_ids": [
+        "space_role",
+        "subject_type"
+      ],
+      "chart_preference": "table"
+    },
+    {
+      "id": "dq-002",
+      "layer": "federation",
+      "question": "终端与账号阵地覆盖到什么程度，哪里失管？",
+      "metric_ids": [
+        "account_count"
+      ],
+      "dimension_ids": [
+        "account_platform",
+        "account_status"
+      ],
+      "action_target_ids": [
+        "account_risk_queue"
+      ],
+      "chart_preference": "bar_chart"
+    },
+    {
+      "id": "dq-003",
+      "layer": "federation",
+      "question": "CBM 模块的人类 Owner 与 AI Copilot 是否齐备？",
+      "metric_ids": [
+        "module_count"
+      ],
+      "dimension_ids": [
+        "module_status"
+      ],
+      "action_target_ids": [
+        "module_owner_gap_queue"
+      ],
+      "chart_preference": "table"
+    },
+    {
+      "id": "dq-004",
+      "layer": "federation",
+      "question": "AI 编制是否形成 Agent + Skill 双层挂接？",
+      "metric_ids": [
+        "ai_agent_count",
+        "skill_count"
+      ],
+      "dimension_ids": [
+        "subject_type",
+        "skill_cluster"
+      ],
+      "action_target_ids": [
+        "agent_skill_queue"
+      ],
+      "chart_preference": "bar_chart"
+    },
+    {
+      "id": "dq-005",
+      "layer": "operations",
+      "question": "当前最重要的活跃线程是什么？",
+      "metric_ids": [
+        "active_thread_count"
+      ],
+      "dimension_ids": [
+        "thread_goal"
+      ],
+      "chart_preference": "table"
+    },
+    {
+      "id": "dq-006",
+      "layer": "operations",
+      "question": "哪些任务在推进，堵点在哪里？",
+      "metric_ids": [
+        "task_count"
+      ],
+      "dimension_ids": [
+        "task_status"
+      ],
+      "action_target_ids": [
+        "pending_task_queue"
+      ],
+      "chart_preference": "bar_chart"
+    },
+    {
+      "id": "dq-007",
+      "layer": "operations",
+      "question": "哪些技能在高频使用，哪里存在能力缺口？",
+      "metric_ids": [
+        "skill_count"
+      ],
+      "dimension_ids": [
+        "skill_cluster"
+      ],
+      "action_target_ids": [
+        "skill_gap_queue"
+      ],
+      "chart_preference": "bar_chart"
+    },
+    {
+      "id": "dq-008",
+      "layer": "operations",
+      "question": "客户复制实例推进到哪一层了？",
+      "metric_ids": [
+        "client_space_count"
+      ],
+      "dimension_ids": [
+        "space_role"
+      ],
+      "action_target_ids": [
+        "client_rollout_queue"
+      ],
+      "chart_preference": "table"
+    },
+    {
+      "id": "dq-009",
+      "layer": "action",
+      "question": "原力治理系统正在往哪个战略目标进化？",
+      "metric_ids": [
+        "review_count"
+      ],
+      "dimension_ids": [
+        "review_date"
+      ],
+      "chart_preference": "line_chart"
+    },
+    {
+      "id": "dq-010",
+      "layer": "action",
+      "question": "今天早上 9 点要过什么，三种动作候选是什么？",
+      "action_target_ids": [
+        "today_review_queue"
+      ],
+      "chart_preference": "table"
+    }
+  ],
+  "tables": [
+    {
+      "id": "spaces",
+      "name": "联邦实例表",
+      "grain": "space",
+      "fields": [
+        "标题",
+        "实例类型",
+        "上级实例",
+        "联邦角色",
+        "状态",
+        "拥有方式",
+        "说明",
+        "置信度"
+      ]
+    },
+    {
+      "id": "subjects",
+      "name": "主体总表",
+      "grain": "subject",
+      "fields": [
+        "标题",
+        "主体类型",
+        "所属实例",
+        "自治层级",
+        "负责模块",
+        "状态",
+        "拥有方式",
+        "置信度"
+      ]
+    },
+    {
+      "id": "endpoints",
+      "name": "终端表",
+      "grain": "endpoint",
+      "fields": [
+        "标题",
+        "终端类型",
+        "所属实例",
+        "拥有主体",
+        "健康状态",
+        "状态",
+        "置信度"
+      ]
+    },
+    {
+      "id": "accounts",
+      "name": "终端账号表",
+      "grain": "account",
+      "fields": [
+        "标题",
+        "平台",
+        "账号类型",
+        "所属实例",
+        "拥有主体",
+        "渠道角色",
+        "宿主终端",
+        "健康状态",
+        "状态",
+        "置信度"
+      ]
+    },
+    {
+      "id": "operating_modules",
+      "name": "CBM模块责任表",
+      "grain": "operating_module",
+      "fields": [
+        "标题",
+        "模块编码",
+        "所属实例",
+        "人类Owner",
+        "AI Copilot",
+        "KPI提示",
+        "状态",
+        "置信度"
+      ]
+    },
+    {
+      "id": "source_feeds",
+      "name": "来源总表",
+      "grain": "source_feed",
+      "fields": [
+        "标题",
+        "来源族",
+        "注册分组",
+        "根路径",
+        "宿主设备",
+        "关联账号",
+        "状态",
+        "识别文件数",
+        "未分类文件数",
+        "最后扫描时间"
+      ]
+    },
+    {
+      "id": "ingestion_runs",
+      "name": "采集运行表",
+      "grain": "ingestion_run",
+      "fields": [
+        "运行类型",
+        "状态",
+        "扫描文件数",
+        "识别文件数",
+        "订单数",
+        "现金流数",
+        "内容资产数",
+        "未分类文件数",
+        "敏感检查状态",
+        "运行时间"
+      ]
+    },
+    {
+      "id": "assets",
+      "name": "资产总表",
+      "grain": "asset",
+      "fields": [
+        "标题",
+        "资产类型",
+        "领域",
+        "来源路径",
+        "来源类型",
+        "内容分类",
+        "来源族",
+        "模块编码",
+        "关联账号",
+        "来源设备",
+        "敏感级别",
+        "校验指纹",
+        "解析状态",
+        "状态",
+        "拥有方式",
+        "置信度",
+        "最后发现时间"
+      ]
+    },
+    {
+      "id": "orders",
+      "name": "订单事实表",
+      "grain": "order",
+      "fields": [
+        "订单日期",
+        "支付金额",
+        "支付平台",
+        "订单来源",
+        "客户名称",
+        "手机号",
+        "服务线",
+        "主转化归属",
+        "次转化归属",
+        "来源族",
+        "敏感级别"
+      ]
+    },
+    {
+      "id": "cashflows",
+      "name": "现金流事实表",
+      "grain": "cashflow",
+      "fields": [
+        "发生日期",
+        "金额",
+        "方向",
+        "账户",
+        "对手方",
+        "摘要",
+        "来源族",
+        "敏感级别",
+        "解析状态"
+      ]
+    },
+    {
+      "id": "content_assets",
+      "name": "内容资产表",
+      "grain": "content_asset",
+      "fields": [
+        "标题",
+        "内容分类",
+        "来源族",
+        "来源路径",
+        "关联账号",
+        "模块编码",
+        "解析状态",
+        "敏感级别",
+        "最后发现时间"
+      ]
+    },
+    {
+      "id": "tasks",
+      "name": "任务总表",
+      "grain": "task",
+      "fields": [
+        "标题",
+        "目标ID",
+        "状态",
+        "优先级",
+        "拥有方式",
+        "调用技能",
+        "验真状态",
+        "证据引用",
+        "下一步动作",
+        "最后更新时间"
+      ]
+    },
+    {
+      "id": "threads",
+      "name": "线程总表",
+      "grain": "thread",
+      "fields": [
+        "标题",
+        "主题",
+        "目标ID",
+        "状态",
+        "来源运行ID",
+        "开放问题",
+        "晨会关注",
+        "下次复盘日期"
+      ]
+    },
+    {
+      "id": "skills",
+      "name": "技能能力表",
+      "grain": "skill",
+      "fields": [
+        "技能名",
+        "簇",
+        "角色",
+        "验真强度",
+        "成本效率",
+        "登录态复用",
+        "复杂度惩罚",
+        "状态",
+        "路由信用"
+      ]
+    },
+    {
+      "id": "review_runs",
+      "name": "专项晨会记录表",
+      "grain": "review_run",
+      "fields": [
+        "复盘日期",
+        "范围",
+        "摘要",
+        "主要风险",
+        "候选动作",
+        "待你拍板",
+        "同步状态"
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "space_count",
+      "name": "联邦实例数",
+      "table_id": "spaces",
+      "aggregation": "count"
+    },
+    {
+      "id": "subject_count",
+      "name": "主体数",
+      "table_id": "subjects",
+      "aggregation": "count"
+    },
+    {
+      "id": "ai_agent_count",
+      "name": "AI Agent 数",
+      "table_id": "subjects",
+      "aggregation": "count"
+    },
+    {
+      "id": "account_count",
+      "name": "账号数",
+      "table_id": "accounts",
+      "aggregation": "count"
+    },
+    {
+      "id": "module_count",
+      "name": "模块数",
+      "table_id": "operating_modules",
+      "aggregation": "count"
+    },
+    {
+      "id": "asset_count",
+      "name": "资产数",
+      "table_id": "assets",
+      "aggregation": "count"
+    },
+    {
+      "id": "task_count",
+      "name": "任务数",
+      "table_id": "tasks",
+      "aggregation": "count"
+    },
+    {
+      "id": "active_thread_count",
+      "name": "活跃线程数",
+      "table_id": "threads",
+      "aggregation": "count"
+    },
+    {
+      "id": "skill_count",
+      "name": "技能数",
+      "table_id": "skills",
+      "aggregation": "count"
+    },
+    {
+      "id": "client_space_count",
+      "name": "客户实例数",
+      "table_id": "spaces",
+      "aggregation": "count"
+    },
+    {
+      "id": "review_count",
+      "name": "专项晨会数",
+      "table_id": "review_runs",
+      "aggregation": "count"
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "space_role",
+      "name": "联邦角色",
+      "table_id": "spaces",
+      "field": "联邦角色",
+      "type": "single_select"
+    },
+    {
+      "id": "subject_type",
+      "name": "主体类型",
+      "table_id": "subjects",
+      "field": "主体类型",
+      "type": "single_select"
+    },
+    {
+      "id": "account_platform",
+      "name": "平台",
+      "table_id": "accounts",
+      "field": "平台",
+      "type": "single_select"
+    },
+    {
+      "id": "account_status",
+      "name": "账号状态",
+      "table_id": "accounts",
+      "field": "健康状态",
+      "type": "single_select"
+    },
+    {
+      "id": "module_status",
+      "name": "模块状态",
+      "table_id": "operating_modules",
+      "field": "状态",
+      "type": "single_select"
+    },
+    {
+      "id": "thread_goal",
+      "name": "目标ID",
+      "table_id": "threads",
+      "field": "目标ID",
+      "type": "single_select"
+    },
+    {
+      "id": "task_status",
+      "name": "任务状态",
+      "table_id": "tasks",
+      "field": "状态",
+      "type": "single_select"
+    },
+    {
+      "id": "skill_cluster",
+      "name": "技能簇",
+      "table_id": "skills",
+      "field": "簇",
+      "type": "single_select"
+    },
+    {
+      "id": "review_date",
+      "name": "复盘日期",
+      "table_id": "review_runs",
+      "field": "复盘日期",
+      "type": "date"
+    }
+  ],
+  "time_grain": "day",
+  "action_targets": [
+    {
+      "id": "account_risk_queue",
+      "name": "账号失管队列",
+      "table_id": "accounts",
+      "record_filter": "健康状态 != healthy",
+      "display_fields": [
+        "标题",
+        "平台",
+        "拥有主体",
+        "宿主终端",
+        "健康状态"
+      ]
+    },
+    {
+      "id": "module_owner_gap_queue",
+      "name": "模块责任缺口队列",
+      "table_id": "operating_modules",
+      "record_filter": "人类Owner is empty OR AI Copilot is empty",
+      "display_fields": [
+        "标题",
+        "模块编码",
+        "人类Owner",
+        "AI Copilot",
+        "KPI提示"
+      ]
+    },
+    {
+      "id": "agent_skill_queue",
+      "name": "AI编制挂接队列",
+      "table_id": "subjects",
+      "record_filter": "主体类型 = ai_agent",
+      "display_fields": [
+        "标题",
+        "主体类型",
+        "负责模块",
+        "自治层级",
+        "所属实例"
+      ]
+    },
+    {
+      "id": "pending_task_queue",
+      "name": "待跟进任务队列",
+      "table_id": "tasks",
+      "record_filter": "状态 != archived",
+      "display_fields": [
+        "标题",
+        "优先级",
+        "验真状态",
+        "下一步动作"
+      ]
+    },
+    {
+      "id": "skill_gap_queue",
+      "name": "技能缺口队列",
+      "table_id": "skills",
+      "record_filter": "复杂度惩罚 >= 2",
+      "display_fields": [
+        "技能名",
+        "簇",
+        "验真强度",
+        "复杂度惩罚"
+      ]
+    },
+    {
+      "id": "client_rollout_queue",
+      "name": "客户复制进度队列",
+      "table_id": "spaces",
+      "record_filter": "联邦角色 in (client, downstream)",
+      "display_fields": [
+        "标题",
+        "实例类型",
+        "联邦角色",
+        "状态",
+        "说明"
+      ]
+    },
+    {
+      "id": "today_review_queue",
+      "name": "今日晨会队列",
+      "table_id": "review_runs",
+      "record_filter": "复盘日期 = today",
+      "display_fields": [
+        "摘要",
+        "主要风险",
+        "候选动作",
+        "待你拍板"
+      ]
+    }
+  ]
+}

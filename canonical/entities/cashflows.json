@@ -1,0 +1,21 @@
+[
+  {
+    "id": "cf-17ea1e34e2",
+    "cashflow_id": "cf-17ea1e34e2",
+    "transaction_date": "2024-03-03",
+    "amount": 365.0,
+    "direction": "inflow",
+    "account_name": "经营账户",
+    "counterparty": "王小姐",
+    "summary": "订单回款13812345678",
+    "source_feed_id": "feed-1552c8d1fe",
+    "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/cashflow-ledger.csv",
+    "source_family": "cashflow_ledger",
+    "module_code": "finance",
+    "sensitivity_level": "restricted",
+    "parse_status": "parsed",
+    "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/cashflow-ledger.csv",
+    "confidence": 0.9,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "space-federation-root",
+    "space_id": "space-federation-root",
+    "title": "原理OS联邦总图",
+    "space_type": "federation_root",
+    "parent_space_id": "",
+    "status": "active",
+    "owner_mode": "hybrid",
+    "description": "联邦治理总图，只汇总不吞掉实例边界。",
+    "federation_role": "root",
+    "source_ref": "generated://federation-root",
+    "confidence": 0.96,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "space-personal-zero",
+    "space_id": "space-personal-zero",
+    "title": "0号实例-你本人",
+    "space_type": "personal_instance",
+    "parent_space_id": "space-federation-root",
+    "status": "active",
+    "owner_mode": "human",
+    "description": "你的本地治理实例，承接终端、账号和日常协作。",
+    "federation_role": "personal",
+    "source_ref": "generated://space/personal-zero",
+    "confidence": 0.95,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "space-internal-team",
+    "space_id": "space-internal-team",
+    "title": "内部协作实例",
+    "space_type": "internal_instance",
+    "parent_space_id": "space-federation-root",
+    "status": "active",
+    "owner_mode": "hybrid",
+    "description": "同事与合伙人的责任协同空间。",
+    "federation_role": "internal",
+    "source_ref": "generated://space/internal-team",
+    "confidence": 0.9,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "space-client-template",
+    "space_id": "space-client-template",
+    "title": "客户复制实例",
+    "space_type": "client_instance",
+    "parent_space_id": "space-federation-root",
+    "status": "planned",
+    "owner_mode": "hybrid",
+    "description": "客户复制这套治理模型的样板空间。",
+    "federation_role": "client",
+    "source_ref": "generated://space/client-template",
+    "confidence": 0.88,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  },
+  {
+    "id": "space-downstream-template",
+    "space_id": "space-downstream-template",
+    "title": "下游复制实例",
+    "space_type": "downstream_instance",
+    "parent_space_id": "space-federation-root",
+    "status": "planned",
+    "owner_mode": "hybrid",
+    "description": "客户的客户沿用这套模型时的下游空间。",
+    "federation_role": "downstream",
+    "source_ref": "generated://space/downstream-template",
+    "confidence": 0.85,
+    "updated_at": "2026-03-11T19:39:02+08:00"
+  }
+]

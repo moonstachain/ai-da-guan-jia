@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-03-11T06:28:47+08:00",
+  "status": "validated",
+  "table_counts": {
+    "联邦实例表": 5,
+    "主体总表": 11,
+    "终端表": 5,
+    "终端账号表": 7,
+    "CBM模块责任表": 6,
+    "资产总表": 130,
+    "任务总表": 30,
+    "线程总表": 30,
+    "技能能力表": 111,
+    "专项晨会记录表": 1
+  },
+  "message": "Local canonical payload validated. No remote Feishu base configured in v1."
+}

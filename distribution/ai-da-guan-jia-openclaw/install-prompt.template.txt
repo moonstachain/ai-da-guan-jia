@@ -1,0 +1,21 @@
+请安装 AI大管家 技能，帮助我接任务、做判断、查知识、收口闭环。
+
+技能地址：{{skill_source}}
+能力清单：{{capabilities_path}}
+飞书使用攻略：{{frontend_guide}}
+
+API / 凭证获取：
+- 飞书开放平台：{{feishu_guide_url}}
+- Get笔记 OpenAPI：{{get_biji_guide_url}}
+
+安装后请先检查配置状态：
+- 已安装但未配置
+- 已配置但未验真
+- 已验真可用
+
+默认前端入口：
+- 给任务
+- 做判断
+- 查资料
+- 收口
+- 审批

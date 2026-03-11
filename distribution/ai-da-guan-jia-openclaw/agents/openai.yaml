@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI大管家"
+  short_description: "接任务、做判断、查知识、收口闭环的治理前台能力包"
+  default_prompt: "Use AI大管家 as the frontend governor. Accept tasks, make judgments, query knowledge sources, and prepare closure suggestions. Keep Feishu as the collaboration frontend, not the canonical memory."

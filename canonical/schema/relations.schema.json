@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "relations",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "relation_id",
+      "from_type",
+      "from_id",
+      "relation_type",
+      "to_type",
+      "to_id",
+      "evidence_ref",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "relation_id": { "type": "string" },
+      "from_type": { "type": "string" },
+      "from_id": { "type": "string" },
+      "relation_type": { "type": "string" },
+      "to_type": { "type": "string" },
+      "to_id": { "type": "string" },
+      "evidence_ref": { "type": "string" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

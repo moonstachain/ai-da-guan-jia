@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "agent_capabilities",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "capability_id",
+      "title",
+      "actor_type",
+      "source_ref",
+      "confidence",
+      "updated_at"
+    ],
+    "properties": {
+      "id": { "type": "string" },
+      "capability_id": { "type": "string" },
+      "title": { "type": "string" },
+      "status": { "type": "string" },
+      "actor_type": { "type": "string" },
+      "allowed_action_ids": { "type": "array", "items": { "type": "string" } },
+      "bound_policy_ids": { "type": "array", "items": { "type": "string" } },
+      "requires_human_approval": { "type": "boolean" },
+      "source_ref": { "type": "string" },
+      "confidence": { "type": "number" },
+      "updated_at": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}
