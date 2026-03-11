@@ -15,6 +15,8 @@ Write the current strategic operating-system view to:
 - `situation-map.md`
 - `route.json`
 - `evolution.json`
+- `closure-assessment.json`
+- `incentive-decision.json`
 - `evolution.md`
 - `worklog.json`
 - `worklog.md`
@@ -71,6 +73,9 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `governance_signal_status`
 - `credit_influenced_selection`
 - `proposal_authority_summary`
+- `budget_profile`
+- `closure_assessment`
+- `incentive_decision`
 
 ## Type Conventions
 
@@ -90,6 +95,9 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `governance_signal_status`: `missing`, `partial`, or `loaded`.
 - `credit_influenced_selection`: bool. True only when routing credit affected at least one selected skill.
 - `proposal_authority_summary`: object grouping selected skills into suggestion-capable vs execution-focused roles.
+- `budget_profile`: object with `tier`, token caps, time caps, and budget mode.
+- `closure_assessment`: object containing weighted closure metrics, gates, and budget assessment.
+- `incentive_decision`: object containing final lever decisions and triggered penalties.
 
 ## Feishu Mirror Mapping
 

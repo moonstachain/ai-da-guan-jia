@@ -6,11 +6,20 @@ Score candidates in this fixed order:
 
 1. `任务适配度`
 2. `验真能力`
-3. `成本/算力`
-4. `已有认证/登录态复用`
-5. `新增复杂度`
+3. `预估 token 性价比`
+4. `预估完成时效`
+5. `已有认证/登录态复用`
+6. `链路最小充分性`
 
 Do not let a cheaper path outrank a clearly better-fit path. Do not let a familiar path outrank a more verifiable path.
+
+## Hard Gates
+
+Before weighted ranking, surface these gates explicitly:
+
+- `honesty_gate`: historical honesty below threshold cannot receive positive routing credit
+- `verification_gate`: no explicit verification path means no preferred-candidate status
+- `boundary_gate`: tasks with human-only boundaries must not be disguised as autonomous closure
 
 ## Hard Routing Rules
 
@@ -50,3 +59,14 @@ Every route must carry a verification target, not just a chosen skill name. Exam
 - knowledge-first planning: raw KB answers saved before synthesis
 - Feishu mirror: canonical local log plus preview output before apply
 - Recursive closure: use `close-task` to force recap, sync, and evolution writeback checks
+
+## Budget Rule
+
+Every route must assign one budget tier before execution:
+
+- `micro`
+- `standard`
+- `deep`
+- `expedition`
+
+The budget tier must define token and time soft/hard caps and should be visible in `route.json`.

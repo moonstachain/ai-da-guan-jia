@@ -30,8 +30,13 @@ Write the current strategic state under:
 - `skill-gap-report.json`
 - `recruitment-candidate.json`
 - `agent-scorecard.json`
+- `budget-profile.json`
+- `chain-scorecard.json`
+- `object-scorecard.json`
 - `routing-credit.json`
 - `autonomy-tier.json`
+- `budget-ledger.json`
+- `incentive-decision.json`
 - `governance-dashboard.md`
 - `org-taxonomy.md`
 - `governance-penalty-rules.md`
@@ -43,3 +48,10 @@ Write the current strategic state under:
 Default autonomy level is `建议 + 待批`.
 
 The strategic layer may propose new threads, initiatives, and skill recruitment, but must not silently execute high-impact expansion work.
+
+## Governance Notes
+
+- `execution_chain` is the default primary evaluation target.
+- `agent-scorecard.json` remains the skill-facing substrate, but `chain-scorecard.json` is the first-class full-task ledger.
+- `budget-profile.json` defines the task budget tiers; `budget-ledger.json` records budget outcomes over recent runs.
+- `incentive-decision.json` records the final lever decision across `调用权 / 自治权 / 资源权 / 进化权`.

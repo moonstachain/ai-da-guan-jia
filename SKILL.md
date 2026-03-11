@@ -14,6 +14,7 @@ Treat this skill as the mixed governor above task skills. Start with judgment, c
 - Refuse to confuse action closure with result closure.
 - Refuse to confuse a Feishu mirror with the canonical log.
 - Read [references/meta-constitution.md](references/meta-constitution.md) before changing the workflow or promoting a new rule.
+- Use [references/collaboration-charter.md](references/collaboration-charter.md) as the top-level `原目录` when aligning `目的 / 方法 / 工具` semantics or the human/AI cooperation model.
 
 ## 情境地图
 
@@ -37,6 +38,12 @@ The router must write `situation-map.md` and `route.json` before any later evolu
 
 ## Skill 盘点与路由
 
+- Treat the command surface as three layers:
+  - `core`: `route`, `close-task`, `review-skills`, `review-governance`, `strategy-governor`
+  - `ops`: inventory, hub, sync, record, baseline, aggregation
+  - `experimental`: scouting and Get笔记 sidecar flows
+- Do not expand the top-level `core` surface casually during the current stabilization sprint.
+
 - Inventory local skills first with `inventory-skills`.
 - Use the curated core roster in [references/core-roster.md](references/core-roster.md).
 - Discover the rest dynamically from `$CODEX_HOME/skills`.
@@ -46,6 +53,7 @@ The router must write `situation-map.md` and `route.json` before any later evolu
 - Route skill-training or skill-methodology requests to `skill-trainer-recursive` before direct scaffolding.
 - Route unfamiliar-domain learning, manual-first study, benchmark comparison, or "先读说明书/攻略/官方文档" requests to `guide-benchmark-learning` first.
 - Route skill inventory review, capability mapping, de-duplication review, or system-wide skill evaluation requests to `AI大管家`'s native `review-skills` flow first.
+- Route honesty / maturity / governance-credit / 提权降权 / 全治理对象评分 requests to `AI大管家`'s native `review-governance` flow first.
 - Use `routing-playbook` as a mid-layer combination handbook when a recurring task family needs a stable skill chain and clearer boundary explanation.
 - Route OpenClaw Xiaohongshu co-evolution and viral-note requests to `openclaw-xhs-coevolution-lab`.
 - Route knowledge-base-first requests to `knowledge-orchestrator` first.
@@ -64,6 +72,8 @@ Run the native top-level skill review when the job is system-wide assessment rat
 ```bash
 python3 scripts/ai_da_guan_jia.py review-skills --daily
 python3 scripts/ai_da_guan_jia.py review-skills --daily --sync-feishu
+python3 scripts/ai_da_guan_jia.py review-governance --daily
+python3 scripts/ai_da_guan_jia.py review-governance --daily --sync-feishu
 ```
 
 Refresh the strategic operating system:
@@ -97,11 +107,16 @@ python3 scripts/ai_da_guan_jia.py strategy-governor --goal "治理操作系统�
 - Always generate the GitHub payload, then run `sync-github --phase intake|closure --dry-run`, then `--apply` when GitHub auth is available.
 - Every meaningful task must end with one shared recap and one human-readable Feishu work log mirror.
 - Do not leave stale closure text in the mirror. Sync only the final task state, real remaining open questions, and the current self-evaluation.
+- For dashboard work, do not treat `source views + checklist` as completion. The task is only complete after the target cards are bound, the intended source views are confirmed, and post-check evidence exists.
+- For multi-board dashboards, do not treat a first-page prototype as completion. The declared board set must exist end to end before marking the run as complete.
 - Use GitHub labels, issue title format, and Project fields from the fixed taxonomy instead of improvising ad hoc classification.
 - Maintain the strategic operating system under `artifacts/ai-da-guan-jia/strategy/current/`, including goals, initiatives, active threads, skill gaps, thread proposals, scorecards, and governance policy documents.
+- Treat `proposal-queue.json` as the pending queue for strategic thread proposals.
+- Keep proposal autonomy at `建议 + 待批`; thread proposals must stay `pending_approval` until explicitly approved by the human.
+- Normalize Feishu/GitHub mirror state into the shared control vocabulary: `local_only`, `dry_run_ready`, `apply_failed`, `mirrored`, `blocked_auth`.
 - Run the evolution gate after sync. If it hits, auto-write validated improvements into this skill and create a local commit.
 - Auto-writeback is limited to this skill only; do not auto-edit other skills.
-- Use the task-log schema in [references/evolution-log-schema.md](references/evolution-log-schema.md), the task sync contracts in [references/feishu-sync-contract.md](references/feishu-sync-contract.md) and [references/github-sync-contract.md](references/github-sync-contract.md), and the review sync contract in [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md).
+- Use the task-log schema in [references/evolution-log-schema.md](references/evolution-log-schema.md), the task sync contracts in [references/feishu-sync-contract.md](references/feishu-sync-contract.md) and [references/github-sync-contract.md](references/github-sync-contract.md), the review sync contract in [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md), and the governance review sync contract in [references/feishu-governance-sync-contract.md](references/feishu-governance-sync-contract.md).
 - Persist validated rules in [references/validated-evolution-rules.md](references/validated-evolution-rules.md).
 
 Record an evolution run from JSON:
@@ -137,9 +152,20 @@ python3 scripts/ai_da_guan_jia.py review-skills --daily
 python3 scripts/ai_da_guan_jia.py review-skills --daily --sync-feishu
 python3 scripts/ai_da_guan_jia.py review-skills --resolve-action A --run-id adagj-review-20260310-090000
 python3 scripts/ai_da_guan_jia.py review-skills --resolve-action A --run-id adagj-review-20260310-090000 --sync-feishu
+python3 scripts/ai_da_guan_jia.py review-governance --daily
+python3 scripts/ai_da_guan_jia.py review-governance --daily --sync-feishu
+python3 scripts/ai_da_guan_jia.py review-governance --backfill
+python3 scripts/ai_da_guan_jia.py review-governance --resolve-action A --run-id adagj-governance-review-20260311-090000 --sync-feishu
 python3 scripts/ai_da_guan_jia.py strategy-governor
 python3 scripts/ai_da_guan_jia.py route --prompt "先问我的知识库，再帮我规划下一步"
 python3 scripts/ai_da_guan_jia.py route --prompt "帮我学一个陌生 API，先读官方说明书和攻略，再决定怎么做"
+python3 scripts/ai_da_guan_jia.py route --prompt "帮我查上周那条客户分层笔记"
+python3 scripts/ai_da_guan_jia.py route --prompt "把这个视频记到 Get笔记里，然后给我逐字稿，后面我还要继续问它"
+python3 scripts/ai_da_guan_jia.py get-biji ask --question "帮我查找上周那条关于客户分层的笔记"
+python3 scripts/ai_da_guan_jia.py get-biji recall --query "客户分层" --top-k 5
+python3 scripts/ai_da_guan_jia.py get-biji ingest-link --link "https://www.bilibili.com/video/BV1DGAYzPELm/" --mode submit-link
+python3 scripts/ai_da_guan_jia.py get-biji ingest-link --link "https://www.bilibili.com/video/BV1DGAYzPELm/" --mode transcribe-link
+python3 scripts/ai_da_guan_jia.py get-biji fetch-original --note-id 1903496783305829808
 python3 scripts/ai_da_guan_jia.py record-evolution --input -
 python3 scripts/ai_da_guan_jia.py sync-feishu --run-id adagj-20260309-101500 --dry-run
 python3 scripts/ai_da_guan_jia.py sync-github --run-id adagj-20260309-101500 --phase intake --dry-run
@@ -151,8 +177,10 @@ python3 scripts/doctor.py
 ## References
 
 - [references/meta-constitution.md](references/meta-constitution.md)
+- [references/collaboration-charter.md](references/collaboration-charter.md)
 - [references/core-roster.md](references/core-roster.md)
 - [references/skill-review-rubric.md](references/skill-review-rubric.md)
+- [references/governance-review-contract.md](references/governance-review-contract.md)
 - [references/daily-review-contract.md](references/daily-review-contract.md)
 - [references/routing-policy.md](references/routing-policy.md)
 - [references/evolution-log-schema.md](references/evolution-log-schema.md)
@@ -167,4 +195,6 @@ python3 scripts/doctor.py
 - [references/incentive-scorecard-contract.md](references/incentive-scorecard-contract.md)
 - [references/feishu-review-base-schema.json](references/feishu-review-base-schema.json)
 - [references/feishu-review-sync-contract.md](references/feishu-review-sync-contract.md)
+- [references/feishu-governance-base-schema.json](references/feishu-governance-base-schema.json)
+- [references/feishu-governance-sync-contract.md](references/feishu-governance-sync-contract.md)
 - [references/validated-evolution-rules.md](references/validated-evolution-rules.md)
