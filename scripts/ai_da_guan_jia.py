@@ -2947,7 +2947,6 @@ def build_governance_sync_bundle(
     run_dir: Path,
 ) -> dict[str, Any]:
     actions = []
-    control_tower = review.get("control_tower", {})
     for action in review["candidate_actions"]:
         actions.append(
             {
@@ -10953,6 +10952,22 @@ def command_close_task(args: argparse.Namespace) -> int:
         else "Governance-weighted routing is unavailable; fallback to rule-only routing."
     )
     human_boundary = str(args.human_boundary or determine_human_boundary(signals))
+    evidence_items = normalize_list(args.evidence)
+    open_questions = normalize_list(args.open_question)
+    effective_patterns = normalize_list(args.effective_pattern)
+    evolution_candidates = normalize_list(args.evolution_candidate)
+    if not evidence_items:
+        evidence_items = [f"Local closure bundle written at {run_dir.resolve()}."]
+    if not effective_patterns:
+        effective_patterns = [
+            "Canonical-first closure: write route, evolution, Feishu, and GitHub artifacts before judging mirror status."
+        ]
+    if not evolution_candidates:
+        evolution_candidates = [
+            open_questions[0]
+            if open_questions
+            else "Promote the strongest verified improvement into the next schema, policy, or runtime iteration."
+        ]
     route_payload = {
         "run_id": run_id,
         "created_at": created_at,
@@ -10995,12 +11010,12 @@ def command_close_task(args: argparse.Namespace) -> int:
         "human_boundary": human_boundary,
         "verification_result": {
             "status": str(args.verification_status or "completed"),
-            "evidence": normalize_list(args.evidence),
-            "open_questions": normalize_list(args.open_question),
+            "evidence": evidence_items,
+            "open_questions": open_questions,
         },
-        "effective_patterns": normalize_list(args.effective_pattern),
+        "effective_patterns": effective_patterns,
         "wasted_patterns": normalize_list(args.wasted_pattern),
-        "evolution_candidates": normalize_list(args.evolution_candidate),
+        "evolution_candidates": evolution_candidates,
         "feishu_sync_status": "payload_only_local",
         "evolution_judgment_detail": {},
         "evolution_writeback_applied": False,
