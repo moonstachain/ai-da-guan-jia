@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import os.path
 import shutil
 from datetime import datetime
 from pathlib import Path
@@ -45,22 +46,32 @@ def ignore_volatile(_root: str, names: list[str]) -> set[str]:
     return ignored
 
 
+def iter_skill_dirs(source: Path) -> list[Path]:
+    skill_dirs: list[Path] = []
+    for current_root, dirnames, filenames in os.walk(source, topdown=True):
+        dirnames[:] = [name for name in dirnames if name not in VOLATILE_DIR_NAMES]
+        if "SKILL.md" not in filenames:
+            continue
+        skill_dir = Path(current_root)
+        skill_dirs.append(skill_dir)
+        dirnames[:] = []
+    return sorted(skill_dirs)
+
+
 def export_skills(source: Path, destination: Path, clean: bool) -> dict[str, object]:
     if clean and destination.exists():
         shutil.rmtree(destination)
     destination.mkdir(parents=True, exist_ok=True)
 
     exported: list[dict[str, object]] = []
-    for skill_dir in sorted(source.iterdir()):
-        if not skill_dir.is_dir():
-            continue
-        if not (skill_dir / "SKILL.md").exists():
-            continue
-        target = destination / skill_dir.name
+    for skill_dir in iter_skill_dirs(source):
+        relative_path = skill_dir.relative_to(source)
+        target = destination / relative_path
         shutil.copytree(skill_dir, target, dirs_exist_ok=True, ignore=ignore_volatile)
         exported.append(
             {
                 "name": skill_dir.name,
+                "relative_path": str(relative_path),
                 "source": str(skill_dir),
                 "destination": str(target),
             }

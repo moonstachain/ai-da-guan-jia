@@ -34,6 +34,10 @@ class MigrationToolkitTest(unittest.TestCase):
         (skill_dir / "scripts" / "run.py").write_text("print('ok')\n", encoding="utf-8")
         (skill_dir / "artifacts" / "state.json").write_text("{}", encoding="utf-8")
 
+        system_skill_dir = self.skills_root / ".system" / "skill-creator"
+        system_skill_dir.mkdir(parents=True, exist_ok=True)
+        (system_skill_dir / "SKILL.md").write_text("# nested\n", encoding="utf-8")
+
         self.codex_root.mkdir(parents=True, exist_ok=True)
         (self.codex_root / "auth.json").write_text('{"token": "abc"}\n', encoding="utf-8")
         (self.codex_root / "config.toml").write_text('model = "gpt-5.4"\n', encoding="utf-8")
@@ -101,9 +105,10 @@ class MigrationToolkitTest(unittest.TestCase):
         )
 
         payload = json.loads(result.stdout)
-        self.assertEqual(payload["count"], 1)
+        self.assertEqual(payload["count"], 2)
         self.assertTrue((self.mirror_destination / "alpha-skill" / "SKILL.md").exists())
         self.assertTrue((self.mirror_destination / "alpha-skill" / "scripts" / "run.py").exists())
+        self.assertTrue((self.mirror_destination / ".system" / "skill-creator" / "SKILL.md").exists())
         self.assertFalse((self.mirror_destination / "alpha-skill" / "artifacts").exists())
         self.assertFalse((self.mirror_destination / "alpha-skill" / ".git").exists())
 

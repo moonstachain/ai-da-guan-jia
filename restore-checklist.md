@@ -82,3 +82,9 @@ gh repo create <repo-name> --private --source . --remote origin --push
 5. `python3 "$HOME/.codex/skills/ai-da-guan-jia/scripts/ai_da_guan_jia.py" route --prompt "帮我学一个陌生 API，先读官方说明书和攻略，再决定怎么做"` 成功
 
 如果你只恢复了版本层和秘密层，但没有恢复 `state_5.sqlite` 与旧 sessions，只要上面 5 项通过，就视为 `day-1 可用`。
+
+补充说明：
+
+- `inventory-skills` 当前口径约为 `109`
+- `skills-mirror` 导出当前口径约为 `110`
+- 这一个差值来自嵌套在 `.system/` 下的系统 skill 被镜像保留了下来；恢复时优先以“都在”为准，而不是强行追求两个数字完全一样
