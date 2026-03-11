@@ -85,6 +85,6 @@ gh repo create <repo-name> --private --source . --remote origin --push
 
 补充说明：
 
-- `inventory-skills` 当前口径约为 `109`
-- `skills-mirror` 导出当前口径约为 `110`
-- 这一个差值来自嵌套在 `.system/` 下的系统 skill 被镜像保留了下来；恢复时优先以“都在”为准，而不是强行追求两个数字完全一样
+- `inventory-skills` 当前口径约为 `110`
+- `skills-mirror` 当前会把嵌套在 `.system/` 下的系统 skill 一并保留下来
+- 恢复时优先以“关键 skill 都在并且能跑通验真命令”为准，不用执着于历史阶段的统计口径差异
