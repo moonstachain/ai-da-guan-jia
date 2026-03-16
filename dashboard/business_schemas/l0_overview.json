@@ -1,0 +1,63 @@
+{
+  "table_name": "L0_经营总览",
+  "file_name": "l0_overview.json",
+  "purpose": "年度目标追踪 + 月度经营健康度",
+  "fields": [
+    {
+      "name": "year_target",
+      "type": "number"
+    },
+    {
+      "name": "ytd_amount",
+      "type": "number"
+    },
+    {
+      "name": "ytd_completion",
+      "type": "number"
+    },
+    {
+      "name": "current_month",
+      "type": "text"
+    },
+    {
+      "name": "month_amount",
+      "type": "number"
+    },
+    {
+      "name": "month_order_count",
+      "type": "number"
+    },
+    {
+      "name": "month_avg_price",
+      "type": "number"
+    },
+    {
+      "name": "high_value_ratio",
+      "type": "number"
+    },
+    {
+      "name": "active_customers",
+      "type": "number"
+    },
+    {
+      "name": "pipeline_amount",
+      "type": "number"
+    },
+    {
+      "name": "repurchase_pool",
+      "type": "number"
+    },
+    {
+      "name": "top_risk",
+      "type": "text"
+    },
+    {
+      "name": "business_conclusion",
+      "type": "text"
+    },
+    {
+      "name": "last_refresh",
+      "type": "number"
+    }
+  ]
+}

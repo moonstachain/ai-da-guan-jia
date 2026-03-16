@@ -1,0 +1,51 @@
+{
+  "table_name": "L2_增长驾驶舱",
+  "file_name": "l2_growth.json",
+  "purpose": "线索、订单与裂变增长总览",
+  "fields": [
+    {
+      "name": "year_month",
+      "type": "text"
+    },
+    {
+      "name": "public_leads",
+      "type": "number"
+    },
+    {
+      "name": "private_leads",
+      "type": "number"
+    },
+    {
+      "name": "new_orders",
+      "type": "number"
+    },
+    {
+      "name": "new_amount",
+      "type": "number"
+    },
+    {
+      "name": "new_customers",
+      "type": "number"
+    },
+    {
+      "name": "repurchase_opportunities",
+      "type": "number"
+    },
+    {
+      "name": "referral_leads",
+      "type": "number"
+    },
+    {
+      "name": "referral_closed",
+      "type": "number"
+    },
+    {
+      "name": "referral_amount",
+      "type": "number"
+    },
+    {
+      "name": "growth_conclusion",
+      "type": "text"
+    }
+  ]
+}

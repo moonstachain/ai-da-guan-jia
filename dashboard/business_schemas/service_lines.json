@@ -1,0 +1,64 @@
+{
+  "table_name": "服务线表",
+  "layer": "L1",
+  "purpose": "清理后的业务源表：服务线表",
+  "fields": [
+    {
+      "name": "服务ID",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "服务名称",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "服务层级",
+      "type": "single_select",
+      "source_type": 3,
+      "options": [
+        "轻产品",
+        "训练产品",
+        "深度服务",
+        "企业服务",
+        "高净值服务"
+      ]
+    },
+    {
+      "name": "标准客单价区间",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "目标客户",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "典型诉求",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "标准成交路径",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "交付形态",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "升单方向",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "备注",
+      "type": "text",
+      "source_type": 1
+    }
+  ]
+}

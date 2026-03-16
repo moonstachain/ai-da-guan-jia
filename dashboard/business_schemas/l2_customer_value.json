@@ -1,0 +1,52 @@
+{
+  "table_name": "L2_客户价值分析",
+  "file_name": "l2_customer_value.json",
+  "purpose": "客户累计价值、来源与经营策略分析",
+  "fields": [
+    {
+      "name": "customer_name",
+      "type": "text"
+    },
+    {
+      "name": "total_amount",
+      "type": "number"
+    },
+    {
+      "name": "order_count",
+      "type": "number"
+    },
+    {
+      "name": "customer_tier",
+      "type": "single_select",
+      "options": [
+        "战略客户",
+        "成长客户",
+        "普通客户"
+      ]
+    },
+    {
+      "name": "main_lead_source",
+      "type": "text"
+    },
+    {
+      "name": "main_product",
+      "type": "text"
+    },
+    {
+      "name": "sales_owner",
+      "type": "text"
+    },
+    {
+      "name": "first_sign_date",
+      "type": "text"
+    },
+    {
+      "name": "last_sign_date",
+      "type": "text"
+    },
+    {
+      "name": "strategy",
+      "type": "text"
+    }
+  ]
+}

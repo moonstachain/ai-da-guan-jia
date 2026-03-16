@@ -1,0 +1,72 @@
+{
+  "table_name": "目标预算表",
+  "layer": "L1",
+  "purpose": "清理后的业务源表：目标预算表",
+  "fields": [
+    {
+      "name": "目标ID",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "目标周期",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "周期类型",
+      "type": "single_select",
+      "source_type": 3,
+      "options": [
+        "月",
+        "周",
+        "日"
+      ]
+    },
+    {
+      "name": "目标版本",
+      "type": "single_select",
+      "source_type": 3,
+      "options": [
+        "乐观版",
+        "保守版",
+        "实际"
+      ]
+    },
+    {
+      "name": "服务线",
+      "type": "text",
+      "source_type": 18
+    },
+    {
+      "name": "指标名称",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "目标值",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "实际值",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "差值",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "来源表",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "备注",
+      "type": "text",
+      "source_type": 1
+    }
+  ]
+}

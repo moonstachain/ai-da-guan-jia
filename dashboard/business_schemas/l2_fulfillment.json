@@ -1,0 +1,51 @@
+{
+  "table_name": "L2_履约驾驶舱",
+  "file_name": "l2_fulfillment.json",
+  "purpose": "交付项目、价值核销与超期风险总览",
+  "fields": [
+    {
+      "name": "year_month",
+      "type": "text"
+    },
+    {
+      "name": "new_fulfillments",
+      "type": "number"
+    },
+    {
+      "name": "in_service",
+      "type": "number"
+    },
+    {
+      "name": "completed",
+      "type": "number"
+    },
+    {
+      "name": "total_value",
+      "type": "number"
+    },
+    {
+      "name": "used_value",
+      "type": "number"
+    },
+    {
+      "name": "value_rate",
+      "type": "number"
+    },
+    {
+      "name": "overdue_count",
+      "type": "number"
+    },
+    {
+      "name": "private_board_total",
+      "type": "number"
+    },
+    {
+      "name": "private_board_used",
+      "type": "number"
+    },
+    {
+      "name": "private_board_rate",
+      "type": "number"
+    }
+  ]
+}

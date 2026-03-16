@@ -1,0 +1,22 @@
+{
+  "table_name": "跟进与证据表",
+  "layer": "L1",
+  "purpose": "清理后的业务源表：跟进与证据表",
+  "fields": [
+    {
+      "name": "记录ID",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "记录时间",
+      "type": "datetime",
+      "source_type": 5
+    },
+    {
+      "name": "记录人",
+      "type": "text",
+      "source_type": 1
+    }
+  ]
+}

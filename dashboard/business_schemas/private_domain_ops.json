@@ -1,0 +1,27 @@
+{
+  "table_name": "私域运营事实表",
+  "layer": "L1",
+  "purpose": "清理后的业务源表：私域运营事实表",
+  "fields": [
+    {
+      "name": "记录ID",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "日期",
+      "type": "datetime",
+      "source_type": 5
+    },
+    {
+      "name": "新增加私",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "当日私域流水",
+      "type": "number",
+      "source_type": 2
+    }
+  ]
+}

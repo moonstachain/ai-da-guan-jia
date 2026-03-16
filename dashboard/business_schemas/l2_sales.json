@@ -1,0 +1,47 @@
+{
+  "table_name": "L2_销售驾驶舱",
+  "file_name": "l2_sales.json",
+  "purpose": "按月按销售负责人观察成交与跟进效率",
+  "fields": [
+    {
+      "name": "year_month",
+      "type": "text"
+    },
+    {
+      "name": "sales_owner",
+      "type": "text"
+    },
+    {
+      "name": "new_leads",
+      "type": "number"
+    },
+    {
+      "name": "opportunities",
+      "type": "number"
+    },
+    {
+      "name": "signed_amount",
+      "type": "number"
+    },
+    {
+      "name": "fulfilled_value",
+      "type": "number"
+    },
+    {
+      "name": "high_value_opps",
+      "type": "number"
+    },
+    {
+      "name": "follow_actions",
+      "type": "number"
+    },
+    {
+      "name": "avg_unit_price",
+      "type": "number"
+    },
+    {
+      "name": "fulfillment_rate",
+      "type": "number"
+    }
+  ]
+}

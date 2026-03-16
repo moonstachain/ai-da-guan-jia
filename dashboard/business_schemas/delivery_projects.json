@@ -1,0 +1,47 @@
+{
+  "table_name": "交付项目表",
+  "layer": "L1",
+  "purpose": "清理后的业务源表：交付项目表",
+  "fields": [
+    {
+      "name": "交付ID",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "服务线",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "交付负责人",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "开始时间",
+      "type": "datetime",
+      "source_type": 5
+    },
+    {
+      "name": "结束时间",
+      "type": "datetime",
+      "source_type": 5
+    },
+    {
+      "name": "来源订单",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "当前交付阶段",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "当前风险",
+      "type": "text",
+      "source_type": 1
+    }
+  ]
+}

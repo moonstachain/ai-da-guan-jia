@@ -1,0 +1,284 @@
+{
+  "goal": "用更新版业务事实源生成经营、增长、履约、销售、客户价值五个驾驶舱。",
+  "source_tables": [
+    "客户机会主表",
+    "阶段漏斗表",
+    "服务线表",
+    "订单事实表",
+    "跟进与证据表",
+    "交付阶段表",
+    "学员/客户档案表",
+    "交付项目表",
+    "目标预算表",
+    "经营节奏表",
+    "私域运营事实表",
+    "内容流量事实表",
+    "数据表"
+  ],
+  "dashboards": [
+    {
+      "table_name": "L0_经营总览",
+      "file_name": "l0_overview.json",
+      "purpose": "年度目标追踪 + 月度经营健康度",
+      "fields": [
+        {
+          "name": "year_target",
+          "type": "number"
+        },
+        {
+          "name": "ytd_amount",
+          "type": "number"
+        },
+        {
+          "name": "ytd_completion",
+          "type": "number"
+        },
+        {
+          "name": "current_month",
+          "type": "text"
+        },
+        {
+          "name": "month_amount",
+          "type": "number"
+        },
+        {
+          "name": "month_order_count",
+          "type": "number"
+        },
+        {
+          "name": "month_avg_price",
+          "type": "number"
+        },
+        {
+          "name": "high_value_ratio",
+          "type": "number"
+        },
+        {
+          "name": "active_customers",
+          "type": "number"
+        },
+        {
+          "name": "pipeline_amount",
+          "type": "number"
+        },
+        {
+          "name": "repurchase_pool",
+          "type": "number"
+        },
+        {
+          "name": "top_risk",
+          "type": "text"
+        },
+        {
+          "name": "business_conclusion",
+          "type": "text"
+        },
+        {
+          "name": "last_refresh",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "table_name": "L2_增长驾驶舱",
+      "file_name": "l2_growth.json",
+      "purpose": "线索、订单与裂变增长总览",
+      "fields": [
+        {
+          "name": "year_month",
+          "type": "text"
+        },
+        {
+          "name": "public_leads",
+          "type": "number"
+        },
+        {
+          "name": "private_leads",
+          "type": "number"
+        },
+        {
+          "name": "new_orders",
+          "type": "number"
+        },
+        {
+          "name": "new_amount",
+          "type": "number"
+        },
+        {
+          "name": "new_customers",
+          "type": "number"
+        },
+        {
+          "name": "repurchase_opportunities",
+          "type": "number"
+        },
+        {
+          "name": "referral_leads",
+          "type": "number"
+        },
+        {
+          "name": "referral_closed",
+          "type": "number"
+        },
+        {
+          "name": "referral_amount",
+          "type": "number"
+        },
+        {
+          "name": "growth_conclusion",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "table_name": "L2_履约驾驶舱",
+      "file_name": "l2_fulfillment.json",
+      "purpose": "交付项目、价值核销与超期风险总览",
+      "fields": [
+        {
+          "name": "year_month",
+          "type": "text"
+        },
+        {
+          "name": "new_fulfillments",
+          "type": "number"
+        },
+        {
+          "name": "in_service",
+          "type": "number"
+        },
+        {
+          "name": "completed",
+          "type": "number"
+        },
+        {
+          "name": "total_value",
+          "type": "number"
+        },
+        {
+          "name": "used_value",
+          "type": "number"
+        },
+        {
+          "name": "value_rate",
+          "type": "number"
+        },
+        {
+          "name": "overdue_count",
+          "type": "number"
+        },
+        {
+          "name": "private_board_total",
+          "type": "number"
+        },
+        {
+          "name": "private_board_used",
+          "type": "number"
+        },
+        {
+          "name": "private_board_rate",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "table_name": "L2_销售驾驶舱",
+      "file_name": "l2_sales.json",
+      "purpose": "按月按销售负责人观察成交与跟进效率",
+      "fields": [
+        {
+          "name": "year_month",
+          "type": "text"
+        },
+        {
+          "name": "sales_owner",
+          "type": "text"
+        },
+        {
+          "name": "new_leads",
+          "type": "number"
+        },
+        {
+          "name": "opportunities",
+          "type": "number"
+        },
+        {
+          "name": "signed_amount",
+          "type": "number"
+        },
+        {
+          "name": "fulfilled_value",
+          "type": "number"
+        },
+        {
+          "name": "high_value_opps",
+          "type": "number"
+        },
+        {
+          "name": "follow_actions",
+          "type": "number"
+        },
+        {
+          "name": "avg_unit_price",
+          "type": "number"
+        },
+        {
+          "name": "fulfillment_rate",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "table_name": "L2_客户价值分析",
+      "file_name": "l2_customer_value.json",
+      "purpose": "客户累计价值、来源与经营策略分析",
+      "fields": [
+        {
+          "name": "customer_name",
+          "type": "text"
+        },
+        {
+          "name": "total_amount",
+          "type": "number"
+        },
+        {
+          "name": "order_count",
+          "type": "number"
+        },
+        {
+          "name": "customer_tier",
+          "type": "single_select",
+          "options": [
+            "战略客户",
+            "成长客户",
+            "普通客户"
+          ]
+        },
+        {
+          "name": "main_lead_source",
+          "type": "text"
+        },
+        {
+          "name": "main_product",
+          "type": "text"
+        },
+        {
+          "name": "sales_owner",
+          "type": "text"
+        },
+        {
+          "name": "first_sign_date",
+          "type": "text"
+        },
+        {
+          "name": "last_sign_date",
+          "type": "text"
+        },
+        {
+          "name": "strategy",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

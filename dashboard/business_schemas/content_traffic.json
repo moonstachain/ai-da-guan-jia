@@ -1,0 +1,67 @@
+{
+  "table_name": "内容流量事实表",
+  "layer": "L1",
+  "purpose": "清理后的业务源表：内容流量事实表",
+  "fields": [
+    {
+      "name": "内容ID",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "平台",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "账号",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "内容标题",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "发布时间",
+      "type": "datetime",
+      "source_type": 5
+    },
+    {
+      "name": "视频时长",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "播放量",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "完播率",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "互动量",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "关注量",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "转发量",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "备注",
+      "type": "text",
+      "source_type": 1
+    }
+  ]
+}

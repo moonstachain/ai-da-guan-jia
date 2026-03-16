@@ -1,0 +1,42 @@
+{
+  "table_name": "订单事实表",
+  "layer": "L1",
+  "purpose": "清理后的业务源表：订单事实表",
+  "fields": [
+    {
+      "name": "订单ID",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "订单日期",
+      "type": "datetime",
+      "source_type": 5
+    },
+    {
+      "name": "支付金额",
+      "type": "number",
+      "source_type": 2
+    },
+    {
+      "name": "客户名称",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "订单来源",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "服务线",
+      "type": "text",
+      "source_type": 1
+    },
+    {
+      "name": "主转化归属",
+      "type": "text",
+      "source_type": 1
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "table_name": "数据表",
+  "layer": "L1",
+  "purpose": "清理后的业务源表：数据表",
+  "fields": [
+    {
+      "name": "文本",
+      "type": "text",
+      "source_type": 1
+    }
+  ]
+}
