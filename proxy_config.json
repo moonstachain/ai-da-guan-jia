@@ -1,0 +1,55 @@
+{
+  "name": "feishu-proxy",
+  "description": "轻量 HTTP proxy，让 Claude 通过 web_fetch 读取飞书数据",
+  "version": "0.1.0",
+  "default_port": 9800,
+  "bind_address": "127.0.0.1",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/health",
+      "description": "健康检查"
+    },
+    {
+      "method": "GET",
+      "path": "/bitable/tables",
+      "params": [
+        "app_token"
+      ],
+      "description": "列出多维表"
+    },
+    {
+      "method": "GET",
+      "path": "/bitable/records",
+      "params": [
+        "app_token",
+        "table_id",
+        "page_size?"
+      ],
+      "description": "读取记录"
+    },
+    {
+      "method": "GET",
+      "path": "/doc",
+      "params": [
+        "document_id"
+      ],
+      "description": "读取云文档"
+    },
+    {
+      "method": "GET",
+      "path": "/wiki",
+      "params": [
+        "space_id",
+        "node_token"
+      ],
+      "description": "读取知识库"
+    }
+  ],
+  "security": "Bearer token via PROXY_TOKEN env var",
+  "env_required": [
+    "FEISHU_APP_ID",
+    "FEISHU_APP_SECRET",
+    "PROXY_TOKEN"
+  ]
+}
