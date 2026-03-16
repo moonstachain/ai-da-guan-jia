@@ -1,0 +1,30 @@
+{
+  "name": "ai-da-guan-jia",
+  "description": "原力OS 治理内核 MCP Server - 提供 canonical artifact 读写、技能查询和任务路由",
+  "version": "0.1.0",
+  "tools": [
+    {
+      "name": "read_artifact",
+      "description": "读取本地 canonical artifact 文件"
+    },
+    {
+      "name": "write_artifact",
+      "description": "写入本地 canonical artifact 文件"
+    },
+    {
+      "name": "list_artifacts",
+      "description": "列出 artifacts 目录下的文件"
+    },
+    {
+      "name": "list_skills",
+      "description": "查询 skill manifest，支持按 tier/domain/level 过滤"
+    },
+    {
+      "name": "route_task",
+      "description": "给定任务描述，推荐最小充分的 skill 组合"
+    }
+  ],
+  "transport": "stdio",
+  "command": ["python", "-m", "mcp_server.server"]
+}
+
