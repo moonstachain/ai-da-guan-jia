@@ -1,0 +1,13 @@
+{
+  "domain_mapping": [
+    {"legacy_domain": "治理运行骨架", "parent_domain": "governance", "count": 79},
+    {"legacy_domain": "运行对象层", "parent_domain": "governance", "count": 6},
+    {"legacy_domain": "治理控制", "parent_domain": "governance", "count": 2},
+    {"legacy_domain": "知识资产同步", "parent_domain": "governance", "count": 1},
+    {"legacy_domain": "销售成交", "parent_domain": "sales", "count": 13},
+    {"legacy_domain": "公域获客", "parent_domain": "sales", "count": 4},
+    {"legacy_domain": "私域转化", "parent_domain": "sales", "count": 2},
+    {"legacy_domain": "产品交付", "parent_domain": "delivery", "count": 4},
+    {"legacy_domain": "财务经营", "parent_domain": "delivery", "count": 2}
+  ]
+}
