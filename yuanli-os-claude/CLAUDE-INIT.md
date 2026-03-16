@@ -1,5 +1,5 @@
 # CLAUDE-INIT.md — 新 Claude 会话启动记忆
-# 最后更新：2026-03-16 · R10 + 妙搭经营驾驶舱完成后
+# 最后更新：2026-03-16 · R10 + 妙搭经营驾驶舱完成后（运行态总控坐标已校正）
 
 > **用法**：在任何一台新机器上开启新 Claude 对话时，把本文件内容作为第一条消息发给 Claude。
 > Claude 读完后即可恢复全部战略上下文，继续推进任务。
@@ -56,22 +56,32 @@ R10  OpenClaw Skill 包      ✅  4 skills    commit 278712f
 
 **目标 Bitable Base**：`PHp2wURl2i6SyBkDtmGcuaEenag`
 
-### 治理驾驶舱表（6 张）⚠️ 需要手动更新总控概览
+### 运行态总控（妙搭实际读取）
 
-| 表名 | table_id | 当前数据 | 备注 |
-|------|----------|---------|------|
-| 总控概览 | tblkKkauA35yJOrH | 1条 | **⚠️ active_round 还显示 R7，需手动改为 R10** |
-| 组件热图 | tblBZfqAcFJzjOmd | 8条 | 正常 |
-| 战略链路 | tblDfGetDlvYZ7iN | 30条 | 正常 |
-| 组件责任 | tblHjuh31vwrcqG2 | 6条 | 正常 |
-| 进化轨迹 | tbl68xR3EBKy6hG5 | ~54条 | 正常 |
-| 决策记录 | （R7新建） | 4条 | 正常 |
+| 表名 | app_token | table_id | 当前数据 |
+|------|-----------|----------|---------|
+| L0_运行态总控 | PHp2wURl2i6SyBkDtmGcuaEenag | tblnRCmMS7QBMtHI | 已验真，当前为 R10 / 150 tests / 11 commits |
 
-**总控概览需更新的字段：**
-- active_round: R7 → **R10**
-- frontstage_focus: R7数据迁移 → **R10 OpenClaw Skill包**
-- total_tests_passed: 140 → **150**
-- total_commits: 7 → **11**
+**当前总控值：**
+- active_round: `R10`
+- frontstage_focus: `R10 OpenClaw Skill包`
+- total_tests_passed: `150`
+- total_commits: `11`
+- last_evolution_round: `R10`
+- last_evolution_status: `completed`
+
+### 治理驾驶舱基础表（协同治理 base）
+
+**治理 cockpit app_token**：`PpFgbkN7CaAOfDsWZKhcapQFnYc`
+
+| 表名 | table_id | 当前状态 |
+|------|----------|---------|
+| 总控对象主表 | tblkS2QRSoe0On63 | 正常 |
+| 线程总表 | tblNPUSxajCASu2d | 正常 |
+| 任务总表 | tblPOwMypq44Qnme | 正常 |
+| 战略链路表 | tblKrdmKL0yvOcYi | 正常 |
+| CBM组件责任表 | tblD42DlKnY3QXVo | 正常 |
+| CBM组件热图表 | tblDbvHJ2M2Cge2g | 正常 |
 
 ### 业务源表（13 张）
 
@@ -97,7 +107,7 @@ R10  OpenClaw Skill 包      ✅  4 skills    commit 278712f
 
 | 应用 | URL | 状态 |
 |------|-----|------|
-| 原力OS治理驾驶舱 | https://miaoda.feishu.cn/app/app_4jqsnw0ywvbdj | ✅ 在线，⚠️ 总控数据待更新 |
+| 原力OS治理驾驶舱 | https://miaoda.feishu.cn/app/app_4jqsnw0ywvbdj | ✅ 在线，运行态总控已校正到 R10 |
 | 原力战略经营驾驶舱 | （同一个妙搭应用，另一个页面）| ✅ 5个区块全部有数据 |
 
 ## OpenClaw 龙虾（HAY2045）
@@ -169,7 +179,7 @@ export PROXY_TOKEN="xxx"
 python -m proxy.server  # 监听 127.0.0.1:9800
 
 # Claude 调用示例
-web_fetch("http://127.0.0.1:9800/bitable/records?app_token=PHp2wURl2i6SyBkDtmGcuaEenag&table_id=tblkKkauA35yJOrH")
+web_fetch("http://127.0.0.1:9800/bitable/records?app_token=PHp2wURl2i6SyBkDtmGcuaEenag&table_id=tblnRCmMS7QBMtHI")
 ```
 
 ## Task Spec 标准末尾（每个新 Task Spec 必须包含）
@@ -187,27 +197,19 @@ git commit -m "chore: update CLAUDE-INIT.md after {Round ID} verified"
 git push origin main
 
 ### 2. 更新飞书总控概览
-python3 -c "
-import os
-from mcp_server_feishu.feishu_client import FeishuClient
-client = FeishuClient()
-APP_TOKEN = 'PHp2wURl2i6SyBkDtmGcuaEenag'
-TABLE_ID = 'tblkKkauA35yJOrH'
-records = client.read_bitable_records(APP_TOKEN, TABLE_ID)
-record_id = records['records'][0]['record_id']
-client._request('PUT',
-  f'/bitable/v1/apps/{APP_TOKEN}/tables/{TABLE_ID}/records/{record_id}',
-  {'fields': {
-    'active_round': '{本轮 Round ID}',
-    'frontstage_focus': '{本轮聚焦描述}',
-    'total_tests_passed': {实际 passed 数},
-    'total_commits': {实际 commits 数},
-    'last_evolution_round': '{本轮 Round ID}',
-    'last_evolution_status': 'completed',
-  }}
-)
-print('总控概览已更新')
-"
+export FEISHU_APP_ID="xxx"
+export FEISHU_APP_SECRET="xxx"
+python3 scripts/update_runtime_control.py \
+  --round "{本轮 Round ID}" \
+  --focus "{本轮聚焦描述}" \
+  --tests {实际 passed 数} \
+  --commits {实际 commits 数} \
+  --status completed
+
+# 默认写入：
+# APP_TOKEN = PHp2wURl2i6SyBkDtmGcuaEenag
+# TABLE_NAME = L0_运行态总控
+# 当前真实 table_id = tblnRCmMS7QBMtHI
 
 ### 3. 回传给 Claude
 - yuanli-os-claude 新 commit hash
@@ -259,7 +261,7 @@ L2 五个业务驾驶舱（飞书+妙搭已全部上线）
 优先级排序：
 
 1. **ClawHub 发布**（人类边界，5分钟）：`clawhub sync --all` 让龙虾社区能安装原力OS技能包
-2. **总控概览手动更新**（人类操作，2分钟）：把 active_round 改为 R10，让治理驾驶舱显示最新状态
+2. **运行态总控脚本化回写**（已打通）：任务收口时统一走 `scripts/update_runtime_control.py`
 3. **sales/delivery execute 层**：修复最大失真，建 action catalog（weak → has_skeleton）
 4. **skill-manifest 更新**：对照49条运行日志验证真实调用技能
 
