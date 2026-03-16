@@ -1,0 +1,34 @@
+[
+  {
+    "goal_id": "goal-governance-001",
+    "goal_name": "构建 AI大管家 治理操作系统",
+    "theme": "治理底座",
+    "strategy": "通过 R1-R6 逐轮把类型、路由、MCP、飞书、闭环和仪表盘补齐",
+    "component_domain": "governance",
+    "control_level_scope": [
+      "direct",
+      "control",
+      "execute"
+    ],
+    "status": "active",
+    "current_gap": "需要把治理状态进一步映射到人类可视化界面",
+    "next_action": "推进 R6b 妙搭页面绑定",
+    "evidence_ref": "R1-R5 commits + pytest outputs"
+  },
+  {
+    "goal_id": "goal-sales-001",
+    "goal_name": "补齐 sales 组件链路",
+    "theme": "业务扩展",
+    "strategy": "从 strategy linkage、KPI、action catalog 三段补全销售组件",
+    "component_domain": "sales",
+    "control_level_scope": [
+      "direct",
+      "control",
+      "execute"
+    ],
+    "status": "planned",
+    "current_gap": "战略链路和执行 catalog 仍缺位",
+    "next_action": "优先建设 sales execute 标准动作",
+    "evidence_ref": "dashboard.component_heatmap.sales"
+  }
+]

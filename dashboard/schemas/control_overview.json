@@ -1,0 +1,18 @@
+{
+  "table_name": "总控概览",
+  "layer": "L0",
+  "purpose": "让共同治理者一眼看到系统当前状态",
+  "fields": [
+    {"name": "runtime_state", "type": "single_select", "options": ["healthy", "degraded", "blocked", "unknown"], "description": "系统运行状态"},
+    {"name": "frontstage_focus", "type": "text", "description": "当前主线焦点"},
+    {"name": "active_round", "type": "text", "description": "当前正在执行的 round"},
+    {"name": "risk_level", "type": "single_select", "options": ["low", "medium", "high", "critical"]},
+    {"name": "pending_human_actions", "type": "number", "description": "待人类处理的事项数"},
+    {"name": "system_blockers", "type": "number", "description": "系统阻塞数"},
+    {"name": "last_evolution_round", "type": "text", "description": "最近一轮完成的 round"},
+    {"name": "last_evolution_status", "type": "single_select", "options": ["completed", "blocked_needs_user", "blocked_system", "failed_partial"]},
+    {"name": "total_tests_passed", "type": "number"},
+    {"name": "total_commits", "type": "number"},
+    {"name": "last_refresh", "type": "datetime"}
+  ]
+}

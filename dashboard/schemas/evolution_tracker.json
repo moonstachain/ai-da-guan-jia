@@ -1,0 +1,19 @@
+{
+  "table_name": "进化轨迹",
+  "layer": "L2",
+  "purpose": "追踪每轮 gained/wasted/next，看系统是否在真正进化",
+  "fields": [
+    {"name": "round_id", "type": "text"},
+    {"name": "timestamp", "type": "datetime"},
+    {"name": "status", "type": "single_select", "options": ["completed", "blocked_needs_user", "blocked_system", "failed_partial"]},
+    {"name": "component_domain", "type": "single_select", "options": ["governance", "sales", "delivery", "clone"]},
+    {"name": "control_level", "type": "single_select", "options": ["direct", "control", "execute"]},
+    {"name": "gained", "type": "text"},
+    {"name": "wasted", "type": "text"},
+    {"name": "next_iterate", "type": "text"},
+    {"name": "capability_delta", "type": "text"},
+    {"name": "tests_passed", "type": "number"},
+    {"name": "commit_hash", "type": "text"},
+    {"name": "distortion_resolved", "type": "checkbox"}
+  ]
+}

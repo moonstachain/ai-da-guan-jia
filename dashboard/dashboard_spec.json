@@ -1,0 +1,49 @@
+{
+  "dashboard_name": "原力OS 治理驾驶舱",
+  "version": "1.0",
+  "blocks": [
+    {
+      "id": "block_1_onboarding",
+      "title": "身份与协同",
+      "purpose": "让打开页面的人先知道这是什么、怎么用",
+      "data_source": null,
+      "content": "原力OS 是你和 AI大管家 的共同治理操作系统。你负责方向和拍板，AI 负责路由、执行和闭环。这页是你的治理驾驶舱。"
+    },
+    {
+      "id": "block_2_control_header",
+      "title": "控制态",
+      "purpose": "一眼看到现在是不是正常",
+      "data_source": "总控概览",
+      "cards": ["runtime_state", "risk_level", "active_round", "pending_human_actions", "system_blockers"]
+    },
+    {
+      "id": "block_3_cbm_matrix",
+      "title": "组件矩阵",
+      "purpose": "哪些组件最重要、哪里失衡、哪里缺位",
+      "data_source": "组件热图",
+      "view_type": "matrix",
+      "row_axis": "control_level",
+      "column_axis": "component_domain",
+      "cell_color_by": "priority_band",
+      "cell_label": "maturity"
+    },
+    {
+      "id": "block_4_diagnostics",
+      "title": "运行诊断",
+      "purpose": "当前主线在推什么、证据链是否健康",
+      "data_source": ["战略链路", "进化轨迹"],
+      "cards": ["frontstage_focus", "last_evolution_status", "total_tests_passed"]
+    },
+    {
+      "id": "block_5_action_queue",
+      "title": "行动队列",
+      "purpose": "待你处理、系统阻塞、优先动作",
+      "data_source": ["组件热图", "组件责任"],
+      "queues": [
+        {"name": "待你处理", "filter": "owner_gap == true OR pending_human_actions > 0"},
+        {"name": "系统阻塞", "filter": "runtime_state == blocked"},
+        {"name": "优先动作", "filter": "priority_band IN (critical, high)"}
+      ]
+    }
+  ]
+}

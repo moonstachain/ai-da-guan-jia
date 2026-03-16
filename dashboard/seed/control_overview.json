@@ -1,0 +1,15 @@
+[
+  {
+    "runtime_state": "healthy",
+    "frontstage_focus": "R6 人类协作仪表盘",
+    "active_round": "R6",
+    "risk_level": "low",
+    "pending_human_actions": 1,
+    "system_blockers": 0,
+    "last_evolution_round": "R5",
+    "last_evolution_status": "completed",
+    "total_tests_passed": 100,
+    "total_commits": 5,
+    "last_refresh": "2026-03-16T05:49:56+00:00"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "table_name": "战略链路",
+  "layer": "L1",
+  "purpose": "把 goal/theme/strategy 和 component_domain 连接起来",
+  "fields": [
+    {"name": "goal_id", "type": "text"},
+    {"name": "goal_name", "type": "text"},
+    {"name": "theme", "type": "text"},
+    {"name": "strategy", "type": "text"},
+    {"name": "component_domain", "type": "single_select", "options": ["governance", "sales", "delivery", "clone"]},
+    {"name": "control_level_scope", "type": "multi_select", "options": ["direct", "control", "execute"]},
+    {"name": "status", "type": "single_select", "options": ["active", "planned", "completed", "paused"]},
+    {"name": "current_gap", "type": "text"},
+    {"name": "next_action", "type": "text"},
+    {"name": "evidence_ref", "type": "text"}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "table_name": "组件热图",
+  "layer": "L1",
+  "purpose": "回答哪些组件最重要、哪里失衡、哪里 owner 缺位",
+  "fields": [
+    {"name": "component_domain", "type": "single_select", "options": ["governance", "sales", "delivery", "clone"]},
+    {"name": "control_level", "type": "single_select", "options": ["direct", "control", "execute"]},
+    {"name": "maturity", "type": "single_select", "options": ["mature", "has_skeleton", "front_half", "weak", "not_started"]},
+    {"name": "kpi_hint", "type": "text"},
+    {"name": "current_gap", "type": "text"},
+    {"name": "priority_band", "type": "single_select", "options": ["critical", "high", "medium", "low"]},
+    {"name": "human_owner", "type": "text"},
+    {"name": "ai_copilot", "type": "text"},
+    {"name": "owner_gap", "type": "checkbox"},
+    {"name": "evidence_strength", "type": "single_select", "options": ["strong", "moderate", "weak", "none"]},
+    {"name": "next_action", "type": "text"},
+    {"name": "last_updated", "type": "datetime"}
+  ]
+}

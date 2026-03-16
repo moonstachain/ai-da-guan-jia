@@ -1,0 +1,17 @@
+{
+  "table_name": "组件责任",
+  "layer": "L1",
+  "purpose": "回答每个组件谁在负责、是否齐备",
+  "fields": [
+    {"name": "component_domain", "type": "single_select", "options": ["governance", "sales", "delivery", "clone"]},
+    {"name": "control_level", "type": "single_select", "options": ["direct", "control", "execute"]},
+    {"name": "human_owner", "type": "text"},
+    {"name": "ai_copilot", "type": "text"},
+    {"name": "goal_ref", "type": "text"},
+    {"name": "theme_ref", "type": "text"},
+    {"name": "strategy_ref", "type": "text"},
+    {"name": "owner_gap", "type": "checkbox"},
+    {"name": "status", "type": "single_select", "options": ["staffed", "partial", "vacant"]},
+    {"name": "evidence_ref", "type": "text"}
+  ]
+}
