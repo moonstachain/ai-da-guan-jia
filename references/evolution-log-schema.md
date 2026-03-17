@@ -15,14 +15,15 @@ Write the current strategic operating-system view to:
 - `situation-map.md`
 - `route.json`
 - `evolution.json`
-- `closure-assessment.json`
-- `incentive-decision.json`
 - `evolution.md`
 - `worklog.json`
 - `worklog.md`
 - `soul.md`
 - `feishu-payload.json`
 - `feishu-sync-result.json`
+- `moltbook-payload.json`
+- `moltbook-status.md`
+- `moltbook-sync-result.json`
 - `github-task.json`
 - `github-payload.json`
 - `github-sync-plan.md`
@@ -43,8 +44,13 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 
 - `run_id`
 - `created_at`
+- `run_kind`
 - `task_text`
 - `goal_model`
+- `clone_id`
+- `customer_id`
+- `training_cycle_id`
+- `target_capability`
 - `autonomy_judgment`
 - `global_optimum_judgment`
 - `reuse_judgment`
@@ -55,10 +61,15 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `skills_selected`
 - `human_boundary`
 - `verification_result`
+- `score_before`
+- `score_after`
+- `promotion_recommendation`
+- `budget_weight`
 - `effective_patterns`
 - `wasted_patterns`
 - `evolution_candidates`
 - `feishu_sync_status`
+- `moltbook_sync_status`
 - `evolution_judgment_detail`
 - `evolution_writeback_applied`
 - `evolution_writeback_commit`
@@ -73,9 +84,6 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `governance_signal_status`
 - `credit_influenced_selection`
 - `proposal_authority_summary`
-- `budget_profile`
-- `closure_assessment`
-- `incentive_decision`
 
 ## Type Conventions
 
@@ -92,12 +100,25 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `github_classification`: object with `type`, `domain`, `state`, `artifact`, `slug`, and `task_key`.
 - `github_sync_status`: machine-readable status for the GitHub mirror lifecycle.
 - `github_archive_status`: `not_archived`, `active`, or `archived`.
+- `moltbook_sync_status`: `not_configured`, `payload_only`, `ready_for_review`, `published`, or `blocked`.
 - `governance_signal_status`: `missing`, `partial`, or `loaded`.
 - `credit_influenced_selection`: bool. True only when routing credit affected at least one selected skill.
 - `proposal_authority_summary`: object grouping selected skills into suggestion-capable vs execution-focused roles.
-- `budget_profile`: object with `tier`, token caps, time caps, and budget mode.
-- `closure_assessment`: object containing weighted closure metrics, gates, and budget assessment.
-- `incentive_decision`: object containing final lever decisions and triggered penalties.
+
+## Clone Training Fields
+
+When the run belongs to the clone factory:
+
+- `run_kind` must be `clone_training`
+- `clone_id` must match one registered clone
+- `customer_id` must identify the owning customer
+- `org_id` and `tenant_id` should identify the org / tenant boundary used by governance mirrors
+- `actor_type`, `role_template_id`, `visibility_policy`, `service_tier`, and `manager_clone_id` should be preserved when known
+- `training_cycle_id` must group the round into one cycle label
+- `target_capability` states what the clone is training
+- `score_before` and `score_after` must preserve the training delta
+- `promotion_recommendation` must be one of `promote | hold | watch | hibernate`
+- `budget_weight` is the suggested budget share captured at the time of the round
 
 ## Feishu Mirror Mapping
 
@@ -118,6 +139,13 @@ Flatten `worklog.json` into these human-readable fields:
 - `验真证据摘要`
 - `验真开放问题`
 - `人类边界`
+- `closure_state`
+- `verdict`
+- `enhancer_status`
+- `gained`
+- `wasted`
+- `next_iterate`
+- `pending_human_feedback`
 - `后续建议`
 - `同步状态`
 
@@ -131,3 +159,11 @@ Use the local run directory as source of truth and mirror the task into GitHub w
 - one Project item when project config is available
 
 Do not treat GitHub as canonical if the local run files diverge.
+
+## Optional Moltbook Board Artifacts
+
+When multiple runs are aggregated into one shared community board, write them under `artifacts/ai-da-guan-jia/moltbook/boards/<board-id>/`:
+
+- `moltbook-board.json`
+- `moltbook-board.md`
+- `moltbook-publish-result.json`

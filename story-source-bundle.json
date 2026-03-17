@@ -1,0 +1,113 @@
+{
+  "generated_at": "2026-03-15T23:59:00+08:00",
+  "source_root": "/Users/liming/.codex/skills/ai-da-guan-jia/artifacts/ai-da-guan-jia/runs",
+  "worklog_count": 79,
+  "soul_count": 79,
+  "column_name": "原力小刺猬",
+  "human_role": "小刺猬",
+  "ai_role": "小精怪",
+  "persona_visibility": "semi_explicit",
+  "story_model": "hero_journey_dual_partner",
+  "date_range": {
+    "start": "2026-03-10",
+    "end": "2026-03-15"
+  },
+  "seasons": [
+    {
+      "season_id": "S1",
+      "title": "觉醒与结伴",
+      "hero_journey_stages": [
+        "ordinary_world",
+        "call_to_adventure",
+        "meeting_the_companion",
+        "crossing_the_first_threshold"
+      ],
+      "source_run_ids": [
+        "adagj-20260310-044505-000000",
+        "adagj-20260310-050625-000000",
+        "adagj-20260310-051742-000000",
+        "adagj-20260310-053623-000000"
+      ],
+      "core_conflict": "小刺猬开始把真实任务交给 AI，小精怪必须通过第一批真实闭环来证明自己不是聊天假象。 "
+    },
+    {
+      "season_id": "S2",
+      "title": "试错、扩容与世界规则",
+      "hero_journey_stages": [
+        "tests_allies_enemies",
+        "road_of_trials"
+      ],
+      "source_run_ids": [
+        "adagj-20260310-060348-000000",
+        "adagj-20260310-060403-000000",
+        "adagj-20260310-060730-000000",
+        "adagj-20260310-103317-000000",
+        "adagj-20260311-055056-000000"
+      ],
+      "core_conflict": "系统开始越做越大，两位伙伴必须学会分层、命名、路由和立规矩，否则成长会立刻变形。 "
+    },
+    {
+      "season_id": "S3",
+      "title": "深入洞穴，学会验真",
+      "hero_journey_stages": [
+        "approach_to_the_inmost_cave",
+        "ordeal",
+        "reward"
+      ],
+      "source_run_ids": [
+        "adagj-20260312-021556-000000",
+        "adagj-20260312-021642-000000",
+        "adagj-intake-yuanli-os-mainline-closure-v1",
+        "adagj-intake-yuanli-os-transport-recovery-v1",
+        "adagj-intake-intake-20260313-183259-be232ff2"
+      ],
+      "core_conflict": "真正的难关变成了验真、反馈和主线收口；小精怪要学会不装完成，小刺猬要学会不被表面顺滑迷惑。 "
+    },
+    {
+      "season_id": "S4",
+      "title": "提案自治与回归人间",
+      "hero_journey_stages": [
+        "the_road_back",
+        "resurrection",
+        "return_with_the_elixir"
+      ],
+      "source_run_ids": [
+        "adagj-medallion-proposal-autonomy-v1",
+        "adagj-i-auto-001-proposal-mvp-phase2-sample-v1"
+      ],
+      "core_conflict": "两位伙伴开始追求低失真自治：先提案、留证据、少打扰，但绝不偷越人类边界。 "
+    }
+  ],
+  "publish_column": "原力小刺猬",
+  "story_arc_plan_path": "/Users/liming/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/story-arc-plan.md",
+  "character_contract_path": "/Users/liming/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/character-contract.md",
+  "dual_source_refresh": {
+    "run_id": "story-source-refresh-20260315-180950-human-visible",
+    "created_at": "2026-03-15T18:09:57+08:00",
+    "status": "blocked_needs_user",
+    "flomo_tag": "#星球精选",
+    "zsxq_column": "原力养虾炼丹",
+    "group_url": "https://wx.zsxq.com/group/15554854424522",
+    "sources": {
+      "flomo": {
+        "name": "flomo",
+        "status": "blocked_system",
+        "blocked_reason": "Codex exec timed out after 180 seconds.",
+        "item_count": 0
+      },
+      "zsxq": {
+        "name": "zsxq",
+        "status": "blocked_needs_user",
+        "blocked_reason": "当前知识星球页面只返回公开预览，需用已加入或星主账号登录后才能读取全文。",
+        "item_count": 0
+      }
+    },
+    "counts": {},
+    "source_mode": "parallel_read_only"
+  },
+  "reading_weight_policy": {
+    "episode_candidate": "具体任务、具体难题、协作转折、误判修正、第一次成功",
+    "supporting_reference": "能解释剧情节点，但不是单集主线",
+    "reference_heavy": "理论密度高、系统密度高、抽象长文，保留但降权"
+  }
+}

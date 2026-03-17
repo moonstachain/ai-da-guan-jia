@@ -25,13 +25,6 @@ This contract is only for task-closure work logs. Daily skill review materials u
 5. Run `sync-feishu --apply`.
 6. Run the evolution gate and write back validated rules when hit.
 
-## Stability Rules
-
-- Task closure should use `AI_DA_GUAN_JIA_FEISHU_LINK` when explicitly configured, otherwise fall back to the built-in default link.
-- If the built-in default link is non-empty, a run ending in `payload_only_missing_link` should be treated as an implementation defect or environment mismatch and investigated.
-- Do not silently accept Feishu closure degradation when the local task contract still claims default mirror availability.
-- The human-readable work log should reflect the final sync truth after `--apply`, not the pre-sync intent text.
-
 ## Commands
 
 Dry run:
@@ -69,4 +62,3 @@ The default target is the dedicated table `AI大管家-运行日志`. Match reco
 - If the bridge script is missing, keep the payload locally and mark sync status as bridge-missing.
 - If `--apply` is requested without the prerequisites, fail loudly.
 - If the local work log still contains stale sync-state text, fix the local artifacts first, then re-run sync so Feishu mirrors the final truth.
-- If a default link is supposed to exist but the run still reports missing link, treat the result as a bug in resolution or environment propagation and fix it before calling the closure path stable.

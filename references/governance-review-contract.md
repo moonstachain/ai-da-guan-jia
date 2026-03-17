@@ -28,12 +28,6 @@ Every governance review must write:
 - `feishu-sync-bundle.json`
 - `sync-result.json` after `--sync-feishu`
 
-If the human resolves one action:
-
-- `A` must generate a `honesty-hardening-brief`
-- `B` must generate a `workflow-hardening-brief`
-- `C` must generate a `governance-policy-brief`
-
 ## Scoring Rules
 
 - `honesty_score` is a hard gate, not just a display metric.
@@ -47,7 +41,6 @@ If the human resolves one action:
 - Run once per day at 09:00 local time.
 - A pending choice from yesterday must not block today’s review.
 - Previous unresolved actions must be carried forward as `carry-over`, not discarded.
-- If transport, governance Feishu mirror, or multi-source intake are incomplete, mark the stage as `baseline_only` and do not treat the review as a formal organization-wide conclusion.
 
 ## Non-Goals
 
