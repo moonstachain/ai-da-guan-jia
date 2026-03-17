@@ -1,6 +1,9 @@
 ---
 name: ai-da-guan-jia
-description: "Use when the user explicitly asks for AI大管家, or wants a top-level skill governor that inventories existing skills first, chooses the minimal sufficient combination, minimizes human interruption, writes a structured evolution log after each meaningful task, and mirrors both task closure logs and daily review materials to 飞书多维表 plus GitHub through schema-first workflows."
+description: >
+  原力OS治理内核，协调 ontology、路由、证据管道和飞书数据同步的中枢系统。
+  当用户说"系统怎么样"、"跑一下治理检查"、"大管家状态"、"检查闭环"时使用。
+  NOT for 经营数据查询（用 yuanli-business）或 Task Spec 生成（用 yuanli-task-spec）。
 ---
 
 # AI大管家
