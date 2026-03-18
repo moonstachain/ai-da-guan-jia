@@ -1,0 +1,107 @@
+[
+  {
+    "id": "TP-001",
+    "goal_id": "G1",
+    "initiative_id": "I-GOV-001",
+    "theme_id": "theme-governance",
+    "strategy_id": "",
+    "experiment_id": "",
+    "workflow_id": "",
+    "title": "建立统一治理视图与战略 review",
+    "expected_gain": "让系统能回答当前战略目标、initiative、blocked threads 和 skill gap。",
+    "resource_cost": "medium",
+    "verification": "生成 strategy-map.json、initiative-registry.json、governance-dashboard.md，并在 daily review 中引用。",
+    "required_skills": [
+      "ai-da-guan-jia",
+      "routing-playbook"
+    ],
+    "requires_human_approval": true,
+    "status": "pending_approval",
+    "created_at": "2026-03-18T21:05:34+08:00",
+    "notes": "当前缺口: workflow-hardening | skill-deduper | skill-inventory-review"
+  },
+  {
+    "id": "TP-REV-001",
+    "goal_id": "G1",
+    "initiative_id": "I-REV-001",
+    "theme_id": "theme-governance",
+    "strategy_id": "",
+    "experiment_id": "",
+    "workflow_id": "",
+    "title": "建立 23:00 递归复盘与周期总盘点机制",
+    "expected_gain": "把一次性复盘升级为固定治理节奏，同时保留现有 09:00 轻量 review。",
+    "resource_cost": "medium",
+    "verification": "生成可复用的深盘 review 运行契约、initiative 记录和聚合口径说明，并完成首轮 10 天验证。",
+    "required_skills": [
+      "ai-da-guan-jia",
+      "collab-sync",
+      "evolution-log"
+    ],
+    "requires_human_approval": true,
+    "status": "pending_approval",
+    "created_at": "2026-03-18T21:16:50+08:00",
+    "proposal_state": "pending_approval",
+    "notes": "09:00 轻量 review 保持不变；23:00 深盘只增不替。周 / 月 / 季 / 年 为聚合层，不直接升级 workflow。"
+  },
+  {
+    "id": "TP-002",
+    "goal_id": "G2",
+    "initiative_id": "I-AUTO-001",
+    "theme_id": "theme-human-ai-coevolution",
+    "strategy_id": "strategy-human-ai-success-efficiency",
+    "experiment_id": "",
+    "workflow_id": "",
+    "title": "用大奖章/IBM 方法论加厚提案自治引擎",
+    "expected_gain": "能围绕战略目标稳定提出新线程和 skill 招募建议。",
+    "resource_cost": "medium",
+    "verification": "生成 3 个高质量 thread proposals，并给出复用 vs 新建判断。",
+    "required_skills": [
+      "ai-da-guan-jia",
+      "skill-trainer-recursive"
+    ],
+    "requires_human_approval": true,
+    "status": "pending_approval",
+    "created_at": "2026-03-18T21:05:34+08:00",
+    "proposal_state": "pending_approval",
+    "notes": ""
+  },
+  {
+    "id": "TP-003",
+    "goal_id": "G3",
+    "initiative_id": "I-INC-001",
+    "theme_id": "theme-governance",
+    "strategy_id": "",
+    "experiment_id": "",
+    "workflow_id": "",
+    "title": "建立 agent scorecard 与提权机制",
+    "expected_gain": "把路由优先级、自治权限和资源预算绑定到治理质量。",
+    "resource_cost": "low",
+    "verification": "生成 agent-scorecard.json、routing-credit.json、autonomy-tier.json。",
+    "required_skills": [
+      "ai-da-guan-jia"
+    ],
+    "requires_human_approval": true,
+    "status": "pending_approval",
+    "created_at": "2026-03-18T21:05:34+08:00"
+  },
+  {
+    "id": "TP-HA-001",
+    "goal_id": "G2",
+    "initiative_id": "I-AUTO-001",
+    "theme_id": "theme-human-ai-coevolution",
+    "strategy_id": "strategy-human-ai-mvp-fast-validation",
+    "experiment_id": "experiment-human-ai-mvp-fast-validation-001",
+    "workflow_id": "",
+    "title": "在 theme-human-ai-coevolution 下运行一次人机协同 MVP 快证回合",
+    "expected_gain": "用最小可控链路验证 idea -> strategy -> experiment -> verdict 的主链是否顺畅。",
+    "resource_cost": "low",
+    "verification": "产出一次真实 round 的 evidence_ref、verdict 和母策略回写候选。",
+    "required_skills": [
+      "ai-da-guan-jia"
+    ],
+    "requires_human_approval": true,
+    "status": "pending_approval",
+    "created_at": "2026-03-18T21:05:34+08:00",
+    "notes": "只在现有 active theme 内提案，不新开主题，不直接固化 workflow。"
+  }
+]

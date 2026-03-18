@@ -1,0 +1,92 @@
+[
+  {
+    "id": "I-GOV-001",
+    "goal_id": "G1",
+    "title": "治理主线收口",
+    "status": "active",
+    "summary": "把原力OS 旧线程池压成少数 canonical 主线，并限制前台只保留 3 条治理主线。",
+    "required_capabilities": [
+      "ai-da-guan-jia",
+      "routing-playbook"
+    ],
+    "gap_level": "low",
+    "theme_id": "theme-governance",
+    "strategy_id": "strategy-governance-mainline-closure",
+    "experiment_id": "",
+    "workflow_id": ""
+  },
+  {
+    "id": "I-REV-001",
+    "goal_id": "G1",
+    "title": "递归复盘引擎",
+    "status": "active",
+    "summary": "把 09:00 轻量 review 与 23:00 深度 review 分层，并支持周 / 月 / 季 / 年滚动总盘点。",
+    "required_capabilities": [
+      "ai-da-guan-jia",
+      "collab-sync",
+      "evolution-log",
+      "strategy-governor"
+    ],
+    "gap_level": "medium",
+    "theme_id": "theme-governance",
+    "strategy_id": "",
+    "experiment_id": "",
+    "workflow_id": "",
+    "notes": [
+      "09:00 轻量 review 保持原契约，不替代。",
+      "23:00 深盘先以 initiative 落位，先验证一次再考虑 workflow。",
+      "周 / 月 / 季 / 年 是聚合层，不直接写成新 workflow。"
+    ]
+  },
+  {
+    "id": "I-AUTO-001",
+    "goal_id": "G2",
+    "title": "提案自治引擎",
+    "status": "active",
+    "summary": "围绕战略目标自动形成 initiative、thread、skill gap 和招募建议。",
+    "required_capabilities": [
+      "ai-da-guan-jia",
+      "strategy-governor",
+      "skill-trainer-recursive"
+    ],
+    "gap_level": "high",
+    "theme_id": "theme-human-ai-coevolution",
+    "strategy_id": "strategy-human-ai-success-efficiency",
+    "experiment_id": "",
+    "workflow_id": "",
+    "notes": []
+  },
+  {
+    "id": "I-INC-001",
+    "goal_id": "G3",
+    "title": "AI 激励评分体系",
+    "status": "active",
+    "summary": "把路由信用、自治层级、资源权和写回权绑定到 scorecard。",
+    "required_capabilities": [
+      "ai-da-guan-jia",
+      "agent-incentive-governor"
+    ],
+    "gap_level": "high",
+    "theme_id": "theme-governance",
+    "strategy_id": "",
+    "experiment_id": "",
+    "workflow_id": ""
+  },
+  {
+    "id": "I-CLONE-001",
+    "goal_id": "G2",
+    "title": "AI管家克隆体训练工厂",
+    "status": "active",
+    "summary": "在共享 AI大管家 底座上运行配置化 clone 注册、训练回合、评分、预算建议和晋升队列。",
+    "required_capabilities": [
+      "ai-da-guan-jia",
+      "skill-trainer-recursive",
+      "strategy-governor"
+    ],
+    "gap_level": "high",
+    "theme_id": "theme-human-ai-coevolution",
+    "strategy_id": "strategy-human-ai-success-efficiency",
+    "experiment_id": "",
+    "workflow_id": ""
+  }
+]

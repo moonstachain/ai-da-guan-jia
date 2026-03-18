@@ -1,0 +1,23 @@
+[
+  {
+    "id": "A",
+    "title": "固定 23:00 深盘模板",
+    "description": "先把每日深盘做成稳定模板，再追求自动化和周 / 月 / 季 / 年聚合。",
+    "cost": "low",
+    "verification": "至少跑 1 次真实 23:00 深盘并保留 run 归档。"
+  },
+  {
+    "id": "B",
+    "title": "把递归复盘机制升格为 initiative",
+    "description": "把复盘从行为变成可治理对象，才能被 strategy-governor 消费。",
+    "cost": "medium",
+    "verification": "initiative-registry 与 thread-proposal 已落位，并在 dashboard 可见。"
+  },
+  {
+    "id": "C",
+    "title": "补齐 rollup 口径",
+    "description": "周 / 月 / 季 / 年聚合不能靠临时手写，需要统一字段和聚合规则。",
+    "cost": "medium",
+    "verification": "定义统一聚合口径后，再写入后续 workflow。"
+  }
+]

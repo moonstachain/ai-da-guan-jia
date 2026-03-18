@@ -1,5 +1,5 @@
 # CLAUDE-INIT.md — 新 Claude 会话启动记忆
-# 最后更新：2026-03-17 · V16-lite（INIT refreshed after TS-DASH-02 / TS-KB-03）
+# 最后更新：2026-03-18 · V17（INIT refreshed after first full evolution review）
 
 > 用法：在新 Claude 会话开始时先读本文件。
 > 定位：这是 `shared startup memory distribution object`，不是 runtime ledger。
@@ -42,7 +42,10 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 当前进度摘要：`464 passed / 12 failed / 16 commits on main`（分发快照，待下轮验真后再更新）
 - 当前状态口径：以上是分发快照，不是 Layer 1 runtime truth；如需真相源，回到 `ai-da-guan-jia` 本地 canonical
 - 治理成熟度：`26/40`（`D1=3 D2=3 D3=2 D4=2 D5=3 D6=1 D7=3 D8=3 D9=3 D10=3`，baseline audit 2026-03-17 canonical）
-- 当前重点：`驾驶舱 2.0 部署验收 + 康波智库首轮闭环（L2×33 / L3×48 / scan_t0 已验真）`
+- 当前重点：`驾驶舱 2.0 部署验收 + 康波智库首轮闭环（L2×33 / L3×49 / scan_t0 已验真）`
+- Codex 定位升级：从 `主要执行器` 升级为 `执行器 + 提案者`（proposal_first 范式下仍需人类审批）
+- 首次完整复盘：2026-03-18 已完成，三方综合评分 8.3/10
+- governance-dashboard.md 已成为比 INIT 更实时的治理运行态视图
 - 当前警告：不要把 dirty worktree、dashboard 值或 GitHub 状态误当版本事实
 
 ## P1 并行任务
@@ -52,8 +55,13 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - `TS-V1-01` 卫星机治理对齐：阻塞，已完成对象校准与漂移归因，等待黑色卫星机恢复可达
 - `TS-DASH-01` 飞书表改造：已完成（4 旧表补字段 + 3 新表建表与 seed）
 - `TS-DASH-02` 驾驶舱 2.0 数据补齐：已完成（`26/40 canonical`）
-- `TS-KB-03` 康波智库落地：已完成首轮闭环（`L2×33 + L3×48 + scan_t0 apply`），后续升级重点是 `manual -> scheduled`
+- `TS-KB-03` 康波智库落地：已完成首轮闭环（`L2×33 + L3×49 + scan_t0 apply`），后续升级重点是 `manual -> scheduled`
+- `TS-KB-06` 财富三观认知层落地：已完成（本地 schema-first + 四页前端 + 真实飞书 wiring 已闭环）
+- `TS-KB-06-A` 智能资产·量化投资全景：已完成（量化全景表 + 二级钻取页面 + 路由验真）
+- `TS-KB-06-B` 财富三观 + 量化全景飞书真实表 wiring：已完成（康波 Base 4 张 L4 表创建 + seed + table_id 回填）
+- `TS-OC-02` task-spec Skill v1.1：草案入表 + 批准执行 闭环 MVP（已完成，草案待审 / 已审批待执行 两态已打通）
 - 驾驶舱 2.0 代码交付：已完成（`yuanli-os-dashboard-v2.zip`，5 页面 / 12 插件）
+- `I-REV-001` 递归复盘引擎：已落位（09:00 轻量 review + 23:00 深盘 + 周 / 月 / 季 / 年 rollup）
 
 ## 关键飞书坐标摘要
 
@@ -66,6 +74,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 康波 wiki 节点：`INApw2UoXiSeMTkBMVFc5daVnle`
 - 康波 Base（投研）：`IqZhbMJJxaq8D4sHOvkciaWFnid`
 - 康波表坐标：`L1_康波事件信号 / tbl6QgzUgcXq4HO5` · `L2_专家智库 / tbl82HhewJxuU8hV` · `L3_专家洞察 / tblcAxYlxfEHbPHv`
+- 财富三观 live 表：`L4_财富三观_核心命题表 / tblu9j7rpLFYCkto` · `L4_资产审美_标的库 / tblypdAEzkxIyISM` · `L4_配置策略表 / tblUrtJLbF7aerLm` · `L4_智能资产_量化全景 / tblIwtSUXnsHWoGs`
 
 注意：
 
@@ -78,6 +87,8 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 经营驾驶舱：5 区块在线
 - 驾驶舱 2.0：V2 代码已交付（5 页面 / 12 插件 / 2441 行），待妙搭部署验收
 - 康波相关应用：L1/L2/L3 数据层已落地，当前 live 为 `L2×33 / L3×49`，capability 已补齐 `yuanlios_expert_network` + `yuanlios_expert_insights`
+- 财富三观认知层：本地 schema-first + 四页前端 + 真实飞书表 wiring 已闭环；`TS-KB-06-A` 已完成量化投资全景钻取，`TS-KB-06-B` 已完成 live Bitable 写入
+- OpenClaw Skill Pack：`task-spec v1.1` 草案入表 + 批准执行闭环 MVP 已完成，`草案待审 / 已审批待执行` 两态已打通到飞书战略任务追踪
 - GitHub issue sync：`gh auth` 已恢复，TS-DASH-02 暴露的认证 blocker 已解除
 - GitHub 仍是分发基座，不是 runtime truth
 
@@ -87,11 +98,12 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 真实 live 总控表是 `tblnRCmMS7QBMtHI`
 - 妙搭滞后的根因通常是绑旧表，不是“表没更新”
 - `dashboard.feishu_writer.FeishuWriter` 不是当前正确对象，真实入口是 `dashboard.feishu_deploy.FeishuBitableAPI`
-- `Skill` 不是几个而已，当前治理记录是 `150` 条，当前可用 `112`
-- `Skill` live 表以 `tbl7g2E33tHswDeE` 为准，不用旧 id
+- `Skill` 不是几个而已，当前治理记录是 `150` 条，当前可用 `132`
+- `Skill` live 表以 `tbl7g2E33tHswDeE` 为准，当前 150 条记录中 `active=132`、`draft=15`、`needs_manual_review=3`，不用旧 id
 - 治理 wiki `Zge0...` 和康波 wiki `INAp...` 不能混淆
 - `CLAUDE-INIT.md` 不是 runtime ledger
 - GitHub / Feishu 更可见，不等于更真
+- 不把 Codex 的 proposal 当已批准——proposal_first 范式下人类仍是审批者
 - 治理审计不是全自动拍板，Claude 是参谋，人类是考官
 
 ## Claude↔Codex 工作流
@@ -102,6 +114,20 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 4. Codex 执行、验真、闭环
 5. 人类带结果回 Claude
 6. Claude 复核并进入下一轮
+
+## 定期进化盘点制度
+
+- Initiative: `I-REV-001 递归复盘引擎`
+- 09:00 轻量 review：保持原有契约不变
+- 23:00 深盘：每日执行，产出 run 归档链（review / evolution / action-candidates / worklog / soul / mirror payloads）
+- 周盘：每周日 23:00，聚合本周所有日盘，更新评分
+- 月盘：每月末，月度进化报告
+- 季盘：每季末，战略复盘
+- 年盘：每年 12 月，年度进化白皮书
+- 执行方式：Claude 输出盘点 Task Spec → 人类审批 → Codex 执行归档 + 镜像同步 → Claude 复核
+- 首次完整盘点：2026-03-18
+- 盘点归档路径：`artifacts/ai-da-guan-jia/runs/YYYY-MM-DD/adagj-*-retro-*/`
+- 关键约束：盘点不替代 09:00 review；周/月/季/年是聚合层不是新 workflow；先手动积累 evidence 再考虑自动化
 
 ## Task Spec “最后一步”标准
 
@@ -130,7 +156,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 5. 最大失真：治理成熟快于业务执行成熟，不能拿治理层进展冒充业务成熟。详见 `docs/r18-roadmap.md`。
 6. 投研层并入系统：康波事件、宏观量化、L1.5 深剖构成投研支撑层，但不再放在 INIT 详述。详见 `docs/r18-roadmap.md`。
 7. Skill 三层架构：YAML 前置、`SKILL.md` 指令、`references/` 参考分层固定。详见 `ai-da-guan-jia/SKILL.md`。
-8. Skill 治理进入合并态：150 条治理记录、7 个超级 skill、当前可用 112。详见 `docs/r18-roadmap.md`。
+8. Skill 治理进入合并态：150 条治理记录、7 个超级 skill、当前可用 132。详见 `docs/r18-roadmap.md`。
 9. Agent 三代演进定位：当前处于第二代末期→第三代入口。详见 `docs/agent-three-generations.md`。
 10. 三向量扩展架构：V1 多机、V2 同事复制、V3 客户同构共用一个治理单元模板。详见 `docs/three-vector-architecture.md`。
 11. Pipeline 并行模型：默认目标是多节点并行、人类批量验收，而不是串行传递。详见 `docs/three-vector-architecture.md`。
