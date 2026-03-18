@@ -3,3 +3,17 @@ __pycache__/
 state/
 artifacts/
 .tmp/
+output/
+data/
+input/
+mac-max-backup-2026/
+tmp/
+derived/feishu/frontdesk-state/
+*.tar
+*.tar.gz
+*.tgz
+*.enc
+restore-bundle/
+migration-dist/
+skills-mirror-staging/
+.venv/
