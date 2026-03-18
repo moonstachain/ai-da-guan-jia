@@ -29,7 +29,7 @@ class RuntimeControlPlane:
     Maintain a singleton runtime-control record inside Feishu Bitable.
     """
 
-    APP_TOKEN = "PHp2wURl2i6SyBkDtmGcuaEenag"
+    APP_TOKEN = "PVDgbdWYFaDLBiss0hlcM5WRnQc"
     TABLE_NAME = "L0_运行态总控"
     PRIMARY_FIELD_NAME = "active_round"
     FIELD_SPECS = (
@@ -241,4 +241,3 @@ class RuntimeControlPlane:
     @staticmethod
     def _record_id(record: dict[str, Any]) -> str:
         return str(record.get("record_id") or record.get("id") or "").strip()
-
