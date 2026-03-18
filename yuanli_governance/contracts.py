@@ -41,6 +41,7 @@ FIXED_RELATION_TYPES = [
     "subject_controls_account",
     "subject_responsible_for_module",
     "ai_agent_copilots_module",
+    "ai_deputy_oversees_module",
     "skill_enables_agent",
     "asset_supports_account",
     "asset_supports_module",
@@ -53,6 +54,9 @@ FIXED_RELATION_TYPES = [
     "skill_supports_thread",
     "asset_supports_thread",
 ]
+
+BUSINESS_DEPUTY_SUBJECT_ID = "subject-agent-business-deputy"
+BUSINESS_MODULE_CODES = ("public", "private", "sales")
 
 CLUSTER_DEFAULTS = {
     "AI大管家治理簇": {
@@ -240,6 +244,7 @@ OPERATING_MODULE_SPECS = [
         "status": "active",
         "owner_subject_id": "subject-hay2045",
         "ai_subject_id": "subject-agent-public",
+        "deputy_subject_id": BUSINESS_DEPUTY_SUBJECT_ID,
         "kpi_hint": "流量、触达、线索输入",
         "source_ref": "generated://module/public",
         "confidence": 0.95,
@@ -254,6 +259,7 @@ OPERATING_MODULE_SPECS = [
         "status": "active",
         "owner_subject_id": "subject-hay2045",
         "ai_subject_id": "subject-agent-private",
+        "deputy_subject_id": BUSINESS_DEPUTY_SUBJECT_ID,
         "kpi_hint": "线索状态、转化节奏、复购机会",
         "source_ref": "generated://module/private",
         "confidence": 0.95,
@@ -268,6 +274,7 @@ OPERATING_MODULE_SPECS = [
         "status": "active",
         "owner_subject_id": "subject-collab-owner",
         "ai_subject_id": "subject-agent-sales",
+        "deputy_subject_id": BUSINESS_DEPUTY_SUBJECT_ID,
         "kpi_hint": "商机推进、报价、成交额",
         "source_ref": "generated://module/sales",
         "confidence": 0.94,
@@ -282,6 +289,7 @@ OPERATING_MODULE_SPECS = [
         "status": "active",
         "owner_subject_id": "subject-collab-owner",
         "ai_subject_id": "subject-agent-delivery",
+        "deputy_subject_id": "",
         "kpi_hint": "交付节奏、里程碑、满意度",
         "source_ref": "generated://module/delivery",
         "confidence": 0.94,
@@ -296,6 +304,7 @@ OPERATING_MODULE_SPECS = [
         "status": "active",
         "owner_subject_id": "subject-collab-owner",
         "ai_subject_id": "subject-agent-finance",
+        "deputy_subject_id": "",
         "kpi_hint": "回款、利润、现金流",
         "source_ref": "generated://module/finance",
         "confidence": 0.94,
@@ -310,6 +319,7 @@ OPERATING_MODULE_SPECS = [
         "status": "active",
         "owner_subject_id": "subject-hay2045",
         "ai_subject_id": "subject-agent-governance",
+        "deputy_subject_id": "",
         "kpi_hint": "闭环率、失真率、复制进度",
         "source_ref": "generated://module/governance",
         "confidence": 0.97,
@@ -317,6 +327,19 @@ OPERATING_MODULE_SPECS = [
 ]
 
 DEFAULT_AGENT_SPECS = [
+    {
+        "id": BUSINESS_DEPUTY_SUBJECT_ID,
+        "subject_id": BUSINESS_DEPUTY_SUBJECT_ID,
+        "title": "业务增长 Deputy",
+        "subject_type": "ai_agent",
+        "space_id": "space-federation-root",
+        "status": "active",
+        "owner_mode": "ai",
+        "autonomy_tier": "deputy",
+        "responsibility_scope": list(BUSINESS_MODULE_CODES),
+        "source_ref": "generated://subject-agent/business-deputy",
+        "confidence": 0.95,
+    },
     {
         "id": "subject-agent-public",
         "subject_id": "subject-agent-public",
@@ -570,6 +593,7 @@ DEFAULT_ACCOUNT_SPECS = [
 
 AGENT_SKILL_HINTS = {
     "subject-agent-governance": ["ai-da-guan-jia", "knowledge-orchestrator"],
+    BUSINESS_DEPUTY_SUBJECT_ID: ["knowledge-orchestrator", "yuanli-core", "feishu-bitable-bridge"],
     "subject-agent-public": ["yuanli-core", "yuanli-xiaoshitou", "openclaw-xhs-coevolution-lab"],
     "subject-agent-private": ["knowledge-orchestrator", "feishu-bitable-bridge"],
     "subject-agent-sales": ["knowledge-orchestrator", "agency-data-consolidation-agent"],

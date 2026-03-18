@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-11T21:17:08+08:00",
+  "generated_at": "2026-03-17T12:20:01+08:00",
   "checks": [
     {
       "name": "no_orphan_relations",
@@ -32,7 +32,13 @@
       "details": [
         "review-skill",
         "resolve-action",
-        "publish-governance-report"
+        "publish-governance-report",
+        "lead-capture",
+        "opportunity-qualify",
+        "proposal-quote",
+        "deal-commit",
+        "deal-close",
+        "post-close-handoff"
       ]
     },
     {
@@ -71,6 +77,51 @@
     },
     {
       "name": "cashflows_unique",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "task_kinds_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "task_managed_by_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "human_boundary_states_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "thread_entry_modes_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "task_execution_modes_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "task_runner_states_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "task_closure_states_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "thread_orchestration_states_valid",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "thread_closure_states_valid",
       "ok": true,
       "details": []
     },
@@ -166,6 +217,11 @@
     },
     {
       "name": "modules_have_ai_copilot",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "business_modules_have_business_deputy",
       "ok": true,
       "details": []
     },

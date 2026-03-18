@@ -1,82 +1,113 @@
 {
-  "generated_at": "2026-03-11T19:39:02+08:00",
+  "generated_at": "2026-03-14T21:48:39+08:00",
   "counts": {
     "spaces": 5,
-    "subjects": 11,
+    "subjects": 12,
     "endpoints": 5,
     "accounts": 7,
     "operating_modules": 6,
-    "source_feeds": 7,
+    "source_feeds": 2,
     "ingestion_runs": 1,
-    "assets": 25,
-    "orders": 2,
-    "cashflows": 1,
-    "tasks": 5,
-    "threads": 5,
-    "skills": 3,
-    "actions": 3,
+    "assets": 147,
+    "orders": 1016,
+    "cashflows": 0,
+    "tasks": 42,
+    "threads": 33,
+    "skills": 112,
+    "actions": 9,
     "agent_capabilities": 3,
-    "decision_records": 4,
-    "writeback_events": 1,
-    "knowledge_items": 1,
+    "decision_records": 1027,
+    "writeback_events": 1024,
+    "knowledge_items": 7,
     "review_runs": 1,
-    "relations": 112
+    "relations": 458
   },
   "skills_by_cluster": {
-    "AI大管家治理簇": 1,
-    "垂直workflow簇": 2
+    "未分组": 66,
+    "agency簇": 12,
+    "AI大管家治理簇": 7,
+    "垂直workflow簇": 12,
+    "平台簇": 12,
+    "技能生产簇": 3
   },
   "space_count": 5,
-  "subject_count": 11,
+  "subject_count": 12,
   "endpoint_count": 5,
   "account_count": 7,
-  "source_feed_count": 7,
+  "source_feed_count": 2,
   "ingestion_run_count": 1,
-  "order_count": 2,
-  "cashflow_count": 1,
+  "order_count": 1016,
+  "cashflow_count": 0,
   "module_coverage": {
     "total": 6,
     "human_owned": 6,
     "ai_copilot_ready": 6,
-    "fully_staffed": 6
+    "fully_staffed": 6,
+    "business_deputy_ready": 3
   },
-  "active_thread_count": 4,
-  "blocked_task_count": 4,
+  "active_thread_count": 5,
+  "blocked_task_count": 14,
   "controlled_account_count": 7,
   "client_space_count": 2,
   "top_active_threads": [
-    "完成原力治理主图",
-    "内部销售协同节奏梳理",
-    "Palantir -> 原力OS operational ontology v0",
-    "给客户复制原力治理模板"
+    "Scheduled governed transcript review (propose_only) using default Feishu Minutes + Get笔记 sources for Transcript 9am automation.",
+    "把 agency-engineering-rapid-prototyper 从 persona 加厚成可验证 workflow 样板，并补齐 AI大管家 路由命中。",
+    "把 agency-engineering-frontend-developer 从 persona 加厚成页面实现包 workflow 样板，并补齐 AI大管家 路由边界。",
+    "落地 AI龙虾训练营 v1 交付包",
+    "实现腾讯会议分享页探测器、治理入库和 CLI 入口"
   ],
-  "top_active_operational_threads": [
-    "Palantir -> 原力OS operational ontology v0"
-  ],
+  "top_active_operational_threads": [],
   "action_catalog": [
     "review-skill",
     "resolve-action",
-    "publish-governance-report"
+    "publish-governance-report",
+    "lead-capture",
+    "opportunity-qualify",
+    "proposal-quote",
+    "deal-commit",
+    "deal-close",
+    "post-close-handoff"
   ],
-  "action_count": 3,
+  "action_count": 9,
   "pending_decision_count": 3,
   "top_pending_decisions": [
-    "先补 workflow hardening",
-    "先清理 overlap",
-    "先优化 review 路由"
+    "处理外部高价值线索",
+    "加厚高频 agency 技能",
+    "处理重复和边界冲突"
   ],
-  "recent_writeback_count": 1,
+  "recent_writeback_count": 1024,
   "recent_writebacks": [
     {
-      "writeback_id": "writeback-a1f9d00591",
+      "writeback_id": "writeback-48bd23f614",
       "action_id": "publish-governance-report",
+      "verification_state": "completed"
+    },
+    {
+      "writeback_id": "writeback-9fd8746851",
+      "action_id": "deal-close",
+      "verification_state": "completed"
+    },
+    {
+      "writeback_id": "writeback-af8caf4afb",
+      "action_id": "deal-close",
+      "verification_state": "completed"
+    },
+    {
+      "writeback_id": "writeback-58fa955eae",
+      "action_id": "deal-close",
+      "verification_state": "completed"
+    },
+    {
+      "writeback_id": "writeback-388a97dd80",
+      "action_id": "deal-close",
       "verification_state": "completed"
     }
   ],
   "top_blocked_tasks": [
-    "完成原力治理主图",
-    "内部销售协同节奏梳理",
-    "Palantir -> 原力OS operational ontology v0",
-    "给客户复制原力治理模板"
+    "建立原力OS主线收口计划的总控母任务：按三波推进执行。Wave 1 前台推进治理体系研究、分形设计主线、信息聚合主线；Wave 2 收尾原力茶馆-小石头的大世…",
+    "建立原力OS主线收口计划的总控母任务：按三波推进执行。Wave 1 前台推进治理体系研究、分形设计主线、信息聚合主线",
+    "Wave 2 收尾原力茶馆-小石头的大世界、康波大地图、他山之玉、原力OS-技能市场、原力OS-skill成熟度治理",
+    "Wave 3 把DNA宪章、本体论/方法论、CEO述职、激励设计、使用说明书、多维表-仪表盘、多维表+飞书编程、github等线程合并降噪，并将moltbook社区同步设为后台等待边界、原力星球-CBM设为收窄后再开。最终每条子线必须落到 completed / blocked_needs_user / blocked_system / failed_partial / merged / deferred 之一",
+    "恢复原力OS-信息聚合主线的 transport 边界：补齐 gh、GitHub auth、GITHUB_TOKEN、moonstachain/ai-task…"
   ]
 }

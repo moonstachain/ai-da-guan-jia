@@ -15,6 +15,7 @@ Do not let a cheaper path outrank a clearly better-fit path. Do not let a famili
 ## Hard Routing Rules
 
 - If the prompt is about skill inventory review, capability mapping, duplicate detection, system-wide skill evaluation, or a daily skill review, route `AI大管家` native `review-skills` flow first.
+- If the prompt is about one external skill, one GitHub skill repo, or “这个 skill 能不能用 / 怎么用 / 值不值得接”, route `AI大管家` native `evaluate-external-skill` flow first.
 - If the prompt is about learning an unfamiliar API, platform, tool, workflow, or method and explicitly mentions manuals, official docs, guides, tutorials, best practices, or benchmark comparison, route `guide-benchmark-learning` first.
 - If that unfamiliar-domain prompt is specifically about OpenAI products or APIs, route `openai-docs` after `guide-benchmark-learning`.
 - If the prompt is about `OpenClaw`, `小红书`, `博主`, `爆款`, `共进化`, or this content niche, route `openclaw-xhs-coevolution-lab` first.
@@ -22,6 +23,8 @@ Do not let a cheaper path outrank a clearly better-fit path. Do not let a famili
 - If the prompt asks to create or update a skill, route `skill-creator` first.
 - If the prompt says to ask the knowledge base first, route `knowledge-orchestrator` first.
 - If the prompt specifically asks to query `ask.feishu`, `Aily`, `飞书知识库`, or `飞书知识问答`, route `feishu-km` before `knowledge-orchestrator`, preserve raw Q&A artifacts first, and only then synthesize or plan.
+- If the prompt is about `OpenCLI`, `website as CLI`, or supported social/community platform reads and light actions, route `opencli-platform-bridge` before `playwright`.
+- For live OpenCLI execution, explicitly bind `PLAYWRIGHT_MCP_EXTENSION_TOKEN` from the current env or a trusted local config source such as `~/.codex/config.toml` or `~/.zshrc`; do not assume an interactive shell already sourced the token.
 - If the prompt requires Feishu table writes, keep Feishu last in the chain:
   1. create local canonical record
   2. generate `feishu-payload.json`
@@ -46,6 +49,7 @@ Every route must carry a verification target, not just a chosen skill name. Exam
 - skill creation: `SKILL.md`, `agents/openai.yaml`, resource files, validator pass
 - skill training: `intent-canvas.json`, `first_principles.md`, `benchmark-map.json`, `candidate-skill-spec.md`, `eval-report.json`
 - skill inventory review: correct top-level skill count, explicit exclusion of `artifacts/**`, structured review summary, and exactly 3 candidate evolution actions
+- external skill evaluation: `source_url`, `runtime_target`, `category`, `can_use_now`, `best_use_mode`, explicit risks, and a recommendation about direct install versus benchmark/migration
 - manual-first learning: `source-map.json`, `benchmark-grid.md`, `learning-handbook.md`, `execution-readiness.md`, and an explicit source-of-truth vs reference-guide split
 - OpenClaw Xiaohongshu strategy: account plan, topic plan, note blueprint, evidence requirements, and viral logic
 - knowledge-first planning: raw KB answers saved before synthesis

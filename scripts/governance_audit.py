@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timezone
+import os
+from collections import Counter
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlencode
@@ -22,6 +24,7 @@ OLD_GOVERNANCE_RUNTIME_TABLE_ID = "tblkKkauA35yJOrH"
 ARTIFACT_DIR = REPO_ROOT / "artifacts"
 LATEST_AUDIT_PATH = ARTIFACT_DIR / "governance_audit.json"
 CLAUDE_INIT_PATH = REPO_ROOT / "yuanli-os-claude" / "CLAUDE-INIT.md"
+PRIVATE_RUNTIME_ENV_PATH = Path.home() / ".codex" / ".env"
 
 
 def api(client: FeishuClient, method: str, path: str, body: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -119,7 +122,157 @@ def boolish(value: Any) -> bool:
     return text in {"true", "1", "yes", "y", "是"}
 
 
+def parse_simple_env_file(path: Path) -> dict[str, str]:
+    values: dict[str, str] = {}
+    if not path.exists():
+        return values
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        values[key.strip()] = value.strip().strip("\"'")
+    return values
+
+
+def ensure_runtime_feishu_env() -> dict[str, Any]:
+    required = ("FEISHU_APP_ID", "FEISHU_APP_SECRET")
+    env_file_values = parse_simple_env_file(PRIVATE_RUNTIME_ENV_PATH)
+    loaded: list[str] = []
+    existing: list[str] = []
+    missing: list[str] = []
+    for key in required:
+        current = str(os.getenv(key, "")).strip()
+        if current:
+            existing.append(key)
+            continue
+        fallback = str(env_file_values.get(key, "")).strip()
+        if fallback:
+            os.environ[key] = fallback
+            loaded.append(key)
+        else:
+            missing.append(key)
+    return {
+        "source": "process_env"
+        if existing and not loaded
+        else "process_env+private_env"
+        if existing and loaded
+        else "private_env"
+        if loaded
+        else "missing",
+        "env_file_path": str(PRIVATE_RUNTIME_ENV_PATH),
+        "env_file_exists": PRIVATE_RUNTIME_ENV_PATH.exists(),
+        "env_file_hit": bool(loaded),
+        "loaded_from_file": loaded,
+        "existing_in_process": existing,
+        "missing_keys": missing,
+    }
+
+
+def resolve_ai_da_guan_jia_runs_root() -> Path:
+    candidates = [
+        Path.home() / ".codex" / "skills" / "ai-da-guan-jia" / "artifacts" / "ai-da-guan-jia" / "runs",
+        REPO_ROOT / "work" / "ai-da-guan-jia" / "artifacts" / "ai-da-guan-jia" / "runs",
+        REPO_ROOT / "artifacts" / "ai-da-guan-jia" / "runs",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[1]
+
+
+def safe_rate(numerator: int, denominator: int) -> float:
+    return round(numerator / denominator, 2) if denominator else 0.0
+
+
+def top_counter_rows(counter: Counter[str], *, limit: int = 5) -> list[dict[str, Any]]:
+    return [{"pattern": key, "count": count} for key, count in counter.most_common(limit)]
+
+
+def summarize_execution_engine_health(
+    runs_root: Path,
+    *,
+    now: datetime | None = None,
+    window_days: int = 7,
+) -> dict[str, Any]:
+    current = now or datetime.now(timezone.utc)
+    threshold = current - timedelta(days=window_days)
+    verification_counter: Counter[str] = Counter()
+    feishu_counter: Counter[str] = Counter()
+    github_counter: Counter[str] = Counter()
+    effective_counter: Counter[str] = Counter()
+    wasted_counter: Counter[str] = Counter()
+    recent_runs = 0
+    verified_count = 0
+    feishu_apply_successes = 0
+    github_apply_successes = 0
+    credential_env = ensure_runtime_feishu_env()
+
+    for evolution_path in sorted(runs_root.glob("*/*/evolution.json")):
+        try:
+            payload = json.loads(evolution_path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        created_at = str(payload.get("created_at") or "")
+        if not created_at:
+            continue
+        try:
+            created = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+        except Exception:
+            continue
+        if created.tzinfo is None:
+            created = created.replace(tzinfo=timezone.utc)
+        if created.astimezone(timezone.utc) < threshold:
+            continue
+        recent_runs += 1
+        verification_status = str((payload.get("verification_result") or {}).get("status") or "unknown").strip() or "unknown"
+        feishu_status = str(payload.get("feishu_sync_status") or "unknown").strip() or "unknown"
+        github_status = str(payload.get("github_sync_status") or "unknown").strip() or "unknown"
+        verification_counter[verification_status] += 1
+        feishu_counter[feishu_status] += 1
+        github_counter[github_status] += 1
+        if verification_status.lower() in {"passed", "success", "done", "complete", "completed"}:
+            verified_count += 1
+        if feishu_status == "synced_applied":
+            feishu_apply_successes += 1
+        if github_status.endswith("_synced_applied") or github_status == "github_synced_applied":
+            github_apply_successes += 1
+        for item in payload.get("effective_patterns", []) or []:
+            text = str(item).strip()
+            if text:
+                effective_counter[text] += 1
+        for item in payload.get("wasted_patterns", []) or []:
+            text = str(item).strip()
+            if text:
+                wasted_counter[text] += 1
+
+    inferred_notes: list[str] = []
+    if credential_env["missing_keys"] and feishu_counter.get("apply_blocked_missing_credentials", 0):
+        inferred_notes.append("Current runtime still lacks Feishu credentials; recent Feishu apply failures may be driven by auth gaps.")
+
+    return {
+        "runs_root": str(runs_root),
+        "window_days": window_days,
+        "recent_runs_7d": recent_runs,
+        "verification_status_distribution": dict(verification_counter),
+        "feishu_sync_status_distribution": dict(feishu_counter),
+        "github_sync_status_distribution": dict(github_counter),
+        "verified_rate": safe_rate(verified_count, recent_runs),
+        "feishu_apply_success_rate": safe_rate(feishu_apply_successes, recent_runs),
+        "github_apply_success_rate": safe_rate(github_apply_successes, recent_runs),
+        "top_effective_patterns": top_counter_rows(effective_counter),
+        "top_wasted_patterns": top_counter_rows(wasted_counter),
+        "confirmed_from_local_runs": {
+            "status": "confirmed",
+            "source": "local evolution.json artifacts",
+        },
+        "runtime_credential_context": credential_env,
+        "inferred_notes": inferred_notes,
+    }
+
+
 def build_audit() -> dict[str, Any]:
+    ensure_runtime_feishu_env()
     client = FeishuClient()
     if not client.available:
         raise SystemExit("FEISHU_APP_ID / FEISHU_APP_SECRET are required")
@@ -322,6 +475,15 @@ def build_audit() -> dict[str, Any]:
     )
     print(f"  github占比: {d7['github_rate']}")
     audit["dimensions"]["D7_生态与复制"] = d7
+
+    print("\n[D8] 执行引擎健康度...")
+    runs_root = resolve_ai_da_guan_jia_runs_root()
+    d8 = summarize_execution_engine_health(runs_root)
+    print(f"  recent_runs_7d={d8['recent_runs_7d']}, verified_rate={d8['verified_rate']}")
+    print(
+        f"  feishu_apply_success_rate={d8['feishu_apply_success_rate']}, github_apply_success_rate={d8['github_apply_success_rate']}"
+    )
+    audit["dimensions"]["D8_执行引擎健康度"] = d8
 
     return audit
 

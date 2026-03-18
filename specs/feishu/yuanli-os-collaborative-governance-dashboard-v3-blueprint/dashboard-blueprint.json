@@ -1,0 +1,1775 @@
+{
+  "summary": {
+    "goal": "为原力OS生成一个单页协同治理控制台，让陌生人先理解系统身份与协同方式，再帮助人类判断当前控制态、阻塞边界、证据线索和下一步动作。",
+    "audience": [
+      "hay",
+      "原力OS 人类协作者",
+      "第一次接触原力OS的人类运营者"
+    ],
+    "time_grain": "day",
+    "generated_at": "2026-03-13T02:54:01+08:00"
+  },
+  "official_boundary": {
+    "supported_openapi": [
+      "bitable app metadata",
+      "tables",
+      "fields",
+      "records",
+      "views",
+      "dashboard list",
+      "dashboard copy"
+    ],
+    "manual_or_template_driven": [
+      "dashboard card creation",
+      "widget binding",
+      "canvas layout placement"
+    ],
+    "implementation_mode": "source views can be automated; dashboard cards remain checklist-driven in v1"
+  },
+  "public_rules": [
+    "One card answers one management question.",
+    "Every card points to one source view.",
+    "Diagnosis and action cards should make the next move explicit.",
+    "Long text, attachments, and raw payload fields should not become chart dimensions."
+  ],
+  "normalized_input": {
+    "goal": "为原力OS生成一个单页协同治理控制台，让陌生人先理解系统身份与协同方式，再帮助人类判断当前控制态、阻塞边界、证据线索和下一步动作。",
+    "audience": [
+      "hay",
+      "原力OS 人类协作者",
+      "第一次接触原力OS的人类运营者"
+    ],
+    "decision_questions": [
+      {
+        "id": "dq-kpi-01",
+        "layer": "overview",
+        "question": "当前真正处于前台推进的主线有几条？",
+        "metric_ids": [
+          "frontstage_thread_count"
+        ],
+        "dimension_ids": [
+          "operating_segment"
+        ],
+        "action_target_ids": [],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-kpi-02",
+        "layer": "overview",
+        "question": "当前有多少事项只差我输入？",
+        "metric_ids": [
+          "blocked_needs_user_count"
+        ],
+        "dimension_ids": [
+          "human_boundary_state"
+        ],
+        "action_target_ids": [
+          "needs_user_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-kpi-03",
+        "layer": "overview",
+        "question": "当前有多少系统级阻塞正在挡路？",
+        "metric_ids": [
+          "blocked_system_count"
+        ],
+        "dimension_ids": [
+          "object_status"
+        ],
+        "action_target_ids": [
+          "blocked_system_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-kpi-04",
+        "layer": "overview",
+        "question": "数据源联通和 transport 当前是否健康？",
+        "metric_ids": [
+          "source_health_score"
+        ],
+        "dimension_ids": [
+          "source_family"
+        ],
+        "action_target_ids": [
+          "source_sync_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-card-01",
+        "layer": "diagnosis",
+        "question": "当前主会场到底在推什么，哪些是真推进，哪些只是等待？",
+        "metric_ids": [
+          "frontstage_thread_count"
+        ],
+        "dimension_ids": [
+          "object_status",
+          "owner_mode"
+        ],
+        "action_target_ids": [
+          "frontstage_threads_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-card-02",
+        "layer": "diagnosis",
+        "question": "任务整体推进态分布如何，堵点集中在哪？",
+        "metric_ids": [
+          "task_status_count"
+        ],
+        "dimension_ids": [
+          "task_status"
+        ],
+        "action_target_ids": [
+          "next_action_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-card-03",
+        "layer": "diagnosis",
+        "question": "数据源同步、transport 和 source 覆盖现在健康吗？",
+        "metric_ids": [
+          "connected_sources_count",
+          "missing_sources_count"
+        ],
+        "dimension_ids": [
+          "remote_reachable_flag"
+        ],
+        "action_target_ids": [
+          "source_sync_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-card-04",
+        "layer": "diagnosis",
+        "question": "最近系统做了哪些 review、decision 和 writeback？",
+        "metric_ids": [
+          "recent_governance_velocity"
+        ],
+        "dimension_ids": [
+          "event_time"
+        ],
+        "action_target_ids": [
+          "decision_trace_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-action-01",
+        "layer": "action",
+        "question": "现在哪些事项必须由我介入？",
+        "metric_ids": [
+          "blocked_needs_user_count"
+        ],
+        "dimension_ids": [],
+        "action_target_ids": [
+          "needs_user_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-action-02",
+        "layer": "action",
+        "question": "哪些系统阻塞需要单独处理，而不是继续假推进？",
+        "metric_ids": [
+          "blocked_system_count"
+        ],
+        "dimension_ids": [],
+        "action_target_ids": [
+          "blocked_system_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-action-03",
+        "layer": "action",
+        "question": "如果现在开始推进，优先动作是什么？",
+        "metric_ids": [
+          "frontstage_thread_count"
+        ],
+        "dimension_ids": [],
+        "action_target_ids": [
+          "next_action_queue"
+        ],
+        "chart_preference": ""
+      },
+      {
+        "id": "dq-action-04",
+        "layer": "action",
+        "question": "哪些能力价值高，但审批或授权摩擦大？",
+        "metric_ids": [
+          "approval_friction_score"
+        ],
+        "dimension_ids": [
+          "requires_human_approval_flag"
+        ],
+        "action_target_ids": [
+          "capability_friction_queue"
+        ],
+        "chart_preference": ""
+      }
+    ],
+    "tables": [
+      {
+        "id": "control_objects",
+        "name": "总控对象主表",
+        "grain": "record",
+        "fields": [
+          {
+            "name": "对象Key",
+            "type": "text",
+            "role": "primary_key"
+          },
+          {
+            "name": "对象类型",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "对象标题",
+            "type": "text",
+            "role": "label"
+          },
+          {
+            "name": "治理层级",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "运营分段",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "对象状态",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "负责人模式",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "当前摘要",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "阻塞原因",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "需要人类输入",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "下一步动作",
+            "type": "text",
+            "role": "action"
+          },
+          {
+            "name": "证据入口",
+            "type": "text",
+            "role": "evidence"
+          },
+          {
+            "name": "最近更新时间",
+            "type": "date",
+            "role": "time"
+          }
+        ]
+      },
+      {
+        "id": "threads",
+        "name": "线程总表",
+        "grain": "record",
+        "fields": [
+          {
+            "name": "Thread ID",
+            "type": "text",
+            "role": "primary_key"
+          },
+          {
+            "name": "标题",
+            "type": "text",
+            "role": "label"
+          },
+          {
+            "name": "状态",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "进入方式",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "编排状态",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "闭环状态",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "阻塞原因",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "需要人类输入",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "更新时间",
+            "type": "date",
+            "role": "time"
+          }
+        ]
+      },
+      {
+        "id": "tasks",
+        "name": "任务总表",
+        "grain": "record",
+        "fields": [
+          {
+            "name": "Task ID",
+            "type": "text",
+            "role": "primary_key"
+          },
+          {
+            "name": "标题",
+            "type": "text",
+            "role": "label"
+          },
+          {
+            "name": "Thread ID",
+            "type": "text",
+            "role": "foreign_key"
+          },
+          {
+            "name": "状态",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "任务类型",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "人类边界状态",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "runner_state",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "结果摘要",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "证据入口",
+            "type": "text",
+            "role": "evidence"
+          },
+          {
+            "name": "阻塞原因",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "需要人类输入",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "下一步",
+            "type": "text",
+            "role": "action"
+          },
+          {
+            "name": "最后更新时间",
+            "type": "date",
+            "role": "time"
+          }
+        ]
+      },
+      {
+        "id": "skills_capabilities",
+        "name": "技能与能力表",
+        "grain": "record",
+        "fields": [
+          {
+            "name": "能力Key",
+            "type": "text",
+            "role": "primary_key"
+          },
+          {
+            "name": "记录类型",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "名称",
+            "type": "text",
+            "role": "label"
+          },
+          {
+            "name": "routing_credit",
+            "type": "number",
+            "role": "metric"
+          },
+          {
+            "name": "requires_human_approval",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "verification_strength",
+            "type": "number",
+            "role": "metric"
+          },
+          {
+            "name": "更新时间",
+            "type": "date",
+            "role": "time"
+          }
+        ]
+      },
+      {
+        "id": "sources",
+        "name": "数据源同步表",
+        "grain": "record",
+        "fields": [
+          {
+            "name": "Source Feed ID",
+            "type": "text",
+            "role": "primary_key"
+          },
+          {
+            "name": "标题",
+            "type": "text",
+            "role": "label"
+          },
+          {
+            "name": "来源家族",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "状态",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "最近扫描时间",
+            "type": "date",
+            "role": "time"
+          },
+          {
+            "name": "transport_repo",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "remote_reachable",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "github_backend",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "connected_sources_snapshot",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "missing_sources_snapshot",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "更新时间",
+            "type": "date",
+            "role": "time"
+          }
+        ]
+      },
+      {
+        "id": "reviews",
+        "name": "Review批次表",
+        "grain": "record",
+        "fields": [
+          {
+            "name": "Review ID",
+            "type": "text",
+            "role": "primary_key"
+          },
+          {
+            "name": "评审日期",
+            "type": "date",
+            "role": "time"
+          },
+          {
+            "name": "范围",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "摘要",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "top_risks",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "candidate_actions",
+            "type": "text",
+            "role": "action"
+          }
+        ]
+      },
+      {
+        "id": "decisions",
+        "name": "决策记录表",
+        "grain": "record",
+        "fields": [
+          {
+            "name": "Decision ID",
+            "type": "text",
+            "role": "primary_key"
+          },
+          {
+            "name": "标题",
+            "type": "text",
+            "role": "label"
+          },
+          {
+            "name": "decision_state",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "decision_summary",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "evidence_refs",
+            "type": "text",
+            "role": "evidence"
+          },
+          {
+            "name": "decision_time",
+            "type": "date",
+            "role": "time"
+          }
+        ]
+      },
+      {
+        "id": "governance_events",
+        "name": "治理动作与写回表",
+        "grain": "record",
+        "fields": [
+          {
+            "name": "治理事件Key",
+            "type": "text",
+            "role": "primary_key"
+          },
+          {
+            "name": "记录类型",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "标题",
+            "type": "text",
+            "role": "label"
+          },
+          {
+            "name": "状态",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "verification_state",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "evidence_refs",
+            "type": "text",
+            "role": "evidence"
+          },
+          {
+            "name": "event_time",
+            "type": "date",
+            "role": "time"
+          }
+        ]
+      },
+      {
+        "id": "field_dictionary",
+        "name": "字段字典与术语表",
+        "grain": "record",
+        "fields": [
+          {
+            "name": "字段Key",
+            "type": "text",
+            "role": "primary_key"
+          },
+          {
+            "name": "对象家族",
+            "type": "text",
+            "role": "dimension"
+          },
+          {
+            "name": "中文字段名",
+            "type": "text",
+            "role": "label"
+          },
+          {
+            "name": "英文字段名",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "对应canonical路径",
+            "type": "text",
+            "role": "detail"
+          },
+          {
+            "name": "更新时间",
+            "type": "date",
+            "role": "time"
+          }
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "id": "frontstage_thread_count",
+        "name": "前台主线数",
+        "table_id": "control_objects",
+        "field": "对象Key",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "blocked_needs_user_count",
+        "name": "待人类输入数量",
+        "table_id": "control_objects",
+        "field": "需要人类输入",
+        "aggregation": "count_nonempty",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "blocked_system_count",
+        "name": "系统阻塞数量",
+        "table_id": "control_objects",
+        "field": "对象状态",
+        "aggregation": "count_filtered",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "source_health_score",
+        "name": "数据源健康度",
+        "table_id": "sources",
+        "field": "remote_reachable",
+        "aggregation": "derived_health_score",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "task_status_count",
+        "name": "任务状态分布",
+        "table_id": "tasks",
+        "field": "状态",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "connected_sources_count",
+        "name": "已连接来源数",
+        "table_id": "sources",
+        "field": "connected_sources_snapshot",
+        "aggregation": "derived_count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "missing_sources_count",
+        "name": "缺失来源数",
+        "table_id": "sources",
+        "field": "missing_sources_snapshot",
+        "aggregation": "derived_count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "recent_governance_velocity",
+        "name": "近期治理推进量",
+        "table_id": "governance_events",
+        "field": "治理事件Key",
+        "aggregation": "count_recent",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "approval_friction_score",
+        "name": "审批摩擦度",
+        "table_id": "skills_capabilities",
+        "field": "requires_human_approval",
+        "aggregation": "derived_friction_score",
+        "type": "",
+        "questions": []
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "operating_segment",
+        "name": "运营分段",
+        "table_id": "control_objects",
+        "field": "运营分段",
+        "aggregation": "",
+        "type": "category",
+        "questions": []
+      },
+      {
+        "id": "object_status",
+        "name": "对象状态",
+        "table_id": "control_objects",
+        "field": "对象状态",
+        "aggregation": "",
+        "type": "category",
+        "questions": []
+      },
+      {
+        "id": "owner_mode",
+        "name": "负责人模式",
+        "table_id": "control_objects",
+        "field": "负责人模式",
+        "aggregation": "",
+        "type": "category",
+        "questions": []
+      },
+      {
+        "id": "human_boundary_state",
+        "name": "人类边界状态",
+        "table_id": "tasks",
+        "field": "人类边界状态",
+        "aggregation": "",
+        "type": "category",
+        "questions": []
+      },
+      {
+        "id": "task_status",
+        "name": "任务状态",
+        "table_id": "tasks",
+        "field": "状态",
+        "aggregation": "",
+        "type": "category",
+        "questions": []
+      },
+      {
+        "id": "source_family",
+        "name": "来源家族",
+        "table_id": "sources",
+        "field": "来源家族",
+        "aggregation": "",
+        "type": "category",
+        "questions": []
+      },
+      {
+        "id": "remote_reachable_flag",
+        "name": "远端可达",
+        "table_id": "sources",
+        "field": "remote_reachable",
+        "aggregation": "",
+        "type": "category",
+        "questions": []
+      },
+      {
+        "id": "requires_human_approval_flag",
+        "name": "需要人工审批",
+        "table_id": "skills_capabilities",
+        "field": "requires_human_approval",
+        "aggregation": "",
+        "type": "category",
+        "questions": []
+      },
+      {
+        "id": "event_time",
+        "name": "事件时间",
+        "table_id": "governance_events",
+        "field": "event_time",
+        "aggregation": "",
+        "type": "time",
+        "questions": []
+      }
+    ],
+    "time_grain": "day",
+    "action_targets": [
+      {
+        "id": "frontstage_threads_queue",
+        "name": "前台主线视图",
+        "table_id": "control_objects",
+        "record_filter": "运营分段 = frontstage",
+        "display_fields": [
+          "对象标题",
+          "对象状态",
+          "当前摘要",
+          "下一步动作",
+          "证据入口"
+        ]
+      },
+      {
+        "id": "needs_user_queue",
+        "name": "待你处理队列",
+        "table_id": "control_objects",
+        "record_filter": "需要人类输入 != 空",
+        "display_fields": [
+          "对象标题",
+          "需要人类输入",
+          "阻塞原因",
+          "下一步动作",
+          "证据入口"
+        ]
+      },
+      {
+        "id": "blocked_system_queue",
+        "name": "系统阻塞队列",
+        "table_id": "control_objects",
+        "record_filter": "对象状态 = blocked_system",
+        "display_fields": [
+          "对象标题",
+          "阻塞原因",
+          "证据入口",
+          "下一步动作"
+        ]
+      },
+      {
+        "id": "next_action_queue",
+        "name": "下一步动作队列",
+        "table_id": "control_objects",
+        "record_filter": "下一步动作 != 空",
+        "display_fields": [
+          "对象标题",
+          "对象状态",
+          "负责人模式",
+          "下一步动作",
+          "证据入口"
+        ]
+      },
+      {
+        "id": "source_sync_queue",
+        "name": "数据源同步队列",
+        "table_id": "sources",
+        "record_filter": "missing_sources_snapshot != none OR remote_reachable != true",
+        "display_fields": [
+          "标题",
+          "状态",
+          "remote_reachable",
+          "missing_sources_snapshot",
+          "github_backend"
+        ]
+      },
+      {
+        "id": "decision_trace_queue",
+        "name": "最近治理推进队列",
+        "table_id": "governance_events",
+        "record_filter": "event_time within last 14 days",
+        "display_fields": [
+          "标题",
+          "状态",
+          "verification_state",
+          "evidence_refs",
+          "event_time"
+        ]
+      },
+      {
+        "id": "capability_friction_queue",
+        "name": "能力与审批摩擦队列",
+        "table_id": "skills_capabilities",
+        "record_filter": "requires_human_approval = true",
+        "display_fields": [
+          "名称",
+          "routing_credit",
+          "requires_human_approval",
+          "verification_strength"
+        ]
+      }
+    ]
+  },
+  "dashboards": [
+    {
+      "name": "为原力OS生成一个单页协同治理控制台，让陌生人先理解系统身份与协同方式，再帮助人类判断当前控制态、阻塞边界、证据线索和下一步动作。仪表盘",
+      "layers": [
+        {
+          "layer": "overview",
+          "cards": [
+            {
+              "id": "card-dq-kpi-01",
+              "title": "当前真正处于前台推进的主线有几条？",
+              "layer": "overview",
+              "card_type": "bar_chart",
+              "question_id": "dq-kpi-01",
+              "question": "当前真正处于前台推进的主线有几条？",
+              "source_view_id": "view-dq-kpi-01",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "frontstage_thread_count"
+              ],
+              "dimension_ids": [
+                "operating_segment"
+              ],
+              "action_target_ids": [],
+              "recommended_position": 1
+            },
+            {
+              "id": "card-dq-kpi-02",
+              "title": "当前有多少事项只差我输入？",
+              "layer": "overview",
+              "card_type": "bar_chart",
+              "question_id": "dq-kpi-02",
+              "question": "当前有多少事项只差我输入？",
+              "source_view_id": "view-dq-kpi-02",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "blocked_needs_user_count"
+              ],
+              "dimension_ids": [
+                "human_boundary_state"
+              ],
+              "action_target_ids": [
+                "needs_user_queue"
+              ],
+              "recommended_position": 2
+            },
+            {
+              "id": "card-dq-kpi-03",
+              "title": "当前有多少系统级阻塞正在挡路？",
+              "layer": "overview",
+              "card_type": "bar_chart",
+              "question_id": "dq-kpi-03",
+              "question": "当前有多少系统级阻塞正在挡路？",
+              "source_view_id": "view-dq-kpi-03",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "blocked_system_count"
+              ],
+              "dimension_ids": [
+                "object_status"
+              ],
+              "action_target_ids": [
+                "blocked_system_queue"
+              ],
+              "recommended_position": 3
+            },
+            {
+              "id": "card-dq-kpi-04",
+              "title": "数据源联通和 transport 当前是否健康？",
+              "layer": "overview",
+              "card_type": "bar_chart",
+              "question_id": "dq-kpi-04",
+              "question": "数据源联通和 transport 当前是否健康？",
+              "source_view_id": "view-dq-kpi-04",
+              "table_id": "sources",
+              "metric_ids": [
+                "source_health_score"
+              ],
+              "dimension_ids": [
+                "source_family"
+              ],
+              "action_target_ids": [
+                "source_sync_queue"
+              ],
+              "recommended_position": 4
+            }
+          ]
+        },
+        {
+          "layer": "diagnosis",
+          "cards": [
+            {
+              "id": "card-dq-card-01",
+              "title": "当前主会场到底在推什么，哪些是真推进，哪些只是等待？",
+              "layer": "diagnosis",
+              "card_type": "breakdown_table",
+              "question_id": "dq-card-01",
+              "question": "当前主会场到底在推什么，哪些是真推进，哪些只是等待？",
+              "source_view_id": "view-dq-card-01",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "frontstage_thread_count"
+              ],
+              "dimension_ids": [
+                "object_status",
+                "owner_mode"
+              ],
+              "action_target_ids": [
+                "frontstage_threads_queue"
+              ],
+              "recommended_position": 5
+            },
+            {
+              "id": "card-dq-card-02",
+              "title": "任务整体推进态分布如何，堵点集中在哪？",
+              "layer": "diagnosis",
+              "card_type": "breakdown_table",
+              "question_id": "dq-card-02",
+              "question": "任务整体推进态分布如何，堵点集中在哪？",
+              "source_view_id": "view-dq-card-02",
+              "table_id": "tasks",
+              "metric_ids": [
+                "task_status_count"
+              ],
+              "dimension_ids": [
+                "task_status"
+              ],
+              "action_target_ids": [
+                "next_action_queue"
+              ],
+              "recommended_position": 6
+            },
+            {
+              "id": "card-dq-card-03",
+              "title": "数据源同步、transport 和 source 覆盖现在健康吗？",
+              "layer": "diagnosis",
+              "card_type": "breakdown_table",
+              "question_id": "dq-card-03",
+              "question": "数据源同步、transport 和 source 覆盖现在健康吗？",
+              "source_view_id": "view-dq-card-03",
+              "table_id": "sources",
+              "metric_ids": [
+                "connected_sources_count",
+                "missing_sources_count"
+              ],
+              "dimension_ids": [
+                "remote_reachable_flag"
+              ],
+              "action_target_ids": [
+                "source_sync_queue"
+              ],
+              "recommended_position": 7
+            },
+            {
+              "id": "card-dq-card-04",
+              "title": "最近系统做了哪些 review、decision 和 writeback？",
+              "layer": "diagnosis",
+              "card_type": "breakdown_table",
+              "question_id": "dq-card-04",
+              "question": "最近系统做了哪些 review、decision 和 writeback？",
+              "source_view_id": "view-dq-card-04",
+              "table_id": "governance_events",
+              "metric_ids": [
+                "recent_governance_velocity"
+              ],
+              "dimension_ids": [
+                "event_time"
+              ],
+              "action_target_ids": [
+                "decision_trace_queue"
+              ],
+              "recommended_position": 8
+            }
+          ]
+        },
+        {
+          "layer": "action",
+          "cards": [
+            {
+              "id": "card-dq-action-01",
+              "title": "现在哪些事项必须由我介入？",
+              "layer": "action",
+              "card_type": "detail_table",
+              "question_id": "dq-action-01",
+              "question": "现在哪些事项必须由我介入？",
+              "source_view_id": "view-dq-action-01",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "blocked_needs_user_count"
+              ],
+              "dimension_ids": [],
+              "action_target_ids": [
+                "needs_user_queue"
+              ],
+              "recommended_position": 9
+            },
+            {
+              "id": "card-dq-action-02",
+              "title": "哪些系统阻塞需要单独处理，而不是继续假推进？",
+              "layer": "action",
+              "card_type": "detail_table",
+              "question_id": "dq-action-02",
+              "question": "哪些系统阻塞需要单独处理，而不是继续假推进？",
+              "source_view_id": "view-dq-action-02",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "blocked_system_count"
+              ],
+              "dimension_ids": [],
+              "action_target_ids": [
+                "blocked_system_queue"
+              ],
+              "recommended_position": 10
+            },
+            {
+              "id": "card-dq-action-03",
+              "title": "如果现在开始推进，优先动作是什么？",
+              "layer": "action",
+              "card_type": "detail_table",
+              "question_id": "dq-action-03",
+              "question": "如果现在开始推进，优先动作是什么？",
+              "source_view_id": "view-dq-action-03",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "frontstage_thread_count"
+              ],
+              "dimension_ids": [],
+              "action_target_ids": [
+                "next_action_queue"
+              ],
+              "recommended_position": 11
+            },
+            {
+              "id": "card-dq-action-04",
+              "title": "哪些能力价值高，但审批或授权摩擦大？",
+              "layer": "action",
+              "card_type": "detail_table",
+              "question_id": "dq-action-04",
+              "question": "哪些能力价值高，但审批或授权摩擦大？",
+              "source_view_id": "view-dq-action-04",
+              "table_id": "skills_capabilities",
+              "metric_ids": [
+                "approval_friction_score"
+              ],
+              "dimension_ids": [
+                "requires_human_approval_flag"
+              ],
+              "action_target_ids": [
+                "capability_friction_queue"
+              ],
+              "recommended_position": 12
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_views": [
+    {
+      "id": "view-dq-kpi-01",
+      "view_name": "overview-当前真正处于前台推进的主线有几条",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-kpi-01",
+      "question": "当前真正处于前台推进的主线有几条？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "frontstage_thread_count",
+          "name": "前台主线数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "operating_segment",
+          "name": "运营分段",
+          "field": "运营分段"
+        }
+      ],
+      "filters": [
+        "time grain = day"
+      ],
+      "display_fields": [
+        "运营分段"
+      ],
+      "action_target_ids": []
+    },
+    {
+      "id": "view-dq-kpi-02",
+      "view_name": "overview-当前有多少事项只差我输入",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-kpi-02",
+      "question": "当前有多少事项只差我输入？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "blocked_needs_user_count",
+          "name": "待人类输入数量",
+          "aggregation": "count_nonempty"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "human_boundary_state",
+          "name": "人类边界状态",
+          "field": "人类边界状态"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "需要人类输入 != 空"
+      ],
+      "display_fields": [
+        "人类边界状态",
+        "对象标题",
+        "需要人类输入",
+        "阻塞原因",
+        "下一步动作",
+        "证据入口"
+      ],
+      "action_target_ids": [
+        "needs_user_queue"
+      ]
+    },
+    {
+      "id": "view-dq-kpi-03",
+      "view_name": "overview-当前有多少系统级阻塞正在挡路",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-kpi-03",
+      "question": "当前有多少系统级阻塞正在挡路？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "blocked_system_count",
+          "name": "系统阻塞数量",
+          "aggregation": "count_filtered"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "object_status",
+          "name": "对象状态",
+          "field": "对象状态"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "对象状态 = blocked_system"
+      ],
+      "display_fields": [
+        "对象状态",
+        "对象标题",
+        "阻塞原因",
+        "证据入口",
+        "下一步动作"
+      ],
+      "action_target_ids": [
+        "blocked_system_queue"
+      ]
+    },
+    {
+      "id": "view-dq-kpi-04",
+      "view_name": "overview-数据源联通和-transport-当前是否健康",
+      "table_id": "sources",
+      "table_name": "数据源同步表",
+      "question_id": "dq-kpi-04",
+      "question": "数据源联通和 transport 当前是否健康？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "source_health_score",
+          "name": "数据源健康度",
+          "aggregation": "derived_health_score"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "source_family",
+          "name": "来源家族",
+          "field": "来源家族"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "missing_sources_snapshot != none OR remote_reachable != true"
+      ],
+      "display_fields": [
+        "来源家族",
+        "标题",
+        "状态",
+        "remote_reachable",
+        "missing_sources_snapshot",
+        "github_backend"
+      ],
+      "action_target_ids": [
+        "source_sync_queue"
+      ]
+    },
+    {
+      "id": "view-dq-card-01",
+      "view_name": "diagnosis-当前主会场到底在推什么-哪些是真推进-哪些只是等待",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-card-01",
+      "question": "当前主会场到底在推什么，哪些是真推进，哪些只是等待？",
+      "layer": "diagnosis",
+      "metrics": [
+        {
+          "id": "frontstage_thread_count",
+          "name": "前台主线数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "object_status",
+          "name": "对象状态",
+          "field": "对象状态"
+        },
+        {
+          "id": "owner_mode",
+          "name": "负责人模式",
+          "field": "负责人模式"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "运营分段 = frontstage"
+      ],
+      "display_fields": [
+        "对象状态",
+        "负责人模式",
+        "对象标题",
+        "当前摘要",
+        "下一步动作",
+        "证据入口"
+      ],
+      "action_target_ids": [
+        "frontstage_threads_queue"
+      ]
+    },
+    {
+      "id": "view-dq-card-02",
+      "view_name": "diagnosis-任务整体推进态分布如何-堵点集中在哪",
+      "table_id": "tasks",
+      "table_name": "任务总表",
+      "question_id": "dq-card-02",
+      "question": "任务整体推进态分布如何，堵点集中在哪？",
+      "layer": "diagnosis",
+      "metrics": [
+        {
+          "id": "task_status_count",
+          "name": "任务状态分布",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "task_status",
+          "name": "任务状态",
+          "field": "状态"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "下一步动作 != 空"
+      ],
+      "display_fields": [
+        "状态",
+        "对象标题",
+        "对象状态",
+        "负责人模式",
+        "下一步动作",
+        "证据入口"
+      ],
+      "action_target_ids": [
+        "next_action_queue"
+      ]
+    },
+    {
+      "id": "view-dq-card-03",
+      "view_name": "diagnosis-数据源同步-transport-和-source-覆盖现在健康吗",
+      "table_id": "sources",
+      "table_name": "数据源同步表",
+      "question_id": "dq-card-03",
+      "question": "数据源同步、transport 和 source 覆盖现在健康吗？",
+      "layer": "diagnosis",
+      "metrics": [
+        {
+          "id": "connected_sources_count",
+          "name": "已连接来源数",
+          "aggregation": "derived_count"
+        },
+        {
+          "id": "missing_sources_count",
+          "name": "缺失来源数",
+          "aggregation": "derived_count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "remote_reachable_flag",
+          "name": "远端可达",
+          "field": "remote_reachable"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "missing_sources_snapshot != none OR remote_reachable != true"
+      ],
+      "display_fields": [
+        "remote_reachable",
+        "标题",
+        "状态",
+        "missing_sources_snapshot",
+        "github_backend"
+      ],
+      "action_target_ids": [
+        "source_sync_queue"
+      ]
+    },
+    {
+      "id": "view-dq-card-04",
+      "view_name": "diagnosis-最近系统做了哪些-review-decision-和-writeback",
+      "table_id": "governance_events",
+      "table_name": "治理动作与写回表",
+      "question_id": "dq-card-04",
+      "question": "最近系统做了哪些 review、decision 和 writeback？",
+      "layer": "diagnosis",
+      "metrics": [
+        {
+          "id": "recent_governance_velocity",
+          "name": "近期治理推进量",
+          "aggregation": "count_recent"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "event_time",
+          "name": "事件时间",
+          "field": "event_time"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "event_time within last 14 days"
+      ],
+      "display_fields": [
+        "event_time",
+        "标题",
+        "状态",
+        "verification_state",
+        "evidence_refs"
+      ],
+      "action_target_ids": [
+        "decision_trace_queue"
+      ]
+    },
+    {
+      "id": "view-dq-action-01",
+      "view_name": "action-现在哪些事项必须由我介入",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-action-01",
+      "question": "现在哪些事项必须由我介入？",
+      "layer": "action",
+      "metrics": [
+        {
+          "id": "blocked_needs_user_count",
+          "name": "待人类输入数量",
+          "aggregation": "count_nonempty"
+        }
+      ],
+      "dimensions": [],
+      "filters": [
+        "需要人类输入 != 空"
+      ],
+      "display_fields": [
+        "对象标题",
+        "需要人类输入",
+        "阻塞原因",
+        "下一步动作",
+        "证据入口"
+      ],
+      "action_target_ids": [
+        "needs_user_queue"
+      ]
+    },
+    {
+      "id": "view-dq-action-02",
+      "view_name": "action-哪些系统阻塞需要单独处理-而不是继续假推进",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-action-02",
+      "question": "哪些系统阻塞需要单独处理，而不是继续假推进？",
+      "layer": "action",
+      "metrics": [
+        {
+          "id": "blocked_system_count",
+          "name": "系统阻塞数量",
+          "aggregation": "count_filtered"
+        }
+      ],
+      "dimensions": [],
+      "filters": [
+        "对象状态 = blocked_system"
+      ],
+      "display_fields": [
+        "对象标题",
+        "阻塞原因",
+        "证据入口",
+        "下一步动作"
+      ],
+      "action_target_ids": [
+        "blocked_system_queue"
+      ]
+    },
+    {
+      "id": "view-dq-action-03",
+      "view_name": "action-如果现在开始推进-优先动作是什么",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-action-03",
+      "question": "如果现在开始推进，优先动作是什么？",
+      "layer": "action",
+      "metrics": [
+        {
+          "id": "frontstage_thread_count",
+          "name": "前台主线数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [],
+      "filters": [
+        "下一步动作 != 空"
+      ],
+      "display_fields": [
+        "对象标题",
+        "对象状态",
+        "负责人模式",
+        "下一步动作",
+        "证据入口"
+      ],
+      "action_target_ids": [
+        "next_action_queue"
+      ]
+    },
+    {
+      "id": "view-dq-action-04",
+      "view_name": "action-哪些能力价值高-但审批或授权摩擦大",
+      "table_id": "skills_capabilities",
+      "table_name": "技能与能力表",
+      "question_id": "dq-action-04",
+      "question": "哪些能力价值高，但审批或授权摩擦大？",
+      "layer": "action",
+      "metrics": [
+        {
+          "id": "approval_friction_score",
+          "name": "审批摩擦度",
+          "aggregation": "derived_friction_score"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "requires_human_approval_flag",
+          "name": "需要人工审批",
+          "field": "requires_human_approval"
+        }
+      ],
+      "filters": [
+        "requires_human_approval = true"
+      ],
+      "display_fields": [
+        "requires_human_approval",
+        "名称",
+        "routing_credit",
+        "verification_strength"
+      ],
+      "action_target_ids": [
+        "capability_friction_queue"
+      ]
+    }
+  ],
+  "card_checklist": [
+    {
+      "card_title": "当前真正处于前台推进的主线有几条？",
+      "layer": "overview",
+      "card_type": "bar_chart",
+      "source_view_id": "view-dq-kpi-01",
+      "source_view_name": "overview-当前真正处于前台推进的主线有几条",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a bar_chart card.",
+        "Bind the card to source view `overview-当前真正处于前台推进的主线有几条`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "当前有多少事项只差我输入？",
+      "layer": "overview",
+      "card_type": "bar_chart",
+      "source_view_id": "view-dq-kpi-02",
+      "source_view_name": "overview-当前有多少事项只差我输入",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a bar_chart card.",
+        "Bind the card to source view `overview-当前有多少事项只差我输入`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "当前有多少系统级阻塞正在挡路？",
+      "layer": "overview",
+      "card_type": "bar_chart",
+      "source_view_id": "view-dq-kpi-03",
+      "source_view_name": "overview-当前有多少系统级阻塞正在挡路",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a bar_chart card.",
+        "Bind the card to source view `overview-当前有多少系统级阻塞正在挡路`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "数据源联通和 transport 当前是否健康？",
+      "layer": "overview",
+      "card_type": "bar_chart",
+      "source_view_id": "view-dq-kpi-04",
+      "source_view_name": "overview-数据源联通和-transport-当前是否健康",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a bar_chart card.",
+        "Bind the card to source view `overview-数据源联通和-transport-当前是否健康`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "当前主会场到底在推什么，哪些是真推进，哪些只是等待？",
+      "layer": "diagnosis",
+      "card_type": "breakdown_table",
+      "source_view_id": "view-dq-card-01",
+      "source_view_name": "diagnosis-当前主会场到底在推什么-哪些是真推进-哪些只是等待",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a breakdown_table card.",
+        "Bind the card to source view `diagnosis-当前主会场到底在推什么-哪些是真推进-哪些只是等待`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "任务整体推进态分布如何，堵点集中在哪？",
+      "layer": "diagnosis",
+      "card_type": "breakdown_table",
+      "source_view_id": "view-dq-card-02",
+      "source_view_name": "diagnosis-任务整体推进态分布如何-堵点集中在哪",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a breakdown_table card.",
+        "Bind the card to source view `diagnosis-任务整体推进态分布如何-堵点集中在哪`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "数据源同步、transport 和 source 覆盖现在健康吗？",
+      "layer": "diagnosis",
+      "card_type": "breakdown_table",
+      "source_view_id": "view-dq-card-03",
+      "source_view_name": "diagnosis-数据源同步-transport-和-source-覆盖现在健康吗",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a breakdown_table card.",
+        "Bind the card to source view `diagnosis-数据源同步-transport-和-source-覆盖现在健康吗`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "最近系统做了哪些 review、decision 和 writeback？",
+      "layer": "diagnosis",
+      "card_type": "breakdown_table",
+      "source_view_id": "view-dq-card-04",
+      "source_view_name": "diagnosis-最近系统做了哪些-review-decision-和-writeback",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a breakdown_table card.",
+        "Bind the card to source view `diagnosis-最近系统做了哪些-review-decision-和-writeback`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "现在哪些事项必须由我介入？",
+      "layer": "action",
+      "card_type": "detail_table",
+      "source_view_id": "view-dq-action-01",
+      "source_view_name": "action-现在哪些事项必须由我介入",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a detail_table card.",
+        "Bind the card to source view `action-现在哪些事项必须由我介入`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些系统阻塞需要单独处理，而不是继续假推进？",
+      "layer": "action",
+      "card_type": "detail_table",
+      "source_view_id": "view-dq-action-02",
+      "source_view_name": "action-哪些系统阻塞需要单独处理-而不是继续假推进",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a detail_table card.",
+        "Bind the card to source view `action-哪些系统阻塞需要单独处理-而不是继续假推进`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "如果现在开始推进，优先动作是什么？",
+      "layer": "action",
+      "card_type": "detail_table",
+      "source_view_id": "view-dq-action-03",
+      "source_view_name": "action-如果现在开始推进-优先动作是什么",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a detail_table card.",
+        "Bind the card to source view `action-如果现在开始推进-优先动作是什么`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些能力价值高，但审批或授权摩擦大？",
+      "layer": "action",
+      "card_type": "detail_table",
+      "source_view_id": "view-dq-action-04",
+      "source_view_name": "action-哪些能力价值高-但审批或授权摩擦大",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a detail_table card.",
+        "Bind the card to source view `action-哪些能力价值高-但审批或授权摩擦大`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    }
+  ]
+}

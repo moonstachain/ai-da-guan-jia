@@ -13,7 +13,7 @@
     "endpoint_id": "endpoint-local-workstation",
     "source_ref": "generated://account/github",
     "confidence": 0.95,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "account-feishu",
@@ -29,7 +29,7 @@
     "endpoint_id": "endpoint-feishu-mobile",
     "source_ref": "generated://account/feishu",
     "confidence": 0.94,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "account-wechat",
@@ -39,13 +39,13 @@
     "platform": "WeChat",
     "space_id": "space-personal-zero",
     "owner_subject_id": "subject-hay2045",
-    "status": "active",
-    "health_status": "inventory_observed",
+    "status": "planned",
+    "health_status": "needs_inventory",
     "channel_role": "private",
     "endpoint_id": "endpoint-feishu-mobile",
     "source_ref": "generated://account/wechat",
     "confidence": 0.86,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "account-video-channel",
@@ -61,7 +61,7 @@
     "endpoint_id": "endpoint-feishu-mobile",
     "source_ref": "generated://account/video-channel",
     "confidence": 0.84,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "account-bilibili",
@@ -77,7 +77,7 @@
     "endpoint_id": "endpoint-terminal-a",
     "source_ref": "generated://account/bilibili",
     "confidence": 0.84,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "account-douyin",
@@ -93,7 +93,7 @@
     "endpoint_id": "endpoint-terminal-b",
     "source_ref": "generated://account/douyin",
     "confidence": 0.84,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "account-xiaohongshu",
@@ -109,6 +109,6 @@
     "endpoint_id": "endpoint-terminal-c",
     "source_ref": "generated://account/xiaohongshu",
     "confidence": 0.84,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   }
 ]

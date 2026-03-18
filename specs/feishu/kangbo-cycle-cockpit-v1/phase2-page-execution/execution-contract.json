@@ -1,0 +1,90 @@
+{
+  "project": "kangbo-cycle-cockpit-v1-phase2",
+  "surface_name": "康波周期总控舱",
+  "scope": {
+    "mode": "phase2_page_execution_only",
+    "includes": [
+      "page creation",
+      "card creation",
+      "source view binding",
+      "post-check evidence"
+    ],
+    "excludes": [
+      "schema redesign",
+      "source view regeneration",
+      "table data correction",
+      "product scope expansion"
+    ]
+  },
+  "pages": [
+    {
+      "name": "康波周期总控舱",
+      "type": "home",
+      "required_cards": [
+        "当前阶段与风险温度",
+        "历史冲击类别分布",
+        "历史阶段分布",
+        "资产篮子姿态",
+        "当前关键事件卡",
+        "历史镜像卡",
+        "阶段主线卡",
+        "资产篮子方向",
+        "企业经营动作"
+      ],
+      "manual_cards": [
+        "Hero 头部",
+        "3 张 onboarding 导览卡",
+        "深入页入口卡"
+      ]
+    },
+    {
+      "name": "300年事件库",
+      "type": "drilldown",
+      "required_cards": [
+        "300年事件长轴",
+        "事件类别结构",
+        "康波阶段分布",
+        "国家地区重心",
+        "影响方向扫描",
+        "可信度分布"
+      ]
+    },
+    {
+      "name": "阶段解剖页",
+      "type": "drilldown",
+      "required_cards": [
+        "阶段档案原表",
+        "国家地区主线",
+        "主题图层解释"
+      ],
+      "warning": "康波阶段表目前只能作为原始档案展示"
+    },
+    {
+      "name": "当前局势页",
+      "type": "drilldown",
+      "required_cards": [
+        "当前事件链路",
+        "历史镜像对照",
+        "当前资产方向",
+        "风险背景补充"
+      ],
+      "focus_record": "KBS-202602-001"
+    },
+    {
+      "name": "企业家应对页",
+      "type": "drilldown",
+      "required_cards": [
+        "现金与杠杆",
+        "供给链与成本",
+        "增长与扩张节奏",
+        "防御性资产与储备思维"
+      ]
+    }
+  ],
+  "completion_signal": "康波周期总控舱 Phase 2 已完成，可复验",
+  "artifact_refs": {
+    "implementation_brief": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/feishu/kangbo-cycle-cockpit-v1/miaoda-implementation.md",
+    "card_checklist": "/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/kangbo-cycle-cockpit/dashboard-card-checklist.md",
+    "source_views": "/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/kangbo-cycle-cockpit/source-views-apply.json"
+  }
+}

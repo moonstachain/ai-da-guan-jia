@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "governance-checkpoint.schema.json",
+  "title": "治理检查点",
+  "description": "六判断的可执行 schema。每条判断标注 DNA 来源，每条判断指向所需的 operational ontology 对象。",
+  "type": "object",
+  "required": ["round_id", "timestamp", "context", "judgments", "closure_readiness"],
+  "properties": {
+    "round_id": {
+      "type": "string",
+      "pattern": "^R[0-9]+$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "context": {
+      "type": "object",
+      "description": "本轮任务在 CBM 双轴中的定位",
+      "required": ["component_domain", "control_level", "objective"],
+      "properties": {
+        "component_domain": {
+          "type": "string",
+          "enum": ["governance", "sales", "delivery", "clone"],
+          "description": "横轴：这件事属于哪个组件域"
+        },
+        "control_level": {
+          "type": "string",
+          "enum": ["direct", "control", "execute"],
+          "description": "纵轴：这件事在哪一层"
+        },
+        "objective": {
+          "type": "string",
+          "description": "一句话目标"
+        },
+        "goal_ref": {
+          "type": "string",
+          "description": "关联的 goal_id"
+        },
+        "theme_ref": {
+          "type": "string",
+          "description": "关联的 theme_id"
+        }
+      }
+    },
+    "judgments": {
+      "type": "object",
+      "required": ["autonomy", "global_optimum", "capability_reuse", "verification", "evolution", "max_distortion"],
+      "properties": {
+        "autonomy": {
+          "type": "object",
+          "description": "DNA来源：人类友好 × 技能统帅",
+          "required": ["verdict", "rationale"],
+          "properties": {
+            "verdict": {
+              "type": "string",
+              "enum": ["ai_autonomous", "human_boundary_required", "blocked_needs_user"]
+            },
+            "rationale": { "type": "string" },
+            "human_actions_needed": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "如果需要人类介入，具体需要什么"
+            },
+            "policy_refs": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "引用的 Policy 对象 ID"
+            }
+          }
+        },
+        "global_optimum": {
+          "type": "object",
+          "description": "DNA来源：技能统帅 × 递归进化",
+          "required": ["verdict", "rationale"],
+          "properties": {
+            "verdict": {
+              "type": "string",
+              "enum": ["confirmed_optimal", "local_optimum_risk", "needs_reframe"]
+            },
+            "rationale": { "type": "string" },
+            "alternative_paths": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "考虑过的替代路径"
+            },
+            "situation_map_ref": {
+              "type": "string",
+              "description": "关联的 situation-map 工件路径"
+            }
+          }
+        },
+        "capability_reuse": {
+          "type": "object",
+          "description": "DNA来源：技能统帅 × 人类友好",
+          "required": ["verdict", "rationale"],
+          "properties": {
+            "verdict": {
+              "type": "string",
+              "enum": ["reuse_existing", "extend_existing", "build_new"]
+            },
+            "rationale": { "type": "string" },
+            "reused_assets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "asset_id": { "type": "string" },
+                  "asset_type": {
+                    "type": "string",
+                    "enum": ["skill", "script", "login_session", "schema", "contract", "mcp_server"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "verification": {
+          "type": "object",
+          "description": "DNA来源：递归进化（前提）",
+          "required": ["evidence_criteria", "rationale"],
+          "properties": {
+            "evidence_criteria": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 1,
+              "description": "什么证据才算真正完成——每一条都必须可验证"
+            },
+            "rationale": { "type": "string" },
+            "anti_patterns": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "哪些东西看起来像完成但不算——聊天顺滑、飞书有了、动作跑完"
+            }
+          }
+        },
+        "evolution": {
+          "type": "object",
+          "description": "DNA来源：递归进化（产出）",
+          "required": ["assets_to_retain", "rationale"],
+          "properties": {
+            "assets_to_retain": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "本轮结束后要保留什么规则、模板或治理资产"
+            },
+            "rationale": { "type": "string" },
+            "capability_delta": {
+              "type": "string",
+              "description": "系统因本轮变强了什么——判断力、路由力还是验真力"
+            }
+          }
+        },
+        "max_distortion": {
+          "type": "object",
+          "description": "DNA来源：三条 DNA 共同——最危险的偏差",
+          "required": ["description", "severity"],
+          "properties": {
+            "description": { "type": "string" },
+            "severity": {
+              "type": "string",
+              "enum": ["low", "medium", "high", "critical"]
+            },
+            "mitigation": { "type": "string" },
+            "distortion_type": {
+              "type": "string",
+              "enum": [
+                "governance_mature_but_execute_weak",
+                "chat_smooth_but_not_closed",
+                "action_done_but_result_not_verified",
+                "local_optimum_mistaken_as_global",
+                "other"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "closure_readiness": {
+      "type": "object",
+      "description": "四条闭环规则的检查——全部 true 才算可以闭环",
+      "required": ["path_routed", "result_verified", "evolution_recorded", "next_captured"],
+      "properties": {
+        "path_routed": { "type": "boolean", "description": "路径是有意识路由的（技能统帅）" },
+        "result_verified": { "type": "boolean", "description": "结果有验证陈述（递归进化前提）" },
+        "evolution_recorded": { "type": "boolean", "description": "进化记录已写（递归进化产出）" },
+        "next_captured": { "type": "boolean", "description": "下轮改进已捕获（递归进化燃料+人类友好减负）" }
+      }
+    }
+  }
+}

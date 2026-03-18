@@ -19,10 +19,31 @@ def expand_path(value: str, workspace_root: Path) -> Path:
     return Path(os.path.expandvars(os.path.expanduser(expanded))).resolve()
 
 
-def copy_asset(source: Path, destination: Path) -> None:
+def relative_to_or_none(path: Path, parent: Path) -> Path | None:
+    try:
+        return path.relative_to(parent)
+    except ValueError:
+        return None
+
+
+def copy_asset(source: Path, destination: Path, ignore_relatives: list[Path] | None = None) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     if source.is_dir():
-        shutil.copytree(source, destination, dirs_exist_ok=True)
+        normalized_ignores = [path for path in (ignore_relatives or []) if path.parts]
+
+        def ignore_paths(current_root: str, names: list[str]) -> set[str]:
+            ignored: set[str] = set()
+            current_path = Path(current_root)
+            current_relative = relative_to_or_none(current_path, source) or Path()
+            for name in names:
+                child_relative = current_relative / name
+                for ignored_relative in normalized_ignores:
+                    if child_relative == ignored_relative or ignored_relative in child_relative.parents:
+                        ignored.add(name)
+                        break
+            return ignored
+
+        shutil.copytree(source, destination, dirs_exist_ok=True, ignore=ignore_paths)
     else:
         shutil.copy2(source, destination)
 
@@ -61,7 +82,12 @@ def build_bundle(
                 if required:
                     raise FileNotFoundError(f"required asset is missing: {source}")
                 continue
-            copy_asset(source, destination)
+            ignore_relatives: list[Path] = []
+            if source.is_dir():
+                output_dir_relative = relative_to_or_none(output_dir, source)
+                if output_dir_relative is not None:
+                    ignore_relatives.append(output_dir_relative)
+            copy_asset(source, destination, ignore_relatives=ignore_relatives)
             included_assets.append(
                 {
                     "id": asset["id"],

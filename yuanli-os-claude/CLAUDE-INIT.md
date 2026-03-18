@@ -42,7 +42,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 当前进度摘要：`464 passed / 12 failed / 16 commits on main`（分发快照，待下轮验真后再更新）
 - 当前状态口径：以上是分发快照，不是 Layer 1 runtime truth；如需真相源，回到 `ai-da-guan-jia` 本地 canonical
 - 治理成熟度：`26/40`（`D1=3 D2=3 D3=2 D4=2 D5=3 D6=1 D7=3 D8=3 D9=3 D10=3`，baseline audit 2026-03-17 canonical）
-- 当前重点：`驾驶舱 2.0 部署验收 + 康波智库落地（TS-KB-03）`
+- 当前重点：`驾驶舱 2.0 部署验收 + 康波智库首轮闭环（L2×33 / L3×48 / scan_t0 已验真）`
 - 当前警告：不要把 dirty worktree、dashboard 值或 GitHub 状态误当版本事实
 
 ## P1 并行任务
@@ -52,7 +52,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - `TS-V1-01` 卫星机治理对齐：阻塞，已完成对象校准与漂移归因，等待黑色卫星机恢复可达
 - `TS-DASH-01` 飞书表改造：已完成（4 旧表补字段 + 3 新表建表与 seed）
 - `TS-DASH-02` 驾驶舱 2.0 数据补齐：已完成（`26/40 canonical`）
-- `TS-KB-03` 康波智库落地：执行终稿已分发，L1/L2/L3 数据面已可定位
+- `TS-KB-03` 康波智库落地：已完成首轮闭环（`L2×33 + L3×48 + scan_t0 apply`），后续升级重点是 `manual -> scheduled`
 - 驾驶舱 2.0 代码交付：已完成（`yuanli-os-dashboard-v2.zip`，5 页面 / 12 插件）
 
 ## 关键飞书坐标摘要
@@ -77,7 +77,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 治理驾驶舱 V2：在线，但仍有少量指标卡需重新绑表
 - 经营驾驶舱：5 区块在线
 - 驾驶舱 2.0：V2 代码已交付（5 页面 / 12 插件 / 2441 行），待妙搭部署验收
-- 康波相关应用：L1/L2/L3 数据层已落地，三层专家体系详见 `docs/kangbo-expert-network.md`
+- 康波相关应用：L1/L2/L3 数据层已落地，当前 live 为 `L2×33 / L3×49`，capability 已补齐 `yuanlios_expert_network` + `yuanlios_expert_insights`
 - GitHub issue sync：`gh auth` 已恢复，TS-DASH-02 暴露的认证 blocker 已解除
 - GitHub 仍是分发基座，不是 runtime truth
 

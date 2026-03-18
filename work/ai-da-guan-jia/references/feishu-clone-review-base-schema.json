@@ -1,0 +1,187 @@
+{
+  "base_name": "AI大管家 Clone 治理总库",
+  "tables": [
+    {
+      "table_name": "组织/租户表",
+      "primary_field": "Org Key",
+      "fields": [
+        "Report ID",
+        "Org ID",
+        "Tenant ID",
+        "Portfolio",
+        "Clone Count",
+        "Active Clone Count",
+        "Actor Types",
+        "Service Tiers",
+        "Visibility Policies",
+        "Report Owners",
+        "Clone IDs",
+        "Updated At"
+      ],
+      "views": ["全部", "内部", "客户"]
+    },
+    {
+      "table_name": "角色模板表",
+      "primary_field": "Role Template ID",
+      "fields": [
+        "Report ID",
+        "显示名",
+        "默认目标模型",
+        "推荐 Skill Chain",
+        "禁止越权边界",
+        "评分指标",
+        "默认 Actor Type",
+        "默认 Visibility Policy",
+        "默认 Service Tier"
+      ],
+      "views": ["全部"]
+    },
+    {
+      "table_name": "AI实例注册表",
+      "primary_field": "Clone ID",
+      "fields": [
+        "Report ID",
+        "显示名",
+        "Customer ID",
+        "Org ID",
+        "Tenant ID",
+        "Actor Type",
+        "Role Template ID",
+        "Portfolio",
+        "Clone Mode",
+        "Visibility Policy",
+        "Service Tier",
+        "Manager Clone ID",
+        "Goal Model",
+        "Memory Namespace",
+        "Report Owner",
+        "Status",
+        "Shared Core Version",
+        "Created At",
+        "Updated At"
+      ],
+      "views": ["全部", "内部实例", "客户实例"]
+    },
+    {
+      "table_name": "运行日志表",
+      "primary_field": "Task Run Key",
+      "fields": [
+        "Report ID",
+        "Run ID",
+        "Clone ID",
+        "显示名",
+        "Org ID",
+        "Tenant ID",
+        "Actor Type",
+        "Role Template ID",
+        "Portfolio",
+        "Customer ID",
+        "Training Cycle ID",
+        "Target Capability",
+        "Verification Status",
+        "Promotion Recommendation",
+        "Budget Weight",
+        "Current Max Distortion",
+        "Open Questions",
+        "Evidence Ref",
+        "Updated At"
+      ],
+      "views": ["全部", "待收口", "高风险"]
+    },
+    {
+      "table_name": "训练轮次表",
+      "primary_field": "Training Cycle Key",
+      "fields": [
+        "Report ID",
+        "Training Cycle ID",
+        "Clone ID",
+        "显示名",
+        "Org ID",
+        "Tenant ID",
+        "Role Template ID",
+        "Portfolio",
+        "Target Capability",
+        "Run Count",
+        "Score Before",
+        "Score After",
+        "Score Delta",
+        "Verification Status",
+        "Promotion Recommendation",
+        "Last Run ID",
+        "Open Risks",
+        "Updated At"
+      ],
+      "views": ["全部", "内部训练", "客户训练"]
+    },
+    {
+      "table_name": "能力提案表",
+      "primary_field": "Proposal ID",
+      "fields": [
+        "Report ID",
+        "Clone ID",
+        "显示名",
+        "Org ID",
+        "Tenant ID",
+        "Role Template ID",
+        "Portfolio",
+        "Proposal Title",
+        "Proposal Scope",
+        "Suggested Decision",
+        "HQ Review Status",
+        "Support Count",
+        "Source Run ID",
+        "Evidence Ref",
+        "Updated At"
+      ],
+      "views": ["全部", "待总部复核", "共享核心候选"]
+    },
+    {
+      "table_name": "实例评分表",
+      "primary_field": "Clone Score Key",
+      "fields": [
+        "Report ID",
+        "Clone ID",
+        "显示名",
+        "Customer ID",
+        "Org ID",
+        "Tenant ID",
+        "Actor Type",
+        "Role Template ID",
+        "Portfolio",
+        "Clone Mode",
+        "Training Runs",
+        "Task Success Rate",
+        "Verification Strength",
+        "Distortion Rate",
+        "Routing Priority",
+        "Autonomy Cap",
+        "Promotion Recommendation",
+        "Budget Weight",
+        "Last Run ID",
+        "Updated At"
+      ],
+      "views": ["全部", "高优先级", "晋升候选"]
+    },
+    {
+      "table_name": "风险与决策表",
+      "primary_field": "Alert Key",
+      "fields": [
+        "Report ID",
+        "Clone ID",
+        "显示名",
+        "Org ID",
+        "Tenant ID",
+        "Portfolio",
+        "Alert Type",
+        "Severity",
+        "Title",
+        "Recommended Action",
+        "Approval Required",
+        "Status",
+        "Evidence Ref",
+        "Updated At"
+      ],
+      "views": ["全部", "待你拍板", "风险告警"]
+    }
+  ]
+}

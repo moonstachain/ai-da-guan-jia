@@ -15,8 +15,14 @@ from .core import (
     ingest_content,
     inventory_sources,
     mirror_feishu,
+    task_feedback,
+    task_intake,
+    task_orchestrate,
+    task_resume,
+    task_update,
     probe_tencent_meeting_link,
     run_daily,
+    sync_yuanli_os_control,
     transcribe_tencent_meeting_file,
     validate_sensitivity,
     validate_knowledge_source,
@@ -53,6 +59,54 @@ def build_parser() -> argparse.ArgumentParser:
     mode = feishu.add_mutually_exclusive_group(required=True)
     mode.add_argument("--dry-run", action="store_true", help="Validate local payload only.")
     mode.add_argument("--apply", action="store_true", help="Attempt apply after a successful dry-run.")
+
+    intake = subparsers.add_parser("task-intake", help="Create a repo-local AI大管家 intake packet and ledgers.")
+    intake.add_argument("--prompt", required=True, help="Conversation prompt to intake.")
+    intake.add_argument("--goal-id", default="G1", help="Target goal id. Defaults to G1.")
+    intake.add_argument("--space-id", default="space-personal-zero", help="Target space id.")
+    intake.add_argument("--subject-id", default="subject-hay2045", help="Target subject id.")
+    intake.add_argument("--run-id", help="Optional stable run id override.")
+    intake.add_argument("--dry-run", action="store_true", help="Preview the intake packet without writing repo-local files.")
+    intake.add_argument("--source-config", help="Override source scope JSON path.")
+
+    task_update_parser = subparsers.add_parser("task-update", help="Update a repo-local intake task status.")
+    task_update_parser.add_argument("--task-id", required=True, help="Task id to update.")
+    task_update_parser.add_argument("--status", required=True, help="New task status.")
+    task_update_parser.add_argument("--next-action", help="Optional next action text.")
+    task_update_parser.add_argument("--verification-state", help="Optional verification state override.")
+    task_update_parser.add_argument("--evidence-ref", help="Optional evidence ref override.")
+    task_update_parser.add_argument("--human-boundary-state", help="Optional human boundary state override.")
+    task_update_parser.add_argument("--source-config", help="Override source scope JSON path.")
+
+    orchestrate = subparsers.add_parser("task-orchestrate", help="Create, dispatch, and locally close a repo-local AI大管家 task.")
+    orchestrate.add_argument("--prompt", required=True, help="Conversation prompt to orchestrate.")
+    orchestrate.add_argument("--goal-id", default="G1", help="Target goal id. Defaults to G1.")
+    orchestrate.add_argument("--space-id", default="space-personal-zero", help="Target space id.")
+    orchestrate.add_argument("--subject-id", default="subject-hay2045", help="Target subject id.")
+    orchestrate.add_argument("--run-id", help="Optional stable run id override.")
+    orchestrate.add_argument("--dry-run", action="store_true", help="Preview intake, dispatch, and closure without writing repo-local files.")
+    orchestrate.add_argument("--source-config", help="Override source scope JSON path.")
+
+    resume = subparsers.add_parser("task-resume", help="Resume orchestration for an existing repo-local intake thread.")
+    resume.add_argument("--thread-id", required=True, help="Thread id to resume.")
+    resume.add_argument("--source-config", help="Override source scope JSON path.")
+
+    feedback = subparsers.add_parser("task-feedback", help="Record human feedback for a local closure run.")
+    feedback.add_argument("--run-id", required=True, help="Closure run id.")
+    feedback.add_argument("--label", required=True, help="Feedback label.")
+    feedback.add_argument("--comment", required=True, help="Feedback comment.")
+    feedback.add_argument("--by", required=True, help="Recorder id.")
+    feedback.add_argument("--source-config", help="Override source scope JSON path.")
+
+    control = subparsers.add_parser(
+        "sync-yuanli-os-control",
+        help="Generate 原力OS whitepaper docs and sync the 协同治理 Feishu control base.",
+    )
+    control.add_argument("--link", required=True, help="Feishu wiki/base link for the 协同治理 container.")
+    control_mode = control.add_mutually_exclusive_group(required=True)
+    control_mode.add_argument("--dry-run", action="store_true", help="Generate the local bundle without mutating Feishu.")
+    control_mode.add_argument("--apply", action="store_true", help="Write docs and base data to Feishu after local bundle generation.")
+    control.add_argument("--source-config", help="Override source scope JSON path.")
 
     validate = subparsers.add_parser("validate", help="Run local structural validation.")
     validate.add_argument("--source-config", help="Override source scope JSON path.")
@@ -118,6 +172,56 @@ def main(argv: list[str] | None = None) -> int:
         result = generate_morning_review(source_config)
     elif args.command == "mirror-feishu":
         result = mirror_feishu(dry_run=args.dry_run, apply=args.apply)
+    elif args.command == "task-intake":
+        result = task_intake(
+            args.prompt,
+            scope_path=source_config,
+            goal_id=args.goal_id,
+            space_id=args.space_id,
+            subject_id=args.subject_id,
+            run_id=args.run_id,
+            dry_run=args.dry_run,
+        )
+    elif args.command == "task-update":
+        result = task_update(
+            args.task_id,
+            status=args.status,
+            scope_path=source_config,
+            next_action=str(args.next_action or ""),
+            verification_state=str(args.verification_state or ""),
+            evidence_ref=str(args.evidence_ref or ""),
+            human_boundary_state=str(args.human_boundary_state or ""),
+        )
+    elif args.command == "task-orchestrate":
+        result = task_orchestrate(
+            args.prompt,
+            scope_path=source_config,
+            goal_id=args.goal_id,
+            space_id=args.space_id,
+            subject_id=args.subject_id,
+            run_id=args.run_id,
+            dry_run=args.dry_run,
+        )
+    elif args.command == "task-resume":
+        result = task_resume(
+            args.thread_id,
+            scope_path=source_config,
+        )
+    elif args.command == "task-feedback":
+        result = task_feedback(
+            args.run_id,
+            label=args.label,
+            comment=args.comment,
+            by=args.by,
+            scope_path=source_config,
+        )
+    elif args.command == "sync-yuanli-os-control":
+        result = sync_yuanli_os_control(
+            args.link,
+            scope_path=source_config,
+            dry_run=args.dry_run,
+            apply=args.apply,
+        )
     elif args.command == "validate":
         result = validate_entities(source_config)
     elif args.command == "validate-sensitivity":

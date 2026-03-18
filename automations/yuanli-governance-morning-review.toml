@@ -1,8 +1,8 @@
 version = 1
 id = "yuanli-governance-morning-review"
-name = "Yuanli governance review"
-prompt = "Use [$ai-da-guan-jia](/Users/hay2045/.codex/skills/ai-da-guan-jia/SKILL.md) as the top-level governor for the single 09:00 morning run. First run the local daily skill review, then run `python3 /Users/hay2045/.codex/skills/ai-da-guan-jia/scripts/ai_da_guan_jia.py skill-scout --daily`, then refresh the Yuanli governance canonical inventory and generate the dedicated morning review. The final morning review must include exactly these 5 sections: 今日结构变化, 外部线索摘要, 当前最值得关注的问题, 3 个候选进化动作, 当前等待你做的选择. Keep exactly 3 candidate actions and one waiting decision. Treat GitHub and official install docs as source of truth; X/小红书/B站 only provide discovery and heat signals. Do not auto-install any external skill or tool."
+name = "09:00 合并晨会"
+prompt = "Use [$ai-da-guan-jia](/Users/liming/.codex/skills/ai-da-guan-jia/SKILL.md) as the top-level governor for the daily 09:00 merged morning meeting. Treat this run as the only formal morning entry for the day. First absorb the existing daily review and governance review signals, then run `python3 work/ai-da-guan-jia/scripts/ai_da_guan_jia.py window-heartbeat inspect` so the control tower can see repo-local window progress before setting the day. The final output must contain exactly these 5 sections: 总控台今日定盘, 运营主线今日合同, 支线编排建议, 人机协作优化提案, 评审吸收结果与唯一待裁决项. Keep exactly one minimal waiting decision when a ruling is required. Do not create a parallel morning entry, do not auto-open new windows, do not auto-apply external changes, and do not treat UI appearance as stronger than local evidence."
 status = "ACTIVE"
 rrule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;BYHOUR=9;BYMINUTE=0"
 execution_environment = "worktree"
-cwds = ["/Users/hay2045/Documents/codex-ai-gua-jia-01"]
+cwds = ["/Users/liming/Documents/codex-ai-gua-jia-01"]

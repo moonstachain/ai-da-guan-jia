@@ -5,11 +5,13 @@ import unittest
 from pathlib import Path
 
 
-PROJECT_ROOT = Path("/Users/hay2045/Documents/codex-ai-gua-jia-01")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OSA_METHOD_DOC = PROJECT_ROOT / "docs" / "osa-methodology-v1.md"
 OSA_MAPPING_DOC = PROJECT_ROOT / "docs" / "osa-interface-mapping-v1.md"
 OSA_SCHEMA = PROJECT_ROOT / "specs" / "osa" / "osa-card.schema.json"
 OSA_SAMPLE = PROJECT_ROOT / "specs" / "osa" / "examples" / "task-adagj-001-osa.json"
+GOVERNANCE_MAP_DOC = PROJECT_ROOT / "derived" / "reports" / "governance-map-v1.md"
+GOVERNANCE_MAP_JSON = PROJECT_ROOT / "derived" / "reports" / "governance-map-v1.json"
 README = PROJECT_ROOT / "README.md"
 
 
@@ -54,9 +56,16 @@ def validate_shape(schema: dict, data: object, path: str = "$", defs: dict | Non
     return errors
 
 
+def iter_nodes(node: dict) -> list[dict]:
+    nodes = [node]
+    for child in node.get("children", []):
+        nodes.extend(iter_nodes(child))
+    return nodes
+
+
 class OsaMethodologyTest(unittest.TestCase):
     def test_docs_and_schema_are_present(self) -> None:
-        for path in [OSA_METHOD_DOC, OSA_MAPPING_DOC, OSA_SCHEMA, OSA_SAMPLE]:
+        for path in [OSA_METHOD_DOC, OSA_MAPPING_DOC, OSA_SCHEMA, OSA_SAMPLE, GOVERNANCE_MAP_DOC, GOVERNANCE_MAP_JSON]:
             self.assertTrue(path.exists(), f"missing required OSA artifact: {path}")
 
     def test_readme_references_osa_artifacts(self) -> None:
@@ -90,6 +99,42 @@ class OsaMethodologyTest(unittest.TestCase):
         self.assertEqual(sample["task_context"]["task_id"], "task-adagj-001")
         self.assertEqual(sample["interface_projection"]["strategy_governor"]["thread_id"], "thread-adagj-001")
         self.assertGreaterEqual(len(sample["action"]["capability_orchestration"]), 3)
+        self.assertIn("endpoint / account / asset", sample["objective"]["task_goal_definition"]["deliverable"])
+        self.assertIn("主图回指 JSON", sample["strategy"]["verification_target"]["evidence_required"])
+
+    def test_governance_map_artifacts_cover_backbone_and_anchor_nodes(self) -> None:
+        content = GOVERNANCE_MAP_DOC.read_text(encoding="utf-8")
+        for keyword in [
+            "space-personal-zero",
+            "subject-hay2045",
+            "module-governance",
+            "thread-adagj-001",
+            "endpoint-local-workstation",
+            "account-github",
+            "asset-db2ee9207e",
+        ]:
+            self.assertIn(keyword, content)
+
+        payload = json.loads(GOVERNANCE_MAP_JSON.read_text(encoding="utf-8"))
+        nodes = {node["node_id"]: node for node in iter_nodes(payload["root"])}
+        for required in [
+            "space-personal-zero",
+            "subject-hay2045",
+            "module-governance",
+            "task-yuanli-os-mainline-closure-v1",
+            "thread-yuanli-os-mainline-closure-v1",
+            "task-adagj-001",
+            "thread-adagj-001",
+            "endpoint-local-workstation",
+            "account-github",
+            "asset-db2ee9207e",
+        ]:
+            self.assertIn(required, nodes)
+
+        self.assertEqual(nodes["module-governance"]["node_type"], "operating_module")
+        self.assertIn("account-github", nodes["asset-db2ee9207e"]["backlink_ids"])
+        self.assertIn("module-governance", nodes["asset-db2ee9207e"]["backlink_ids"])
+        self.assertIn("derived/morning-review/morning-review-input.json#thread-adagj-001", nodes["thread-adagj-001"]["source_ref"])
 
 
 if __name__ == "__main__":

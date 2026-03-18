@@ -9,7 +9,7 @@
     "space_id": "space-personal-zero",
     "target_module_id": "module-governance",
     "status": "active",
-    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/canonical/entities/tasks.json"
+    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/derived/morning-review/morning-review-input.json"
   },
   "governance_judgments": {
     "autonomy_judgment": {
@@ -48,11 +48,11 @@
       "relation": "治理主图是战略层的总览入口，没有这张主图，后续线程、模块和资产难以统一挂接。"
     },
     "task_goal_definition": {
-      "deliverable": "交付一份可读的原力治理主图说明，并明确回指到 canonical space / subject / module / task / thread 主干关系。",
+      "deliverable": "交付一份可读的原力治理主图说明和配套回指 JSON，并明确回指到 canonical / derived 的 space / subject / module / task / thread 主干及 endpoint / account / asset 锚点关系。",
       "done_definition": [
-        "治理主图覆盖核心治理主干而不是只列概念",
+        "治理主图覆盖五级治理主干，并补 endpoint / account / asset 锚点层",
         "每个关键块都能回指到 canonical 或 derived 工件",
-        "主图说明能被下轮线程直接复用"
+        "至少一个 external_active_thread 试点线程样例能挂回主图"
       ],
       "not_in_scope": [
         "不在本轮做前端发布包装",
@@ -106,27 +106,29 @@
     "verification_target": {
       "evidence_required": [
         "治理主图说明文档",
-        "主图关键块到 canonical 实体的回指列表",
-        "至少一个线程样例能挂回主图"
+        "主图回指 JSON",
+        "主图关键块到 canonical / derived 实体的回指列表",
+        "端点 / 账号 / 资产锚点样例",
+        "至少一个 external_active_thread 线程样例能挂回主图"
       ],
-      "pass_condition": "审阅者能从主图说明直接追到 canonical 任务、线程、模块和支撑资产。"
+      "pass_condition": "审阅者能从主图说明直接追到当前 G1 主线总控任务、治理模块、端点/账号/资产锚点，以及 external_active_thread 试点线程样例。"
     }
   },
   "action": {
     "work_breakdown": [
       {
         "step_id": "A1",
-        "description": "收拢与治理主图相关的 canonical entities、relations 和 derived report。",
+        "description": "收拢与治理主图相关的 canonical entities、relations、derived report，以及 external_active_thread 样例投影。",
         "depends_on": []
       },
       {
         "step_id": "A2",
-        "description": "整理 space / subject / module / task / thread 的主干结构，确定主图骨架。",
+        "description": "整理 space / subject / module / task / thread 主干，并补 endpoint / account / asset 锚点层，确定主图骨架。",
         "depends_on": ["A1"]
       },
       {
         "step_id": "A3",
-        "description": "输出主图说明与回指列表，并标出仍需共同治理者确认的范围边界。",
+        "description": "输出主图说明与回指 JSON，并把 thread-adagj-001 明确标注为 external_active_thread 试点样例，不做 canonical 迁移。",
         "depends_on": ["A2"]
       },
       {
@@ -190,9 +192,10 @@
       ]
     },
     "closure_outputs": {
-      "final_result": "治理主图说明文档与回指列表",
+      "final_result": "治理主图说明文档、回指 JSON 与 external_active_thread 样例挂接",
       "evidence": [
-        "主图说明中列出的 canonical backlinks",
+        "主图说明中列出的 canonical / derived backlinks",
+        "端点 / 账号 / 资产锚点样例",
         "对应的任务和线程样例",
         "治理主干结构说明"
       ],
@@ -211,8 +214,9 @@
     "result_status": "planned_example",
     "evidence": [
       "治理主图说明文档",
-      "canonical 回指列表",
-      "至少一个线程样例"
+      "主图回指 JSON",
+      "canonical / derived 回指列表",
+      "至少一个 external_active_thread 线程样例"
     ],
     "gain": [
       "把治理主图从概念表达压成可验证结构",
@@ -236,7 +240,8 @@
       ],
       "verification_target": [
         "治理主图说明文档",
-        "canonical 回指列表",
+        "主图回指 JSON",
+        "端点 / 账号 / 资产锚点样例",
         "线程样例挂接"
       ],
       "control_gates": [
@@ -255,7 +260,8 @@
       "result_status": "planned_example",
       "evidence": [
         "治理主图说明文档",
-        "canonical 回指列表",
+        "主图回指 JSON",
+        "端点 / 账号 / 资产锚点样例",
         "线程样例挂接"
       ],
       "gain": [

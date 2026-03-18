@@ -1,9 +1,9 @@
 {
-  "review_id": "yrgs-review-20260311-193902",
-  "generated_at": "2026-03-11T19:39:02+08:00",
+  "review_id": "yrgs-review-20260317-121952",
+  "generated_at": "2026-03-17T12:19:52+08:00",
   "scope": "原力全体系治理系统专项晨会",
   "structure_changes": [
-    "canonical counts: spaces=5, subjects=11, endpoints=5, accounts=7, modules=6, source_feeds=7, assets=25, orders=2, cashflows=1, tasks=5, threads=5, skills=3",
+    "canonical counts: spaces=5, subjects=12, endpoints=5, accounts=7, modules=6, source_feeds=7, assets=25, orders=2, cashflows=1, tasks=5, threads=5, skills=3",
     "active threads=4, pending follow-up tasks=4, client spaces=2",
     "ontology tables=1"
   ],

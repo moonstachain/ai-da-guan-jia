@@ -1,0 +1,8 @@
+version = 1
+id = "project-heartbeat-hourly"
+name = "小猫 小时推进"
+prompt = "Use [$ai-da-guan-jia](/Users/liming/.codex/skills/ai-da-guan-jia/SKILL.md) as the top-level governor for the hourly 小猫 round. This automation exists for a work rhythm where the human spends roughly half the day in 飞书原力OS frontdesk and half in AI大管家 backend. Run `python3 /Users/liming/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/scripts/ai_da_guan_jia.py project-heartbeat --source automation --notify-feishu` once per hour. Treat 小猫 as the 项目推进器官 rather than a second backend brain: first evaluate whether active projects are truly moving or only appearing to move, then emit the smallest useful reminder or escalation package. Inspect canonical active tasks, recent captures, requested_frontdesk_state, action queue, and human-boundary queue. The heartbeat brief must stay centered on exactly these 5 user-facing blocks: 本小时总判断, 最该推进的 1 件事, 最该你拍板的 1 件事, 本小时已自动催办 / 已记录的动作, 当前最大失真. Emit at most 3 actions. Do not auto-change canonical task state, do not auto-close tasks, and do not send any external message beyond the guarded Feishu heartbeat brief. If there is no meaningful delta, remain locally recorded and quiet. If Feishu delivery prerequisites are missing, write the blocker and stop at the human boundary."
+status = "ACTIVE"
+rrule = "FREQ=HOURLY;INTERVAL=1"
+execution_environment = "worktree"
+cwds = ["/Users/liming/Documents/codex-ai-gua-jia-01"]

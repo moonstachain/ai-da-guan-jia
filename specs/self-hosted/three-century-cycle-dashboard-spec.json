@@ -1,0 +1,208 @@
+{
+  "id": "three-century-cycle-dashboard-v1",
+  "title": "Three Century Cycle Dashboard",
+  "goal": "Replace the Feishu-generated dashboard with a self-hosted web dashboard that preserves the current decision-support shape and visual hierarchy.",
+  "source_reference": {
+    "aily_conversation_url": "https://aily.feishu.cn/chat/conversation_4jpjnkp3m5psm",
+    "reference_dashboard_title": "300年康波周期分析仪表盘",
+    "reference_status": "sampled_accessible",
+    "sampled_at": "2026-03-11T14:37:37.977Z",
+    "sample_artifacts": {
+      "json": "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/aily-session-sampler/2026-03-11T14-37-15-398Z/result.json",
+      "markdown": "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/aily-session-sampler/2026-03-11T14-37-15-398Z/result.md",
+      "screenshot": "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/aily-session-sampler/2026-03-11T14-37-15-398Z/page.png"
+    },
+    "verified_output_facts": {
+      "year_span": "306 years (1714-2020)",
+      "event_count": 79,
+      "cycle_stage_count": 10,
+      "country_line_count": 4,
+      "current_doc_link": "https://h52xu4gwob.feishu.cn/wiki/Kd6FwZvHOiE2D3kSy33c2oQZnad?from=from_copylink"
+    }
+  },
+  "preferred_stack": {
+    "framework": "React",
+    "charts": [
+      "Apache ECharts"
+    ],
+    "data_grid": "TanStack Table",
+    "optional_layout": "react-grid-layout",
+    "deferred_time_axis_alternative": "vis-timeline"
+  },
+  "page_modules": [
+    {
+      "module_id": "hero",
+      "type": "header",
+      "contents": [
+        "dashboard title",
+        "subtitle",
+        "data refresh metadata",
+        "record count",
+        "identifier badge"
+      ]
+    },
+    {
+      "module_id": "kpis",
+      "type": "metric_cards",
+      "cards": [
+        "time_span_years",
+        "event_count",
+        "cycle_stage_count",
+        "theme_count"
+      ]
+    },
+    {
+      "module_id": "filters",
+      "type": "control_bar",
+      "controls": [
+        "year_range_slider",
+        "event_category_select",
+        "region_select",
+        "cycle_stage_select"
+      ]
+    },
+    {
+      "module_id": "timeline",
+      "type": "scatter_timeline",
+      "capabilities": [
+        "map events by year on the x-axis",
+        "map category or theme on the y-axis",
+        "color by theme",
+        "hover tooltip with title, year, region, stage, summary",
+        "click to open detail panel"
+      ]
+    },
+    {
+      "module_id": "details",
+      "type": "drilldown_panel",
+      "capabilities": [
+        "selected event detail",
+        "source links",
+        "related events",
+        "raw notes"
+      ]
+    },
+    {
+      "module_id": "table",
+      "type": "event_table",
+      "capabilities": [
+        "sorting",
+        "column filtering",
+        "row selection",
+        "CSV export"
+      ]
+    }
+  ],
+  "data_contract": {
+    "entities": [
+      {
+        "name": "cycle_event",
+        "fields": [
+          "id",
+          "title",
+          "start_year",
+          "end_year",
+          "event_year",
+          "cycle_stage_id",
+          "event_category_id",
+          "region_id",
+          "country",
+          "summary",
+          "impact_score",
+          "source_refs",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      {
+        "name": "cycle_stage",
+        "fields": [
+          "id",
+          "label",
+          "code",
+          "sort_order",
+          "description"
+        ]
+      },
+      {
+        "name": "event_category",
+        "fields": [
+          "id",
+          "label",
+          "color",
+          "icon"
+        ]
+      },
+      {
+        "name": "region",
+        "fields": [
+          "id",
+          "label",
+          "geo_scope"
+        ]
+      }
+    ],
+    "derived_metrics": [
+      "display_year_span",
+      "visible_event_count",
+      "cycle_stage_count",
+      "theme_count"
+    ]
+  },
+  "interaction_contract": {
+    "filters": [
+      "year_range_slider",
+      "event_category_select",
+      "region_select",
+      "cycle_stage_select"
+    ],
+    "chart_events": [
+      "tooltip",
+      "legend_toggle",
+      "point_click",
+      "brush_zoom"
+    ],
+    "detail_panel": [
+      "open_on_point_click",
+      "close_on_escape",
+      "deep_link_to_selected_event"
+    ],
+    "state_sync": [
+      "URL search params persist filter state",
+      "table selection follows chart selection"
+    ]
+  },
+  "responsive_breakpoints": {
+    "desktop": {
+      "min_width": 1280,
+      "layout": "hero + kpis + filters + large timeline + side detail panel"
+    },
+    "tablet": {
+      "min_width": 768,
+      "layout": "stacked kpis + full-width timeline + drawer detail panel"
+    },
+    "mobile": {
+      "max_width": 767,
+      "layout": "single-column cards + compact filters + simplified timeline + bottom sheet detail"
+    }
+  },
+  "acceptance_targets": {
+    "dataset_scale": {
+      "supported_records": [
+        100,
+        500
+      ],
+      "interaction_target": "smooth filtering and redraw"
+    },
+    "visual_parity": [
+      "dark analytical theme",
+      "KPI summary row",
+      "filter bar",
+      "time-axis event view"
+    ],
+    "non_goals": [
+      "rebuilding Feishu card binding",
+      "depending on Aily to render the final dashboard"
+    ]
+  }
+}

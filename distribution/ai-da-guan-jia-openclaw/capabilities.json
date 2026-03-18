@@ -1,37 +1,115 @@
 {
   "bundle_id": "ai-da-guan-jia-openclaw",
-  "display_name": "AI大管家",
-  "short_description": "接任务、做判断、查知识、收口闭环的治理前台能力包",
+  "display_name": "原力OS",
+  "short_description": "原力OS 飞书移动前台：连续陪伴、接任务、续上下文、看状态、准备收口。",
+  "wake_words": [
+    "原力原力"
+  ],
+  "invocation_examples": [
+    "原力原力 今天最该看什么",
+    "原力原力 我现在有哪些任务",
+    "原力原力 继续昨天那个",
+    "小猫现在在推什么",
+    "原力原力 记一下 明天要确认 Minutes 凭证",
+    "原力原力 搜一下 客户分层"
+  ],
+  "positioning": {
+    "role": "连续陪伴型聊天前台，不是执行层万能代理",
+    "for_user": "你在飞书里随时找它接任务、续上下文、看今日重点和我的任务，重执行仍交给 AI大管家 后端。",
+    "not_for_user": "不要拿它替代 Deep Research、Browser Agent、图片类 Skill 或不可逆动作审批。"
+  },
+  "when_to_call": [
+    "任务还模糊，需要先压成清晰推进链",
+    "你想续接昨天那个 run 或确认现在卡在哪",
+    "你想看今天最该看什么、我有哪些任务、哪些阻塞在等你拍板",
+    "你想先判断该走飞书知识问答、Get笔记、Deep Research 还是回 PC 深工",
+    "你想判断这件事能不能进入收口"
+  ],
+  "when_not_to_call": [
+    "已经明确要做深度研究时，直接叫 Deep Research",
+    "已经明确要浏览网页或操作页面时，直接叫 Browser Agent",
+    "已经明确要搜图、修图、生成图时，直接叫图片类 Skill",
+    "发布、删除、授权、付款或强主观取舍类动作仍应由你拍板"
+  ],
+  "downstream_tools": [
+    "AI大管家",
+    "Deep Research",
+    "Browser Agent",
+    "图片搜索",
+    "图片生成"
+  ],
   "frontdesk_scenes": [
+    {
+      "scene": "home",
+      "label": "首页",
+      "prompt": "你能做什么",
+      "returns": ["scene", "summary", "next_step"]
+    },
     {
       "scene": "task_intake",
       "label": "给任务",
-      "prompt": "帮我研究飞书 claw 接入",
-      "returns": ["任务理解", "技能链", "验真目标", "run id"]
+      "prompt": "帮我把这件事理清并排个推进顺序",
+      "returns": ["run_id", "summary", "next_step", "human_boundary"]
+    },
+    {
+      "scene": "resume_context",
+      "label": "继续上次",
+      "prompt": "继续昨天那个",
+      "returns": ["run_id", "summary", "next_step", "verification_status"]
+    },
+    {
+      "scene": "my_tasks",
+      "label": "我的任务",
+      "prompt": "我现在有哪些任务",
+      "returns": ["summary", "next_step", "verification_status"]
+    },
+    {
+      "scene": "today_focus",
+      "label": "今日重点",
+      "prompt": "今天最该看什么",
+      "returns": ["summary", "next_step", "verification_status"]
+    },
+    {
+      "scene": "project_heartbeat",
+      "label": "小猫推进",
+      "prompt": "小猫现在在推什么",
+      "returns": ["summary", "next_step", "verification_status", "run_id"]
     },
     {
       "scene": "judgment",
       "label": "做判断",
       "prompt": "这件事该不该做",
-      "returns": ["自治判断", "全局最优判断", "当前最大失真"]
+      "returns": ["summary", "next_step", "human_boundary"]
+    },
+    {
+      "scene": "note_capture",
+      "label": "轻记录",
+      "prompt": "原力原力 记一下 明天要确认 Minutes 凭证",
+      "returns": ["summary", "next_step", "verification_status"]
     },
     {
       "scene": "knowledge_lookup",
       "label": "查资料",
-      "prompt": "帮我查飞书知识库里关于客户分层的结论",
-      "returns": ["原始来源", "摘要结论", "还缺什么"]
+      "prompt": "原力原力 搜一下 客户分层",
+      "returns": ["summary", "next_step", "verification_status", "run_id"]
     },
     {
       "scene": "close_loop",
       "label": "收口",
       "prompt": "把这事闭环",
-      "returns": ["完成情况", "验真状态", "next iterate"]
+      "returns": ["summary", "next_step", "verification_status", "run_id"]
+    },
+    {
+      "scene": "handoff_to_pc",
+      "label": "交给 PC",
+      "prompt": "这件事交给 PC 继续",
+      "returns": ["summary", "next_step", "run_id"]
     },
     {
       "scene": "approval",
-      "label": "审批",
+      "label": "审批边界",
       "prompt": "这条消息要不要发",
-      "returns": ["推荐方案", "不推荐方案", "为什么现在该由人决定"]
+      "returns": ["summary", "next_step", "human_boundary", "run_id"]
     }
   ],
   "tool_contracts": [
@@ -53,7 +131,7 @@
       "name": "close_task",
       "description": "Assess closure readiness from the current frontdesk session state and optionally execute low-risk closure.",
       "required_fields": [],
-      "optional_fields": ["chat_id", "session_state", "allow_execute"],
+      "optional_fields": ["chat_id", "user_context", "session_state", "allow_execute"],
       "returns": ["summary", "verification_status", "next_iterate", "run_id"]
     },
     {
@@ -61,14 +139,28 @@
       "description": "Read the persisted run bundle and summarize current route or closure state.",
       "required_fields": ["run_id"],
       "optional_fields": [],
-      "returns": ["status", "run_id", "task_text", "selected_skills"]
+      "returns": ["status", "run_id", "task_text", "selected_skills", "next_step"]
     },
     {
       "name": "list_frontdesk_capabilities",
-      "description": "List supported frontdesk scenes, minimal tool contracts, and install/readiness metadata.",
+      "description": "List supported frontdesk scenes, reply contract, minimal tool contracts, and install/readiness metadata.",
       "required_fields": [],
       "optional_fields": ["verify_runtime"],
-      "returns": ["frontdesk_scenes", "tool_contracts", "installation_state"]
+      "returns": ["frontdesk_scenes", "reply_contract", "tool_contracts", "installation_state"]
+    },
+    {
+      "name": "runtime_diagnostics",
+      "description": "Inspect the active runtime owner, recent event ownership, and the latest persisted frontdesk session heartbeat.",
+      "required_fields": [],
+      "optional_fields": ["chat_id", "session_id", "limit"],
+      "returns": ["official_owner", "target_session", "recent_sessions", "recent_events"]
+    },
+    {
+      "name": "project_heartbeat_status",
+      "description": "Read the latest 小猫 hourly heartbeat bundle and summarize top push action, human boundary queue, and current max distortion.",
+      "required_fields": [],
+      "optional_fields": ["project_id"],
+      "returns": ["summary", "next_step", "top_action", "top_human_boundary", "verification_status"]
     },
     {
       "name": "suggest_human_decision",
@@ -78,27 +170,47 @@
       "returns": ["recommended", "not_recommended", "why_human_now", "run_id"]
     }
   ],
+  "reply_contract": [
+    "scene",
+    "status",
+    "run_id",
+    "session_id",
+    "summary",
+    "next_step",
+    "human_boundary",
+    "verification_status",
+    "text",
+    "card"
+  ],
   "credential_guides": [
     {
       "id": "feishu_bot",
-      "label": "飞书机器人凭证",
-      "required": true,
+      "label": "飞书协作连接（可选）",
+      "required": false,
+      "user_note": "只有想把原力OS 前台真正接到飞书自建应用时，才需要我补后台配置。",
       "env": ["FEISHU_APP_ID", "FEISHU_APP_SECRET"],
       "guide_url": "https://open.feishu.cn/"
     },
     {
       "id": "get_biji_api",
-      "label": "Get笔记 API",
+      "label": "Get笔记连接（可选）",
       "required": false,
+      "user_note": "只有想让它直接走 Get笔记 读路径时，才需要我补后台配置。",
       "env": ["GET_BIJI_API_KEY", "GET_BIJI_TOPIC_ID"],
       "guide_url": "https://www.biji.com/openapi"
     },
     {
       "id": "feishu_km",
-      "label": "飞书知识问答",
+      "label": "飞书知识问答连接（可选）",
       "required": false,
+      "user_note": "只有想让它直接生成 ask.feishu / Aily 提问包时，才需要我补后台配置。",
       "env": ["FEISHU_APP_ID", "FEISHU_APP_SECRET"],
       "guide_url": "https://open.feishu.cn/"
     }
-  ]
+  ],
+  "readiness_copy": {
+    "已安装": "前台壳已经装好，可以开始在移动端接任务、续上下文、看任务状态。",
+    "可直接用": "核心路径和飞书协作连接都已验真，可以直接拿来做日常前台总控。",
+    "需要我补后台配置": "前台壳已就位；要接飞书自建应用或外部知识源时，再由我补后台配置。"
+  }
 }

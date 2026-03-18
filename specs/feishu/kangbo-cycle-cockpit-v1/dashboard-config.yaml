@@ -1,0 +1,584 @@
+base_name: 康波周期总控舱
+base_url: https://h52xu4gwob.feishu.cn/wiki/INApw2UoXiSeMTkBMVFc5daVnle?from=from_copylink
+app_token: IqZhbMJJxaq8D4sHOvkciaWFnid
+tables:
+  时间事件主表:
+    table_id: tbl6ZOMIgyMXsied
+    fields:
+      事件ID:
+        field_id: fld5vEz1pm
+        type: text
+      年份:
+        field_id: fld3mt8Hks
+        type: text
+      起止年:
+        field_id: fld24meaAY
+        type: text
+      事件名称:
+        field_id: fld4QVvoAw
+        type: text
+      国家|地区:
+        field_id: fld47QXDV1
+        type: text
+      事件类别:
+        field_id: fld7cMJNIm
+        type: single_select
+        options:
+          战争/地缘: optHdEe5m8
+          技术/产业: opt75Y1evC
+          制度/政策: optymyWfJc
+          货币/金融: optt5WImEz
+          底层设施: optGyTsqE6
+          社会/人口: opts17SScA
+      康波阶段:
+        field_id: fld7Iixy63
+        type: single_select
+        options:
+          KB01: opt8bPQJ5l
+          KB02: optjyKv4SM
+          KB03: optqeOTQ6b
+          KB04: optKxdJK8s
+          KB05: optBDdIII8
+          KB06: optVrqK36K
+          KB07: optfA0DUXt
+          KB08: opt0rKGt4g
+          KB09: optHia6ByZ
+          KB10: optqqKVbjt
+      经济主线:
+        field_id: fldVjvKXaX
+        type: single_select
+        options:
+          制度/政策: optGsg3wSW
+          金融体系: opt6BQz7eP
+          技术创新: opt5T4SQ4P
+          底层设施: optqLI8g5U
+          产业复制: optKtVBybT
+          生产迁移: optme5llez
+          生产逻辑: optg74IpD3
+      原图原文:
+        field_id: fld2kqWCrT
+        type: text
+      结构化摘要:
+        field_id: fldC5mHNW6
+        type: text
+      影响方向:
+        field_id: fld2GXGUD8
+        type: text
+      是否补充来源:
+        field_id: fldHz6c6EQ
+        type: single_select
+        options:
+          否: opt9rjZ8s1
+          是: optiHctXSs
+      来源ID:
+        field_id: fld222SqFc
+        type: text
+      可信度:
+        field_id: fld2RVfYwQ
+        type: single_select
+        options:
+          高: opt8Mqzv1d
+          中: optZ7pO54S
+      图中锚点:
+        field_id: fld5tM64FN
+        type: text
+  康波阶段表:
+    table_id: tbl57waor719IPFV
+    fields:
+      KB02:
+        field_id: fld7vQSRkU
+        type: text
+      革命战争与欧洲重组:
+        field_id: fld2vAPJ2I
+        type: text
+      '1789':
+        field_id: fld4LqLpQG
+        type: text
+      '1815':
+        field_id: fldJtyX2AY
+        type: text
+      战争冲击:
+        field_id: fld7jAuIMd
+        type: text
+      法国、英国、欧洲大陆:
+        field_id: fld35WRsfm
+        type: text
+      蒸汽机、运河、军需工业:
+        field_id: fld1nkq9Kr
+        type: text
+      法兰西革命与拿破仑战争重塑欧洲秩序:
+        field_id: fld3Dob6ti
+        type: text
+      战争融资、贸易封锁、财政信用再分配:
+        field_id: fld1B5UT7F
+        type: text
+      法国大革命 | 拿破仑战争 | 维也纳会议:
+        field_id: fld55OUMYc
+        type: text
+  国家地区主线表:
+    table_id: tbl5wBn89taolLd4
+    fields:
+      主线ID:
+        field_id: fldZlwXeXT
+        type: text
+      国家|地区:
+        field_id: fldiwYqbWm
+        type: text
+      时间范围:
+        field_id: fld56OHtWi
+        type: text
+      主线摘要:
+        field_id: fld3AVcZog
+        type: text
+      关键转折点:
+        field_id: fld7DVpkb1
+        type: text
+      关联阶段:
+        field_id: fld4SLkCj0
+        type: text
+  主题图层表:
+    table_id: tbl4L1A3EcCQhgZo
+    fields:
+      图层ID:
+        field_id: fld3PLfR6H
+        type: text
+      图层名称:
+        field_id: fld5uZLzyX
+        type: text
+      定义:
+        field_id: fld1Uy46tx
+        type: text
+      主要问题:
+        field_id: fld2lVOX9P
+        type: text
+      典型事件:
+        field_id: fld1yfxt4o
+        type: text
+  L1_康波事件信号:
+    table_id: tbl6QgzUgcXq4HO5
+    fields:
+      event_id:
+        field_id: fldYZy5uz8
+        type: text
+      event_date:
+        field_id: fldtpjf1ch
+        type: date
+      event_name:
+        field_id: fld9cP9EVa
+        type: text
+      event_category:
+        field_id: fld6FOJkhD
+        type: single_select
+        options:
+          战争/地缘: optN98dwGE
+          货币/金融: optk6Ks3tX
+          技术/产业: opt5FyENVU
+          制度/政策: optBlLUaSO
+          社会/人口: optbPeHRce
+      kangbo_phase:
+        field_id: fldoJtHnOp
+        type: single_select
+        options:
+          KB01: optH4s25Yl
+          KB02: opt2wfomaS
+          KB03: optnQqi7Lt
+          KB04: optYQi4F8k
+          KB05: opt0yYdZaR
+          KB06: optvXCb8zc
+          KB07: optlrSYdCj
+          KB08: opthC2FF9Y
+          KB09: opthKGwRwr
+          KB10: optaQAEXJR
+      event_summary:
+        field_id: fldDQPMFcj
+        type: text
+      causal_chain:
+        field_id: fldqj47DXZ
+        type: text
+      narrative_type:
+        field_id: fldDK072Md
+        type: single_select
+        options:
+          恐惧主导: optw3pjooM
+          贪婪主导: optAjvPeyf
+          政策驱动: optXzbiOGT
+          叙事真空: optNERwyCs
+          混合: optBllJuVG
+      source_article:
+        field_id: fldFzxu2vG
+        type: text
+      source_url:
+        field_id: fldJRn2lOe
+        type: url
+      impact_direction:
+        field_id: fldutN2XVL
+        type: single_select
+        options:
+          供给侧冲击: optNf0Sz2h
+          需求侧冲击: optbStP9AO
+          流动性冲击: optoAX2cRF
+          制度冲击: optfRr7ieG
+          技术冲击: opt8AuYOzC
+          复合冲击: opt0Qqpu1T
+      severity:
+        field_id: fldLPrz9qJ
+        type: number
+      scenario_shift:
+        field_id: fldQeSHDaS
+        type: text
+  L1_历史镜像:
+    table_id: tblYgEiXi94IeZGs
+    fields:
+      mirror_id:
+        field_id: fldpJxnTtt
+        type: text
+      source_event_id:
+        field_id: fldKhMUvQx
+        type: text
+      kangbo_event_id:
+        field_id: fld5B3ryGM
+        type: text
+      kangbo_event_name:
+        field_id: fldVMKH2af
+        type: text
+      analogy_type:
+        field_id: fldpG308qY
+        type: single_select
+        options:
+          供给冲击路径: optOtHEf51
+          升级螺旋结构: optDSwyquF
+          货币体系断裂: optnvzuiKn
+          霸权转移路径: optRrONI6O
+          技术范式冲击: optDvyvhw7
+          制度崩塌路径: opt58b7qxv
+          信用危机路径: optpr48Hsl
+      similarity_score:
+        field_id: fldewkXleL
+        type: number
+      analogy_reasoning:
+        field_id: fldR0V3mGy
+        type: text
+      key_difference:
+        field_id: fld4UFtY8I
+        type: text
+      historical_asset_impact:
+        field_id: fldLyqqD42
+        type: text
+  L2_资产信号映射:
+    table_id: tblX03ZmKferJF65
+    fields:
+      signal_id:
+        field_id: fldKQYW3Sj
+        type: text
+      source_event_id:
+        field_id: flde4FGntz
+        type: text
+      asset_class:
+        field_id: fldioLPWK6
+        type: single_select
+        options:
+          贵金属: opt9lUSYci
+          工业金属: opttzBV1l4
+          化工: optp88A2qN
+          能源: opt2pfMFrX
+          股票: optsLgbIpw
+          债券: optaDyZAKf
+          汇率: optdpjxa99
+          现金: optTUtjsl3
+      asset_name:
+        field_id: fldjRnirdo
+        type: text
+      signal_layer:
+        field_id: fldltvdFEo
+        type: single_select
+        options:
+          L1结构信号: opt5YY35TO
+          L2政策信号: optxgskRbF
+          L3战术信号: optlFXwyu0
+      direction:
+        field_id: fldpzRSeEo
+        type: single_select
+        options:
+          强多: opt8JbJeHd
+          多: optfmlP4Ph
+          中性: opto6c1I4m
+          空: optvYKyljq
+          强空: optrHp5VVd
+      v2_indicator_trigger:
+        field_id: fldl3KIv4n
+        type: text
+      position_action:
+        field_id: fldffWqbCX
+        type: text
+      stop_rule:
+        field_id: fldDZ7CFDv
+        type: text
+      historical_reference:
+        field_id: fldPyvzeWP
+        type: text
+      confidence:
+        field_id: fldpI5EL3F
+        type: single_select
+        options:
+          高: opt8zEnKUH
+          中: optVtLIL0q
+          低: optysSb0Re
+      valid_until:
+        field_id: fldvwsGeSJ
+        type: date
+
+dashboard_groups:
+  - name: 康波周期总控舱
+  - name: 300年事件库
+  - name: 阶段解剖页
+  - name: 当前局势页
+  - name: 企业家应对页
+
+view_specs:
+  - dashboard: 康波周期总控舱
+    table: L1_康波事件信号
+    view_name: view-hero-current-signal
+    display_fields: [event_name, event_date, event_category, kangbo_phase, severity, event_summary, scenario_shift]
+    sort_notes:
+      - 当前只有 1 条 live 信号，后续扩成事件流时按 event_date 倒序手动补充
+  - dashboard: 康波周期总控舱
+    table: 时间事件主表
+    view_name: view-kpi-event-distribution
+    display_fields: [事件名称, 事件类别, 康波阶段, 国家|地区, 可信度]
+    sort_notes:
+      - 图表按事件类别聚合
+  - dashboard: 康波周期总控舱
+    table: 时间事件主表
+    view_name: view-kpi-phase-distribution
+    display_fields: [事件名称, 康波阶段, 年份, 国家|地区]
+    sort_notes:
+      - 图表按康波阶段聚合
+  - dashboard: 康波周期总控舱
+    table: L2_资产信号映射
+    view_name: view-kpi-asset-basket
+    display_fields: [asset_class, asset_name, direction, confidence, position_action]
+    sort_notes:
+      - 先按 asset_class 分组，再按 direction 手动排序
+  - dashboard: 康波周期总控舱
+    table: L1_康波事件信号
+    view_name: view-diagnosis-current-event
+    display_fields: [event_name, event_date, event_category, kangbo_phase, severity, event_summary, causal_chain, source_article, scenario_shift]
+  - dashboard: 康波周期总控舱
+    table: L1_历史镜像
+    view_name: view-diagnosis-historical-mirror
+    display_fields: [kangbo_event_id, kangbo_event_name, analogy_type, similarity_score, analogy_reasoning, key_difference, historical_asset_impact]
+    sort_notes:
+      - 按 similarity_score 降序手动补充
+  - dashboard: 康波周期总控舱
+    table: 国家地区主线表
+    view_name: view-diagnosis-phase-context
+    display_fields: [主线ID, 国家|地区, 时间范围, 主线摘要, 关键转折点, 关联阶段]
+    sort_notes:
+      - 当前阶段主线卡默认从地区主线表切入，主题图层与阶段原表通过深入页承接
+  - dashboard: 康波周期总控舱
+    table: L2_资产信号映射
+    view_name: view-action-asset-basket
+    display_fields: [asset_class, asset_name, direction, position_action, stop_rule, confidence]
+    sort_notes:
+      - 只显示篮子方向与风控句，不给具体仓位
+  - dashboard: 康波周期总控舱
+    table: L2_资产信号映射
+    view_name: view-action-entrepreneur-translation
+    display_fields: [asset_class, asset_name, direction, position_action, stop_rule, historical_reference]
+    sort_notes:
+      - 页面文案需翻译成现金流、供应链、扩张节奏、防御储备语言
+  - dashboard: 300年事件库
+    table: 时间事件主表
+    view_name: view-library-events-timeline
+    display_fields: [年份, 事件名称, 康波阶段, 事件类别, 国家|地区, 结构化摘要, 影响方向, 来源ID, 可信度]
+    sort_notes:
+      - 按年份升序手动排序
+  - dashboard: 阶段解剖页
+    table: 康波阶段表
+    view_name: view-library-phase-profile
+    display_fields: [KB02, 革命战争与欧洲重组, '1789', '1815', 战争冲击, 法国、英国、欧洲大陆, 蒸汽机、运河、军需工业, 法兰西革命与拿破仑战争重塑欧洲秩序, 战争融资、贸易封锁、财政信用再分配, 法国大革命 | 拿破仑战争 | 维也纳会议]
+    sort_notes:
+      - live 表当前是导入后的原始列头形态，适合作为原表证据，不适合直接做精细化筛选
+  - dashboard: 阶段解剖页
+    table: 主题图层表
+    view_name: view-library-theme-layer
+    display_fields: [图层ID, 图层名称, 定义, 主要问题, 典型事件]
+  - dashboard: 阶段解剖页
+    table: 国家地区主线表
+    view_name: view-library-region-mainline
+    display_fields: [主线ID, 国家|地区, 时间范围, 主线摘要, 关键转折点, 关联阶段]
+
+card_specs:
+  康波周期总控舱:
+    - name: 当前阶段与风险温度
+      type: 指标卡/明细表卡
+      table: L1_康波事件信号
+      view: view-hero-current-signal
+      fields: [event_name, event_date, event_category, kangbo_phase, severity, scenario_shift]
+      purpose: 让用户 30 秒内知道现在处于哪个阶段、风险温度大致如何
+    - name: 历史冲击类别分布
+      type: 柱状图
+      table: 时间事件主表
+      view: view-kpi-event-distribution
+      dimension: 事件类别
+      metric: 记录数
+      purpose: 看 79 条历史事件里哪种冲击最常见
+    - name: 历史阶段分布
+      type: 柱状图
+      table: 时间事件主表
+      view: view-kpi-phase-distribution
+      dimension: 康波阶段
+      metric: 记录数
+      purpose: 看历史样本主要堆积在哪些阶段
+    - name: 资产篮子姿态
+      type: 环形图/明细表卡
+      table: L2_资产信号映射
+      view: view-kpi-asset-basket
+      dimension: direction
+      metric: 记录数
+      purpose: 用强多、多、中性、空、强空快速建立资产姿态直觉
+    - name: 当前关键事件卡
+      type: 明细表卡
+      table: L1_康波事件信号
+      view: view-diagnosis-current-event
+      fields: [event_name, event_date, event_category, kangbo_phase, severity, event_summary, causal_chain, source_article, scenario_shift]
+      purpose: 一张卡回答发生了什么、为什么重要、情景如何变化
+    - name: 历史镜像卡
+      type: 明细表卡/对照卡
+      table: L1_历史镜像
+      view: view-diagnosis-historical-mirror
+      fields: [kangbo_event_id, kangbo_event_name, analogy_type, similarity_score, analogy_reasoning, key_difference]
+      purpose: 让用户看到像在哪里，又不一样在哪里
+    - name: 阶段主线卡
+      type: 明细表卡
+      table: 国家地区主线表
+      view: view-diagnosis-phase-context
+      fields: [国家|地区, 时间范围, 主线摘要, 关键转折点, 关联阶段]
+      purpose: 把当前事件重新挂回长期阶段逻辑
+    - name: 资产篮子方向
+      type: 明细表卡
+      table: L2_资产信号映射
+      view: view-action-asset-basket
+      fields: [asset_class, asset_name, direction, position_action, stop_rule, confidence]
+      purpose: 给出篮子方向、理由和风险提示，不给下单指令
+    - name: 企业经营动作
+      type: 明细表卡
+      table: L2_资产信号映射
+      view: view-action-entrepreneur-translation
+      fields: [asset_class, asset_name, direction, position_action, stop_rule, historical_reference]
+      purpose: 把资产语言翻译成企业经营动作建议
+
+  300年事件库:
+    - name: 300年事件长轴
+      type: 明细表卡
+      table: 时间事件主表
+      view: view-library-events-timeline
+      fields: [年份, 事件名称, 康波阶段, 事件类别, 国家|地区, 结构化摘要, 来源ID, 可信度]
+      purpose: 作为事件长轴页主体，优先保证可读性
+    - name: 事件类别结构
+      type: 柱状图
+      table: 时间事件主表
+      view: view-library-events-timeline
+      dimension: 事件类别
+      metric: 记录数
+      purpose: 看冲击类型结构
+    - name: 康波阶段分布
+      type: 柱状图
+      table: 时间事件主表
+      view: view-library-events-timeline
+      dimension: 康波阶段
+      metric: 记录数
+      purpose: 看历史事件在哪些阶段最密集
+    - name: 国家地区重心
+      type: 条形图
+      table: 时间事件主表
+      view: view-library-events-timeline
+      dimension: 国家|地区
+      metric: 记录数
+      purpose: 看历史事件地理重心
+    - name: 影响方向扫描
+      type: 条形图
+      table: 时间事件主表
+      view: view-library-events-timeline
+      dimension: 影响方向
+      metric: 记录数
+      purpose: 看冲击更偏供给、需求还是制度
+    - name: 可信度分布
+      type: 环形图
+      table: 时间事件主表
+      view: view-library-events-timeline
+      dimension: 可信度
+      metric: 记录数
+      purpose: 让用户知道样本证据强弱
+
+  阶段解剖页:
+    - name: 阶段档案原表
+      type: 明细表卡
+      table: 康波阶段表
+      view: view-library-phase-profile
+      fields: [KB02, 革命战争与欧洲重组, '1789', '1815', 战争冲击, 法国、英国、欧洲大陆, 蒸汽机、运河、军需工业]
+      purpose: 保留旧导入表原貌作为证据底稿，并提示后续需要结构化修复
+    - name: 国家地区主线
+      type: 明细表卡
+      table: 国家地区主线表
+      view: view-library-region-mainline
+      fields: [国家|地区, 时间范围, 主线摘要, 关键转折点, 关联阶段]
+      purpose: 解释不同国家地区如何穿越多个阶段
+    - name: 主题图层解释
+      type: 明细表卡
+      table: 主题图层表
+      view: view-library-theme-layer
+      fields: [图层名称, 定义, 主要问题, 典型事件]
+      purpose: 解释战争、技术、制度等图层如何叠加影响阶段
+
+  当前局势页:
+    - name: 当前事件链路
+      type: 明细表卡
+      table: L1_康波事件信号
+      view: view-diagnosis-current-event
+      fields: [event_id, event_name, event_date, event_category, kangbo_phase, impact_direction, severity, causal_chain, scenario_shift]
+      purpose: 把 source_event_id=KBS-202602-001 的链路讲清楚
+    - name: 历史镜像对照
+      type: 明细表卡
+      table: L1_历史镜像
+      view: view-diagnosis-historical-mirror
+      fields: [kangbo_event_id, kangbo_event_name, analogy_type, similarity_score, analogy_reasoning, key_difference, historical_asset_impact]
+      purpose: 给当前局势页提供镜像参照
+    - name: 当前资产方向
+      type: 明细表卡
+      table: L2_资产信号映射
+      view: view-action-asset-basket
+      fields: [asset_class, asset_name, direction, position_action, stop_rule, confidence]
+      purpose: 呈现当前局势下的资产篮子方向
+    - name: 风险背景补充
+      type: 明细表卡
+      table: 国家地区主线表
+      view: view-diagnosis-phase-context
+      fields: [国家|地区, 主线摘要, 关键转折点, 关联阶段]
+      purpose: 提示用户这不是孤立事件，而是阶段链路的一段
+
+  企业家应对页:
+    - name: 现金与杠杆
+      type: 明细表卡
+      table: L2_资产信号映射
+      view: view-action-entrepreneur-translation
+      fields: [asset_class, asset_name, direction, position_action, stop_rule]
+      purpose: 翻译成现金流、防守仓位和杠杆节奏建议
+    - name: 供给链与成本
+      type: 明细表卡
+      table: L2_资产信号映射
+      view: view-action-entrepreneur-translation
+      fields: [asset_class, asset_name, direction, position_action, historical_reference]
+      purpose: 帮企业家理解能源、金属、汇率对供应链成本的影响
+    - name: 增长与扩张节奏
+      type: 明细表卡
+      table: L2_资产信号映射
+      view: view-action-entrepreneur-translation
+      fields: [asset_class, asset_name, direction, position_action, stop_rule]
+      purpose: 提醒什么时候该慢下来、什么时候可以观察性出手
+    - name: 防御性资产与储备思维
+      type: 明细表卡
+      table: L2_资产信号映射
+      view: view-action-asset-basket
+      fields: [asset_class, asset_name, direction, position_action, stop_rule, confidence]
+      purpose: 把防御储备的逻辑讲成企业家能理解的语言

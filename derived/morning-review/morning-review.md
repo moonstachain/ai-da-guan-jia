@@ -1,7 +1,7 @@
 # 原力全体系治理系统专项晨会
 
 ## 今日结构变化
-- canonical counts: spaces=5, subjects=11, endpoints=5, accounts=7, modules=6, source_feeds=7, assets=25, orders=2, cashflows=1, tasks=5, threads=5, skills=3
+- canonical counts: spaces=5, subjects=12, endpoints=5, accounts=7, modules=6, source_feeds=7, assets=25, orders=2, cashflows=1, tasks=5, threads=5, skills=3
 - active threads=4, pending follow-up tasks=4, client spaces=2
 - ontology tables=1
 

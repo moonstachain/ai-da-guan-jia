@@ -1,22 +1,24 @@
 [
   {
-    "id": "ingest-20260311-193902",
-    "ingestion_run_id": "ingest-20260311-193902",
+    "id": "ingest-20260314-214839",
+    "ingestion_run_id": "ingest-20260314-214839",
     "run_type": "full_inventory",
-    "status": "completed",
-    "scanned_file_count": 21,
-    "recognized_file_count": 20,
-    "source_feed_count": 7,
-    "order_count": 2,
-    "cashflow_count": 1,
-    "content_asset_count": 3,
-    "unclassified_file_count": 1,
-    "unclassified_paths": [
-      "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/mystery.data"
-    ],
+    "status": "completed_from_last_known_snapshot",
+    "scanned_file_count": 3045,
+    "recognized_file_count": 3045,
+    "source_feed_count": 2,
+    "order_count": 1016,
+    "cashflow_count": 0,
+    "content_asset_count": 0,
+    "unclassified_file_count": 0,
+    "unclassified_paths": [],
+    "current_scan_order_count": 4,
+    "current_scan_cashflow_count": 0,
+    "fallback_snapshot_path": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/snapshots/2026-03-12/inventory-snapshot.json",
+    "fallback_reason": "current_scan_partial_below_last_known_snapshot",
     "sensitivity_check_status": "pending",
-    "source_ref": "registry://full_inventory",
+    "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/snapshots/2026-03-12/inventory-snapshot.json",
     "confidence": 0.9,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   }
 ]

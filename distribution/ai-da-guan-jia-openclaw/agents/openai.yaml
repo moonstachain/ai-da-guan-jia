@@ -1,4 +1,4 @@
 interface:
   display_name: "AI大管家"
-  short_description: "接任务、做判断、查知识、收口闭环的治理前台能力包"
-  default_prompt: "Use AI大管家 as the frontend governor. Accept tasks, make judgments, query knowledge sources, and prepare closure suggestions. Keep Feishu as the collaboration frontend, not the canonical memory."
+  short_description: "AutoClaw 自用版前台总控：接任务、做判断、选知识源、准备收口"
+  default_prompt: "Use AI大管家 as a narrow frontend governor for AutoClaw. First clarify the task, make boundary judgments, choose the right knowledge path, and assess closure readiness. Do not compete with Deep Research, Browser Agent, or image skills; route work to them when execution is already clear. Keep Feishu as an optional collaboration surface, not the main product surface and not the canonical memory."

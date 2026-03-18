@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-11T21:17:08+08:00",
+  "generated_at": "2026-03-17T12:20:01+08:00",
   "tables": {
     "联邦实例表": [
       {
@@ -14,7 +14,7 @@
         "federation_role": "root",
         "source_ref": "generated://federation-root",
         "confidence": 0.96,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "space-personal-zero",
@@ -28,7 +28,7 @@
         "federation_role": "personal",
         "source_ref": "generated://space/personal-zero",
         "confidence": 0.95,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "space-internal-team",
@@ -42,7 +42,7 @@
         "federation_role": "internal",
         "source_ref": "generated://space/internal-team",
         "confidence": 0.9,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "space-client-template",
@@ -56,7 +56,7 @@
         "federation_role": "client",
         "source_ref": "generated://space/client-template",
         "confidence": 0.88,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "space-downstream-template",
@@ -70,7 +70,7 @@
         "federation_role": "downstream",
         "source_ref": "generated://space/downstream-template",
         "confidence": 0.85,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "主体总表": [
@@ -90,7 +90,7 @@
         ],
         "source_ref": "generated://subject/hay2045",
         "confidence": 0.96,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-collab-owner",
@@ -108,7 +108,7 @@
         ],
         "source_ref": "generated://subject/internal-owner",
         "confidence": 0.88,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-internal-org",
@@ -127,7 +127,7 @@
         ],
         "source_ref": "generated://subject/internal-org",
         "confidence": 0.9,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-client-org-template",
@@ -146,7 +146,7 @@
         ],
         "source_ref": "generated://subject/client-template",
         "confidence": 0.85,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-downstream-client-template",
@@ -164,7 +164,25 @@
         ],
         "source_ref": "generated://subject/downstream-template",
         "confidence": 0.82,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
+      },
+      {
+        "id": "subject-agent-business-deputy",
+        "subject_id": "subject-agent-business-deputy",
+        "title": "业务增长 Deputy",
+        "subject_type": "ai_agent",
+        "space_id": "space-federation-root",
+        "status": "active",
+        "owner_mode": "ai",
+        "autonomy_tier": "deputy",
+        "responsibility_scope": [
+          "public",
+          "private",
+          "sales"
+        ],
+        "source_ref": "generated://subject-agent/business-deputy",
+        "confidence": 0.95,
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-agent-public",
@@ -180,7 +198,7 @@
         ],
         "source_ref": "generated://subject-agent/public",
         "confidence": 0.94,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-agent-private",
@@ -196,7 +214,7 @@
         ],
         "source_ref": "generated://subject-agent/private",
         "confidence": 0.94,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-agent-sales",
@@ -212,7 +230,7 @@
         ],
         "source_ref": "generated://subject-agent/sales",
         "confidence": 0.94,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-agent-delivery",
@@ -228,7 +246,7 @@
         ],
         "source_ref": "generated://subject-agent/delivery",
         "confidence": 0.94,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-agent-finance",
@@ -244,7 +262,7 @@
         ],
         "source_ref": "generated://subject-agent/finance",
         "confidence": 0.94,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "subject-agent-governance",
@@ -260,7 +278,7 @@
         ],
         "source_ref": "generated://subject-agent/governance",
         "confidence": 0.97,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "终端表": [
@@ -275,7 +293,7 @@
         "health_status": "healthy",
         "source_ref": "generated://endpoint/local-workstation",
         "confidence": 0.95,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "endpoint-terminal-a",
@@ -288,7 +306,7 @@
         "health_status": "healthy",
         "source_ref": "generated://endpoint/terminal-a",
         "confidence": 0.92,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "endpoint-terminal-b",
@@ -301,7 +319,7 @@
         "health_status": "healthy",
         "source_ref": "generated://endpoint/terminal-b",
         "confidence": 0.92,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "endpoint-terminal-c",
@@ -314,7 +332,7 @@
         "health_status": "planned",
         "source_ref": "generated://endpoint/terminal-c",
         "confidence": 0.9,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "endpoint-feishu-mobile",
@@ -327,7 +345,7 @@
         "health_status": "planned",
         "source_ref": "generated://endpoint/feishu-mobile",
         "confidence": 0.88,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "终端账号表": [
@@ -345,7 +363,7 @@
         "endpoint_id": "endpoint-local-workstation",
         "source_ref": "generated://account/github",
         "confidence": 0.95,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "account-feishu",
@@ -361,7 +379,7 @@
         "endpoint_id": "endpoint-feishu-mobile",
         "source_ref": "generated://account/feishu",
         "confidence": 0.94,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "account-wechat",
@@ -377,7 +395,7 @@
         "endpoint_id": "endpoint-feishu-mobile",
         "source_ref": "generated://account/wechat",
         "confidence": 0.86,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "account-video-channel",
@@ -393,7 +411,7 @@
         "endpoint_id": "endpoint-feishu-mobile",
         "source_ref": "generated://account/video-channel",
         "confidence": 0.84,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "account-bilibili",
@@ -409,7 +427,7 @@
         "endpoint_id": "endpoint-terminal-a",
         "source_ref": "generated://account/bilibili",
         "confidence": 0.84,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "account-douyin",
@@ -425,7 +443,7 @@
         "endpoint_id": "endpoint-terminal-b",
         "source_ref": "generated://account/douyin",
         "confidence": 0.84,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "account-xiaohongshu",
@@ -441,7 +459,7 @@
         "endpoint_id": "endpoint-terminal-c",
         "source_ref": "generated://account/xiaohongshu",
         "confidence": 0.84,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "CBM模块责任表": [
@@ -455,10 +473,11 @@
         "status": "active",
         "owner_subject_id": "subject-hay2045",
         "ai_subject_id": "subject-agent-public",
+        "deputy_subject_id": "subject-agent-business-deputy",
         "kpi_hint": "流量、触达、线索输入",
         "source_ref": "generated://module/public",
         "confidence": 0.95,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "module-private",
@@ -470,10 +489,11 @@
         "status": "active",
         "owner_subject_id": "subject-hay2045",
         "ai_subject_id": "subject-agent-private",
+        "deputy_subject_id": "subject-agent-business-deputy",
         "kpi_hint": "线索状态、转化节奏、复购机会",
         "source_ref": "generated://module/private",
         "confidence": 0.95,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "module-sales",
@@ -485,10 +505,11 @@
         "status": "active",
         "owner_subject_id": "subject-collab-owner",
         "ai_subject_id": "subject-agent-sales",
+        "deputy_subject_id": "subject-agent-business-deputy",
         "kpi_hint": "商机推进、报价、成交额",
         "source_ref": "generated://module/sales",
         "confidence": 0.94,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "module-delivery",
@@ -500,10 +521,11 @@
         "status": "active",
         "owner_subject_id": "subject-collab-owner",
         "ai_subject_id": "subject-agent-delivery",
+        "deputy_subject_id": "",
         "kpi_hint": "交付节奏、里程碑、满意度",
         "source_ref": "generated://module/delivery",
         "confidence": 0.94,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "module-finance",
@@ -515,10 +537,11 @@
         "status": "active",
         "owner_subject_id": "subject-collab-owner",
         "ai_subject_id": "subject-agent-finance",
+        "deputy_subject_id": "",
         "kpi_hint": "回款、利润、现金流",
         "source_ref": "generated://module/finance",
         "confidence": 0.94,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "module-governance",
@@ -530,137 +553,138 @@
         "status": "active",
         "owner_subject_id": "subject-hay2045",
         "ai_subject_id": "subject-agent-governance",
+        "deputy_subject_id": "",
         "kpi_hint": "闭环率、失真率、复制进度",
         "source_ref": "generated://module/governance",
         "confidence": 0.97,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "来源总表": [
       {
-        "id": "feed-1552c8d1fe",
-        "source_feed_id": "feed-1552c8d1fe",
+        "id": "feed-b6a78e3c73",
+        "source_feed_id": "feed-b6a78e3c73",
         "title": "cashflow_ledger::business",
         "source_family": "cashflow_ledger",
         "registry_group": "business_finance_roots",
-        "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business",
+        "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business",
         "origin_device": "external-source",
         "owner_account_id": "",
         "status": "active",
         "recognized_file_count": 1,
         "unclassified_file_count": 0,
-        "last_scanned_at": "2026-03-11T19:39:02+08:00",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business",
+        "last_scanned_at": "2026-03-17T12:20:01+08:00",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business",
         "confidence": 0.88,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "feed-d6f18bb8fa",
-        "source_feed_id": "feed-d6f18bb8fa",
+        "id": "feed-a341a4b2f6",
+        "source_feed_id": "feed-a341a4b2f6",
         "title": "order_facts::business",
         "source_family": "order_facts",
         "registry_group": "business_finance_roots",
-        "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business",
+        "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business",
         "origin_device": "external-source",
         "owner_account_id": "",
         "status": "active",
         "recognized_file_count": 2,
         "unclassified_file_count": 0,
-        "last_scanned_at": "2026-03-11T19:39:02+08:00",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business",
+        "last_scanned_at": "2026-03-17T12:20:01+08:00",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business",
         "confidence": 0.88,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "feed-a86aa05e4f",
-        "source_feed_id": "feed-a86aa05e4f",
+        "id": "feed-e52d933eab",
+        "source_feed_id": "feed-e52d933eab",
         "title": "course_material::courses",
         "source_family": "course_material",
         "registry_group": "content_knowledge_roots",
-        "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/courses",
+        "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/courses",
         "origin_device": "external-source",
         "owner_account_id": "",
         "status": "active",
         "recognized_file_count": 1,
         "unclassified_file_count": 0,
-        "last_scanned_at": "2026-03-11T19:39:02+08:00",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/courses",
+        "last_scanned_at": "2026-03-17T12:20:01+08:00",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/courses",
         "confidence": 0.88,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "feed-87a6e25850",
-        "source_feed_id": "feed-87a6e25850",
+        "id": "feed-d7a4fe4f3f",
+        "source_feed_id": "feed-d7a4fe4f3f",
         "title": "unclassified::content",
         "source_family": "unclassified",
         "registry_group": "content_knowledge_roots",
-        "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content",
+        "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content",
         "origin_device": "external-source",
         "owner_account_id": "",
         "status": "needs_classification",
         "recognized_file_count": 0,
         "unclassified_file_count": 1,
-        "last_scanned_at": "2026-03-11T19:39:02+08:00",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content",
+        "last_scanned_at": "2026-03-17T12:20:01+08:00",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content",
         "confidence": 0.6,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "feed-91a7248cbd",
-        "source_feed_id": "feed-91a7248cbd",
+        "id": "feed-131db7eec8",
+        "source_feed_id": "feed-131db7eec8",
         "title": "wechat_content::content",
         "source_family": "wechat_content",
         "registry_group": "content_knowledge_roots",
-        "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content",
+        "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content",
         "origin_device": "external-source",
         "owner_account_id": "account-wechat",
         "status": "active",
         "recognized_file_count": 2,
         "unclassified_file_count": 0,
-        "last_scanned_at": "2026-03-11T19:39:02+08:00",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content",
+        "last_scanned_at": "2026-03-17T12:20:01+08:00",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content",
         "confidence": 0.88,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "feed-a11eb7ea95",
-        "source_feed_id": "feed-a11eb7ea95",
+        "id": "feed-e2a9a4b21b",
+        "source_feed_id": "feed-e2a9a4b21b",
         "title": "governance_artifact::ai-da-guan-jia",
         "source_family": "governance_artifact",
         "registry_group": "governance_roots",
-        "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/ai-da-guan-jia",
+        "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/ai-da-guan-jia",
         "origin_device": "external-source",
         "owner_account_id": "",
         "status": "active",
         "recognized_file_count": 13,
         "unclassified_file_count": 0,
-        "last_scanned_at": "2026-03-11T19:39:02+08:00",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/ai-da-guan-jia",
+        "last_scanned_at": "2026-03-17T12:20:01+08:00",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/ai-da-guan-jia",
         "confidence": 0.88,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "feed-ee61e7719f",
-        "source_feed_id": "feed-ee61e7719f",
+        "id": "feed-1dddf59548",
+        "source_feed_id": "feed-1dddf59548",
         "title": "order_facts::2026-03-11",
         "source_family": "order_facts",
         "registry_group": "sync_hub_roots",
-        "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/sync-hub/macbook-pro/orders/2026-03-11",
+        "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/sync-hub/macbook-pro/orders/2026-03-11",
         "origin_device": "external-source",
         "owner_account_id": "",
         "status": "active",
         "recognized_file_count": 1,
         "unclassified_file_count": 0,
-        "last_scanned_at": "2026-03-11T19:39:02+08:00",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/sync-hub/macbook-pro/orders/2026-03-11",
+        "last_scanned_at": "2026-03-17T12:20:01+08:00",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/sync-hub/macbook-pro/orders/2026-03-11",
         "confidence": 0.88,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "采集运行表": [
       {
-        "id": "ingest-20260311-193902",
-        "ingestion_run_id": "ingest-20260311-193902",
+        "id": "ingest-20260317-122001",
+        "ingestion_run_id": "ingest-20260317-122001",
         "run_type": "full_inventory",
         "status": "completed",
         "scanned_file_count": 21,
@@ -671,279 +695,283 @@
         "content_asset_count": 3,
         "unclassified_file_count": 1,
         "unclassified_paths": [
-          "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/mystery.data"
+          "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/mystery.data"
         ],
+        "current_scan_order_count": 2,
+        "current_scan_cashflow_count": 1,
+        "fallback_snapshot_path": "",
+        "fallback_reason": "",
         "sensitivity_check_status": "pending",
         "source_ref": "registry://full_inventory",
         "confidence": 0.9,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "资产总表": [
       {
-        "id": "asset-bb9a76c568",
-        "asset_id": "asset-bb9a76c568",
+        "id": "asset-468f7b32be",
+        "asset_id": "asset-468f7b32be",
         "title": "ai-da-guan-jia",
         "asset_type": "skill_manifest",
         "domain": "AI大管家治理簇",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/ai-da-guan-jia/SKILL.md",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/ai-da-guan-jia/SKILL.md",
         "source_kind": "skill",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/ai-da-guan-jia/SKILL.md",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/ai-da-guan-jia/SKILL.md",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.95,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-2c60786a4a",
-        "asset_id": "asset-2c60786a4a",
+        "id": "asset-adeee1d847",
+        "asset_id": "asset-adeee1d847",
         "title": "knowledge-orchestrator",
         "asset_type": "skill_manifest",
         "domain": "垂直workflow簇",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/knowledge-orchestrator/SKILL.md",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/knowledge-orchestrator/SKILL.md",
         "source_kind": "skill",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/knowledge-orchestrator/SKILL.md",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/knowledge-orchestrator/SKILL.md",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.95,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-3dfbb7c7bc",
-        "asset_id": "asset-3dfbb7c7bc",
+        "id": "asset-bf828179c3",
+        "asset_id": "asset-bf828179c3",
         "title": "yuanli-core",
         "asset_type": "skill_manifest",
         "domain": "垂直workflow簇",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/yuanli-core/SKILL.md",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/yuanli-core/SKILL.md",
         "source_kind": "skill",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/yuanli-core/SKILL.md",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/yuanli-core/SKILL.md",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.95,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-db38f755e1",
-        "asset_id": "asset-db38f755e1",
+        "id": "asset-16aa15aaa2",
+        "asset_id": "asset-16aa15aaa2",
         "title": "Daily skill review",
         "asset_type": "automation_manifest",
         "domain": "automation",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/automations/daily-skill-co-review/automation.toml",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/automations/daily-skill-co-review/automation.toml",
         "source_kind": "automation",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/automations/daily-skill-co-review/automation.toml",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/automations/daily-skill-co-review/automation.toml",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.95,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-2e787b29ef",
-        "asset_id": "asset-2e787b29ef",
+        "id": "asset-fd817b1327",
+        "asset_id": "asset-fd817b1327",
         "title": "Other automation",
         "asset_type": "automation_manifest",
         "domain": "automation",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/automations/other-automation/automation.toml",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/automations/other-automation/automation.toml",
         "source_kind": "automation",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/automations/other-automation/automation.toml",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/automations/other-automation/automation.toml",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.95,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-e928ad845d",
-        "asset_id": "asset-e928ad845d",
+        "id": "asset-2286bc2f30",
+        "asset_id": "asset-2286bc2f30",
         "title": "strategic-goals.json",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/strategic-goals.json",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/strategic-goals.json",
         "source_kind": "file",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/strategic-goals.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/strategic-goals.json",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-dea31761c8",
-        "asset_id": "asset-dea31761c8",
+        "id": "asset-5f10efbc19",
+        "asset_id": "asset-5f10efbc19",
         "title": "active-threads.json",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "source_kind": "file",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-95cc575503",
-        "asset_id": "asset-95cc575503",
+        "id": "asset-d105d1ddff",
+        "asset_id": "asset-d105d1ddff",
         "title": "governance-dashboard.md",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/governance-dashboard.md",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/governance-dashboard.md",
         "source_kind": "file",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/governance-dashboard.md",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/governance-dashboard.md",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-f46f3b9b0a",
-        "asset_id": "asset-f46f3b9b0a",
+        "id": "asset-a3375397e1",
+        "asset_id": "asset-a3375397e1",
         "title": "routing-credit.json",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/routing-credit.json",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/routing-credit.json",
         "source_kind": "file",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/routing-credit.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/routing-credit.json",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-32ee183515",
-        "asset_id": "asset-32ee183515",
+        "id": "asset-0251f7fb2b",
+        "asset_id": "asset-0251f7fb2b",
         "title": "org-taxonomy.md",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/org-taxonomy.md",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/org-taxonomy.md",
         "source_kind": "file",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/org-taxonomy.md",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/org-taxonomy.md",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-0e8210eb75",
-        "asset_id": "asset-0e8210eb75",
+        "id": "asset-1ab620acd2",
+        "asset_id": "asset-1ab620acd2",
         "title": "review-state.json",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/review-state.json",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/review-state.json",
         "source_kind": "file",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/review-state.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/review-state.json",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-4b4ef39829",
-        "asset_id": "asset-4b4ef39829",
+        "id": "asset-f54dae11ff",
+        "asset_id": "asset-f54dae11ff",
         "title": "review.json",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/reviews/2026-03-11/run-01/review.json",
         "source_kind": "file",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/reviews/2026-03-11/run-01/review.json",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-002fec35ee",
-        "asset_id": "asset-002fec35ee",
+        "id": "asset-73e4d280a4",
+        "asset_id": "asset-73e4d280a4",
         "title": "ontology.db",
         "asset_type": "ontology_db",
         "domain": "ontology",
-        "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/ontology.db",
+        "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/ontology.db",
         "source_kind": "file",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/ontology.db",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/ontology.db",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-f3de576787",
-        "asset_id": "asset-f3de576787",
+        "id": "asset-cb6c93eacf",
+        "asset_id": "asset-cb6c93eacf",
         "title": "operational-ontology-v0.md",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/operational-ontology-v0.md",
+        "source_path": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/operational-ontology-v0.md",
         "source_kind": "file",
-        "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/operational-ontology-v0.md",
+        "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/operational-ontology-v0.md",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-9ef9f59efd",
-        "asset_id": "asset-9ef9f59efd",
+        "id": "asset-7cad47c0fd",
+        "asset_id": "asset-7cad47c0fd",
         "title": "action-catalog-v0.json",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+        "source_path": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
         "source_kind": "file",
-        "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+        "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-9d10e106f2",
-        "asset_id": "asset-9d10e106f2",
+        "id": "asset-a08e7ba51a",
+        "asset_id": "asset-a08e7ba51a",
         "title": "policy-boundary-v0.md",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+        "source_path": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
         "source_kind": "file",
-        "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+        "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-43fab3062c",
-        "asset_id": "asset-43fab3062c",
+        "id": "asset-bad98653d4",
+        "asset_id": "asset-bad98653d4",
         "title": "operational-ontology-implementation-plan-v0.md",
         "asset_type": "strategy_artifact",
         "domain": "governance",
-        "source_path": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/operational-ontology-implementation-plan-v0.md",
+        "source_path": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/operational-ontology-implementation-plan-v0.md",
         "source_kind": "file",
-        "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/operational-ontology-implementation-plan-v0.md",
+        "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/operational-ontology-implementation-plan-v0.md",
         "status": "active",
         "owner_mode": "ai",
         "confidence": 0.98,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-c5fe1882b2",
-        "asset_id": "asset-c5fe1882b2",
+        "id": "asset-a88f8fa85b",
+        "asset_id": "asset-a88f8fa85b",
         "title": "manifest",
         "asset_type": "source_file",
         "domain": "sync_hub_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/sync-hub/macbook-pro/orders/2026-03-11/manifest.json",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/sync-hub/macbook-pro/orders/2026-03-11/manifest.json",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/sync-hub/macbook-pro/orders/2026-03-11/manifest.json",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/sync-hub/macbook-pro/orders/2026-03-11/manifest.json",
         "content_class": "business_fact",
         "source_family": "order_facts",
         "module_code": "sales",
@@ -955,18 +983,18 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-12a871a0e3",
-        "asset_id": "asset-12a871a0e3",
+        "id": "asset-6ea9c5bd27",
+        "asset_id": "asset-6ea9c5bd27",
         "title": "cashflow-ledger",
         "asset_type": "source_file",
         "domain": "business_finance_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/cashflow-ledger.csv",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/cashflow-ledger.csv",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/cashflow-ledger.csv",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/cashflow-ledger.csv",
         "content_class": "finance_fact",
         "source_family": "cashflow_ledger",
         "module_code": "finance",
@@ -978,18 +1006,18 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-a31efa3106",
-        "asset_id": "asset-a31efa3106",
+        "id": "asset-2df8d19eb6",
+        "asset_id": "asset-2df8d19eb6",
         "title": "consulting-first-batch-orders",
         "asset_type": "source_file",
         "domain": "business_finance_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/consulting-first-batch-orders.json",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/consulting-first-batch-orders.json",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/consulting-first-batch-orders.json",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/consulting-first-batch-orders.json",
         "content_class": "business_fact",
         "source_family": "order_facts",
         "module_code": "sales",
@@ -1001,18 +1029,18 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-5d4b0ed850",
-        "asset_id": "asset-5d4b0ed850",
+        "id": "asset-04ee9311ad",
+        "asset_id": "asset-04ee9311ad",
         "title": "order-facts",
         "asset_type": "source_file",
         "domain": "business_finance_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/templates/order-facts.json",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/templates/order-facts.json",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/templates/order-facts.json",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/templates/order-facts.json",
         "content_class": "business_fact",
         "source_family": "order_facts",
         "module_code": "sales",
@@ -1024,18 +1052,18 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-6cc33fb2cc",
-        "asset_id": "asset-6cc33fb2cc",
+        "id": "asset-a80fc1b273",
+        "asset_id": "asset-a80fc1b273",
         "title": "混沌课程-工业互联网",
         "asset_type": "source_file",
         "domain": "content_knowledge_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/courses/混沌课程-工业互联网.pdf",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/courses/混沌课程-工业互联网.pdf",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/courses/混沌课程-工业互联网.pdf",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/courses/混沌课程-工业互联网.pdf",
         "content_class": "course_material",
         "source_family": "course_material",
         "module_code": "delivery",
@@ -1047,18 +1075,18 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-ea99a7616a",
-        "asset_id": "asset-ea99a7616a",
+        "id": "asset-03cf0b953e",
+        "asset_id": "asset-03cf0b953e",
         "title": "mystery",
         "asset_type": "source_file",
         "domain": "content_knowledge_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/mystery.data",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/mystery.data",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/mystery.data",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/mystery.data",
         "content_class": "unclassified",
         "source_family": "unclassified",
         "module_code": "governance",
@@ -1070,18 +1098,18 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.6,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-23826e81d4",
-        "asset_id": "asset-23826e81d4",
+        "id": "asset-cdfa19bc0e",
+        "asset_id": "asset-cdfa19bc0e",
         "title": "wechat_draft_payload_meta",
         "asset_type": "source_file",
         "domain": "content_knowledge_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/wechat_draft_payload_meta.json",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/wechat_draft_payload_meta.json",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/wechat_draft_payload_meta.json",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/wechat_draft_payload_meta.json",
         "content_class": "article_asset",
         "source_family": "wechat_content",
         "module_code": "public",
@@ -1093,18 +1121,18 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-6d39b60108",
-        "asset_id": "asset-6d39b60108",
+        "id": "asset-8e279df1bc",
+        "asset_id": "asset-8e279df1bc",
         "title": "wechat_writer_run_summary",
         "asset_type": "source_file",
         "domain": "content_knowledge_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/wechat_writer_run_summary.json",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/wechat_writer_run_summary.json",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/wechat_writer_run_summary.json",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/wechat_writer_run_summary.json",
         "content_class": "article_asset",
         "source_family": "wechat_content",
         "module_code": "public",
@@ -1116,8 +1144,8 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "订单事实表": [
@@ -1125,7 +1153,6 @@
         "id": "ord-002",
         "order_id": "ord-002",
         "order_date": "2024-03-02",
-        "payment_amount": 365.0,
         "payment_platform": "微信转账",
         "order_source": "咨询",
         "customer_name": "王小姐",
@@ -1135,23 +1162,34 @@
         "primary_conversion_owner": "",
         "secondary_conversion_owner": "",
         "opportunity_id": "",
+        "quote_id": "",
+        "quote_sent_at": "",
+        "quote_evidence_ref": "",
+        "close_state": "",
+        "lost_at": "",
+        "loss_reason": "",
+        "loss_evidence_ref": "",
+        "delivery_owner": "",
+        "finance_owner": "",
+        "handoff_packet_ref": "",
+        "handoff_completed_at": "",
         "note": "",
         "card_note": "",
-        "source_feed_id": "feed-d6f18bb8fa",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/consulting-first-batch-orders.json",
+        "source_feed_id": "feed-a341a4b2f6",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/consulting-first-batch-orders.json",
         "source_family": "order_facts",
         "module_code": "sales",
         "sensitivity_level": "restricted",
         "parse_status": "parsed",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/consulting-first-batch-orders.json",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/consulting-first-batch-orders.json",
         "confidence": 0.9,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00",
+        "payment_amount": 365.0
       },
       {
         "id": "ord-001",
         "order_id": "ord-001",
         "order_date": "2024-03-01",
-        "payment_amount": 6980.0,
         "payment_platform": "小鹅通",
         "order_source": "1V1",
         "customer_name": "刘长凯",
@@ -1161,50 +1199,62 @@
         "primary_conversion_owner": "施子超",
         "secondary_conversion_owner": "",
         "opportunity_id": "opp-001",
+        "quote_id": "",
+        "quote_sent_at": "",
+        "quote_evidence_ref": "",
+        "close_state": "",
+        "lost_at": "",
+        "loss_reason": "",
+        "loss_evidence_ref": "",
+        "delivery_owner": "",
+        "finance_owner": "",
+        "handoff_packet_ref": "",
+        "handoff_completed_at": "",
         "note": "5月上海线下",
         "card_note": "续费",
-        "source_feed_id": "feed-d6f18bb8fa",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/templates/order-facts.json",
+        "source_feed_id": "feed-a341a4b2f6",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/templates/order-facts.json",
         "source_family": "order_facts",
         "module_code": "sales",
         "sensitivity_level": "restricted",
         "parse_status": "parsed",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/templates/order-facts.json",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/templates/order-facts.json",
         "confidence": 0.9,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00",
+        "payment_amount": 6980.0
       }
     ],
     "现金流事实表": [
       {
-        "id": "cf-17ea1e34e2",
-        "cashflow_id": "cf-17ea1e34e2",
+        "id": "cf-2da9680148",
+        "cashflow_id": "cf-2da9680148",
         "transaction_date": "2024-03-03",
         "amount": 365.0,
         "direction": "inflow",
         "account_name": "经营账户",
         "counterparty": "王小姐",
         "summary": "订单回款138****5678",
-        "source_feed_id": "feed-1552c8d1fe",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/cashflow-ledger.csv",
+        "source_feed_id": "feed-b6a78e3c73",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/cashflow-ledger.csv",
         "source_family": "cashflow_ledger",
         "module_code": "finance",
         "sensitivity_level": "restricted",
         "parse_status": "parsed",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/business/cashflow-ledger.csv",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/business/cashflow-ledger.csv",
         "confidence": 0.9,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "内容资产表": [
       {
-        "id": "asset-6cc33fb2cc",
-        "asset_id": "asset-6cc33fb2cc",
+        "id": "asset-a80fc1b273",
+        "asset_id": "asset-a80fc1b273",
         "title": "混沌课程-工业互联网",
         "asset_type": "source_file",
         "domain": "content_knowledge_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/courses/混沌课程-工业互联网.pdf",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/courses/混沌课程-工业互联网.pdf",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/courses/混沌课程-工业互联网.pdf",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/courses/混沌课程-工业互联网.pdf",
         "content_class": "course_material",
         "source_family": "course_material",
         "module_code": "delivery",
@@ -1216,18 +1266,18 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-23826e81d4",
-        "asset_id": "asset-23826e81d4",
+        "id": "asset-cdfa19bc0e",
+        "asset_id": "asset-cdfa19bc0e",
         "title": "wechat_draft_payload_meta",
         "asset_type": "source_file",
         "domain": "content_knowledge_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/wechat_draft_payload_meta.json",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/wechat_draft_payload_meta.json",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/wechat_draft_payload_meta.json",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/wechat_draft_payload_meta.json",
         "content_class": "article_asset",
         "source_family": "wechat_content",
         "module_code": "public",
@@ -1239,18 +1289,18 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
-        "id": "asset-6d39b60108",
-        "asset_id": "asset-6d39b60108",
+        "id": "asset-8e279df1bc",
+        "asset_id": "asset-8e279df1bc",
         "title": "wechat_writer_run_summary",
         "asset_type": "source_file",
         "domain": "content_knowledge_roots",
-        "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/wechat_writer_run_summary.json",
+        "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/wechat_writer_run_summary.json",
         "source_kind": "file",
-        "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/content/wechat_writer_run_summary.json",
+        "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/content/wechat_writer_run_summary.json",
         "content_class": "article_asset",
         "source_family": "wechat_content",
         "module_code": "public",
@@ -1262,8 +1312,8 @@
         "status": "active",
         "owner_mode": "hybrid",
         "confidence": 0.88,
-        "last_seen_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_seen_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "任务总表": [
@@ -1275,20 +1325,34 @@
         "space_id": "space-personal-zero",
         "target_subject_id": "subject-hay2045",
         "target_module_id": "module-governance",
+        "module_code": "governance",
+        "owner_subject_id": "subject-hay2045",
+        "ai_subject_id": "subject-agent-governance",
+        "deputy_subject_id": "",
         "status": "active",
         "priority": "P1",
         "owner_mode": "ai",
+        "thread_id": "thread-adagj-001",
+        "task_kind": "parent",
+        "parent_task_id": "",
+        "depends_on_task_ids": [],
+        "managed_by": "external_active_thread",
+        "intake_run_id": "",
+        "delegation_mode": "external_run",
+        "human_boundary_state": "not_needed",
+        "osa_card_ref": "",
+        "handoff_ref": "",
         "selected_skills": [
           "ai-da-guan-jia",
           "yuanli-core"
         ],
         "verification_state": "needs_follow_up",
-        "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-001",
-        "next_action": "先确认 v1 母题范围",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json#adagj-001",
+        "next_action": "补端点/账号/资产锚点版治理主图，保持 external_active_thread 试点，不做 canonical 迁移",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "last_updated_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_updated_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "task-adagj-ops-001",
@@ -1298,19 +1362,33 @@
         "space_id": "space-internal-team",
         "target_subject_id": "subject-collab-owner",
         "target_module_id": "module-sales",
+        "module_code": "sales",
+        "owner_subject_id": "subject-collab-owner",
+        "ai_subject_id": "subject-agent-sales",
+        "deputy_subject_id": "subject-agent-business-deputy",
         "status": "active",
         "priority": "P1",
         "owner_mode": "ai",
+        "thread_id": "thread-adagj-ops-001",
+        "task_kind": "parent",
+        "parent_task_id": "",
+        "depends_on_task_ids": [],
+        "managed_by": "external_active_thread",
+        "intake_run_id": "",
+        "delegation_mode": "external_run",
+        "human_boundary_state": "not_needed",
+        "osa_card_ref": "",
+        "handoff_ref": "",
         "selected_skills": [
           "knowledge-orchestrator"
         ],
         "verification_state": "needs_follow_up",
-        "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-ops-001",
+        "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json#adagj-ops-001",
         "next_action": "先确认内部 owner 分工",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "last_updated_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_updated_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "task-adagj-op-ontology-001",
@@ -1320,42 +1398,70 @@
         "space_id": "space-personal-zero",
         "target_subject_id": "subject-hay2045",
         "target_module_id": "module-governance",
+        "module_code": "governance",
+        "owner_subject_id": "subject-hay2045",
+        "ai_subject_id": "subject-agent-governance",
+        "deputy_subject_id": "",
         "status": "active",
         "priority": "P1",
         "owner_mode": "ai",
+        "thread_id": "thread-adagj-op-ontology-001",
+        "task_kind": "parent",
+        "parent_task_id": "",
+        "depends_on_task_ids": [],
+        "managed_by": "external_active_thread",
+        "intake_run_id": "",
+        "delegation_mode": "external_run",
+        "human_boundary_state": "not_needed",
+        "osa_card_ref": "",
+        "handoff_ref": "",
         "selected_skills": [
           "ai-da-guan-jia"
         ],
         "verification_state": "needs_follow_up",
-        "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-op-ontology-001",
+        "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json#adagj-op-ontology-001",
         "next_action": "先补 canonical -> derived 镜像链",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "last_updated_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_updated_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "task-adagj-client-001",
         "task_id": "task-adagj-client-001",
-        "title": "给客户复制原力治理模板",
+        "title": "给客户复制人机协同 MVP 模板",
         "goal_id": "G2",
         "space_id": "space-client-template",
         "target_subject_id": "subject-hay2045",
         "target_module_id": "module-governance",
+        "module_code": "governance",
+        "owner_subject_id": "subject-hay2045",
+        "ai_subject_id": "subject-agent-governance",
+        "deputy_subject_id": "",
         "status": "active",
         "priority": "P2",
         "owner_mode": "ai",
+        "thread_id": "thread-adagj-client-001",
+        "task_kind": "parent",
+        "parent_task_id": "",
+        "depends_on_task_ids": [],
+        "managed_by": "external_active_thread",
+        "intake_run_id": "",
+        "delegation_mode": "external_run",
+        "human_boundary_state": "not_needed",
+        "osa_card_ref": "",
+        "handoff_ref": "",
         "selected_skills": [
           "ai-da-guan-jia",
           "knowledge-orchestrator"
         ],
         "verification_state": "needs_follow_up",
-        "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-client-001",
+        "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json#adagj-client-001",
         "next_action": "先确认客户要复制到哪一层",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "last_updated_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_updated_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "task-adagj-002",
@@ -1365,19 +1471,33 @@
         "space_id": "space-personal-zero",
         "target_subject_id": "subject-hay2045",
         "target_module_id": "module-governance",
+        "module_code": "governance",
+        "owner_subject_id": "subject-hay2045",
+        "ai_subject_id": "subject-agent-governance",
+        "deputy_subject_id": "",
         "status": "archived",
         "priority": "P2",
         "owner_mode": "ai",
+        "thread_id": "thread-adagj-002",
+        "task_kind": "parent",
+        "parent_task_id": "",
+        "depends_on_task_ids": [],
+        "managed_by": "external_active_thread",
+        "intake_run_id": "",
+        "delegation_mode": "external_run",
+        "human_boundary_state": "not_needed",
+        "osa_card_ref": "",
+        "handoff_ref": "",
         "selected_skills": [
           "knowledge-orchestrator"
         ],
         "verification_state": "verified_or_closed",
-        "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json#adagj-002",
+        "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json#adagj-002",
         "next_action": "",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "last_updated_at": "2026-03-11T19:39:02+08:00",
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "last_updated_at": "2026-03-17T12:20:01+08:00",
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "线程总表": [
@@ -1387,92 +1507,127 @@
         "title": "完成原力治理主图",
         "theme": "G1",
         "goal_id": "G1",
+        "strategy_id": "",
+        "experiment_id": "",
+        "workflow_id": "",
         "space_id": "space-personal-zero",
         "module_id": "module-governance",
         "status": "active",
         "source_run_id": "adagj-001",
+        "entry_mode": "",
+        "parent_task_id": "task-adagj-001",
+        "managed_by": "external_active_thread",
+        "osa_card_ref": "",
         "open_questions": [
-          "先确认 v1 母题范围"
+          "补端点/账号/资产锚点版治理主图，保持 external_active_thread 试点，不做 canonical 迁移"
         ],
         "morning_review_flag": true,
-        "next_review_date": "2026-03-11",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "next_review_date": "2026-03-17",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "thread-adagj-ops-001",
         "thread_id": "thread-adagj-ops-001",
         "title": "内部销售协同节奏梳理",
-        "theme": "G1",
+        "theme": "theme-business",
         "goal_id": "G1",
+        "strategy_id": "",
+        "experiment_id": "",
+        "workflow_id": "",
         "space_id": "space-internal-team",
         "module_id": "module-sales",
         "status": "active",
         "source_run_id": "adagj-ops-001",
+        "entry_mode": "",
+        "parent_task_id": "task-adagj-ops-001",
+        "managed_by": "external_active_thread",
+        "osa_card_ref": "",
         "open_questions": [
           "先确认内部 owner 分工"
         ],
         "morning_review_flag": true,
-        "next_review_date": "2026-03-11",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "next_review_date": "2026-03-17",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "thread-adagj-op-ontology-001",
         "thread_id": "thread-adagj-op-ontology-001",
         "title": "Palantir -> 原力OS operational ontology v0",
-        "theme": "G1",
+        "theme": "theme-governance",
         "goal_id": "G1",
+        "strategy_id": "",
+        "experiment_id": "",
+        "workflow_id": "",
         "space_id": "space-personal-zero",
         "module_id": "module-governance",
         "status": "active",
         "source_run_id": "adagj-op-ontology-001",
+        "entry_mode": "",
+        "parent_task_id": "task-adagj-op-ontology-001",
+        "managed_by": "external_active_thread",
+        "osa_card_ref": "",
         "open_questions": [
           "先补 canonical -> derived 镜像链"
         ],
         "morning_review_flag": true,
-        "next_review_date": "2026-03-11",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "next_review_date": "2026-03-17",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "thread-adagj-client-001",
         "thread_id": "thread-adagj-client-001",
-        "title": "给客户复制原力治理模板",
-        "theme": "G2",
+        "title": "给客户复制人机协同 MVP 模板",
+        "theme": "theme-human-ai-coevolution",
         "goal_id": "G2",
+        "strategy_id": "strategy-human-ai-success-efficiency",
+        "experiment_id": "",
+        "workflow_id": "",
         "space_id": "space-client-template",
         "module_id": "module-governance",
         "status": "active",
         "source_run_id": "adagj-client-001",
+        "entry_mode": "",
+        "parent_task_id": "task-adagj-client-001",
+        "managed_by": "external_active_thread",
+        "osa_card_ref": "",
         "open_questions": [
           "先确认客户要复制到哪一层"
         ],
         "morning_review_flag": true,
-        "next_review_date": "2026-03-11",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "next_review_date": "2026-03-17",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "thread-adagj-002",
         "thread_id": "thread-adagj-002",
         "title": "同步原力知识资产",
-        "theme": "G2",
+        "theme": "theme-human-ai-coevolution",
         "goal_id": "G2",
+        "strategy_id": "strategy-human-ai-success-efficiency",
+        "experiment_id": "",
+        "workflow_id": "",
         "space_id": "space-personal-zero",
         "module_id": "module-governance",
         "status": "archived",
         "source_run_id": "adagj-002",
+        "entry_mode": "",
+        "parent_task_id": "task-adagj-002",
+        "managed_by": "external_active_thread",
+        "osa_card_ref": "",
         "open_questions": [],
         "morning_review_flag": false,
         "next_review_date": "",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/strategy/current/active-threads.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/strategy/current/active-threads.json",
         "confidence": 0.92,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "技能能力表": [
@@ -1489,9 +1644,9 @@
         "complexity_penalty": 1,
         "routing_credit": 77.8,
         "status": "active",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/ai-da-guan-jia/SKILL.md",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/ai-da-guan-jia/SKILL.md",
         "confidence": 0.95,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "knowledge-orchestrator",
@@ -1506,9 +1661,9 @@
         "complexity_penalty": 2,
         "routing_credit": 65.0,
         "status": "active",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/knowledge-orchestrator/SKILL.md",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/knowledge-orchestrator/SKILL.md",
         "confidence": 0.95,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       },
       {
         "id": "yuanli-core",
@@ -1523,9 +1678,9 @@
         "complexity_penalty": 2,
         "routing_credit": 97.8,
         "status": "active",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/skills/yuanli-core/SKILL.md",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/skills/yuanli-core/SKILL.md",
         "confidence": 0.95,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ],
     "专项晨会记录表": [
@@ -1545,9 +1700,9 @@
         ],
         "human_decision": "",
         "sync_state": "review_synced_applied",
-        "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpmf_ugpwl/reviews/2026-03-11/run-01/review.json",
+        "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp7lihrmn4/reviews/2026-03-11/run-01/review.json",
         "confidence": 0.9,
-        "updated_at": "2026-03-11T19:39:02+08:00"
+        "updated_at": "2026-03-17T12:20:01+08:00"
       }
     ]
   },

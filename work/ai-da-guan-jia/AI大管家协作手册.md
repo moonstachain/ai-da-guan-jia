@@ -4,7 +4,14 @@
 
 这份手册是你与 `AI大管家` 的长期协作入口文档。
 
+如果你当前最关心的是“今天就开始用”，请先看 [AI大管家-个人决策台启用说明.md](AI大管家-个人决策台启用说明.md)。
+
 它不替代 [references/collaboration-charter.md](/Users/hay2045/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/references/collaboration-charter.md) 或 [references/meta-constitution.md](/Users/hay2045/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/references/meta-constitution.md)。
+
+如果你要快速理解这套系统的长期本体与当前实验的分层关系，再看：
+
+- [docs/ai-da-guan-jia-top-level-blueprint-v1.md](/Users/liming/Documents/codex-ai-gua-jia-01/docs/ai-da-guan-jia-top-level-blueprint-v1.md)
+- [docs/ai-da-guan-jia-phase-1-minimum-closure-v1.md](/Users/liming/Documents/codex-ai-gua-jia-01/docs/ai-da-guan-jia-phase-1-minimum-closure-v1.md)
 
 三者分工如下：
 
@@ -31,6 +38,10 @@
 - `目的层`：`递归进化`
 - `方法层`：`最小负熵优先`
 - `工具层`：`工具的工具`
+
+再补一层：
+
+- `部署层`：`多机 -> 团队 -> clone`
 
 一句话定义：
 
@@ -165,6 +176,174 @@ Feishu 和 GitHub 是协作镜像，不是事实源头。
 2. 生成 payload
 3. 先 dry-run
 4. 再 apply
+
+## 4.1 复杂任务默认拆线
+
+如果一件任务已经明显变成“多执行面 + 多子问题 + 多次上下文切换”，默认不要再把它压在一个窗口里混做。
+
+但这套协作以后不只按“复杂不复杂”判断，还会先按 `信息维 × 能量维` 判断：
+
+- `高信息 / 低能量`
+  - 默认我做
+- `低信息 / 高能量`
+  - 默认尽早请你做
+- `高信息 / 高能量`
+  - 默认进入 `主线 + 支线 + 人类执行面`
+- `低信息 / 低能量`
+  - 默认先挂起或并入别的动作
+
+默认模式因此分成两种：
+
+- `节能模式`
+  - 优先单主线
+  - 目标是省 token
+  - 一旦遇到对你容易、对我很贵的动作，立刻切给你
+- `并行模式`
+  - 使用 `1 条主线窗口 + 2-3 条支线窗口`
+  - 目标是提速
+
+从现在开始，满足任意 `2` 条时，`AI大管家` 默认会建议从 `节能模式` 升到 `并行模式`：
+
+- `1 条主线窗口`
+- `2-3 条支线窗口`
+- 必要时再加 `1` 条卫星机支线
+
+常见触发信号包括：
+
+- 同时涉及 repo、本地工具、飞书/妙搭、浏览器、远端机器
+- 同时包含主实现、分析、验证、截图、人工点击
+- 已经出现天然可并行的子问题
+- 单窗口推进预计超过 `20-30` 分钟且要频繁切上下文
+
+这时你和 `AI大管家` 的分工固定为：
+
+- 当前窗口 = `主线窗口`
+  - 只做路线、裁决、验真、收口
+- 新开的窗口 = `支线窗口`
+  - 每条只做一个清晰子目标
+- 你 = `人类多窗口执行面`
+  - 负责开支线窗口
+  - 在必要时帮我点击界面
+  - 把支线截图或结果回传给主线
+
+此外，一旦出现下面任意 `1` 条，我应停止硬磨，转为明确向你求助：
+
+- 同一页面连续 `2` 次定位失败
+- 预计还要继续烧 `8-10` 分钟以上
+- 需要你点一下就能把信息压缩 `10` 倍以上
+- 当前动作已经从分析退化成盲试 UI
+
+以后复杂任务里，你不需要再临时发明协作方式；默认就走这套，而且我会更早止损。
+
+## 4.2 固定窗口角色：总控台 / 运营主线 / 支线
+
+从 `2026-03-15` 开始，长期协作里这三个窗口角色边界固定如下：
+
+- `总控台`
+  - 固定为当前窗口
+  - 只负责裁决、统筹、路线、验真和收口
+  - 不重新下沉到日常实现位
+- `运营主线`
+  - 固定为单独新开窗口
+  - 只负责当天主线任务承接、推进、状态整理、支线消费
+  - 不抢总控台的路线裁决权
+- `支线`
+  - 继续保持单目标合同
+  - 只做一个清晰子目标
+  - 不改主线状态，不擅自扩 scope
+
+一句话记忆：
+
+`总控台决定今天怎么打，运营主线负责今天怎么推，支线只负责各自那一块怎么做。`
+
+只要这三个角色边界被混写，就会重新退化成“总控台既裁决又实现”的高摩擦模式。
+
+## 4.3 每天 09:00 合并晨会
+
+从 `2026-03-15` 开始，每天 `09:00` 固定增加一轮 `合并晨会`。
+
+它不再只是 skill review，而是当天唯一正式的早间治理入口，同时完成：
+
+- `总控台定盘`
+- `运营主线起盘`
+- `支线编排建议`
+- `人机协作优化提案`
+
+合并晨会的正式输出固定为这 `5` 段：
+
+1. `总控台今日定盘`
+2. `运营主线今日合同`
+3. `支线编排建议`
+4. `人机协作优化提案`
+5. `评审吸收结果与唯一待裁决项`
+
+各段口径固定如下：
+
+- `总控台今日定盘`
+  - 今日唯一主目标
+  - 优先级顺序
+  - stop condition
+  - 明确不做什么
+- `运营主线今日合同`
+  - 今日由 `运营主线` 承接的主合同
+  - 成功标准
+  - 对支线的消费口径
+- `支线编排建议`
+  - 建议开的支线
+  - 每条支线的单目标
+  - 哪些支线不值得开
+- `人机协作优化提案`
+  - 哪些动作继续 AI 自治
+  - 哪些动作应该更早切给人类
+  - 哪些动作属于窗口协作优化，不属于体系重构
+- `评审吸收结果与唯一待裁决项`
+  - 这轮吸收了哪些 `daily review` 与 `governance review` 结论
+  - 如果仍需裁决，只保留一个最小问题
+
+## 4.4 它和 daily review / governance review 的关系
+
+`daily review` 和 `governance review` 继续存在，但不再作为与晨会并列的第二入口。
+
+固定关系如下：
+
+- `daily review`
+  - 负责系统盘点、结构变化、候选动作
+  - 是 `合并晨会` 的输入，不是最终前台输出
+- `governance review`
+  - 负责真实性、成熟度、治理风险、失真诊断
+  - 是 `合并晨会` 的输入，不是最终前台输出
+- `09:00 合并晨会`
+  - 负责把两类评审吸收到一个当天可执行的统一口径里
+  - 只保留一个正式晨会入口，避免人类同时消费两套早间话语
+
+因此，现有 automation 的正确升级方向不是再加一个平行晨会 automation，而是把已有 `09:00` review automation 升级为 `合并晨会` 入口。
+
+## 4.5 运营主线窗口开场 Prompt
+
+下面这段可作为以后复用的 `运营主线` 窗口开场 prompt：
+
+```md
+你现在是 AI大管家体系中的 `运营主线` 窗口，不是总控台，也不是自由扩张的支线。
+
+你的固定职责只有四件事：
+- 承接今天已经由总控台定盘的主合同
+- 组织当天主线推进与素材吸收
+- 消费支线结果并整理成主线状态
+- 在需要时向总控台回传一个最小裁决问题
+
+你的固定边界也只有四条：
+- 不改总控台口径
+- 不擅自宣布全局完成
+- 不把支线任务吞成自己长期扩张
+- 不把 daily review / governance review 当成平行入口重新解释
+
+默认输出只用这 5 段：
+1. 本轮主线目标
+2. 已吸收输入
+3. 当前推进状态
+4. 需要拉起的支线或无需拉起的理由
+5. 唯一需要总控台裁决的问题
+```
 
 ## 5. 人类介入边界：必须打断你的场景 vs 不应打断你的场景
 
@@ -404,7 +583,62 @@ Feishu 和 GitHub 是协作镜像，不是事实源头。
 - 自治下降
 - 你自己成为系统瓶颈
 
-## 9. 日常使用附录
+## 9. 个人决策台快启
+
+如果你要把 `AI大管家` 作为个人决策台，而不是研究对象来使用，请按下面的最小操作面来协作。
+
+### 早上
+
+- 给当天 `1-3` 个最高优先级目标
+- 明确少打扰边界
+- 不要先替系统拆任务或选工具
+
+推荐入口：
+
+```bash
+bash scripts/personal_decision_cockpit.sh morning "今天最重要的是把 X 推进到 Y，帮我判断先做什么、哪些该延后、需要调用哪些 skill、哪些地方必须等我批准。"
+```
+
+### 白天
+
+- 只处理 `waiting_human`
+- 只对高影响动作做批准或否决
+- 只在必要时补一句主观判断
+
+推荐入口：
+
+```bash
+bash scripts/personal_decision_cockpit.sh status
+```
+
+### 晚上
+
+- 跑一次治理 review
+- 刷一次战略 current
+- 补一句人类反馈
+
+推荐入口：
+
+```bash
+bash scripts/personal_decision_cockpit.sh evening
+bash scripts/personal_decision_cockpit.sh feedback <run-id> 通过 "方向对，继续减少打扰和失真" <by>
+```
+
+### 你每天真正要做的事
+
+- 给 north star
+- 批准高影响动作
+- 提供不可替代的主观判断
+- 给最短反馈
+
+### 你不该再做的事
+
+- 手工拆大部分子任务
+- 手工决定 skill 组合
+- 手工整理大部分过程证据
+- 替治理层做记账和复盘
+
+## 10. 日常使用附录
 
 下面这些模板可以直接复用。
 
@@ -453,18 +687,103 @@ Feishu 和 GitHub 是协作镜像，不是事实源头。
 还剩哪些真实开放问题：
 ```
 
-## 10. 高频命令索引
+### 附录 F：窗口 Heartbeat 最小写法
+
+当任务已经进入 `总控台 / 运营主线 / 支线 / 卫星机支线` 并行协作时，每个窗口都可以落一条最小 heartbeat。
+
+固定字段只有这 `8` 个：
+
+- `window_id`
+- `role`
+- `current_phase`
+- `last_action`
+- `current_status`
+- `latest_evidence_paths`
+- `sole_blocker`
+- `updated_at`
+
+推荐写法如下：
+
+```bash
+python3 work/ai-da-guan-jia/scripts/ai_da_guan_jia.py window-heartbeat write \
+  --window-id ops-mainline \
+  --role 运营主线 \
+  --current-phase "主线推进" \
+  --last-action "更新 run 包并整理支线输入" \
+  --current-status running \
+  --evidence work/ai-da-guan-jia/artifacts/ai-da-guan-jia/runs/2026-03-15/<run-id>/summary.md \
+  --sole-blocker none
+```
+
+总控台巡检固定用：
+
+```bash
+python3 work/ai-da-guan-jia/scripts/ai_da_guan_jia.py window-heartbeat inspect
+python3 work/ai-da-guan-jia/scripts/ai_da_guan_jia.py window-heartbeat govern
+```
+
+读法固定为：
+
+- `progressing`
+  - 说明窗口还在推进
+- `waiting_external`
+  - 说明窗口明确在等外部条件
+- `stuck`
+  - 说明窗口已卡住，或 heartbeat 长时间没刷新
+- `suspected_silent_lost`
+  - 说明窗口可能静默失联，需要总控台介入
+
+总控台的日内默认裁决顺序固定为：
+
+1. 先跑 `window-heartbeat inspect`
+2. 再看可信 evidence path
+3. 再用 `window-heartbeat govern` 形成：
+   - `继续`
+   - `等待`
+   - `裁决`
+   - `收口`
+4. 只有证据不足时，才请人类补充
+
+自动发号施令只允许发生在：
+
+- `继续`
+  - 窗口仍在推进，且证据可信
+- `等待 -> 继续`
+  - 外部条件已消失，且不涉及人类边界
+- `裁决`
+  - blocker 属于总控可裁决的技术/范围问题
+- `收口`
+  - 窗口疑似静默失联，需要先回报状态
+
+总控台不得自动越过：
+
+- 登录、授权、支付
+- 不可逆发布/删除
+- 主观设计或业务取舍
+- 多窗口总体优先级重排
+- 证据不足时的完成升级
+- 自动新开窗口
+
+## 11. 高频命令索引
 
 这份手册只引用现有公开能力，不引入新接口。
 
 - `python3 scripts/ai_da_guan_jia.py route --prompt "..."`
 - `python3 scripts/ai_da_guan_jia.py review-skills --daily`
+- `python3 scripts/ai_da_guan_jia.py evaluate-external-skill --source-url "https://github.com/gainubi/wechat-skills"`
 - `python3 scripts/ai_da_guan_jia.py review-governance --daily`
 - `python3 scripts/ai_da_guan_jia.py strategy-governor`
+- `python3 scripts/ai_da_guan_jia.py window-heartbeat write --window-id <id> --role <role> --current-phase <phase> --last-action <action> --current-status <status> --sole-blocker <blocker>`
+- `python3 scripts/ai_da_guan_jia.py window-heartbeat inspect`
+- `python3 scripts/ai_da_guan_jia.py window-heartbeat govern`
 - `python3 scripts/ai_da_guan_jia.py record-evolution --input -`
 - `python3 scripts/ai_da_guan_jia.py sync-feishu --run-id <run-id> --dry-run`
 - `python3 scripts/ai_da_guan_jia.py sync-github --run-id <run-id> --phase intake --dry-run`
 - `python3 scripts/ai_da_guan_jia.py close-task --task "..."`
+- `bash scripts/personal_decision_cockpit.sh morning "..."`
+- `bash scripts/personal_decision_cockpit.sh status`
+- `bash scripts/personal_decision_cockpit.sh evening`
+- `bash scripts/personal_decision_cockpit.sh feedback <run-id> <label> <comment> [by]`
 
 使用这些命令时，优先记住治理顺序，而不是死记命令本身：
 

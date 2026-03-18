@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "codex-task-spec.schema.json",
+  "title": "Codex 任务合同",
+  "description": "Claude 输出给 Codex 的标准任务格式。每份 Task Spec 必须先通过六判断 gate，必须标注在 CBM 双轴中的位置，必须指向 operational ontology 中的具体对象。",
+  "type": "object",
+  "required": [
+    "round_id", "governance_checkpoint_ref",
+    "context", "objective",
+    "target_repo", "files_to_create",
+    "implementation_spec", "test_requirements",
+    "acceptance_criteria", "not_in_scope",
+    "human_boundary", "evidence_required",
+    "evolution_expectation"
+  ],
+  "properties": {
+    "round_id": {
+      "type": "string",
+      "pattern": "^R[0-9]+$"
+    },
+    "governance_checkpoint_ref": {
+      "type": "string",
+      "description": "指向本轮六判断文件路径——没过六判断的 Task Spec 无效"
+    },
+    "context": {
+      "type": "object",
+      "description": "在 CBM 双轴和演化路径中的定位",
+      "required": ["component_domain", "control_level", "evolution_stage"],
+      "properties": {
+        "component_domain": {
+          "type": "string",
+          "enum": ["governance", "sales", "delivery", "clone"]
+        },
+        "control_level": {
+          "type": "string",
+          "enum": ["direct", "control", "execute"]
+        },
+        "evolution_stage": {
+          "type": "string",
+          "enum": ["stage1_clarify", "stage2_align_data", "stage3_rebuild_dashboard", "stage4_harden_execute"],
+          "description": "属于四阶段演化路径的哪个阶段"
+        },
+        "goal_ref": { "type": "string" },
+        "theme_ref": { "type": "string" }
+      }
+    },
+    "objective": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "target_repo": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+/[a-zA-Z0-9_.-]+$"
+    },
+    "files_to_create": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "files_to_modify": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "implementation_spec": {
+      "type": "string",
+      "description": "详细实现要求——必须具体到函数签名、对象类型、依赖和边界"
+    },
+    "ontology_objects_involved": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Entity", "Action", "Policy", "Permission", "EvidenceAtom", "DecisionRecord", "AgentCapability", "WritebackEvent", "Relation", "State"]
+      },
+      "description": "本轮任务涉及 operational ontology 中的哪些对象类型"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "test_requirements": { "type": "string" },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "not_in_scope": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "human_boundary": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "哪些动作需要人类授权——从 Policy/Permission 推出"
+    },
+    "evidence_required": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Codex 完成后需要回传什么 EvidenceAtom"
+    },
+    "evolution_expectation": {
+      "type": "object",
+      "description": "本轮预期的进化产出——对应闭环规则第3、4条",
+      "required": ["expected_gained", "capability_delta"],
+      "properties": {
+        "expected_gained": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "capability_delta": {
+          "type": "string",
+          "description": "系统因本轮预期变强什么"
+        }
+      }
+    }
+  }
+}

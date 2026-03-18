@@ -1,0 +1,410 @@
+{
+  "id": "ibm-cbm-governance-bitable-rebuild-v1",
+  "title": "IBM CBM 深融后的原力OS多维表重构规范 v1",
+  "goal": "把 IBM CBM 的组件横线、管理纵线和 KPI 热图逻辑，重译进 AI大管家 / 原力OS 的飞书多维表镜像结构，同时保持本地 canonical 作为唯一真相源。",
+  "source_of_truth": {
+    "canonical": "repo_local_canonical",
+    "feishu_role": "mirror_and_collaboration_surface",
+    "do_not_assume": [
+      "Feishu_is_source_of_truth",
+      "dashboard_is_runtime_engine",
+      "mirror_equals_closure"
+    ]
+  },
+  "layers": [
+    {
+      "id": "L0",
+      "name": "总控层",
+      "role": "让共同治理者先判断当前控制态、介入边界和最小下一步。",
+      "tables": [
+        "control_objects"
+      ]
+    },
+    {
+      "id": "L1",
+      "name": "运行与组件层",
+      "role": "把战略链路、组件责任、组件热图、线程、任务、能力和数据源放进一个可协同的运行图。",
+      "tables": [
+        "strategic_linkage",
+        "cbm_component_responsibility",
+        "cbm_component_heatmap",
+        "threads",
+        "tasks",
+        "skills_capabilities",
+        "source_feeds"
+      ]
+    },
+    {
+      "id": "L2",
+      "name": "治理轨迹层",
+      "role": "记录评审、决策、动作、写回与字段语义，支撑可追责和可复盘。",
+      "tables": [
+        "review_runs",
+        "decision_records",
+        "governance_events",
+        "field_dictionary"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "control_objects",
+      "name": "总控对象主表",
+      "layer": "L0",
+      "grain": "control_object",
+      "role": "总入口，不再单独承担完整的 CBM 组件治理表达。",
+      "write_mode": "derived_mirror",
+      "core_fields": [
+        { "name": "对象Key", "key": "object_key", "type": "text", "required": true },
+        { "name": "对象类型", "key": "object_type", "type": "single_select", "required": true },
+        { "name": "对象标题", "key": "object_title", "type": "text", "required": true },
+        { "name": "治理层级", "key": "governance_level", "type": "single_select", "required": true },
+        { "name": "运营分段", "key": "operations_segment", "type": "single_select", "required": true },
+        { "name": "对象状态", "key": "object_status", "type": "single_select", "required": true },
+        { "name": "goal_id", "key": "goal_id", "type": "text", "required": false },
+        { "name": "component_domain", "key": "component_domain", "type": "single_select", "required": false },
+        { "name": "control_level", "key": "control_level", "type": "single_select", "required": false },
+        { "name": "priority_band", "key": "priority_band", "type": "single_select", "required": false },
+        { "name": "owner_mode", "key": "owner_mode", "type": "single_select", "required": false },
+        { "name": "需要人类输入", "key": "required_human_input", "type": "text", "required": false },
+        { "name": "阻塞原因", "key": "blocker_reason", "type": "text", "required": false },
+        { "name": "下一步动作", "key": "next_action", "type": "text", "required": false },
+        { "name": "evidence_ref", "key": "evidence_ref", "type": "url", "required": false },
+        { "name": "evidence_strength", "key": "evidence_strength", "type": "single_select", "required": false },
+        { "name": "updated_at", "key": "updated_at", "type": "datetime", "required": true }
+      ],
+      "key_views": [
+        "全部",
+        "前台主线",
+        "待你处理",
+        "系统阻塞",
+        "后台队列"
+      ]
+    },
+    {
+      "id": "strategic_linkage",
+      "name": "战略链路表",
+      "layer": "L1",
+      "grain": "strategic_link",
+      "role": "承载 goal/theme/strategy/experiment/workflow 与组件域、纵线范围之间的稳定桥接。",
+      "write_mode": "derived_mirror_with_manual_annotation",
+      "core_fields": [
+        { "name": "战略链路Key", "key": "strategic_link_key", "type": "text", "required": true },
+        { "name": "goal_id", "key": "goal_id", "type": "text", "required": true },
+        { "name": "theme_id", "key": "theme_id", "type": "text", "required": true },
+        { "name": "strategy_id", "key": "strategy_id", "type": "text", "required": false },
+        { "name": "experiment_id", "key": "experiment_id", "type": "text", "required": false },
+        { "name": "workflow_id", "key": "workflow_id", "type": "text", "required": false },
+        { "name": "component_domain", "key": "component_domain", "type": "single_select", "required": true },
+        { "name": "control_level_scope", "key": "control_level_scope", "type": "multi_select", "required": true },
+        { "name": "status", "key": "status", "type": "single_select", "required": true },
+        { "name": "current_gap", "key": "current_gap", "type": "text", "required": false },
+        { "name": "next_action", "key": "next_action", "type": "text", "required": false },
+        { "name": "evidence_ref", "key": "evidence_ref", "type": "url", "required": false },
+        { "name": "updated_at", "key": "updated_at", "type": "datetime", "required": true }
+      ]
+    },
+    {
+      "id": "cbm_component_responsibility",
+      "name": "CBM组件责任表",
+      "layer": "L1",
+      "grain": "component_domain",
+      "role": "管理每个组件的 owner、copilot、战略归属与责任缺口。",
+      "write_mode": "mixed",
+      "core_fields": [
+        { "name": "组件Key", "key": "component_key", "type": "text", "required": true },
+        { "name": "component_domain", "key": "component_domain", "type": "single_select", "required": true },
+        { "name": "control_level_scope", "key": "control_level_scope", "type": "multi_select", "required": true },
+        { "name": "human_owner", "key": "human_owner", "type": "member", "required": false },
+        { "name": "ai_copilot", "key": "ai_copilot", "type": "single_select", "required": false },
+        { "name": "goal_id", "key": "goal_id", "type": "text", "required": true },
+        { "name": "theme_id", "key": "theme_id", "type": "text", "required": true },
+        { "name": "strategy_id", "key": "strategy_id", "type": "text", "required": false },
+        { "name": "workflow_id", "key": "workflow_id", "type": "text", "required": false },
+        { "name": "owner_gap", "key": "owner_gap", "type": "single_select", "required": true },
+        { "name": "status", "key": "status", "type": "single_select", "required": true },
+        { "name": "evidence_ref", "key": "evidence_ref", "type": "url", "required": false },
+        { "name": "updated_at", "key": "updated_at", "type": "datetime", "required": true }
+      ]
+    },
+    {
+      "id": "cbm_component_heatmap",
+      "name": "CBM组件热图表",
+      "layer": "L1",
+      "grain": "component_domain_control_level",
+      "role": "承载组件 KPI 提示、当前缺口、优先级和下一步动作，是组件驾驶舱的核心底表。",
+      "write_mode": "derived_mirror",
+      "core_fields": [
+        { "name": "热图Key", "key": "heatmap_key", "type": "text", "required": true },
+        { "name": "component_domain", "key": "component_domain", "type": "single_select", "required": true },
+        { "name": "control_level", "key": "control_level", "type": "single_select", "required": true },
+        { "name": "kpi_hint", "key": "kpi_hint", "type": "text", "required": false },
+        { "name": "current_gap", "key": "current_gap", "type": "text", "required": false },
+        { "name": "priority_band", "key": "priority_band", "type": "single_select", "required": true },
+        { "name": "next_action", "key": "next_action", "type": "text", "required": false },
+        { "name": "owner_mode", "key": "owner_mode", "type": "single_select", "required": false },
+        { "name": "evidence_strength", "key": "evidence_strength", "type": "single_select", "required": false },
+        { "name": "latest_decision_id", "key": "latest_decision_id", "type": "text", "required": false },
+        { "name": "latest_writeback_id", "key": "latest_writeback_id", "type": "text", "required": false },
+        { "name": "status", "key": "status", "type": "single_select", "required": true },
+        { "name": "updated_at", "key": "updated_at", "type": "datetime", "required": true }
+      ]
+    },
+    {
+      "id": "threads",
+      "name": "线程总表",
+      "layer": "L1",
+      "grain": "thread",
+      "role": "记录主线、背景线和待人类边界线程。",
+      "write_mode": "derived_mirror",
+      "core_fields": [
+        "thread_id",
+        "title",
+        "goal_id",
+        "theme_id",
+        "strategy_id",
+        "experiment_id",
+        "workflow_id",
+        "component_domain",
+        "control_level",
+        "status",
+        "required_human_input",
+        "blocker_reason",
+        "updated_at"
+      ]
+    },
+    {
+      "id": "tasks",
+      "name": "任务总表",
+      "layer": "L1",
+      "grain": "task",
+      "role": "承载执行单元、验真状态和下一步动作。",
+      "write_mode": "derived_mirror",
+      "core_fields": [
+        "task_id",
+        "title",
+        "thread_id",
+        "goal_id",
+        "component_domain",
+        "control_level",
+        "owner_mode",
+        "human_boundary_state",
+        "kpi_gap",
+        "priority_band",
+        "next_action",
+        "evidence_ref",
+        "updated_at"
+      ]
+    },
+    {
+      "id": "skills_capabilities",
+      "name": "技能与能力表",
+      "layer": "L1",
+      "grain": "skill_or_capability",
+      "role": "承载能力供给、审批摩擦和路由信用。",
+      "write_mode": "derived_mirror",
+      "core_fields": [
+        "capability_key",
+        "record_type",
+        "name",
+        "cluster_or_actor",
+        "routing_credit",
+        "verification_strength",
+        "requires_human_approval",
+        "status",
+        "updated_at"
+      ]
+    },
+    {
+      "id": "source_feeds",
+      "name": "数据源同步表",
+      "layer": "L1",
+      "grain": "source_feed",
+      "role": "承载证据入口健康度和数据源联通状态。",
+      "write_mode": "derived_mirror",
+      "core_fields": [
+        "source_feed_id",
+        "title",
+        "source_family",
+        "status",
+        "remote_reachable",
+        "missing_sources_snapshot",
+        "connected_sources_snapshot",
+        "updated_at"
+      ]
+    },
+    {
+      "id": "review_runs",
+      "name": "Review批次表",
+      "layer": "L2",
+      "grain": "review_run",
+      "role": "记录治理评审批次、关键风险和候选动作。",
+      "write_mode": "derived_mirror",
+      "core_fields": [
+        "review_id",
+        "review_date",
+        "scope",
+        "summary",
+        "top_risks",
+        "candidate_actions",
+        "human_decision",
+        "updated_at"
+      ]
+    },
+    {
+      "id": "decision_records",
+      "name": "决策记录表",
+      "layer": "L2",
+      "grain": "decision_record",
+      "role": "记录为什么这样判断、由谁拍板、证据是什么。",
+      "write_mode": "derived_mirror",
+      "core_fields": [
+        "decision_id",
+        "title",
+        "decision_type",
+        "decision_state",
+        "target_entity_ids",
+        "decision_summary",
+        "rationale",
+        "evidence_refs",
+        "decision_time",
+        "updated_at"
+      ]
+    },
+    {
+      "id": "governance_events",
+      "name": "治理动作与写回表",
+      "layer": "L2",
+      "grain": "governance_event",
+      "role": "记录动作、写回、验证状态与证据链接。",
+      "write_mode": "derived_mirror",
+      "core_fields": [
+        "governance_event_key",
+        "record_type",
+        "title",
+        "status",
+        "target_entity_type_or_refs",
+        "required_policy_ids",
+        "verification_state",
+        "evidence_refs",
+        "event_time",
+        "updated_at"
+      ]
+    },
+    {
+      "id": "field_dictionary",
+      "name": "字段字典与术语表",
+      "layer": "L2",
+      "grain": "field_definition",
+      "role": "统一白皮书概念、表字段和中文术语语义。",
+      "write_mode": "derived_mirror_plus_human_review",
+      "core_fields": [
+        "field_key",
+        "object_family",
+        "cn_field_name",
+        "en_field_name",
+        "canonical_path",
+        "field_level",
+        "field_usage",
+        "description",
+        "updated_at"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "strategic_linkage",
+      "to": "threads",
+      "type": "one_to_many",
+      "join_keys": ["goal_id", "strategy_id", "experiment_id", "workflow_id"],
+      "purpose": "把战略链路挂回运行线程。"
+    },
+    {
+      "from": "cbm_component_responsibility",
+      "to": "cbm_component_heatmap",
+      "type": "one_to_many",
+      "join_keys": ["component_domain"],
+      "purpose": "把组件责任与组件热图连接起来。"
+    },
+    {
+      "from": "cbm_component_responsibility",
+      "to": "strategic_linkage",
+      "type": "many_to_one",
+      "join_keys": ["goal_id", "theme_id", "strategy_id", "workflow_id", "component_domain"],
+      "purpose": "把组件归属挂回战略链路。"
+    },
+    {
+      "from": "tasks",
+      "to": "cbm_component_heatmap",
+      "type": "many_to_one",
+      "join_keys": ["component_domain", "control_level", "priority_band"],
+      "purpose": "把任务推进状态映射到组件热图。"
+    },
+    {
+      "from": "decision_records",
+      "to": "cbm_component_heatmap",
+      "type": "many_to_one",
+      "join_keys": ["decision_id -> latest_decision_id"],
+      "purpose": "让热图能追到最近一次正式判断。"
+    },
+    {
+      "from": "governance_events",
+      "to": "cbm_component_heatmap",
+      "type": "many_to_one",
+      "join_keys": ["governance_event_key -> latest_writeback_id"],
+      "purpose": "让热图能追到最近一次动作与写回。"
+    }
+  ],
+  "sync_rules": [
+    {
+      "rule": "Feishu 只接镜像，不反向改写 canonical 真相源。"
+    },
+    {
+      "rule": "战略链路、组件责任、组件热图优先由本地脚本派生，再允许人工补注释。"
+    },
+    {
+      "rule": "人工可编辑字段应限制在 owner、status 注释、解释性补充，不改写事实字段。"
+    },
+    {
+      "rule": "只要涉及 control_level、priority_band、evidence_strength，优先由派生逻辑生成，不靠人工口头维护。"
+    }
+  ],
+  "iteration_rhythm": [
+    {
+      "cycle": "daily",
+      "focus": [
+        "前台主线",
+        "待你处理",
+        "系统阻塞",
+        "最小下一步"
+      ]
+    },
+    {
+      "cycle": "weekly",
+      "focus": [
+        "组件热图",
+        "priority_band",
+        "owner_gap",
+        "experiment推进"
+      ]
+    },
+    {
+      "cycle": "monthly",
+      "focus": [
+        "战略链路",
+        "CBM吸收度",
+        "能力缺口",
+        "治理升级"
+      ]
+    }
+  ],
+  "dashboard_binding_priorities": [
+    "control_objects",
+    "cbm_component_heatmap",
+    "cbm_component_responsibility",
+    "threads",
+    "tasks",
+    "source_feeds",
+    "governance_events"
+  ]
+}

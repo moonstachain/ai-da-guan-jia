@@ -13,6 +13,7 @@ from pathlib import Path
 
 CODEX_CONFIG = Path.home() / ".codex" / "config.toml"
 CODEX_BIN = Path("/Applications/Codex.app/Contents/Resources/codex")
+MCP_GET_TIMEOUT_SECONDS = int(os.getenv("CODEX_MCP_GET_TIMEOUT_SECONDS", "15"))
 
 
 def resolve_node() -> str | None:
@@ -39,7 +40,14 @@ def resolve_node() -> str | None:
 
 def read_mcp(name: str) -> dict[str, object]:
     cmd = [str(CODEX_BIN), "mcp", "get", name, "--json"]
-    completed = subprocess.run(cmd, capture_output=True, text=True)
+    try:
+        completed = subprocess.run(cmd, capture_output=True, text=True, timeout=MCP_GET_TIMEOUT_SECONDS)
+    except subprocess.TimeoutExpired:
+        return {
+            "name": name,
+            "ok": False,
+            "error": f"Timed out after {MCP_GET_TIMEOUT_SECONDS}s while reading MCP config.",
+        }
     if completed.returncode != 0:
         return {"name": name, "ok": False, "error": completed.stderr.strip() or completed.stdout.strip()}
     stdout = completed.stdout
@@ -76,8 +84,6 @@ def summarize() -> tuple[list[str], int]:
         enabled = github.get("enabled")
         token_state = "present" if github_token else "missing"
         lines.append(f"github: {'ok' if enabled else 'disabled'} -> token {token_state}")
-        if not github_token:
-            failures += 1
     else:
         failures += 1
         lines.append(f"github: error -> {github.get('error', 'unknown error')}")

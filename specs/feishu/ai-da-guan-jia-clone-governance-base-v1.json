@@ -1,0 +1,60 @@
+{
+  "id": "ai-da-guan-jia-clone-governance-base-v1",
+  "title": "AI大管家 组织化 Clone 治理总库 v1",
+  "goal": "用一个总部主库承接内部同事实例、客户代运营实例、总部总控视角与 Feishu/妙搭协同视图，同时保留本地 canonical 为唯一真相源。",
+  "source_of_truth": {
+    "canonical": "repo_local_canonical",
+    "feishu_role": "mirror_and_collaboration_surface",
+    "do_not_assume": [
+      "Feishu_is_source_of_truth",
+      "mirror_equals_closure",
+      "clone_mode_is_the_full_org_model"
+    ]
+  },
+  "control_planes": [
+    {
+      "id": "hq_control_tower",
+      "name": "总部总控舱",
+      "questions": [
+        "现在谁在推进",
+        "谁卡住了",
+        "我该先介入哪里",
+        "哪些实例值得晋升/降权/休眠"
+      ]
+    },
+    {
+      "id": "role_workspace",
+      "name": "岗位工作台",
+      "questions": [
+        "我当前最重要的任务是什么",
+        "我的训练建议是什么",
+        "我的评分和边界提醒是什么"
+      ]
+    },
+    {
+      "id": "client_ops_desk",
+      "name": "客户运营台",
+      "questions": [
+        "这个客户当前推进到哪一层",
+        "有哪些风险与审批点",
+        "需要总部做什么判断"
+      ]
+    }
+  ],
+  "tables": [
+    "orgs",
+    "role_templates",
+    "clone_registry",
+    "task_runs",
+    "training_cycles",
+    "capability_proposals",
+    "scorecards",
+    "alerts_decisions"
+  ],
+  "portfolio_defaults": {
+    "v1_rollout_scope": "internal_first",
+    "client_operating_model": "operated",
+    "visibility_boundary": "layered_visible",
+    "workspace_shape": "hq_base_plus_views"
+  }
+}

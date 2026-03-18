@@ -1,50 +1,56 @@
 {
-  "generated_at": "2026-03-11T19:39:02+08:00",
+  "generated_at": "2026-03-17T12:19:52+08:00",
   "source_scope": {
     "source_registry_version": "v1",
-    "sync_hub_root": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/sync-hub",
+    "sync_hub_root": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/sync-hub",
     "sync_hub_roots": [
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/sync-hub"
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/sync-hub"
     ],
     "business_finance_roots": [
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business"
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business"
     ],
     "content_knowledge_roots": [
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content"
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content"
     ],
     "governance_roots": [
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/governance",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/automations",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/review-state.json",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/strategic-goals.json",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/governance-dashboard.md",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/routing-credit.json",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/org-taxonomy.md",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/automations/daily-skill-co-review/automation.toml",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/feishu-reader",
-      "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/tencent-meeting"
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/governance",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/automations",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/review-state.json",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/strategic-goals.json",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/governance-dashboard.md",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/routing-credit.json",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/org-taxonomy.md",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/automations/daily-skill-co-review/automation.toml",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/feishu-reader",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/tencent-meeting",
+      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/task-intake"
     ],
-    "skills_root": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills",
-    "automations_root": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/automations",
-    "reviews_root": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews",
-    "review_state_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/review-state.json",
-    "strategic_goals_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/strategic-goals.json",
-    "active_threads_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-    "governance_dashboard_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/governance-dashboard.md",
-    "routing_credit_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/routing-credit.json",
-    "org_taxonomy_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/org-taxonomy.md",
-    "ontology_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
-    "ai_da_guan_jia_script": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/scripts/ai_da_guan_jia.py",
-    "daily_review_automation_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/automations/daily-skill-co-review/automation.toml",
-    "feishu_ingest_root": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/feishu-reader",
-    "tencent_meeting_ingest_root": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/tencent-meeting",
+    "skills_root": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills",
+    "automations_root": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/automations",
+    "reviews_root": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews",
+    "review_state_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/review-state.json",
+    "strategic_goals_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/strategic-goals.json",
+    "active_threads_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+    "governance_dashboard_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/governance-dashboard.md",
+    "routing_credit_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/routing-credit.json",
+    "org_taxonomy_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/org-taxonomy.md",
+    "ontology_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
+    "ai_da_guan_jia_script": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/scripts/ai_da_guan_jia.py",
+    "feishu_doc_script": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/scripts/feishu_doc.py",
+    "feishu_bitable_bridge_script": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/scripts/feishu_bitable_bridge.py",
+    "daily_review_automation_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/automations/daily-skill-co-review/automation.toml",
+    "task_intake_root": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/task-intake",
+    "feishu_ingest_root": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/feishu-reader",
+    "tencent_meeting_ingest_root": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/tencent-meeting",
+    "hub_transport_status_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/hub/current/transport-status.json",
+    "hub_source_status_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/hub/current/source-status.json",
     "source_feishu_links": [],
-    "latest_review_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json",
+    "latest_review_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json",
     "source_tencent_meeting_links": [],
     "source_registry_groups": [
       "sync_hub_roots",
@@ -57,12 +63,12 @@
     "tables": [
       "topics"
     ],
-    "path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
+    "path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
     "status": "available"
   },
   "counts": {
     "spaces": 5,
-    "subjects": 11,
+    "subjects": 12,
     "endpoints": 5,
     "accounts": 7,
     "operating_modules": 6,
@@ -74,13 +80,13 @@
     "tasks": 5,
     "threads": 5,
     "skills": 3,
-    "actions": 3,
+    "actions": 9,
     "agent_capabilities": 3,
-    "decision_records": 4,
-    "writeback_events": 1,
+    "decision_records": 6,
+    "writeback_events": 3,
     "knowledge_items": 0,
     "review_runs": 1,
-    "relations": 112
+    "relations": 117
   },
   "spaces": [
     {
@@ -95,7 +101,7 @@
       "federation_role": "root",
       "source_ref": "generated://federation-root",
       "confidence": 0.96,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "space-personal-zero",
@@ -109,7 +115,7 @@
       "federation_role": "personal",
       "source_ref": "generated://space/personal-zero",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "space-internal-team",
@@ -123,7 +129,7 @@
       "federation_role": "internal",
       "source_ref": "generated://space/internal-team",
       "confidence": 0.9,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "space-client-template",
@@ -137,7 +143,7 @@
       "federation_role": "client",
       "source_ref": "generated://space/client-template",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "space-downstream-template",
@@ -151,7 +157,7 @@
       "federation_role": "downstream",
       "source_ref": "generated://space/downstream-template",
       "confidence": 0.85,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "subjects": [
@@ -171,7 +177,7 @@
       ],
       "source_ref": "generated://subject/hay2045",
       "confidence": 0.96,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-collab-owner",
@@ -189,7 +195,7 @@
       ],
       "source_ref": "generated://subject/internal-owner",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-internal-org",
@@ -208,7 +214,7 @@
       ],
       "source_ref": "generated://subject/internal-org",
       "confidence": 0.9,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-client-org-template",
@@ -227,7 +233,7 @@
       ],
       "source_ref": "generated://subject/client-template",
       "confidence": 0.85,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-downstream-client-template",
@@ -245,7 +251,25 @@
       ],
       "source_ref": "generated://subject/downstream-template",
       "confidence": 0.82,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "subject-agent-business-deputy",
+      "subject_id": "subject-agent-business-deputy",
+      "title": "业务增长 Deputy",
+      "subject_type": "ai_agent",
+      "space_id": "space-federation-root",
+      "status": "active",
+      "owner_mode": "ai",
+      "autonomy_tier": "deputy",
+      "responsibility_scope": [
+        "public",
+        "private",
+        "sales"
+      ],
+      "source_ref": "generated://subject-agent/business-deputy",
+      "confidence": 0.95,
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-agent-public",
@@ -261,7 +285,7 @@
       ],
       "source_ref": "generated://subject-agent/public",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-agent-private",
@@ -277,7 +301,7 @@
       ],
       "source_ref": "generated://subject-agent/private",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-agent-sales",
@@ -293,7 +317,7 @@
       ],
       "source_ref": "generated://subject-agent/sales",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-agent-delivery",
@@ -309,7 +333,7 @@
       ],
       "source_ref": "generated://subject-agent/delivery",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-agent-finance",
@@ -325,7 +349,7 @@
       ],
       "source_ref": "generated://subject-agent/finance",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "subject-agent-governance",
@@ -341,7 +365,7 @@
       ],
       "source_ref": "generated://subject-agent/governance",
       "confidence": 0.97,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "endpoints": [
@@ -356,7 +380,7 @@
       "health_status": "healthy",
       "source_ref": "generated://endpoint/local-workstation",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "endpoint-terminal-a",
@@ -369,7 +393,7 @@
       "health_status": "healthy",
       "source_ref": "generated://endpoint/terminal-a",
       "confidence": 0.92,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "endpoint-terminal-b",
@@ -382,7 +406,7 @@
       "health_status": "healthy",
       "source_ref": "generated://endpoint/terminal-b",
       "confidence": 0.92,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "endpoint-terminal-c",
@@ -395,7 +419,7 @@
       "health_status": "planned",
       "source_ref": "generated://endpoint/terminal-c",
       "confidence": 0.9,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "endpoint-feishu-mobile",
@@ -408,7 +432,7 @@
       "health_status": "planned",
       "source_ref": "generated://endpoint/feishu-mobile",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "accounts": [
@@ -426,7 +450,7 @@
       "endpoint_id": "endpoint-local-workstation",
       "source_ref": "generated://account/github",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "account-feishu",
@@ -442,7 +466,7 @@
       "endpoint_id": "endpoint-feishu-mobile",
       "source_ref": "generated://account/feishu",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "account-wechat",
@@ -458,7 +482,7 @@
       "endpoint_id": "endpoint-feishu-mobile",
       "source_ref": "generated://account/wechat",
       "confidence": 0.86,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "account-video-channel",
@@ -474,7 +498,7 @@
       "endpoint_id": "endpoint-feishu-mobile",
       "source_ref": "generated://account/video-channel",
       "confidence": 0.84,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "account-bilibili",
@@ -490,7 +514,7 @@
       "endpoint_id": "endpoint-terminal-a",
       "source_ref": "generated://account/bilibili",
       "confidence": 0.84,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "account-douyin",
@@ -506,7 +530,7 @@
       "endpoint_id": "endpoint-terminal-b",
       "source_ref": "generated://account/douyin",
       "confidence": 0.84,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "account-xiaohongshu",
@@ -522,7 +546,7 @@
       "endpoint_id": "endpoint-terminal-c",
       "source_ref": "generated://account/xiaohongshu",
       "confidence": 0.84,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "operating_modules": [
@@ -536,10 +560,11 @@
       "status": "active",
       "owner_subject_id": "subject-hay2045",
       "ai_subject_id": "subject-agent-public",
+      "deputy_subject_id": "subject-agent-business-deputy",
       "kpi_hint": "流量、触达、线索输入",
       "source_ref": "generated://module/public",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "module-private",
@@ -551,10 +576,11 @@
       "status": "active",
       "owner_subject_id": "subject-hay2045",
       "ai_subject_id": "subject-agent-private",
+      "deputy_subject_id": "subject-agent-business-deputy",
       "kpi_hint": "线索状态、转化节奏、复购机会",
       "source_ref": "generated://module/private",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "module-sales",
@@ -566,10 +592,11 @@
       "status": "active",
       "owner_subject_id": "subject-collab-owner",
       "ai_subject_id": "subject-agent-sales",
+      "deputy_subject_id": "subject-agent-business-deputy",
       "kpi_hint": "商机推进、报价、成交额",
       "source_ref": "generated://module/sales",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "module-delivery",
@@ -581,10 +608,11 @@
       "status": "active",
       "owner_subject_id": "subject-collab-owner",
       "ai_subject_id": "subject-agent-delivery",
+      "deputy_subject_id": "",
       "kpi_hint": "交付节奏、里程碑、满意度",
       "source_ref": "generated://module/delivery",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "module-finance",
@@ -596,10 +624,11 @@
       "status": "active",
       "owner_subject_id": "subject-collab-owner",
       "ai_subject_id": "subject-agent-finance",
+      "deputy_subject_id": "",
       "kpi_hint": "回款、利润、现金流",
       "source_ref": "generated://module/finance",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "module-governance",
@@ -611,137 +640,138 @@
       "status": "active",
       "owner_subject_id": "subject-hay2045",
       "ai_subject_id": "subject-agent-governance",
+      "deputy_subject_id": "",
       "kpi_hint": "闭环率、失真率、复制进度",
       "source_ref": "generated://module/governance",
       "confidence": 0.97,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "source_feeds": [
     {
-      "id": "feed-c2bbecf0db",
-      "source_feed_id": "feed-c2bbecf0db",
+      "id": "feed-90c1fe6098",
+      "source_feed_id": "feed-90c1fe6098",
       "title": "cashflow_ledger::business",
       "source_family": "cashflow_ledger",
       "registry_group": "business_finance_roots",
-      "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business",
+      "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business",
       "origin_device": "external-source",
       "owner_account_id": "",
       "status": "active",
       "recognized_file_count": 1,
       "unclassified_file_count": 0,
-      "last_scanned_at": "2026-03-11T19:39:02+08:00",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business",
+      "last_scanned_at": "2026-03-17T12:19:52+08:00",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "feed-70c8eb6b66",
-      "source_feed_id": "feed-70c8eb6b66",
+      "id": "feed-dcfffae1af",
+      "source_feed_id": "feed-dcfffae1af",
       "title": "order_facts::business",
       "source_family": "order_facts",
       "registry_group": "business_finance_roots",
-      "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business",
+      "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business",
       "origin_device": "external-source",
       "owner_account_id": "",
       "status": "active",
       "recognized_file_count": 2,
       "unclassified_file_count": 0,
-      "last_scanned_at": "2026-03-11T19:39:02+08:00",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business",
+      "last_scanned_at": "2026-03-17T12:19:52+08:00",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "feed-2d2cf8a45d",
-      "source_feed_id": "feed-2d2cf8a45d",
+      "id": "feed-fb9728533d",
+      "source_feed_id": "feed-fb9728533d",
       "title": "course_material::courses",
       "source_family": "course_material",
       "registry_group": "content_knowledge_roots",
-      "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/courses",
+      "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/courses",
       "origin_device": "external-source",
       "owner_account_id": "",
       "status": "active",
       "recognized_file_count": 1,
       "unclassified_file_count": 0,
-      "last_scanned_at": "2026-03-11T19:39:02+08:00",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/courses",
+      "last_scanned_at": "2026-03-17T12:19:52+08:00",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/courses",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "feed-c16a8a92e6",
-      "source_feed_id": "feed-c16a8a92e6",
+      "id": "feed-9d8f332e5e",
+      "source_feed_id": "feed-9d8f332e5e",
       "title": "unclassified::content",
       "source_family": "unclassified",
       "registry_group": "content_knowledge_roots",
-      "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content",
+      "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content",
       "origin_device": "external-source",
       "owner_account_id": "",
       "status": "needs_classification",
       "recognized_file_count": 0,
       "unclassified_file_count": 1,
-      "last_scanned_at": "2026-03-11T19:39:02+08:00",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content",
+      "last_scanned_at": "2026-03-17T12:19:52+08:00",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content",
       "confidence": 0.6,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "feed-da8f83f64c",
-      "source_feed_id": "feed-da8f83f64c",
+      "id": "feed-055ff48457",
+      "source_feed_id": "feed-055ff48457",
       "title": "wechat_content::content",
       "source_family": "wechat_content",
       "registry_group": "content_knowledge_roots",
-      "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content",
+      "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content",
       "origin_device": "external-source",
       "owner_account_id": "account-wechat",
       "status": "active",
       "recognized_file_count": 2,
       "unclassified_file_count": 0,
-      "last_scanned_at": "2026-03-11T19:39:02+08:00",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content",
+      "last_scanned_at": "2026-03-17T12:19:52+08:00",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "feed-464b5a95e7",
-      "source_feed_id": "feed-464b5a95e7",
+      "id": "feed-eca41e28f4",
+      "source_feed_id": "feed-eca41e28f4",
       "title": "governance_artifact::ai-da-guan-jia",
       "source_family": "governance_artifact",
       "registry_group": "governance_roots",
-      "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/ai-da-guan-jia",
+      "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/ai-da-guan-jia",
       "origin_device": "external-source",
       "owner_account_id": "",
       "status": "active",
       "recognized_file_count": 13,
       "unclassified_file_count": 0,
-      "last_scanned_at": "2026-03-11T19:39:02+08:00",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/ai-da-guan-jia",
+      "last_scanned_at": "2026-03-17T12:19:52+08:00",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/ai-da-guan-jia",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "feed-eb2b7fb068",
-      "source_feed_id": "feed-eb2b7fb068",
+      "id": "feed-74591ba360",
+      "source_feed_id": "feed-74591ba360",
       "title": "order_facts::2026-03-11",
       "source_family": "order_facts",
       "registry_group": "sync_hub_roots",
-      "root_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/sync-hub/macbook-pro/orders/2026-03-11",
+      "root_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/sync-hub/macbook-pro/orders/2026-03-11",
       "origin_device": "external-source",
       "owner_account_id": "",
       "status": "active",
       "recognized_file_count": 1,
       "unclassified_file_count": 0,
-      "last_scanned_at": "2026-03-11T19:39:02+08:00",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/sync-hub/macbook-pro/orders/2026-03-11",
+      "last_scanned_at": "2026-03-17T12:19:52+08:00",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/sync-hub/macbook-pro/orders/2026-03-11",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "ingestion_runs": [
     {
-      "id": "ingest-20260311-193902",
-      "ingestion_run_id": "ingest-20260311-193902",
+      "id": "ingest-20260317-121952",
+      "ingestion_run_id": "ingest-20260317-121952",
       "run_type": "full_inventory",
       "status": "completed",
       "scanned_file_count": 21,
@@ -752,279 +782,283 @@
       "content_asset_count": 3,
       "unclassified_file_count": 1,
       "unclassified_paths": [
-        "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/mystery.data"
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/mystery.data"
       ],
+      "current_scan_order_count": 2,
+      "current_scan_cashflow_count": 1,
+      "fallback_snapshot_path": "",
+      "fallback_reason": "",
       "sensitivity_check_status": "pending",
       "source_ref": "registry://full_inventory",
       "confidence": 0.9,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "assets": [
     {
-      "id": "asset-42e3befcbd",
-      "asset_id": "asset-42e3befcbd",
+      "id": "asset-3f4acb49c1",
+      "asset_id": "asset-3f4acb49c1",
       "title": "ai-da-guan-jia",
       "asset_type": "skill_manifest",
       "domain": "AI大管家治理簇",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/ai-da-guan-jia/SKILL.md",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/ai-da-guan-jia/SKILL.md",
       "source_kind": "skill",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/ai-da-guan-jia/SKILL.md",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/ai-da-guan-jia/SKILL.md",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.95,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-53983a3e18",
-      "asset_id": "asset-53983a3e18",
+      "id": "asset-71333e00b2",
+      "asset_id": "asset-71333e00b2",
       "title": "knowledge-orchestrator",
       "asset_type": "skill_manifest",
       "domain": "垂直workflow簇",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/knowledge-orchestrator/SKILL.md",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/knowledge-orchestrator/SKILL.md",
       "source_kind": "skill",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/knowledge-orchestrator/SKILL.md",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/knowledge-orchestrator/SKILL.md",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.95,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-c8443dd1ff",
-      "asset_id": "asset-c8443dd1ff",
+      "id": "asset-bdf1959e65",
+      "asset_id": "asset-bdf1959e65",
       "title": "yuanli-core",
       "asset_type": "skill_manifest",
       "domain": "垂直workflow簇",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/yuanli-core/SKILL.md",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/yuanli-core/SKILL.md",
       "source_kind": "skill",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/yuanli-core/SKILL.md",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/yuanli-core/SKILL.md",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.95,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-dcc70fe0a8",
-      "asset_id": "asset-dcc70fe0a8",
+      "id": "asset-3ba74cfeb9",
+      "asset_id": "asset-3ba74cfeb9",
       "title": "Daily skill review",
       "asset_type": "automation_manifest",
       "domain": "automation",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/automations/daily-skill-co-review/automation.toml",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/automations/daily-skill-co-review/automation.toml",
       "source_kind": "automation",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/automations/daily-skill-co-review/automation.toml",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/automations/daily-skill-co-review/automation.toml",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.95,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-6d930ba2ca",
-      "asset_id": "asset-6d930ba2ca",
+      "id": "asset-9a43c2b6d0",
+      "asset_id": "asset-9a43c2b6d0",
       "title": "Other automation",
       "asset_type": "automation_manifest",
       "domain": "automation",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/automations/other-automation/automation.toml",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/automations/other-automation/automation.toml",
       "source_kind": "automation",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/automations/other-automation/automation.toml",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/automations/other-automation/automation.toml",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.95,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-ffe89e59e9",
-      "asset_id": "asset-ffe89e59e9",
+      "id": "asset-81e4754780",
+      "asset_id": "asset-81e4754780",
       "title": "strategic-goals.json",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/strategic-goals.json",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/strategic-goals.json",
       "source_kind": "file",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/strategic-goals.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/strategic-goals.json",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-ef08f34c37",
-      "asset_id": "asset-ef08f34c37",
+      "id": "asset-1b316c178a",
+      "asset_id": "asset-1b316c178a",
       "title": "active-threads.json",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "source_kind": "file",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-f5fa597fde",
-      "asset_id": "asset-f5fa597fde",
+      "id": "asset-bcab704d7b",
+      "asset_id": "asset-bcab704d7b",
       "title": "governance-dashboard.md",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/governance-dashboard.md",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/governance-dashboard.md",
       "source_kind": "file",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/governance-dashboard.md",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/governance-dashboard.md",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-950145ad70",
-      "asset_id": "asset-950145ad70",
+      "id": "asset-403e9cd8d4",
+      "asset_id": "asset-403e9cd8d4",
       "title": "routing-credit.json",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/routing-credit.json",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/routing-credit.json",
       "source_kind": "file",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/routing-credit.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/routing-credit.json",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-1786a90a99",
-      "asset_id": "asset-1786a90a99",
+      "id": "asset-d448e58a89",
+      "asset_id": "asset-d448e58a89",
       "title": "org-taxonomy.md",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/org-taxonomy.md",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/org-taxonomy.md",
       "source_kind": "file",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/org-taxonomy.md",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/org-taxonomy.md",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-9a5ad5ba42",
-      "asset_id": "asset-9a5ad5ba42",
+      "id": "asset-68451a7225",
+      "asset_id": "asset-68451a7225",
       "title": "review-state.json",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/review-state.json",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/review-state.json",
       "source_kind": "file",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/review-state.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/review-state.json",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-7bd6d22c91",
-      "asset_id": "asset-7bd6d22c91",
+      "id": "asset-7efeaa7cfc",
+      "asset_id": "asset-7efeaa7cfc",
       "title": "review.json",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json",
       "source_kind": "file",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-961ab2f1a6",
-      "asset_id": "asset-961ab2f1a6",
+      "id": "asset-bb4c21b446",
+      "asset_id": "asset-bb4c21b446",
       "title": "ontology.db",
       "asset_type": "ontology_db",
       "domain": "ontology",
-      "source_path": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
+      "source_path": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
       "source_kind": "file",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-f3de576787",
-      "asset_id": "asset-f3de576787",
+      "id": "asset-cb6c93eacf",
+      "asset_id": "asset-cb6c93eacf",
       "title": "operational-ontology-v0.md",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/operational-ontology-v0.md",
+      "source_path": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/operational-ontology-v0.md",
       "source_kind": "file",
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/operational-ontology-v0.md",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/operational-ontology-v0.md",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-9ef9f59efd",
-      "asset_id": "asset-9ef9f59efd",
+      "id": "asset-7cad47c0fd",
+      "asset_id": "asset-7cad47c0fd",
       "title": "action-catalog-v0.json",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "source_path": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
       "source_kind": "file",
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-9d10e106f2",
-      "asset_id": "asset-9d10e106f2",
+      "id": "asset-a08e7ba51a",
+      "asset_id": "asset-a08e7ba51a",
       "title": "policy-boundary-v0.md",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+      "source_path": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
       "source_kind": "file",
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-43fab3062c",
-      "asset_id": "asset-43fab3062c",
+      "id": "asset-bad98653d4",
+      "asset_id": "asset-bad98653d4",
       "title": "operational-ontology-implementation-plan-v0.md",
       "asset_type": "strategy_artifact",
       "domain": "governance",
-      "source_path": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/operational-ontology-implementation-plan-v0.md",
+      "source_path": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/operational-ontology-implementation-plan-v0.md",
       "source_kind": "file",
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/operational-ontology-implementation-plan-v0.md",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/operational-ontology-implementation-plan-v0.md",
       "status": "active",
       "owner_mode": "ai",
       "confidence": 0.98,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-6155eeea7e",
-      "asset_id": "asset-6155eeea7e",
+      "id": "asset-86309e4f87",
+      "asset_id": "asset-86309e4f87",
       "title": "manifest",
       "asset_type": "source_file",
       "domain": "sync_hub_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/sync-hub/macbook-pro/orders/2026-03-11/manifest.json",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/sync-hub/macbook-pro/orders/2026-03-11/manifest.json",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/sync-hub/macbook-pro/orders/2026-03-11/manifest.json",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/sync-hub/macbook-pro/orders/2026-03-11/manifest.json",
       "content_class": "business_fact",
       "source_family": "order_facts",
       "module_code": "sales",
@@ -1036,18 +1070,18 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-00a5ca16a3",
-      "asset_id": "asset-00a5ca16a3",
+      "id": "asset-f003e3b710",
+      "asset_id": "asset-f003e3b710",
       "title": "cashflow-ledger",
       "asset_type": "source_file",
       "domain": "business_finance_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/cashflow-ledger.csv",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/cashflow-ledger.csv",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/cashflow-ledger.csv",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/cashflow-ledger.csv",
       "content_class": "finance_fact",
       "source_family": "cashflow_ledger",
       "module_code": "finance",
@@ -1059,18 +1093,18 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-3c476933b5",
-      "asset_id": "asset-3c476933b5",
+      "id": "asset-ff0acd3aa9",
+      "asset_id": "asset-ff0acd3aa9",
       "title": "consulting-first-batch-orders",
       "asset_type": "source_file",
       "domain": "business_finance_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/consulting-first-batch-orders.json",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/consulting-first-batch-orders.json",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/consulting-first-batch-orders.json",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/consulting-first-batch-orders.json",
       "content_class": "business_fact",
       "source_family": "order_facts",
       "module_code": "sales",
@@ -1082,18 +1116,18 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-9239205dce",
-      "asset_id": "asset-9239205dce",
+      "id": "asset-3cf30f4e84",
+      "asset_id": "asset-3cf30f4e84",
       "title": "order-facts",
       "asset_type": "source_file",
       "domain": "business_finance_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/templates/order-facts.json",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/templates/order-facts.json",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/templates/order-facts.json",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/templates/order-facts.json",
       "content_class": "business_fact",
       "source_family": "order_facts",
       "module_code": "sales",
@@ -1105,18 +1139,18 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-6745e83588",
-      "asset_id": "asset-6745e83588",
+      "id": "asset-38c8364b14",
+      "asset_id": "asset-38c8364b14",
       "title": "混沌课程-工业互联网",
       "asset_type": "source_file",
       "domain": "content_knowledge_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/courses/混沌课程-工业互联网.pdf",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/courses/混沌课程-工业互联网.pdf",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/courses/混沌课程-工业互联网.pdf",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/courses/混沌课程-工业互联网.pdf",
       "content_class": "course_material",
       "source_family": "course_material",
       "module_code": "delivery",
@@ -1128,18 +1162,18 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-f8f9c104e1",
-      "asset_id": "asset-f8f9c104e1",
+      "id": "asset-f454c3b1cb",
+      "asset_id": "asset-f454c3b1cb",
       "title": "mystery",
       "asset_type": "source_file",
       "domain": "content_knowledge_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/mystery.data",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/mystery.data",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/mystery.data",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/mystery.data",
       "content_class": "unclassified",
       "source_family": "unclassified",
       "module_code": "governance",
@@ -1151,18 +1185,18 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.6,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-cc2874fa8a",
-      "asset_id": "asset-cc2874fa8a",
+      "id": "asset-3aaccbefab",
+      "asset_id": "asset-3aaccbefab",
       "title": "wechat_draft_payload_meta",
       "asset_type": "source_file",
       "domain": "content_knowledge_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/wechat_draft_payload_meta.json",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/wechat_draft_payload_meta.json",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/wechat_draft_payload_meta.json",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/wechat_draft_payload_meta.json",
       "content_class": "article_asset",
       "source_family": "wechat_content",
       "module_code": "public",
@@ -1174,18 +1208,18 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "asset-2ff4d0dde0",
-      "asset_id": "asset-2ff4d0dde0",
+      "id": "asset-1924835a36",
+      "asset_id": "asset-1924835a36",
       "title": "wechat_writer_run_summary",
       "asset_type": "source_file",
       "domain": "content_knowledge_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/wechat_writer_run_summary.json",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/wechat_writer_run_summary.json",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/content/wechat_writer_run_summary.json",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/content/wechat_writer_run_summary.json",
       "content_class": "article_asset",
       "source_family": "wechat_content",
       "module_code": "public",
@@ -1197,8 +1231,8 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_seen_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "orders": [
@@ -1206,7 +1240,6 @@
       "id": "ord-002",
       "order_id": "ord-002",
       "order_date": "2024-03-02",
-      "payment_amount": 365.0,
       "payment_platform": "微信转账",
       "order_source": "咨询",
       "customer_name": "王小姐",
@@ -1216,23 +1249,34 @@
       "primary_conversion_owner": "",
       "secondary_conversion_owner": "",
       "opportunity_id": "",
+      "quote_id": "",
+      "quote_sent_at": "",
+      "quote_evidence_ref": "",
+      "close_state": "",
+      "lost_at": "",
+      "loss_reason": "",
+      "loss_evidence_ref": "",
+      "delivery_owner": "",
+      "finance_owner": "",
+      "handoff_packet_ref": "",
+      "handoff_completed_at": "",
       "note": "",
       "card_note": "",
-      "source_feed_id": "feed-70c8eb6b66",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/consulting-first-batch-orders.json",
+      "source_feed_id": "feed-dcfffae1af",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/consulting-first-batch-orders.json",
       "source_family": "order_facts",
       "module_code": "sales",
       "sensitivity_level": "restricted",
       "parse_status": "parsed",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/consulting-first-batch-orders.json",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/consulting-first-batch-orders.json",
       "confidence": 0.9,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00",
+      "payment_amount": 365.0
     },
     {
       "id": "ord-001",
       "order_id": "ord-001",
       "order_date": "2024-03-01",
-      "payment_amount": 6980.0,
       "payment_platform": "小鹅通",
       "order_source": "1V1",
       "customer_name": "刘长凯",
@@ -1242,38 +1286,50 @@
       "primary_conversion_owner": "施子超",
       "secondary_conversion_owner": "",
       "opportunity_id": "opp-001",
+      "quote_id": "",
+      "quote_sent_at": "",
+      "quote_evidence_ref": "",
+      "close_state": "",
+      "lost_at": "",
+      "loss_reason": "",
+      "loss_evidence_ref": "",
+      "delivery_owner": "",
+      "finance_owner": "",
+      "handoff_packet_ref": "",
+      "handoff_completed_at": "",
       "note": "5月上海线下",
       "card_note": "续费",
-      "source_feed_id": "feed-70c8eb6b66",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/templates/order-facts.json",
+      "source_feed_id": "feed-dcfffae1af",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/templates/order-facts.json",
       "source_family": "order_facts",
       "module_code": "sales",
       "sensitivity_level": "restricted",
       "parse_status": "parsed",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/templates/order-facts.json",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/templates/order-facts.json",
       "confidence": 0.9,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00",
+      "payment_amount": 6980.0
     }
   ],
   "cashflows": [
     {
-      "id": "cf-2de0d23199",
-      "cashflow_id": "cf-2de0d23199",
+      "id": "cf-5f9af9b6f1",
+      "cashflow_id": "cf-5f9af9b6f1",
       "transaction_date": "2024-03-03",
       "amount": 365.0,
       "direction": "inflow",
       "account_name": "经营账户",
       "counterparty": "王小姐",
       "summary": "订单回款13812345678",
-      "source_feed_id": "feed-c2bbecf0db",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/cashflow-ledger.csv",
+      "source_feed_id": "feed-90c1fe6098",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/cashflow-ledger.csv",
       "source_family": "cashflow_ledger",
       "module_code": "finance",
       "sensitivity_level": "restricted",
       "parse_status": "parsed",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/business/cashflow-ledger.csv",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/cashflow-ledger.csv",
       "confidence": 0.9,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "tasks": [
@@ -1285,20 +1341,34 @@
       "space_id": "space-personal-zero",
       "target_subject_id": "subject-hay2045",
       "target_module_id": "module-governance",
+      "module_code": "governance",
+      "owner_subject_id": "subject-hay2045",
+      "ai_subject_id": "subject-agent-governance",
+      "deputy_subject_id": "",
       "status": "active",
       "priority": "P1",
       "owner_mode": "ai",
+      "thread_id": "thread-adagj-001",
+      "task_kind": "parent",
+      "parent_task_id": "",
+      "depends_on_task_ids": [],
+      "managed_by": "external_active_thread",
+      "intake_run_id": "",
+      "delegation_mode": "external_run",
+      "human_boundary_state": "not_needed",
+      "osa_card_ref": "",
+      "handoff_ref": "",
       "selected_skills": [
         "ai-da-guan-jia",
         "yuanli-core"
       ],
       "verification_state": "needs_follow_up",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-001",
-      "next_action": "先确认 v1 母题范围",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-001",
+      "next_action": "补端点/账号/资产锚点版治理主图，保持 external_active_thread 试点，不做 canonical 迁移",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "last_updated_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_updated_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "task-adagj-ops-001",
@@ -1308,19 +1378,33 @@
       "space_id": "space-internal-team",
       "target_subject_id": "subject-collab-owner",
       "target_module_id": "module-sales",
+      "module_code": "sales",
+      "owner_subject_id": "subject-collab-owner",
+      "ai_subject_id": "subject-agent-sales",
+      "deputy_subject_id": "subject-agent-business-deputy",
       "status": "active",
       "priority": "P1",
       "owner_mode": "ai",
+      "thread_id": "thread-adagj-ops-001",
+      "task_kind": "parent",
+      "parent_task_id": "",
+      "depends_on_task_ids": [],
+      "managed_by": "external_active_thread",
+      "intake_run_id": "",
+      "delegation_mode": "external_run",
+      "human_boundary_state": "not_needed",
+      "osa_card_ref": "",
+      "handoff_ref": "",
       "selected_skills": [
         "knowledge-orchestrator"
       ],
       "verification_state": "needs_follow_up",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-ops-001",
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-ops-001",
       "next_action": "先确认内部 owner 分工",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "last_updated_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_updated_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "task-adagj-op-ontology-001",
@@ -1330,42 +1414,70 @@
       "space_id": "space-personal-zero",
       "target_subject_id": "subject-hay2045",
       "target_module_id": "module-governance",
+      "module_code": "governance",
+      "owner_subject_id": "subject-hay2045",
+      "ai_subject_id": "subject-agent-governance",
+      "deputy_subject_id": "",
       "status": "active",
       "priority": "P1",
       "owner_mode": "ai",
+      "thread_id": "thread-adagj-op-ontology-001",
+      "task_kind": "parent",
+      "parent_task_id": "",
+      "depends_on_task_ids": [],
+      "managed_by": "external_active_thread",
+      "intake_run_id": "",
+      "delegation_mode": "external_run",
+      "human_boundary_state": "not_needed",
+      "osa_card_ref": "",
+      "handoff_ref": "",
       "selected_skills": [
         "ai-da-guan-jia"
       ],
       "verification_state": "needs_follow_up",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-op-ontology-001",
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-op-ontology-001",
       "next_action": "先补 canonical -> derived 镜像链",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "last_updated_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_updated_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "task-adagj-client-001",
       "task_id": "task-adagj-client-001",
-      "title": "给客户复制原力治理模板",
+      "title": "给客户复制人机协同 MVP 模板",
       "goal_id": "G2",
       "space_id": "space-client-template",
       "target_subject_id": "subject-hay2045",
       "target_module_id": "module-governance",
+      "module_code": "governance",
+      "owner_subject_id": "subject-hay2045",
+      "ai_subject_id": "subject-agent-governance",
+      "deputy_subject_id": "",
       "status": "active",
       "priority": "P2",
       "owner_mode": "ai",
+      "thread_id": "thread-adagj-client-001",
+      "task_kind": "parent",
+      "parent_task_id": "",
+      "depends_on_task_ids": [],
+      "managed_by": "external_active_thread",
+      "intake_run_id": "",
+      "delegation_mode": "external_run",
+      "human_boundary_state": "not_needed",
+      "osa_card_ref": "",
+      "handoff_ref": "",
       "selected_skills": [
         "ai-da-guan-jia",
         "knowledge-orchestrator"
       ],
       "verification_state": "needs_follow_up",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-client-001",
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-client-001",
       "next_action": "先确认客户要复制到哪一层",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "last_updated_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_updated_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "task-adagj-002",
@@ -1375,19 +1487,33 @@
       "space_id": "space-personal-zero",
       "target_subject_id": "subject-hay2045",
       "target_module_id": "module-governance",
+      "module_code": "governance",
+      "owner_subject_id": "subject-hay2045",
+      "ai_subject_id": "subject-agent-governance",
+      "deputy_subject_id": "",
       "status": "archived",
       "priority": "P2",
       "owner_mode": "ai",
+      "thread_id": "thread-adagj-002",
+      "task_kind": "parent",
+      "parent_task_id": "",
+      "depends_on_task_ids": [],
+      "managed_by": "external_active_thread",
+      "intake_run_id": "",
+      "delegation_mode": "external_run",
+      "human_boundary_state": "not_needed",
+      "osa_card_ref": "",
+      "handoff_ref": "",
       "selected_skills": [
         "knowledge-orchestrator"
       ],
       "verification_state": "verified_or_closed",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-002",
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-002",
       "next_action": "",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "last_updated_at": "2026-03-11T19:39:02+08:00",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "last_updated_at": "2026-03-17T12:19:52+08:00",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "threads": [
@@ -1397,92 +1523,127 @@
       "title": "完成原力治理主图",
       "theme": "G1",
       "goal_id": "G1",
+      "strategy_id": "",
+      "experiment_id": "",
+      "workflow_id": "",
       "space_id": "space-personal-zero",
       "module_id": "module-governance",
       "status": "active",
       "source_run_id": "adagj-001",
+      "entry_mode": "",
+      "parent_task_id": "task-adagj-001",
+      "managed_by": "external_active_thread",
+      "osa_card_ref": "",
       "open_questions": [
-        "先确认 v1 母题范围"
+        "补端点/账号/资产锚点版治理主图，保持 external_active_thread 试点，不做 canonical 迁移"
       ],
       "morning_review_flag": true,
-      "next_review_date": "2026-03-11",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "next_review_date": "2026-03-17",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "thread-adagj-ops-001",
       "thread_id": "thread-adagj-ops-001",
       "title": "内部销售协同节奏梳理",
-      "theme": "G1",
+      "theme": "theme-business",
       "goal_id": "G1",
+      "strategy_id": "",
+      "experiment_id": "",
+      "workflow_id": "",
       "space_id": "space-internal-team",
       "module_id": "module-sales",
       "status": "active",
       "source_run_id": "adagj-ops-001",
+      "entry_mode": "",
+      "parent_task_id": "task-adagj-ops-001",
+      "managed_by": "external_active_thread",
+      "osa_card_ref": "",
       "open_questions": [
         "先确认内部 owner 分工"
       ],
       "morning_review_flag": true,
-      "next_review_date": "2026-03-11",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "next_review_date": "2026-03-17",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "thread-adagj-op-ontology-001",
       "thread_id": "thread-adagj-op-ontology-001",
       "title": "Palantir -> 原力OS operational ontology v0",
-      "theme": "G1",
+      "theme": "theme-governance",
       "goal_id": "G1",
+      "strategy_id": "",
+      "experiment_id": "",
+      "workflow_id": "",
       "space_id": "space-personal-zero",
       "module_id": "module-governance",
       "status": "active",
       "source_run_id": "adagj-op-ontology-001",
+      "entry_mode": "",
+      "parent_task_id": "task-adagj-op-ontology-001",
+      "managed_by": "external_active_thread",
+      "osa_card_ref": "",
       "open_questions": [
         "先补 canonical -> derived 镜像链"
       ],
       "morning_review_flag": true,
-      "next_review_date": "2026-03-11",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "next_review_date": "2026-03-17",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "thread-adagj-client-001",
       "thread_id": "thread-adagj-client-001",
-      "title": "给客户复制原力治理模板",
-      "theme": "G2",
+      "title": "给客户复制人机协同 MVP 模板",
+      "theme": "theme-human-ai-coevolution",
       "goal_id": "G2",
+      "strategy_id": "strategy-human-ai-success-efficiency",
+      "experiment_id": "",
+      "workflow_id": "",
       "space_id": "space-client-template",
       "module_id": "module-governance",
       "status": "active",
       "source_run_id": "adagj-client-001",
+      "entry_mode": "",
+      "parent_task_id": "task-adagj-client-001",
+      "managed_by": "external_active_thread",
+      "osa_card_ref": "",
       "open_questions": [
         "先确认客户要复制到哪一层"
       ],
       "morning_review_flag": true,
-      "next_review_date": "2026-03-11",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "next_review_date": "2026-03-17",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "thread-adagj-002",
       "thread_id": "thread-adagj-002",
       "title": "同步原力知识资产",
-      "theme": "G2",
+      "theme": "theme-human-ai-coevolution",
       "goal_id": "G2",
+      "strategy_id": "strategy-human-ai-success-efficiency",
+      "experiment_id": "",
+      "workflow_id": "",
       "space_id": "space-personal-zero",
       "module_id": "module-governance",
       "status": "archived",
       "source_run_id": "adagj-002",
+      "entry_mode": "",
+      "parent_task_id": "task-adagj-002",
+      "managed_by": "external_active_thread",
+      "osa_card_ref": "",
       "open_questions": [],
       "morning_review_flag": false,
       "next_review_date": "",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.92,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "skills": [
@@ -1499,9 +1660,9 @@
       "complexity_penalty": 1,
       "routing_credit": 77.8,
       "status": "active",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/ai-da-guan-jia/SKILL.md",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/ai-da-guan-jia/SKILL.md",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "knowledge-orchestrator",
@@ -1516,9 +1677,9 @@
       "complexity_penalty": 2,
       "routing_credit": 65.0,
       "status": "active",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/knowledge-orchestrator/SKILL.md",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/knowledge-orchestrator/SKILL.md",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "yuanli-core",
@@ -1533,9 +1694,9 @@
       "complexity_penalty": 2,
       "routing_credit": 97.8,
       "status": "active",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/skills/yuanli-core/SKILL.md",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/skills/yuanli-core/SKILL.md",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "actions": [
@@ -1577,9 +1738,9 @@
         "derived/reports/governance-overview.md"
       ],
       "requires_human_approval": false,
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
       "confidence": 0.96,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "resolve-action",
@@ -1619,9 +1780,9 @@
         "canonical/entities/review_runs.json"
       ],
       "requires_human_approval": true,
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
       "confidence": 0.96,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "publish-governance-report",
@@ -1661,9 +1822,261 @@
         "canonical/entities/assets.json"
       ],
       "requires_human_approval": true,
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
       "confidence": 0.96,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "lead-capture",
+      "action_id": "lead-capture",
+      "title": "录入销售线索",
+      "scenario": "skill_governance",
+      "status": "active",
+      "target_entity_type": "sales_lead",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "lead_id",
+          "component_domain",
+          "evidence_refs"
+        ],
+        "optional": [
+          "source_channel",
+          "owner_mode"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "task_id",
+          "next_action",
+          "writeback_event_type"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/tasks.json",
+        "work/ai-da-guan-jia/artifacts/ai-da-guan-jia/strategy/current/execute-sales-v1.json"
+      ],
+      "requires_human_approval": false,
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "confidence": 0.96,
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "opportunity-qualify",
+      "action_id": "opportunity-qualify",
+      "title": "判定商机是否成立",
+      "scenario": "skill_governance",
+      "status": "active",
+      "target_entity_type": "sales_opportunity",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "opportunity_id",
+          "qualification_signal",
+          "evidence_refs"
+        ],
+        "optional": [
+          "priority_band",
+          "owner_mode"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "decision_summary",
+          "success_state",
+          "writeback_event_type"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/decision_records.json",
+        "work/ai-da-guan-jia/artifacts/ai-da-guan-jia/strategy/current/execute-sales-v1.json"
+      ],
+      "requires_human_approval": false,
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "confidence": 0.96,
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "proposal-quote",
+      "action_id": "proposal-quote",
+      "title": "形成报价与方案",
+      "scenario": "skill_governance",
+      "status": "active",
+      "target_entity_type": "sales_quote",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "quote_id",
+          "opportunity_id",
+          "evidence_refs"
+        ],
+        "optional": [
+          "price_band",
+          "required_human_approval"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "quote_status",
+          "next_action",
+          "writeback_event_type"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/tasks.json",
+        "work/ai-da-guan-jia/artifacts/ai-da-guan-jia/strategy/current/execute-sales-v1.json"
+      ],
+      "requires_human_approval": true,
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "confidence": 0.96,
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "deal-commit",
+      "action_id": "deal-commit",
+      "title": "推动成交承诺",
+      "scenario": "skill_governance",
+      "status": "active",
+      "target_entity_type": "sales_deal",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "deal_id",
+          "commit_signal",
+          "evidence_refs"
+        ],
+        "optional": [
+          "risk_notes",
+          "owner_mode"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "deal_stage",
+          "next_action",
+          "writeback_event_type"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/tasks.json",
+        "canonical/entities/decision_records.json"
+      ],
+      "requires_human_approval": false,
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "confidence": 0.96,
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "deal-close",
+      "action_id": "deal-close",
+      "title": "确认成交结果",
+      "scenario": "skill_governance",
+      "status": "active",
+      "target_entity_type": "sales_deal",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "deal_id",
+          "close_state",
+          "evidence_refs"
+        ],
+        "optional": [
+          "loss_reason",
+          "handoff_required"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "deal_result",
+          "writeback_event_type",
+          "next_action"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/writeback_events.json",
+        "work/ai-da-guan-jia/artifacts/ai-da-guan-jia/strategy/current/execute-sales-v1.json"
+      ],
+      "requires_human_approval": true,
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "confidence": 0.96,
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "post-close-handoff",
+      "action_id": "post-close-handoff",
+      "title": "完成成交后交接",
+      "scenario": "skill_governance",
+      "status": "active",
+      "target_entity_type": "sales_handoff",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "deal_id",
+          "handoff_state",
+          "evidence_refs"
+        ],
+        "optional": [
+          "delivery_owner",
+          "finance_owner"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "handoff_result",
+          "writeback_event_type",
+          "next_action"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/tasks.json",
+        "canonical/entities/threads.json"
+      ],
+      "requires_human_approval": false,
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json",
+      "confidence": 0.96,
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "agent_capabilities": [
@@ -1681,9 +2094,9 @@
         "policy-propose-skill-review"
       ],
       "requires_human_approval": false,
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "capability-review-resolution-draft",
@@ -1699,9 +2112,9 @@
         "policy-resolve-review-action"
       ],
       "requires_human_approval": true,
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "capability-report-publication",
@@ -1717,9 +2130,9 @@
         "policy-publish-derived-report"
       ],
       "requires_human_approval": true,
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
       "confidence": 0.95,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "decision_records": [
@@ -1736,16 +2149,16 @@
       "decision_summary": "Operational ontology v0 is the current G1 implementation priority.",
       "rationale": "Move from Palantir research into schema, action, policy, writeback, and audit implementation.",
       "evidence_refs": [
-        "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json"
+        "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json"
       ],
       "decided_by": "human_owner",
-      "decision_time": "2026-03-11T19:39:02+08:00",
+      "decision_time": "2026-03-17T12:19:52+08:00",
       "writeback_event_ids": [
         "writeback-a1f9d00591"
       ],
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
       "confidence": 0.94,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "decision-b8acc61635",
@@ -1759,14 +2172,14 @@
       "decision_summary": "先补 workflow hardening",
       "rationale": "workflow-hardening",
       "evidence_refs": [
-        "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json"
+        "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json"
       ],
       "decided_by": "",
       "decision_time": "2026-03-11T09:00:00+08:00",
       "writeback_event_ids": [],
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "decision-f3fe8ae34f",
@@ -1780,14 +2193,14 @@
       "decision_summary": "先清理 overlap",
       "rationale": "overlap",
       "evidence_refs": [
-        "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json"
+        "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json"
       ],
       "decided_by": "",
       "decision_time": "2026-03-11T09:00:00+08:00",
       "writeback_event_ids": [],
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "decision-e5db336ab0",
@@ -1801,14 +2214,76 @@
       "decision_summary": "先优化 review 路由",
       "rationale": "routing",
       "evidence_refs": [
-        "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json"
+        "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json"
       ],
       "decided_by": "",
       "decision_time": "2026-03-11T09:00:00+08:00",
       "writeback_event_ids": [],
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json",
       "confidence": 0.88,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "decision-1091defa8f",
+      "decision_id": "decision-1091defa8f",
+      "title": "确认订单 ord-002 已成交并进入赢单证据闭环",
+      "decision_type": "sales_execute_close_won",
+      "decision_state": "approved",
+      "target_entity_ids": [
+        "ord-002",
+        "module-sales"
+      ],
+      "decision_summary": "订单 ord-002 已基于真实订单事实确认 closed_won，并进入可追踪的 execute 证据闭环。",
+      "rationale": "订单事实来自 /private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/consulting-first-batch-orders.json。 匹配现金流 cf-5f9af9b6f1，来源 /private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/cashflow-ledger.csv。",
+      "evidence_refs": [
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/consulting-first-batch-orders.json",
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/cashflow-ledger.csv",
+        "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json"
+      ],
+      "evidence_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json",
+      "decided_by": "automation",
+      "entity_type": "order",
+      "entity_id": "ord-002",
+      "decision_semantics": "deal_closed_won",
+      "next_action": "先补 quote_sent 或阶段时间戳证据，再补 handoff 证据，并补齐缺失 owner/opportunity 的成交订单字段。",
+      "decision_time": "2026-03-17T12:19:52+08:00",
+      "writeback_event_ids": [
+        "writeback-1091defa8f"
+      ],
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json",
+      "confidence": 0.94,
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "decision-aef9c6833d",
+      "decision_id": "decision-aef9c6833d",
+      "title": "确认订单 ord-001 已成交并进入赢单证据闭环",
+      "decision_type": "sales_execute_close_won",
+      "decision_state": "approved",
+      "target_entity_ids": [
+        "ord-001",
+        "opp-001",
+        "module-sales"
+      ],
+      "decision_summary": "订单 ord-001 已基于真实订单事实确认 closed_won，并进入可追踪的 execute 证据闭环。",
+      "rationale": "订单事实来自 /private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/templates/order-facts.json。 暂未匹配到可靠现金流，因此当前赢单证据只基于订单成交事实。 关联机会 opp-001 已纳入 qualified_opportunities 统计。",
+      "evidence_refs": [
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/templates/order-facts.json",
+        "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json"
+      ],
+      "evidence_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json",
+      "decided_by": "automation",
+      "entity_type": "order",
+      "entity_id": "ord-001",
+      "decision_semantics": "deal_closed_won",
+      "next_action": "先补 quote_sent 或阶段时间戳证据，再补 handoff 证据，并补齐缺失 owner/opportunity 的成交订单字段。",
+      "decision_time": "2026-03-17T12:19:52+08:00",
+      "writeback_event_ids": [
+        "writeback-aef9c6833d"
+      ],
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json",
+      "confidence": 0.9,
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "writeback_events": [
@@ -1818,9 +2293,9 @@
       "action_id": "publish-governance-report",
       "decision_id": "decision-18319f80be",
       "target_refs": [
-        "/Users/hay2045/Documents/codex-ai-gua-jia-01/derived/reports/governance-overview.md",
-        "/Users/hay2045/Documents/codex-ai-gua-jia-01/derived/reports/governance-overview.json",
-        "/Users/hay2045/Documents/codex-ai-gua-jia-01/canonical/snapshots/latest.json"
+        "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/governance-overview.md",
+        "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/governance-overview.json",
+        "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/snapshots/latest.json"
       ],
       "changed_fields": [
         "governance_overview",
@@ -1828,15 +2303,79 @@
         "summary_counts"
       ],
       "evidence_refs": [
-        "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-        "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json"
+        "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+        "/Users/liming/Documents/codex-ai-gua-jia-01/specs/action-catalog-v0.json"
       ],
       "triggered_by": "automation",
-      "writeback_time": "2026-03-11T19:39:02+08:00",
+      "writeback_time": "2026-03-17T12:19:52+08:00",
       "verification_state": "completed",
-      "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/derived/reports/governance-overview.md",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/governance-overview.md",
       "confidence": 0.9,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "writeback-1091defa8f",
+      "writeback_id": "writeback-1091defa8f",
+      "action_id": "deal-close",
+      "writeback_type": "deal_closed_won",
+      "decision_id": "decision-1091defa8f",
+      "entity_type": "order",
+      "entity_id": "ord-002",
+      "target_refs": [
+        "canonical://orders/ord-002",
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/consulting-first-batch-orders.json",
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/cashflow-ledger.csv",
+        "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json"
+      ],
+      "changed_fields": [
+        "sales_execute_status",
+        "win_loss_count",
+        "owner_gap"
+      ],
+      "evidence_refs": [
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/consulting-first-batch-orders.json",
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/cashflow-ledger.csv",
+        "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json"
+      ],
+      "evidence_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json",
+      "triggered_by": "automation",
+      "status_after": "closed_won",
+      "writeback_time": "2026-03-17T12:19:52+08:00",
+      "verification_state": "completed",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json",
+      "confidence": 0.94,
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "writeback-aef9c6833d",
+      "writeback_id": "writeback-aef9c6833d",
+      "action_id": "deal-close",
+      "writeback_type": "deal_closed_won",
+      "decision_id": "decision-aef9c6833d",
+      "entity_type": "order",
+      "entity_id": "ord-001",
+      "target_refs": [
+        "canonical://orders/ord-001",
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/templates/order-facts.json",
+        "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json"
+      ],
+      "changed_fields": [
+        "sales_execute_status",
+        "win_loss_count",
+        "qualified_opportunities"
+      ],
+      "evidence_refs": [
+        "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/business/templates/order-facts.json",
+        "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json"
+      ],
+      "evidence_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json",
+      "triggered_by": "automation",
+      "status_after": "closed_won",
+      "writeback_time": "2026-03-17T12:19:52+08:00",
+      "verification_state": "completed",
+      "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/reports/business-ingestion.json",
+      "confidence": 0.9,
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "knowledge_items": [],
@@ -1857,9 +2396,9 @@
       ],
       "human_decision": "",
       "sync_state": "review_synced_applied",
-      "source_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/reviews/2026-03-11/run-01/review.json",
+      "source_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/reviews/2026-03-11/run-01/review.json",
       "confidence": 0.9,
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ],
   "relations": [
@@ -1872,7 +2411,7 @@
       "to_type": "space",
       "to_id": "space-personal-zero",
       "evidence_ref": "generated://space/personal-zero",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-c77bebead0",
@@ -1883,7 +2422,7 @@
       "to_type": "space",
       "to_id": "space-internal-team",
       "evidence_ref": "generated://space/internal-team",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-4a41d7d64f",
@@ -1894,7 +2433,7 @@
       "to_type": "space",
       "to_id": "space-client-template",
       "evidence_ref": "generated://space/client-template",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-0f759e8609",
@@ -1905,7 +2444,7 @@
       "to_type": "space",
       "to_id": "space-downstream-template",
       "evidence_ref": "generated://space/downstream-template",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-5377ac85e0",
@@ -1916,7 +2455,7 @@
       "to_type": "subject",
       "to_id": "subject-hay2045",
       "evidence_ref": "generated://subject/hay2045",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-9e2abac93e",
@@ -1927,7 +2466,7 @@
       "to_type": "subject",
       "to_id": "subject-collab-owner",
       "evidence_ref": "generated://subject/internal-owner",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-18d5e04512",
@@ -1938,7 +2477,7 @@
       "to_type": "subject",
       "to_id": "subject-internal-org",
       "evidence_ref": "generated://subject/internal-org",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-114eb211bb",
@@ -1949,7 +2488,7 @@
       "to_type": "subject",
       "to_id": "subject-client-org-template",
       "evidence_ref": "generated://subject/client-template",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-748cb4d334",
@@ -1960,7 +2499,18 @@
       "to_type": "subject",
       "to_id": "subject-downstream-client-template",
       "evidence_ref": "generated://subject/downstream-template",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "rel-fdf62b9f5b",
+      "relation_id": "rel-fdf62b9f5b",
+      "from_type": "space",
+      "from_id": "space-federation-root",
+      "relation_type": "space_contains_subject",
+      "to_type": "subject",
+      "to_id": "subject-agent-business-deputy",
+      "evidence_ref": "generated://subject-agent/business-deputy",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-376edd456a",
@@ -1971,7 +2521,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-public",
       "evidence_ref": "generated://subject-agent/public",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-5a4799c074",
@@ -1982,7 +2532,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-private",
       "evidence_ref": "generated://subject-agent/private",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-03deb381e0",
@@ -1993,7 +2543,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-sales",
       "evidence_ref": "generated://subject-agent/sales",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-f05782c8b3",
@@ -2004,7 +2554,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-delivery",
       "evidence_ref": "generated://subject-agent/delivery",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-60da9b6cba",
@@ -2015,7 +2565,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-finance",
       "evidence_ref": "generated://subject-agent/finance",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-2f29d5e5e6",
@@ -2026,7 +2576,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-governance",
       "evidence_ref": "generated://subject-agent/governance",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-497b0424f5",
@@ -2037,7 +2587,7 @@
       "to_type": "operating_module",
       "to_id": "module-public",
       "evidence_ref": "generated://module/public",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-c697538b42",
@@ -2048,7 +2598,7 @@
       "to_type": "operating_module",
       "to_id": "module-public",
       "evidence_ref": "generated://module/public",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-d0367ffff8",
@@ -2059,7 +2609,18 @@
       "to_type": "operating_module",
       "to_id": "module-public",
       "evidence_ref": "generated://module/public",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "rel-e778f6918a",
+      "relation_id": "rel-e778f6918a",
+      "from_type": "subject",
+      "from_id": "subject-agent-business-deputy",
+      "relation_type": "ai_deputy_oversees_module",
+      "to_type": "operating_module",
+      "to_id": "module-public",
+      "evidence_ref": "generated://module/public",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-e6f324e270",
@@ -2070,7 +2631,7 @@
       "to_type": "operating_module",
       "to_id": "module-private",
       "evidence_ref": "generated://module/private",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-144749b9ae",
@@ -2081,7 +2642,7 @@
       "to_type": "operating_module",
       "to_id": "module-private",
       "evidence_ref": "generated://module/private",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-9522009cae",
@@ -2092,7 +2653,18 @@
       "to_type": "operating_module",
       "to_id": "module-private",
       "evidence_ref": "generated://module/private",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "rel-1ec48faed5",
+      "relation_id": "rel-1ec48faed5",
+      "from_type": "subject",
+      "from_id": "subject-agent-business-deputy",
+      "relation_type": "ai_deputy_oversees_module",
+      "to_type": "operating_module",
+      "to_id": "module-private",
+      "evidence_ref": "generated://module/private",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-2844536731",
@@ -2103,7 +2675,7 @@
       "to_type": "operating_module",
       "to_id": "module-sales",
       "evidence_ref": "generated://module/sales",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-ff48983863",
@@ -2114,7 +2686,7 @@
       "to_type": "operating_module",
       "to_id": "module-sales",
       "evidence_ref": "generated://module/sales",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-efb8ce9ff6",
@@ -2125,7 +2697,18 @@
       "to_type": "operating_module",
       "to_id": "module-sales",
       "evidence_ref": "generated://module/sales",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "rel-43d1fd0372",
+      "relation_id": "rel-43d1fd0372",
+      "from_type": "subject",
+      "from_id": "subject-agent-business-deputy",
+      "relation_type": "ai_deputy_oversees_module",
+      "to_type": "operating_module",
+      "to_id": "module-sales",
+      "evidence_ref": "generated://module/sales",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-638537c65d",
@@ -2136,7 +2719,7 @@
       "to_type": "operating_module",
       "to_id": "module-delivery",
       "evidence_ref": "generated://module/delivery",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-167b35eb61",
@@ -2147,7 +2730,7 @@
       "to_type": "operating_module",
       "to_id": "module-delivery",
       "evidence_ref": "generated://module/delivery",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-0ea3ce379c",
@@ -2158,7 +2741,7 @@
       "to_type": "operating_module",
       "to_id": "module-delivery",
       "evidence_ref": "generated://module/delivery",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-bb82aad3e0",
@@ -2169,7 +2752,7 @@
       "to_type": "operating_module",
       "to_id": "module-finance",
       "evidence_ref": "generated://module/finance",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-c0af84630c",
@@ -2180,7 +2763,7 @@
       "to_type": "operating_module",
       "to_id": "module-finance",
       "evidence_ref": "generated://module/finance",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-8bc01b56f1",
@@ -2191,7 +2774,7 @@
       "to_type": "operating_module",
       "to_id": "module-finance",
       "evidence_ref": "generated://module/finance",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-4f06ca0bfc",
@@ -2202,7 +2785,7 @@
       "to_type": "operating_module",
       "to_id": "module-governance",
       "evidence_ref": "generated://module/governance",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-e1c127199f",
@@ -2213,7 +2796,7 @@
       "to_type": "operating_module",
       "to_id": "module-governance",
       "evidence_ref": "generated://module/governance",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-1e23bd2928",
@@ -2224,7 +2807,7 @@
       "to_type": "operating_module",
       "to_id": "module-governance",
       "evidence_ref": "generated://module/governance",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-afb217567f",
@@ -2235,7 +2818,7 @@
       "to_type": "endpoint",
       "to_id": "endpoint-local-workstation",
       "evidence_ref": "generated://endpoint/local-workstation",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-a6f636582a",
@@ -2246,7 +2829,7 @@
       "to_type": "endpoint",
       "to_id": "endpoint-terminal-a",
       "evidence_ref": "generated://endpoint/terminal-a",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-618a5b9348",
@@ -2257,7 +2840,7 @@
       "to_type": "endpoint",
       "to_id": "endpoint-terminal-b",
       "evidence_ref": "generated://endpoint/terminal-b",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-a1f3d98faa",
@@ -2268,7 +2851,7 @@
       "to_type": "endpoint",
       "to_id": "endpoint-terminal-c",
       "evidence_ref": "generated://endpoint/terminal-c",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-22abb59fe9",
@@ -2279,7 +2862,7 @@
       "to_type": "endpoint",
       "to_id": "endpoint-feishu-mobile",
       "evidence_ref": "generated://endpoint/feishu-mobile",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-51323d8257",
@@ -2290,7 +2873,7 @@
       "to_type": "account",
       "to_id": "account-github",
       "evidence_ref": "generated://account/github",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-5886315167",
@@ -2301,7 +2884,7 @@
       "to_type": "account",
       "to_id": "account-github",
       "evidence_ref": "generated://account/github",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-60be99c4dd",
@@ -2312,7 +2895,7 @@
       "to_type": "account",
       "to_id": "account-feishu",
       "evidence_ref": "generated://account/feishu",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-87dbe99f93",
@@ -2323,7 +2906,7 @@
       "to_type": "account",
       "to_id": "account-feishu",
       "evidence_ref": "generated://account/feishu",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-3452db5ed5",
@@ -2334,7 +2917,7 @@
       "to_type": "account",
       "to_id": "account-wechat",
       "evidence_ref": "generated://account/wechat",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-f29df72010",
@@ -2345,7 +2928,7 @@
       "to_type": "account",
       "to_id": "account-wechat",
       "evidence_ref": "generated://account/wechat",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-0f1991f72a",
@@ -2356,7 +2939,7 @@
       "to_type": "account",
       "to_id": "account-video-channel",
       "evidence_ref": "generated://account/video-channel",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-717c748649",
@@ -2367,7 +2950,7 @@
       "to_type": "account",
       "to_id": "account-video-channel",
       "evidence_ref": "generated://account/video-channel",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-316da6b18a",
@@ -2378,7 +2961,7 @@
       "to_type": "account",
       "to_id": "account-bilibili",
       "evidence_ref": "generated://account/bilibili",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-33e0fa0301",
@@ -2389,7 +2972,7 @@
       "to_type": "account",
       "to_id": "account-bilibili",
       "evidence_ref": "generated://account/bilibili",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-e653674a16",
@@ -2400,7 +2983,7 @@
       "to_type": "account",
       "to_id": "account-douyin",
       "evidence_ref": "generated://account/douyin",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-170d270009",
@@ -2411,7 +2994,7 @@
       "to_type": "account",
       "to_id": "account-douyin",
       "evidence_ref": "generated://account/douyin",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-e6cb1057a3",
@@ -2422,7 +3005,7 @@
       "to_type": "account",
       "to_id": "account-xiaohongshu",
       "evidence_ref": "generated://account/xiaohongshu",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-2d71c6dfe5",
@@ -2433,7 +3016,7 @@
       "to_type": "account",
       "to_id": "account-xiaohongshu",
       "evidence_ref": "generated://account/xiaohongshu",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-2e777975c2",
@@ -2444,7 +3027,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-governance",
       "evidence_ref": "generated://skill-enables-agent/ai-da-guan-jia",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-16a6cb0e63",
@@ -2455,7 +3038,29 @@
       "to_type": "subject",
       "to_id": "subject-agent-governance",
       "evidence_ref": "generated://skill-enables-agent/knowledge-orchestrator",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "rel-eaad7e0fc9",
+      "relation_id": "rel-eaad7e0fc9",
+      "from_type": "skill",
+      "from_id": "knowledge-orchestrator",
+      "relation_type": "skill_enables_agent",
+      "to_type": "subject",
+      "to_id": "subject-agent-business-deputy",
+      "evidence_ref": "generated://skill-enables-agent/knowledge-orchestrator",
+      "updated_at": "2026-03-17T12:19:52+08:00"
+    },
+    {
+      "id": "rel-b561e9083e",
+      "relation_id": "rel-b561e9083e",
+      "from_type": "skill",
+      "from_id": "yuanli-core",
+      "relation_type": "skill_enables_agent",
+      "to_type": "subject",
+      "to_id": "subject-agent-business-deputy",
+      "evidence_ref": "generated://skill-enables-agent/yuanli-core",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-0845f96c0e",
@@ -2466,7 +3071,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-public",
       "evidence_ref": "generated://skill-enables-agent/yuanli-core",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-bf60ab1135",
@@ -2477,7 +3082,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-private",
       "evidence_ref": "generated://skill-enables-agent/knowledge-orchestrator",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-e1c4b84c0f",
@@ -2488,7 +3093,7 @@
       "to_type": "subject",
       "to_id": "subject-agent-sales",
       "evidence_ref": "generated://skill-enables-agent/knowledge-orchestrator",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-47701fd3fc",
@@ -2499,73 +3104,73 @@
       "to_type": "subject",
       "to_id": "subject-agent-delivery",
       "evidence_ref": "generated://skill-enables-agent/yuanli-core",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-e8c56ec68a",
-      "relation_id": "rel-e8c56ec68a",
+      "id": "rel-3e6e306456",
+      "relation_id": "rel-3e6e306456",
       "from_type": "asset",
-      "from_id": "asset-f5fa597fde",
+      "from_id": "asset-bcab704d7b",
       "relation_type": "asset_supports_account",
       "to_type": "account",
       "to_id": "account-github",
       "evidence_ref": "generated://asset-supports-account/github",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-65dd2ca163",
-      "relation_id": "rel-65dd2ca163",
+      "id": "rel-94dcc34944",
+      "relation_id": "rel-94dcc34944",
       "from_type": "asset",
-      "from_id": "asset-f5fa597fde",
+      "from_id": "asset-bcab704d7b",
       "relation_type": "asset_supports_account",
       "to_type": "account",
       "to_id": "account-feishu",
       "evidence_ref": "generated://asset-supports-account/feishu",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-e508c7e20e",
-      "relation_id": "rel-e508c7e20e",
+      "id": "rel-daed7e8b0d",
+      "relation_id": "rel-daed7e8b0d",
       "from_type": "asset",
-      "from_id": "asset-f5fa597fde",
+      "from_id": "asset-bcab704d7b",
       "relation_type": "asset_supports_module",
       "to_type": "operating_module",
       "to_id": "module-governance",
       "evidence_ref": "generated://asset-supports-module/governance-dashboard",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-f53e7b9a16",
-      "relation_id": "rel-f53e7b9a16",
+      "id": "rel-8b41c349a0",
+      "relation_id": "rel-8b41c349a0",
       "from_type": "asset",
-      "from_id": "asset-961ab2f1a6",
+      "from_id": "asset-bb4c21b446",
       "relation_type": "asset_supports_module",
       "to_type": "operating_module",
       "to_id": "module-governance",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-a9431e1a98",
-      "relation_id": "rel-a9431e1a98",
+      "id": "rel-88fd14a486",
+      "relation_id": "rel-88fd14a486",
       "from_type": "asset",
-      "from_id": "asset-961ab2f1a6",
+      "from_id": "asset-bb4c21b446",
       "relation_type": "asset_supports_module",
       "to_type": "operating_module",
       "to_id": "module-public",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-f819a7fc28",
-      "relation_id": "rel-f819a7fc28",
+      "id": "rel-9d2eac554c",
+      "relation_id": "rel-9d2eac554c",
       "from_type": "asset",
-      "from_id": "asset-dcc70fe0a8",
+      "from_id": "asset-3ba74cfeb9",
       "relation_type": "asset_supports_module",
       "to_type": "operating_module",
       "to_id": "module-governance",
       "evidence_ref": "generated://asset-supports-module/daily-review",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-f3ceb43990",
@@ -2575,30 +3180,30 @@
       "relation_type": "task_belongs_to_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-670ea82b6f",
-      "relation_id": "rel-670ea82b6f",
+      "id": "rel-2d3885493b",
+      "relation_id": "rel-2d3885493b",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-af946a07f3",
-      "relation_id": "rel-af946a07f3",
+      "id": "rel-50e777dc79",
+      "relation_id": "rel-50e777dc79",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-8ec72c8757",
@@ -2608,8 +3213,8 @@
       "relation_type": "task_targets_subject",
       "to_type": "subject",
       "to_id": "subject-hay2045",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-3799e6a6b4",
@@ -2619,8 +3224,8 @@
       "relation_type": "task_targets_module",
       "to_type": "operating_module",
       "to_id": "module-governance",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-1d043f14b6",
@@ -2630,8 +3235,8 @@
       "relation_type": "thread_tracks_space",
       "to_type": "space",
       "to_id": "space-personal-zero",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-08a5cc1fb9",
@@ -2641,8 +3246,8 @@
       "relation_type": "skill_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-133394a696",
@@ -2652,8 +3257,8 @@
       "relation_type": "skill_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-bb4cc00953",
@@ -2663,8 +3268,8 @@
       "relation_type": "skill_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-f18008356b",
@@ -2674,19 +3279,19 @@
       "relation_type": "skill_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-741baa2718",
-      "relation_id": "rel-741baa2718",
+      "id": "rel-8ee57401ff",
+      "relation_id": "rel-8ee57401ff",
       "from_type": "asset",
-      "from_id": "asset-961ab2f1a6",
+      "from_id": "asset-bb4c21b446",
       "relation_type": "asset_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-0049e80df7",
@@ -2696,30 +3301,30 @@
       "relation_type": "task_belongs_to_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-ops-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-ops-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-ops-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-d3820a2144",
-      "relation_id": "rel-d3820a2144",
+      "id": "rel-ea49a4a6a7",
+      "relation_id": "rel-ea49a4a6a7",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-ops-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-4f0329c632",
-      "relation_id": "rel-4f0329c632",
+      "id": "rel-2bc0cdec63",
+      "relation_id": "rel-2bc0cdec63",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-ops-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-039853088b",
@@ -2729,8 +3334,8 @@
       "relation_type": "task_targets_subject",
       "to_type": "subject",
       "to_id": "subject-collab-owner",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-ops-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-ops-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-9f94338b6d",
@@ -2740,8 +3345,8 @@
       "relation_type": "task_targets_module",
       "to_type": "operating_module",
       "to_id": "module-sales",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-ops-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-ops-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-1c0a44372c",
@@ -2751,8 +3356,8 @@
       "relation_type": "thread_tracks_space",
       "to_type": "space",
       "to_id": "space-internal-team",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-ops-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-ops-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-f4e31bcb0a",
@@ -2762,8 +3367,8 @@
       "relation_type": "skill_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-ops-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-ops-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-ops-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-7b2763f5a6",
@@ -2773,8 +3378,8 @@
       "relation_type": "skill_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-ops-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-ops-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-ops-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-9120848688",
@@ -2784,30 +3389,30 @@
       "relation_type": "task_belongs_to_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-op-ontology-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-op-ontology-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-op-ontology-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-0cf9790e1d",
-      "relation_id": "rel-0cf9790e1d",
+      "id": "rel-b68124cf31",
+      "relation_id": "rel-b68124cf31",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-op-ontology-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-2d919fce11",
-      "relation_id": "rel-2d919fce11",
+      "id": "rel-0f3da9eaaa",
+      "relation_id": "rel-0f3da9eaaa",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-op-ontology-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-b954750560",
@@ -2817,8 +3422,8 @@
       "relation_type": "task_targets_subject",
       "to_type": "subject",
       "to_id": "subject-hay2045",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-op-ontology-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-op-ontology-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-f6250a7df9",
@@ -2828,8 +3433,8 @@
       "relation_type": "task_targets_module",
       "to_type": "operating_module",
       "to_id": "module-governance",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-op-ontology-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-op-ontology-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-5e6bb6ce70",
@@ -2839,8 +3444,8 @@
       "relation_type": "thread_tracks_space",
       "to_type": "space",
       "to_id": "space-personal-zero",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-op-ontology-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-op-ontology-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-255835c4b5",
@@ -2850,8 +3455,8 @@
       "relation_type": "skill_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-op-ontology-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-op-ontology-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-op-ontology-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-8c80571351",
@@ -2861,19 +3466,19 @@
       "relation_type": "skill_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-op-ontology-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-op-ontology-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-op-ontology-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-0ea36b6e8a",
-      "relation_id": "rel-0ea36b6e8a",
+      "id": "rel-8ebc0e0584",
+      "relation_id": "rel-8ebc0e0584",
       "from_type": "asset",
-      "from_id": "asset-961ab2f1a6",
+      "from_id": "asset-bb4c21b446",
       "relation_type": "asset_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-op-ontology-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-2a083dae13",
@@ -2883,30 +3488,30 @@
       "relation_type": "task_belongs_to_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-client-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-client-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-client-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-9fd1595be4",
-      "relation_id": "rel-9fd1595be4",
+      "id": "rel-6c6ef7e45d",
+      "relation_id": "rel-6c6ef7e45d",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-client-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-f10c805e59",
-      "relation_id": "rel-f10c805e59",
+      "id": "rel-93feaf7f07",
+      "relation_id": "rel-93feaf7f07",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-client-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-77cbb28bf5",
@@ -2916,8 +3521,8 @@
       "relation_type": "task_targets_subject",
       "to_type": "subject",
       "to_id": "subject-hay2045",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-client-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-client-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-4a6ddd7ffb",
@@ -2927,8 +3532,8 @@
       "relation_type": "task_targets_module",
       "to_type": "operating_module",
       "to_id": "module-governance",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-client-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-client-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-1c2e65261c",
@@ -2938,8 +3543,8 @@
       "relation_type": "thread_tracks_space",
       "to_type": "space",
       "to_id": "space-client-template",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-client-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-client-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-9d0398dfbc",
@@ -2949,8 +3554,8 @@
       "relation_type": "skill_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-client-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-client-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-client-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-8e790673bd",
@@ -2960,8 +3565,8 @@
       "relation_type": "skill_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-client-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-client-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-client-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-c0a4c52c8d",
@@ -2971,8 +3576,8 @@
       "relation_type": "skill_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-client-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-client-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-client-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-34c9ebc479",
@@ -2982,19 +3587,8 @@
       "relation_type": "skill_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-client-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-client-001",
-      "updated_at": "2026-03-11T19:39:02+08:00"
-    },
-    {
-      "id": "rel-2a45807966",
-      "relation_id": "rel-2a45807966",
-      "from_type": "asset",
-      "from_id": "asset-961ab2f1a6",
-      "relation_type": "asset_supports_thread",
-      "to_type": "thread",
-      "to_id": "thread-adagj-client-001",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-client-001",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-886e0250ad",
@@ -3004,30 +3598,30 @@
       "relation_type": "task_belongs_to_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-002",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-002",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-002",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-17e8e767ea",
-      "relation_id": "rel-17e8e767ea",
+      "id": "rel-2383fd61ba",
+      "relation_id": "rel-2383fd61ba",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-002",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-458c8ccdc4",
-      "relation_id": "rel-458c8ccdc4",
+      "id": "rel-14af3bb498",
+      "relation_id": "rel-14af3bb498",
       "from_type": "asset",
-      "from_id": "asset-ef08f34c37",
+      "from_id": "asset-1b316c178a",
       "relation_type": "asset_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-002",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-085f0fd27d",
@@ -3037,8 +3631,8 @@
       "relation_type": "task_targets_subject",
       "to_type": "subject",
       "to_id": "subject-hay2045",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-002",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-002",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-b08a7a263a",
@@ -3048,8 +3642,8 @@
       "relation_type": "task_targets_module",
       "to_type": "operating_module",
       "to_id": "module-governance",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-002",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-002",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-acb508655c",
@@ -3059,8 +3653,8 @@
       "relation_type": "thread_tracks_space",
       "to_type": "space",
       "to_id": "space-personal-zero",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-002",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-002",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-ed55a8a23a",
@@ -3070,8 +3664,8 @@
       "relation_type": "skill_supports_task",
       "to_type": "task",
       "to_id": "task-adagj-002",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-002",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-002",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
       "id": "rel-e569e8a2cd",
@@ -3081,19 +3675,19 @@
       "relation_type": "skill_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-002",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/strategy/current/active-threads.json#adagj-002",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/strategy/current/active-threads.json#adagj-002",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     },
     {
-      "id": "rel-a2a12b7bf7",
-      "relation_id": "rel-a2a12b7bf7",
+      "id": "rel-83aed2351a",
+      "relation_id": "rel-83aed2351a",
       "from_type": "asset",
-      "from_id": "asset-961ab2f1a6",
+      "from_id": "asset-bb4c21b446",
       "relation_type": "asset_supports_thread",
       "to_type": "thread",
       "to_id": "thread-adagj-002",
-      "evidence_ref": "/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmp6ff46f5s/ontology.db",
-      "updated_at": "2026-03-11T19:39:02+08:00"
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpkv7gw1wk/ontology.db",
+      "updated_at": "2026-03-17T12:19:52+08:00"
     }
   ]
 }

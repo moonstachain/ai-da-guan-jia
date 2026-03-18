@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "component-heatmap.schema.json",
+  "title": "组件热图",
+  "description": "CBM 双轴的可执行表达。每个 component_domain × control_level 交叉格子的状态。",
+  "type": "object",
+  "required": ["timestamp", "cells"],
+  "properties": {
+    "timestamp": { "type": "string", "format": "date-time" },
+    "cells": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["component_domain", "control_level", "maturity", "kpi_hint", "current_gap", "priority_band"],
+        "properties": {
+          "component_domain": {
+            "type": "string",
+            "enum": ["governance", "sales", "delivery", "clone"]
+          },
+          "control_level": {
+            "type": "string",
+            "enum": ["direct", "control", "execute"]
+          },
+          "maturity": {
+            "type": "string",
+            "enum": ["mature", "has_skeleton", "front_half", "weak", "not_started"],
+            "description": "当前成熟度"
+          },
+          "kpi_hint": { "type": "string" },
+          "current_gap": { "type": "string" },
+          "priority_band": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "human_owner": { "type": "string" },
+          "ai_copilot": { "type": "string" },
+          "owner_gap": {
+            "type": "boolean",
+            "description": "是否缺 owner"
+          },
+          "evidence_strength": {
+            "type": "string",
+            "enum": ["strong", "moderate", "weak", "none"]
+          },
+          "next_action": { "type": "string" },
+          "latest_decision_ref": { "type": "string" },
+          "latest_writeback_ref": { "type": "string" }
+        }
+      }
+    }
+  }
+}

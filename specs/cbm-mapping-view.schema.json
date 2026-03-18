@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CBM Mapping View",
+  "type": "object",
+  "required": ["meta", "summary", "rows"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["generated_at", "artifact_role", "schema_path", "source_documents", "source_model"],
+      "properties": {
+        "generated_at": { "type": "string" },
+        "artifact_role": { "const": "cbm_mapping_view" },
+        "schema_path": { "type": "string" },
+        "source_documents": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "source_model": {
+          "type": "object",
+          "required": ["horizontal_axis", "vertical_axis"],
+          "properties": {
+            "horizontal_axis": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "vertical_axis": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["direct", "control", "execute"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "overall_verdict",
+        "absorption_range",
+        "rows_total",
+        "rows_with_action_refs",
+        "rows_with_writeback",
+        "rows_with_workflow_binding",
+        "major_gaps"
+      ],
+      "properties": {
+        "overall_verdict": { "type": "string" },
+        "absorption_range": { "type": "string" },
+        "rows_total": { "type": "integer" },
+        "rows_with_action_refs": { "type": "integer" },
+        "rows_with_writeback": { "type": "integer" },
+        "rows_with_workflow_binding": { "type": "integer" },
+        "major_gaps": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "component_domain",
+          "control_level",
+          "goal_id",
+          "theme_id",
+          "strategy_id",
+          "experiment_id",
+          "workflow_id",
+          "entity_refs",
+          "action_refs",
+          "kpi_refs",
+          "evidence_refs"
+        ],
+        "properties": {
+          "component_domain": { "type": "string" },
+          "control_level": {
+            "type": "string",
+            "enum": ["direct", "control", "execute"]
+          },
+          "goal_id": { "type": "string" },
+          "theme_id": { "type": "string" },
+          "strategy_id": { "type": "string" },
+          "experiment_id": { "type": "string" },
+          "workflow_id": { "type": "string" },
+          "entity_refs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["entity_type", "entity_id", "title", "source_ref"],
+              "properties": {
+                "entity_type": { "type": "string" },
+                "entity_id": { "type": "string" },
+                "title": { "type": "string" },
+                "source_ref": { "type": "string" },
+                "owner_mode": { "type": "string" },
+                "status": { "type": "string" }
+              }
+            }
+          },
+          "action_refs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "action_id",
+                "title",
+                "state",
+                "requires_human_approval",
+                "writeback_targets",
+                "writeback_event_ids",
+                "source_ref"
+              ],
+              "properties": {
+                "action_id": { "type": "string" },
+                "title": { "type": "string" },
+                "state": { "type": "string" },
+                "requires_human_approval": { "type": "boolean" },
+                "writeback_targets": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "writeback_event_ids": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "source_ref": { "type": "string" }
+              }
+            }
+          },
+          "kpi_refs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "coverage_status": { "type": "string" },
+          "gap_notes": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

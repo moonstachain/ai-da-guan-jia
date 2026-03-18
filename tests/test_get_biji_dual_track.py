@@ -12,7 +12,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 
-PROJECT_ROOT = Path("/Users/hay2045/Documents/codex-ai-gua-jia-01")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SCRIPT_ROOT = PROJECT_ROOT / "work" / "ai-da-guan-jia" / "scripts"
 
 
@@ -130,12 +130,61 @@ class GetBijiDualTrackTest(unittest.TestCase):
         self.assertEqual(plan["primary_action"], "get_biji.fetch_original")
         self.assertEqual(plan["recommended_actions"][0]["inputs"]["note_id"], "1903496783305829808")
 
+    def test_plan_get_biji_actions_detects_bilibili_up_batch(self) -> None:
+        plan = self.ai_da_guan_jia.plan_get_biji_actions(
+            "帮我把这个UP https://space.bilibili.com/385670211 所有视频的链接都导进 Get笔记"
+        )
+        self.assertEqual(plan["primary_action"], "get_biji.up_batch")
+        self.assertEqual(plan["recommended_actions"][0]["inputs"]["mode"], "transcribe-link")
+
     def test_plan_get_biji_actions_builds_mixed_step_chain(self) -> None:
         plan = self.ai_da_guan_jia.plan_get_biji_actions("把这个视频记到 Get笔记里，然后给我逐字稿，后面我还要继续问它")
         self.assertEqual(plan["primary_action"], "get_biji.ingest_link")
         self.assertGreaterEqual(len(plan["recommended_actions"]), 2)
         self.assertEqual(plan["recommended_actions"][0]["inputs"]["mode"], "transcribe-link")
         self.assertEqual(plan["recommended_actions"][1]["action"], "get_biji.ask")
+
+    def test_extract_bilibili_video_entries_from_html_dedupes_and_normalizes(self) -> None:
+        html = """
+        <div>
+          <a href="//www.bilibili.com/video/BV1abc123xyz/?spm_id_from=333.999" title="第一条视频">ignore</a>
+          <a href="https://www.bilibili.com/video/BV1abc123xyz/?from=search">重复视频</a>
+          <a href="/video/BV9zzZ888888?p=2"><span>第二条 视频</span></a>
+        </div>
+        """
+        entries = self.ai_da_guan_jia.extract_bilibili_video_entries_from_html(
+            html,
+            "https://space.bilibili.com/385670211/video",
+        )
+        self.assertEqual(len(entries), 2)
+        self.assertEqual(entries[0]["video_url"], "https://www.bilibili.com/video/BV1abc123xyz/")
+        self.assertEqual(entries[0]["title"], "第一条视频")
+        self.assertEqual(entries[1]["video_url"], "https://www.bilibili.com/video/BV9zzZ888888/")
+
+    def test_classify_get_biji_batch_item_handles_transcript_summary_and_login_block(self) -> None:
+        transcript = self.ai_da_guan_jia.classify_get_biji_batch_item(
+            {
+                "verification_note": "Get笔记 web ingestion succeeded and produced an original transcript artifact.",
+                "metadata": {"transcript_txt": "/tmp/a.txt", "note_id": "1"},
+            }
+        )
+        summary = self.ai_da_guan_jia.classify_get_biji_batch_item(
+            {
+                "verification_note": "Get笔记 imported the link but only exposed a summary note, not an original transcript.",
+                "metadata": {"note_id": "2"},
+            }
+        )
+        blocked = self.ai_da_guan_jia.classify_get_biji_batch_item(
+            {
+                "verification_note": "Get笔记 session is not logged in.",
+                "metadata": {},
+            }
+        )
+        self.assertEqual(transcript["status"], "transcript_ready")
+        self.assertEqual(summary["status"], "summary_only")
+        self.assertFalse(summary["blocking"])
+        self.assertEqual(blocked["status"], "blocked_or_failed")
+        self.assertTrue(blocked["blocking"])
 
     def test_get_biji_signal_prefers_transcript_skill(self) -> None:
         signals = self.ai_da_guan_jia.detect_signals("帮我用 Get笔记 导入链接并找逐字稿")
@@ -195,6 +244,123 @@ class GetBijiDualTrackTest(unittest.TestCase):
                         self.assertTrue(record["success"])
                         self.assertTrue(record["metadata"]["deduped"])
                         self.assertEqual(record["metadata"]["note_id"], "1903496783305829808")
+
+    def test_execute_get_biji_up_batch_writes_results_with_summary_classification(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            run_dir = Path(tempdir) / "runs" / "adagj-up-batch"
+            run_dir.mkdir(parents=True, exist_ok=True)
+            manifest = {
+                "up_url": "https://space.bilibili.com/385670211/video",
+                "entry_count": 2,
+                "pages_checked": 1,
+                "entries": [
+                    {"ordinal": 1, "title": "视频一", "video_url": "https://www.bilibili.com/video/BV1aaa111111/"},
+                    {"ordinal": 2, "title": "视频二", "video_url": "https://www.bilibili.com/video/BV2bbb222222/"},
+                ],
+            }
+
+            def fake_ingest(args, item_run_dir, item_run_id):
+                item_run_dir.mkdir(parents=True, exist_ok=True)
+                if "BV1aaa111111" in args.link:
+                    payload = {
+                        "run_id": item_run_id,
+                        "success": True,
+                        "verification_note": "Get笔记 web ingestion succeeded and produced an original transcript artifact.",
+                        "metadata": {"transcript_txt": str(item_run_dir / "transcript.txt"), "note_id": "n1"},
+                    }
+                    (item_run_dir / "transcript.txt").write_text("ok\n", encoding="utf-8")
+                    exit_code = 0
+                else:
+                    payload = {
+                        "run_id": item_run_id,
+                        "success": False,
+                        "verification_note": "Get笔记 imported the link but only exposed a summary note, not an original transcript.",
+                        "metadata": {"note_id": "n2"},
+                    }
+                    exit_code = 1
+                (item_run_dir / "get-biji-record.json").write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+                return exit_code
+
+            args = self.ai_da_guan_jia.argparse.Namespace(
+                up_url="https://space.bilibili.com/385670211",
+                mode="transcribe-link",
+                limit=0,
+                verify_feishu=False,
+                timeout_seconds=120,
+                manifest_timeout_seconds=30,
+            )
+            with patch.object(self.ai_da_guan_jia, "collect_bilibili_up_video_manifest", return_value=manifest):
+                with patch.object(self.ai_da_guan_jia, "execute_get_biji_ingest_link", side_effect=fake_ingest):
+                    with patch.object(
+                        self.ai_da_guan_jia,
+                        "verify_get_biji_batch_outputs",
+                        return_value={
+                            "transcript_check": {"status": "passed"},
+                            "knowledge_check": {"status": "passed"},
+                            "feishu_check": {"status": "skipped"},
+                        },
+                    ):
+                        exit_code = self.ai_da_guan_jia.execute_get_biji_up_batch(args, run_dir, "adagj-up-batch")
+            results = json.loads((run_dir / "batch-results.json").read_text(encoding="utf-8"))
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(results["stats"]["transcript_ready"], 1)
+            self.assertEqual(results["stats"]["summary_only"], 1)
+            self.assertEqual(results["items"][1]["status"], "summary_only")
+            self.assertTrue((run_dir / "bilibili-manifest.json").exists())
+            self.assertTrue((run_dir / "summary.md").exists())
+
+    def test_execute_get_biji_up_batch_stops_on_login_block(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            run_dir = Path(tempdir) / "runs" / "adagj-up-batch-blocked"
+            run_dir.mkdir(parents=True, exist_ok=True)
+            manifest = {
+                "up_url": "https://space.bilibili.com/385670211/video",
+                "entry_count": 2,
+                "pages_checked": 1,
+                "entries": [
+                    {"ordinal": 1, "title": "视频一", "video_url": "https://www.bilibili.com/video/BV1aaa111111/"},
+                    {"ordinal": 2, "title": "视频二", "video_url": "https://www.bilibili.com/video/BV2bbb222222/"},
+                ],
+            }
+            processed: list[str] = []
+
+            def fake_ingest(args, item_run_dir, item_run_id):
+                processed.append(args.link)
+                item_run_dir.mkdir(parents=True, exist_ok=True)
+                payload = {
+                    "run_id": item_run_id,
+                    "success": False,
+                    "verification_note": "Get笔记 session is not logged in.",
+                    "metadata": {},
+                }
+                (item_run_dir / "get-biji-record.json").write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+                return 1
+
+            args = self.ai_da_guan_jia.argparse.Namespace(
+                up_url="https://space.bilibili.com/385670211",
+                mode="transcribe-link",
+                limit=0,
+                verify_feishu=False,
+                timeout_seconds=120,
+                manifest_timeout_seconds=30,
+            )
+            with patch.object(self.ai_da_guan_jia, "collect_bilibili_up_video_manifest", return_value=manifest):
+                with patch.object(self.ai_da_guan_jia, "execute_get_biji_ingest_link", side_effect=fake_ingest):
+                    with patch.object(
+                        self.ai_da_guan_jia,
+                        "verify_get_biji_batch_outputs",
+                        return_value={
+                            "transcript_check": {"status": "not_run"},
+                            "knowledge_check": {"status": "not_run"},
+                            "feishu_check": {"status": "skipped"},
+                        },
+                    ):
+                        exit_code = self.ai_da_guan_jia.execute_get_biji_up_batch(args, run_dir, "adagj-up-batch-blocked")
+            results = json.loads((run_dir / "batch-results.json").read_text(encoding="utf-8"))
+            self.assertEqual(exit_code, 1)
+            self.assertEqual(len(processed), 1)
+            self.assertTrue(results["stats"]["blocked"])
+            self.assertEqual(results["items"][0]["status"], "blocked_or_failed")
 
     def test_command_route_writes_get_biji_action_guidance(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:

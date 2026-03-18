@@ -15,7 +15,7 @@
     ],
     "source_ref": "generated://subject/hay2045",
     "confidence": 0.96,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-collab-owner",
@@ -33,7 +33,7 @@
     ],
     "source_ref": "generated://subject/internal-owner",
     "confidence": 0.88,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-internal-org",
@@ -52,7 +52,7 @@
     ],
     "source_ref": "generated://subject/internal-org",
     "confidence": 0.9,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-client-org-template",
@@ -71,7 +71,7 @@
     ],
     "source_ref": "generated://subject/client-template",
     "confidence": 0.85,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-downstream-client-template",
@@ -89,7 +89,25 @@
     ],
     "source_ref": "generated://subject/downstream-template",
     "confidence": 0.82,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
+  },
+  {
+    "id": "subject-agent-business-deputy",
+    "subject_id": "subject-agent-business-deputy",
+    "title": "业务增长 Deputy",
+    "subject_type": "ai_agent",
+    "space_id": "space-federation-root",
+    "status": "active",
+    "owner_mode": "ai",
+    "autonomy_tier": "deputy",
+    "responsibility_scope": [
+      "public",
+      "private",
+      "sales"
+    ],
+    "source_ref": "generated://subject-agent/business-deputy",
+    "confidence": 0.95,
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-agent-public",
@@ -105,7 +123,7 @@
     ],
     "source_ref": "generated://subject-agent/public",
     "confidence": 0.94,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-agent-private",
@@ -121,7 +139,7 @@
     ],
     "source_ref": "generated://subject-agent/private",
     "confidence": 0.94,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-agent-sales",
@@ -137,7 +155,7 @@
     ],
     "source_ref": "generated://subject-agent/sales",
     "confidence": 0.94,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-agent-delivery",
@@ -153,7 +171,7 @@
     ],
     "source_ref": "generated://subject-agent/delivery",
     "confidence": 0.94,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-agent-finance",
@@ -169,7 +187,7 @@
     ],
     "source_ref": "generated://subject-agent/finance",
     "confidence": 0.94,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "subject-agent-governance",
@@ -185,6 +203,6 @@
     ],
     "source_ref": "generated://subject-agent/governance",
     "confidence": 0.97,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   }
 ]

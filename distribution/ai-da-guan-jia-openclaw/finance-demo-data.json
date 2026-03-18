@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "source_label": "bundled_demo_dataset",
+    "as_of": "2026-03-14T15:00:00+08:00",
+    "note": "Demo-only dataset for local previews and tests. Not real-time market data."
+  },
+  "news": [
+    {
+      "title": "半导体设备板块午后走强，国产替代预期再升温",
+      "summary": "多只半导体设备股午后走强，市场继续围绕国产替代与先进制程扩产预期交易。",
+      "content": "半导体设备、晶圆制造与封测链条出现联动，板块情绪回暖。",
+      "source": "DemoWire",
+      "published_at": "2026-03-14T14:18:00+08:00"
+    },
+    {
+      "title": "算力与先进封装主题共振，机构关注半导体上游材料",
+      "summary": "先进封装与算力主题共振，带动半导体材料与设备链关注度上行。",
+      "content": "机构观点认为，先进封装和算力基础设施会继续拉动半导体产业链投资节奏。",
+      "source": "DemoTerminal",
+      "published_at": "2026-03-14T10:05:00+08:00"
+    },
+    {
+      "title": "银行板块估值修复延续，红利风格再受关注",
+      "summary": "大型银行与区域银行估值修复延续，红利资金继续偏好低波动资产。",
+      "content": "分析师认为，稳健分红预期支撑了银行板块的估值修复。",
+      "source": "DemoWire",
+      "published_at": "2026-03-13T16:30:00+08:00"
+    }
+  ],
+  "securities": [
+    {
+      "kind": "stock",
+      "name": "平安银行",
+      "symbol": "000001",
+      "ts_code": "000001.SZ",
+      "aliases": ["平安银行", "000001.SZ", "000001"],
+      "industry": "银行",
+      "quote": {
+        "close": 12.84,
+        "pct_change": 1.42,
+        "trade_date": "20260314"
+      },
+      "fundamentals": {
+        "pe": 6.8,
+        "pb": 0.72,
+        "revenue_yoy": 4.3,
+        "roe": 10.8,
+        "report_end_date": "20251231"
+      }
+    },
+    {
+      "kind": "stock",
+      "name": "中芯国际",
+      "symbol": "688981",
+      "ts_code": "688981.SH",
+      "aliases": ["中芯国际", "688981.SH", "688981"],
+      "industry": "半导体",
+      "quote": {
+        "close": 58.12,
+        "pct_change": 3.95,
+        "trade_date": "20260314"
+      },
+      "fundamentals": {
+        "pe": 18.7,
+        "pb": 2.91,
+        "revenue_yoy": 22.4,
+        "roe": 8.6,
+        "report_end_date": "20251231"
+      }
+    },
+    {
+      "kind": "index",
+      "name": "沪深300",
+      "symbol": "000300",
+      "ts_code": "000300.SH",
+      "aliases": ["沪深300", "沪深300指数", "000300.SH"],
+      "quote": {
+        "close": 3920.55,
+        "pct_change": 0.81,
+        "trade_date": "20260314"
+      },
+      "fundamentals": {}
+    },
+    {
+      "kind": "fund",
+      "name": "沪深300ETF",
+      "symbol": "510300",
+      "ts_code": "510300.SH",
+      "aliases": ["沪深300ETF", "510300.SH", "510300"],
+      "quote": {
+        "unit_nav": 4.284,
+        "accum_nav": 6.913,
+        "trade_date": "20260314"
+      },
+      "fundamentals": {}
+    },
+    {
+      "kind": "sector",
+      "name": "半导体",
+      "symbol": "sector-semiconductor",
+      "ts_code": "sector-semiconductor",
+      "aliases": ["半导体", "半导体板块", "半导体行业"],
+      "quote": {
+        "close": 1842.3,
+        "pct_change": 2.78,
+        "trade_date": "20260314"
+      },
+      "fundamentals": {
+        "market_cap": 32800.0
+      }
+    }
+  ],
+  "screen_universe": [
+    {
+      "ts_code": "000001.SZ",
+      "name": "平安银行",
+      "industry": "银行",
+      "trade_date": "20260314",
+      "close": 12.84,
+      "pe": 6.8,
+      "pb": 0.72,
+      "pct_change_20d": 5.6,
+      "revenue_yoy": 4.3,
+      "market_cap": 2480.0
+    },
+    {
+      "ts_code": "688981.SH",
+      "name": "中芯国际",
+      "industry": "半导体",
+      "trade_date": "20260314",
+      "close": 58.12,
+      "pe": 18.7,
+      "pb": 2.91,
+      "pct_change_20d": 14.8,
+      "revenue_yoy": 22.4,
+      "market_cap": 4630.0
+    },
+    {
+      "ts_code": "603986.SH",
+      "name": "兆易创新",
+      "industry": "半导体",
+      "trade_date": "20260314",
+      "close": 98.53,
+      "pe": 19.6,
+      "pb": 3.42,
+      "pct_change_20d": 12.1,
+      "revenue_yoy": 18.3,
+      "market_cap": 3280.0
+    },
+    {
+      "ts_code": "601899.SH",
+      "name": "紫金矿业",
+      "industry": "有色金属",
+      "trade_date": "20260314",
+      "close": 17.61,
+      "pe": 13.2,
+      "pb": 2.14,
+      "pct_change_20d": 8.4,
+      "revenue_yoy": 11.0,
+      "market_cap": 4590.0
+    }
+  ]
+}

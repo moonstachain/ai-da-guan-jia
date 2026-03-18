@@ -1,0 +1,638 @@
+{
+  "base_name": "原力OS CBM治理总控舱 R1 Live",
+  "base_url": "https://h52xu4gwob.feishu.cn/wiki/C4kWwmXI8i6E6rkQ7i8cVlsyn1e?from=from_copylink",
+  "app_token": "PpFgbkN7CaAOfDsWZKhcapQFnYc",
+  "notes": [
+    "This config is hand-refreshed against the R1 live wiki-linked base on 2026-03-14.",
+    "Table and field IDs now point at the native-openapi-synced 原力OS-数据模型 base.",
+    "Use this config for source-view rollout on the new CBM governance cockpit base.",
+    "Dashboard card binding remains Phase 2 and is intentionally not executed in R1."
+  ],
+  "dashboard_groups": [
+    {
+      "name": "overview"
+    },
+    {
+      "name": "diagnosis"
+    },
+    {
+      "name": "action"
+    }
+  ],
+  "tables": {
+    "总控对象主表": {
+      "table_id": "tblkS2QRSoe0On63",
+      "fields": {
+        "对象状态": {
+          "field_id": "fldMlYpSk3",
+          "type": "text"
+        },
+        "需要人类输入": {
+          "field_id": "fldzcRDAW5",
+          "type": "text"
+        },
+        "对象标题": {
+          "field_id": "flddZY3dGh",
+          "type": "text"
+        },
+        "阻塞原因": {
+          "field_id": "fld1LWuy1E",
+          "type": "text"
+        },
+        "下一步动作": {
+          "field_id": "fldW0KFISX",
+          "type": "text"
+        },
+        "运营分段": {
+          "field_id": "fldG6iMgSQ",
+          "type": "text"
+        },
+        "component_domain": {
+          "field_id": "fld6DrQUIK",
+          "type": "text"
+        },
+        "control_level": {
+          "field_id": "fldxRTkvOg",
+          "type": "text"
+        },
+        "priority_band": {
+          "field_id": "fldhjH5U30",
+          "type": "text"
+        },
+        "human_boundary_state": {
+          "field_id": "fld34uUttg",
+          "type": "text"
+        },
+        "evidence_ref": {
+          "field_id": "fldhqC10hc",
+          "type": "text"
+        },
+        "evidence_strength": {
+          "field_id": "fld51S8DWt",
+          "type": "text"
+        }
+      }
+    },
+    "线程总表": {
+      "table_id": "tblNPUSxajCASu2d",
+      "fields": {
+        "标题": {
+          "field_id": "fldUxP0veE",
+          "type": "text"
+        },
+        "状态": {
+          "field_id": "fldNRtagL6",
+          "type": "text"
+        },
+        "需要人类输入": {
+          "field_id": "fldlRPoRjw",
+          "type": "text"
+        },
+        "阻塞原因": {
+          "field_id": "fldfsrW0eo",
+          "type": "text"
+        },
+        "运营分段": {
+          "field_id": "fldu8slWLq",
+          "type": "text"
+        },
+        "component_domain": {
+          "field_id": "fldHSx4vdL",
+          "type": "text"
+        },
+        "control_level": {
+          "field_id": "fldt0DiQRa",
+          "type": "text"
+        }
+      }
+    },
+    "任务总表": {
+      "table_id": "tblPOwMypq44Qnme",
+      "fields": {
+        "标题": {
+          "field_id": "fldjB40ny1",
+          "type": "text"
+        },
+        "状态": {
+          "field_id": "fldpTha2hO",
+          "type": "text"
+        },
+        "优先级": {
+          "field_id": "fldQkYKZUg",
+          "type": "text"
+        },
+        "下一步": {
+          "field_id": "fld4eRYzeg",
+          "type": "text"
+        },
+        "证据入口": {
+          "field_id": "fldhQTIx9l",
+          "type": "text"
+        },
+        "阻塞原因": {
+          "field_id": "fldFWIlZCz",
+          "type": "text"
+        },
+        "priority_band": {
+          "field_id": "fldNRymFuU",
+          "type": "text"
+        },
+        "component_domain": {
+          "field_id": "fldczM4cZp",
+          "type": "text"
+        },
+        "control_level": {
+          "field_id": "fld5x2eIaw",
+          "type": "text"
+        }
+      }
+    },
+    "数据源同步表": {
+      "table_id": "tblck2RoRIJL6iUG",
+      "fields": {
+        "标题": {
+          "field_id": "fldfmC2WIm",
+          "type": "text"
+        },
+        "状态": {
+          "field_id": "fldJ5sOMLt",
+          "type": "text"
+        },
+        "来源家族": {
+          "field_id": "fldMAnSnxt",
+          "type": "text"
+        },
+        "remote_reachable": {
+          "field_id": "fldo0uaRPR",
+          "type": "text"
+        },
+        "missing_sources_snapshot": {
+          "field_id": "fldwuTLaNv",
+          "type": "text"
+        },
+        "connected_sources_snapshot": {
+          "field_id": "fldNbFHkPd",
+          "type": "text"
+        }
+      }
+    },
+    "治理动作与写回表": {
+      "table_id": "tblwuDCiLK5xQphH",
+      "fields": {
+        "记录类型": {
+          "field_id": "fld5TqEjN6",
+          "type": "text"
+        },
+        "标题": {
+          "field_id": "fldUApG4AE",
+          "type": "text"
+        },
+        "状态": {
+          "field_id": "fldQBvslg9",
+          "type": "text"
+        },
+        "verification_state": {
+          "field_id": "fldaMXfGLp",
+          "type": "text"
+        },
+        "evidence_refs": {
+          "field_id": "fldtunPeq1",
+          "type": "text"
+        },
+        "event_time": {
+          "field_id": "fldmYOt6Wc",
+          "type": "date"
+        }
+      }
+    },
+    "技能与能力表": {
+      "table_id": "tblUkvzGyE9y7maA",
+      "fields": {
+        "cluster_or_actor": {
+          "field_id": "fldIgdgiV6",
+          "type": "text"
+        },
+        "名称": {
+          "field_id": "fld6VP0bW3",
+          "type": "text"
+        },
+        "routing_credit": {
+          "field_id": "fldhOKPTzE",
+          "type": "number"
+        },
+        "verification_strength": {
+          "field_id": "fldiezn41a",
+          "type": "number"
+        },
+        "requires_human_approval": {
+          "field_id": "fld798Un0A",
+          "type": "text"
+        },
+        "状态": {
+          "field_id": "flddIWe2ea",
+          "type": "text"
+        }
+      }
+    },
+    "CBM组件责任表": {
+      "table_id": "tblD42DlKnY3QXVo",
+      "fields": {
+        "owner_gap": {
+          "field_id": "fldemcOaLO",
+          "type": "text"
+        },
+        "component_domain": {
+          "field_id": "fldw60sXtT",
+          "type": "text"
+        },
+        "control_level_scope": {
+          "field_id": "fldoWqZ4FA",
+          "type": "text"
+        },
+        "human_owner": {
+          "field_id": "fldF1AGGIp",
+          "type": "text"
+        },
+        "ai_copilot": {
+          "field_id": "fld46Iu9uB",
+          "type": "text"
+        },
+        "goal_id": {
+          "field_id": "fldpHNYUyh",
+          "type": "text"
+        },
+        "strategy_id": {
+          "field_id": "fldbz1RdzE",
+          "type": "text"
+        },
+        "evidence_ref": {
+          "field_id": "fldzM6nf1x",
+          "type": "text"
+        }
+      }
+    },
+    "CBM组件热图表": {
+      "table_id": "tblDbvHJ2M2Cge2g",
+      "fields": {
+        "priority_band": {
+          "field_id": "fldSMVi1dC",
+          "type": "text"
+        },
+        "next_action": {
+          "field_id": "fldGxOToJk",
+          "type": "text"
+        },
+        "component_domain": {
+          "field_id": "fldRlXq1b3",
+          "type": "text"
+        },
+        "control_level": {
+          "field_id": "fldXMQmkLh",
+          "type": "text"
+        },
+        "current_gap": {
+          "field_id": "fldpdSQCTZ",
+          "type": "text"
+        },
+        "evidence_strength": {
+          "field_id": "fldy52laCq",
+          "type": "text"
+        },
+        "kpi_hint": {
+          "field_id": "fldVjqyotS",
+          "type": "text"
+        },
+        "latest_decision_id": {
+          "field_id": "fldzsijnzj",
+          "type": "text"
+        },
+        "latest_writeback_id": {
+          "field_id": "fldblBAGVe",
+          "type": "text"
+        }
+      }
+    }
+  },
+  "view_specs": [
+    {
+      "dashboard": "overview",
+      "table": "总控对象主表",
+      "view_name": "overview-当前系统处于什么控制态"
+    },
+    {
+      "dashboard": "overview",
+      "table": "线程总表",
+      "view_name": "overview-当前真正处于前台推进的主线有哪些",
+      "conditions": [
+        {
+          "field": "状态",
+          "operator": "is",
+          "values": [
+            "active",
+            "frontstage_now"
+          ]
+        }
+      ]
+    },
+    {
+      "dashboard": "overview",
+      "table": "总控对象主表",
+      "view_name": "overview-当前有多少事项必须由你介入",
+      "conditions": [
+        {
+          "field": "需要人类输入",
+          "operator": "isNotEmpty"
+        }
+      ]
+    },
+    {
+      "dashboard": "overview",
+      "table": "总控对象主表",
+      "view_name": "overview-当前有多少系统级阻塞正在挡路",
+      "conditions": [
+        {
+          "field": "对象状态",
+          "operator": "is",
+          "values": [
+            "blocked_system"
+          ]
+        }
+      ]
+    },
+    {
+      "dashboard": "overview",
+      "table": "CBM组件热图表",
+      "view_name": "overview-哪些组件当前优先级最高",
+      "conditions": [
+        {
+          "field": "priority_band",
+          "operator": "is",
+          "values": [
+            "P0",
+            "P1"
+          ]
+        },
+        {
+          "field": "next_action",
+          "operator": "isNotEmpty"
+        }
+      ]
+    },
+    {
+      "dashboard": "overview",
+      "table": "CBM组件热图表",
+      "view_name": "overview-哪些组件在-direct-control-execute-上最失衡",
+      "conditions": [
+        {
+          "field": "current_gap",
+          "operator": "isNotEmpty"
+        }
+      ]
+    },
+    {
+      "dashboard": "overview",
+      "table": "CBM组件责任表",
+      "view_name": "overview-哪些组件的人类-owner-或-ai-copilot-仍然缺位",
+      "conditions": [
+        {
+          "field": "owner_gap",
+          "operator": "isNotEmpty"
+        }
+      ]
+    },
+    {
+      "dashboard": "overview",
+      "table": "CBM组件热图表",
+      "view_name": "overview-哪些组件-gap-最大-最值得优先补",
+      "conditions": [
+        {
+          "field": "priority_band",
+          "operator": "is",
+          "values": [
+            "P0",
+            "P1"
+          ]
+        }
+      ]
+    },
+    {
+      "dashboard": "diagnosis",
+      "table": "线程总表",
+      "view_name": "diagnosis-当前主会场到底在推什么",
+      "conditions": [
+        {
+          "field": "状态",
+          "operator": "is",
+          "values": [
+            "active",
+            "frontstage_now"
+          ]
+        }
+      ]
+    },
+    {
+      "dashboard": "diagnosis",
+      "table": "任务总表",
+      "view_name": "diagnosis-哪些任务是真推进-哪些只是看起来在推进",
+      "conditions": [
+        {
+          "field": "状态",
+          "operator": "is",
+          "values": [
+            "waiting",
+            "blocked_needs_user",
+            "blocked_system"
+          ]
+        }
+      ]
+    },
+    {
+      "dashboard": "diagnosis",
+      "table": "数据源同步表",
+      "view_name": "diagnosis-数据源与证据链当前健康吗"
+    },
+    {
+      "dashboard": "diagnosis",
+      "table": "治理动作与写回表",
+      "view_name": "diagnosis-最近系统做了哪些-review-decision-和-writeback"
+    },
+    {
+      "dashboard": "action",
+      "table": "总控对象主表",
+      "view_name": "action-哪些事项必须由你立即处理",
+      "conditions": [
+        {
+          "field": "需要人类输入",
+          "operator": "isNotEmpty"
+        }
+      ]
+    },
+    {
+      "dashboard": "action",
+      "table": "总控对象主表",
+      "view_name": "action-哪些系统阻塞不能再假推进-必须单独处理",
+      "conditions": [
+        {
+          "field": "对象状态",
+          "operator": "is",
+          "values": [
+            "blocked_system"
+          ]
+        }
+      ]
+    },
+    {
+      "dashboard": "action",
+      "table": "CBM组件热图表",
+      "view_name": "action-如果现在开始推进-优先动作是什么",
+      "conditions": [
+        {
+          "field": "priority_band",
+          "operator": "is",
+          "values": [
+            "P0",
+            "P1"
+          ]
+        },
+        {
+          "field": "next_action",
+          "operator": "isNotEmpty"
+        }
+      ]
+    },
+    {
+      "dashboard": "action",
+      "table": "技能与能力表",
+      "view_name": "action-哪些能力价值高-但审批或授权摩擦仍然很大",
+      "conditions": [
+        {
+          "field": "requires_human_approval",
+          "operator": "is",
+          "values": [
+            "是"
+          ]
+        }
+      ]
+    }
+  ],
+  "card_specs": {
+    "overview": [
+      {
+        "name": "当前系统处于什么控制态？",
+        "type": "table",
+        "table": "总控对象主表",
+        "view": "overview-当前系统处于什么控制态",
+        "purpose": "回答当前运行态分布。"
+      },
+      {
+        "name": "当前真正处于前台推进的主线有哪些？",
+        "type": "bar_chart",
+        "table": "线程总表",
+        "view": "overview-当前真正处于前台推进的主线有哪些",
+        "purpose": "回答当前前台主线。"
+      },
+      {
+        "name": "当前有多少事项必须由你介入？",
+        "type": "bar_chart",
+        "table": "总控对象主表",
+        "view": "overview-当前有多少事项必须由你介入",
+        "purpose": "回答人类介入压力。"
+      },
+      {
+        "name": "当前有多少系统级阻塞正在挡路？",
+        "type": "bar_chart",
+        "table": "总控对象主表",
+        "view": "overview-当前有多少系统级阻塞正在挡路",
+        "purpose": "回答系统阻塞规模。"
+      },
+      {
+        "name": "哪些组件当前优先级最高？",
+        "type": "bar_chart",
+        "table": "CBM组件热图表",
+        "view": "overview-哪些组件当前优先级最高",
+        "purpose": "回答高优先级组件。"
+      },
+      {
+        "name": "哪些组件在 direct、control、execute 上最失衡？",
+        "type": "table",
+        "table": "CBM组件热图表",
+        "view": "overview-哪些组件在-direct-control-execute-上最失衡",
+        "purpose": "回答 control 纵线失衡点。"
+      },
+      {
+        "name": "哪些组件的人类 Owner 或 AI Copilot 仍然缺位？",
+        "type": "table",
+        "table": "CBM组件责任表",
+        "view": "overview-哪些组件的人类-owner-或-ai-copilot-仍然缺位",
+        "purpose": "回答 owner/coplayot 缺口。"
+      },
+      {
+        "name": "哪些组件 gap 最大、最值得优先补？",
+        "type": "table",
+        "table": "CBM组件热图表",
+        "view": "overview-哪些组件-gap-最大-最值得优先补",
+        "purpose": "回答 gap 优先级。"
+      }
+    ],
+    "diagnosis": [
+      {
+        "name": "当前主会场到底在推什么？",
+        "type": "table",
+        "table": "线程总表",
+        "view": "diagnosis-当前主会场到底在推什么",
+        "purpose": "回答当前主会场推进对象。"
+      },
+      {
+        "name": "哪些任务是真推进，哪些只是看起来在推进？",
+        "type": "table",
+        "table": "任务总表",
+        "view": "diagnosis-哪些任务是真推进-哪些只是看起来在推进",
+        "purpose": "回答真假推进差异。"
+      },
+      {
+        "name": "数据源与证据链当前健康吗？",
+        "type": "bar_chart",
+        "table": "数据源同步表",
+        "view": "diagnosis-数据源与证据链当前健康吗",
+        "purpose": "回答数据源与证据链健康度。"
+      },
+      {
+        "name": "最近系统做了哪些 review、decision 和 writeback？",
+        "type": "line_chart",
+        "table": "治理动作与写回表",
+        "view": "diagnosis-最近系统做了哪些-review-decision-和-writeback",
+        "purpose": "回答最近治理轨迹。"
+      }
+    ],
+    "action": [
+      {
+        "name": "哪些事项必须由你立即处理？",
+        "type": "table",
+        "table": "总控对象主表",
+        "view": "action-哪些事项必须由你立即处理",
+        "purpose": "回答待你处理队列。"
+      },
+      {
+        "name": "哪些系统阻塞不能再假推进，必须单独处理？",
+        "type": "table",
+        "table": "总控对象主表",
+        "view": "action-哪些系统阻塞不能再假推进-必须单独处理",
+        "purpose": "回答系统阻塞队列。"
+      },
+      {
+        "name": "如果现在开始推进，优先动作是什么？",
+        "type": "table",
+        "table": "CBM组件热图表",
+        "view": "action-如果现在开始推进-优先动作是什么",
+        "purpose": "回答优先动作队列。"
+      },
+      {
+        "name": "哪些能力价值高，但审批或授权摩擦仍然很大？",
+        "type": "table",
+        "table": "技能与能力表",
+        "view": "action-哪些能力价值高-但审批或授权摩擦仍然很大",
+        "purpose": "回答能力与审批摩擦队列。"
+      }
+    ]
+  }
+}

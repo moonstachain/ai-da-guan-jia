@@ -1,0 +1,503 @@
+[
+  {
+    "id": "view-dq-overview-01",
+    "view_name": "overview-当前重点落在哪个康波阶段-风险温度处于什么水平",
+    "table_id": "current_signals",
+    "table_name": "L1_康波事件信号",
+    "question_id": "dq-overview-01",
+    "question": "当前重点落在哪个康波阶段，风险温度处于什么水平？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "current_signal_count",
+        "name": "当前事件数",
+        "aggregation": "count"
+      },
+      {
+        "id": "current_severity",
+        "name": "当前风险等级",
+        "aggregation": "latest"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "signal_phase",
+        "name": "当前信号阶段",
+        "field": "kangbo_phase"
+      },
+      {
+        "id": "signal_category",
+        "name": "当前信号类别",
+        "field": "event_category"
+      }
+    ],
+    "filters": [
+      "最新事件，仅展示 event_name/event_summary/scenario_shift/source_article"
+    ],
+    "display_fields": [
+      "kangbo_phase",
+      "event_category",
+      "event_name",
+      "event_date",
+      "severity",
+      "event_summary",
+      "scenario_shift",
+      "source_article"
+    ],
+    "action_target_ids": [
+      "current_signal_detail"
+    ]
+  },
+  {
+    "id": "view-dq-overview-02",
+    "view_name": "overview-79-条历史事件里-哪几类冲击最常见",
+    "table_id": "historical_events",
+    "table_name": "时间事件主表",
+    "question_id": "dq-overview-02",
+    "question": "79 条历史事件里，哪几类冲击最常见？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "historical_event_count",
+        "name": "历史事件数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "historical_event_category",
+        "name": "历史事件类别",
+        "field": "事件类别"
+      }
+    ],
+    "filters": [],
+    "display_fields": [
+      "事件类别"
+    ],
+    "action_target_ids": []
+  },
+  {
+    "id": "view-dq-overview-03",
+    "view_name": "overview-历史事件主要分布在哪些康波阶段",
+    "table_id": "historical_events",
+    "table_name": "时间事件主表",
+    "question_id": "dq-overview-03",
+    "question": "历史事件主要分布在哪些康波阶段？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "historical_event_count",
+        "name": "历史事件数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "historical_phase",
+        "name": "历史康波阶段",
+        "field": "康波阶段"
+      }
+    ],
+    "filters": [],
+    "display_fields": [
+      "康波阶段"
+    ],
+    "action_target_ids": []
+  },
+  {
+    "id": "view-dq-overview-04",
+    "view_name": "overview-当前资产篮子方向整体偏向什么姿态",
+    "table_id": "asset_signals",
+    "table_name": "L2_资产信号映射",
+    "question_id": "dq-overview-04",
+    "question": "当前资产篮子方向整体偏向什么姿态？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "asset_signal_count",
+        "name": "资产方向数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "asset_direction",
+        "name": "资产方向",
+        "field": "direction"
+      },
+      {
+        "id": "asset_class",
+        "name": "资产大类",
+        "field": "asset_class"
+      }
+    ],
+    "filters": [
+      "按 asset_class 分组展示方向与风险提示"
+    ],
+    "display_fields": [
+      "direction",
+      "asset_class",
+      "asset_name",
+      "position_action",
+      "stop_rule",
+      "confidence"
+    ],
+    "action_target_ids": [
+      "asset_basket_queue"
+    ]
+  },
+  {
+    "id": "view-dq-diagnosis-01",
+    "view_name": "diagnosis-当前关键事件到底发生了什么-为什么重要",
+    "table_id": "current_signals",
+    "table_name": "L1_康波事件信号",
+    "question_id": "dq-diagnosis-01",
+    "question": "当前关键事件到底发生了什么，为什么重要？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "current_signal_count",
+        "name": "当前事件数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "signal_phase",
+        "name": "当前信号阶段",
+        "field": "kangbo_phase"
+      },
+      {
+        "id": "signal_category",
+        "name": "当前信号类别",
+        "field": "event_category"
+      }
+    ],
+    "filters": [
+      "最新事件，仅展示 event_name/event_summary/scenario_shift/source_article"
+    ],
+    "display_fields": [
+      "kangbo_phase",
+      "event_category",
+      "event_name",
+      "event_date",
+      "severity",
+      "event_summary",
+      "scenario_shift",
+      "source_article"
+    ],
+    "action_target_ids": [
+      "current_signal_detail"
+    ]
+  },
+  {
+    "id": "view-dq-diagnosis-02",
+    "view_name": "diagnosis-哪三个历史镜像最像当下-它们像在哪里又差在哪里",
+    "table_id": "historical_mirrors",
+    "table_name": "L1_历史镜像",
+    "question_id": "dq-diagnosis-02",
+    "question": "哪三个历史镜像最像当下，它们像在哪里又差在哪里？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "historical_mirror_count",
+        "name": "镜像条目数",
+        "aggregation": "count"
+      },
+      {
+        "id": "similarity_score",
+        "name": "镜像相似度",
+        "aggregation": "latest"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "mirror_event_name",
+        "name": "镜像事件",
+        "field": "kangbo_event_name"
+      },
+      {
+        "id": "mirror_type",
+        "name": "镜像类型",
+        "field": "analogy_type"
+      }
+    ],
+    "filters": [
+      "按 similarity_score 降序，保留 top 3"
+    ],
+    "display_fields": [
+      "kangbo_event_name",
+      "analogy_type",
+      "kangbo_event_id",
+      "similarity_score",
+      "analogy_reasoning",
+      "key_difference",
+      "historical_asset_impact"
+    ],
+    "action_target_ids": [
+      "historical_mirror_queue"
+    ]
+  },
+  {
+    "id": "view-dq-diagnosis-03",
+    "view_name": "diagnosis-当前事件应挂回哪条阶段主线-背后的技术-制度和国家重心是什么",
+    "table_id": "phase_profiles",
+    "table_name": "康波阶段表",
+    "question_id": "dq-diagnosis-03",
+    "question": "当前事件应挂回哪条阶段主线，背后的技术、制度和国家重心是什么？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "phase_profile_count",
+        "name": "阶段档案数",
+        "aggregation": "count"
+      },
+      {
+        "id": "theme_layer_count",
+        "name": "主题图层数",
+        "aggregation": "count"
+      },
+      {
+        "id": "region_mainline_count",
+        "name": "地区主线数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "phase_code",
+        "name": "阶段编码",
+        "field": "阶段编码"
+      },
+      {
+        "id": "region_phase",
+        "name": "地区阶段",
+        "field": "康波阶段"
+      },
+      {
+        "id": "theme_phase",
+        "name": "主题阶段",
+        "field": "康波阶段"
+      }
+    ],
+    "filters": [
+      "默认挂到当前事件所属 phase"
+    ],
+    "display_fields": [
+      "阶段编码",
+      "康波阶段",
+      "阶段名称",
+      "阶段定义",
+      "技术主线",
+      "制度背景",
+      "典型事件"
+    ],
+    "action_target_ids": [
+      "phase_context_queue"
+    ]
+  },
+  {
+    "id": "view-dq-diagnosis-04",
+    "view_name": "diagnosis-从国家地区和影响方向看-历史事件库的重心在哪里",
+    "table_id": "historical_events",
+    "table_name": "时间事件主表",
+    "question_id": "dq-diagnosis-04",
+    "question": "从国家地区和影响方向看，历史事件库的重心在哪里？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "historical_event_count",
+        "name": "历史事件数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "historical_region",
+        "name": "历史国家地区",
+        "field": "国家|地区"
+      },
+      {
+        "id": "historical_impact_direction",
+        "name": "历史影响方向",
+        "field": "影响方向"
+      },
+      {
+        "id": "historical_confidence",
+        "name": "历史可信度",
+        "field": "可信度"
+      }
+    ],
+    "filters": [],
+    "display_fields": [
+      "国家|地区",
+      "影响方向",
+      "可信度"
+    ],
+    "action_target_ids": []
+  },
+  {
+    "id": "view-dq-action-01",
+    "view_name": "action-资产篮子应该怎么按大类展示成结论-理由和风险提示",
+    "table_id": "asset_signals",
+    "table_name": "L2_资产信号映射",
+    "question_id": "dq-action-01",
+    "question": "资产篮子应该怎么按大类展示成结论、理由和风险提示？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "asset_signal_count",
+        "name": "资产方向数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "asset_class",
+        "name": "资产大类",
+        "field": "asset_class"
+      },
+      {
+        "id": "asset_direction",
+        "name": "资产方向",
+        "field": "direction"
+      },
+      {
+        "id": "asset_confidence",
+        "name": "资产信心等级",
+        "field": "confidence"
+      }
+    ],
+    "filters": [
+      "按 asset_class 分组展示方向与风险提示"
+    ],
+    "display_fields": [
+      "asset_class",
+      "direction",
+      "confidence",
+      "asset_name",
+      "position_action",
+      "stop_rule"
+    ],
+    "action_target_ids": [
+      "asset_basket_queue"
+    ]
+  },
+  {
+    "id": "view-dq-action-02",
+    "view_name": "action-如果把资产语言翻译成企业语言-企业家下一步该做什么",
+    "table_id": "asset_signals",
+    "table_name": "L2_资产信号映射",
+    "question_id": "dq-action-02",
+    "question": "如果把资产语言翻译成企业语言，企业家下一步该做什么？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "asset_signal_count",
+        "name": "资产方向数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "asset_class",
+        "name": "资产大类",
+        "field": "asset_class"
+      },
+      {
+        "id": "asset_direction",
+        "name": "资产方向",
+        "field": "direction"
+      }
+    ],
+    "filters": [
+      "将资产语言映射为现金流、防御配置、扩张节奏、供应链动作"
+    ],
+    "display_fields": [
+      "asset_class",
+      "direction",
+      "asset_name",
+      "position_action",
+      "stop_rule"
+    ],
+    "action_target_ids": [
+      "entrepreneur_translation_queue"
+    ]
+  },
+  {
+    "id": "view-dq-action-03",
+    "view_name": "action-接下来最该盯住哪些风险观察点和验证指标",
+    "table_id": "current_signals",
+    "table_name": "L1_康波事件信号",
+    "question_id": "dq-action-03",
+    "question": "接下来最该盯住哪些风险观察点和验证指标？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "current_signal_count",
+        "name": "当前事件数",
+        "aggregation": "count"
+      },
+      {
+        "id": "asset_signal_count",
+        "name": "资产方向数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "signal_category",
+        "name": "当前信号类别",
+        "field": "event_category"
+      },
+      {
+        "id": "asset_class",
+        "name": "资产大类",
+        "field": "asset_class"
+      }
+    ],
+    "filters": [
+      "结合 scenario_shift 和 impact_direction 提炼监控项"
+    ],
+    "display_fields": [
+      "event_category",
+      "asset_class",
+      "event_name",
+      "impact_direction",
+      "causal_chain",
+      "scenario_shift"
+    ],
+    "action_target_ids": [
+      "watchlist_queue"
+    ]
+  },
+  {
+    "id": "view-dq-action-04",
+    "view_name": "action-当用户想继续深挖时-应该从哪个深入页进入",
+    "table_id": "historical_events",
+    "table_name": "时间事件主表",
+    "question_id": "dq-action-04",
+    "question": "当用户想继续深挖时，应该从哪个深入页进入？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "historical_event_count",
+        "name": "历史事件数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [],
+    "filters": [
+      "人工固定成四个二级页面入口"
+    ],
+    "display_fields": [
+      "事件名称",
+      "事件类别",
+      "康波阶段",
+      "国家|地区"
+    ],
+    "action_target_ids": [
+      "deep_dive_entry_queue"
+    ]
+  }
+]

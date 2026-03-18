@@ -1,0 +1,1045 @@
+{
+  "id": "yuanli-os-collaborative-governance-dashboard-v3",
+  "title": "原力OS 协同治理总控舱",
+  "goal": "为原力OS生成一个单页协同治理控制台，让陌生人先理解系统身份与协同方式，再帮助人类判断当前控制态、阻塞边界、证据线索和下一步动作。",
+  "audience": [
+    "hay",
+    "原力OS 人类协作者",
+    "第一次接触原力OS的人类运营者"
+  ],
+  "product_definition": {
+    "external_name": "原力OS",
+    "internal_engine": "AI大管家",
+    "page_type": "single_page_governance_control_center",
+    "language": "zh-CN",
+    "positioning": [
+      "human_operating_cockpit",
+      "governance_control_center",
+      "not_generic_bi",
+      "not_multi_page_admin",
+      "onboarding_first",
+      "evidence_first"
+    ]
+  },
+  "source_of_truth": {
+    "docs_link": "https://h52xu4gwob.feishu.cn/wiki/BNCQwWVZdiEbIFkpeL6cYuKMnxg?from=from_copylink",
+    "base_link": "https://h52xu4gwob.feishu.cn/wiki/Iwzvwon1IiIEo4kQcX5cm0pMnyc?from=from_copylink",
+    "whitepaper_bundle": "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/control-base/current/whitepaper",
+    "review_memo_v1": "/Users/hay2045/Documents/codex-ai-gua-jia-01/docs/yuanli-os-collaborative-governance-dashboard-review-memo-v1.md",
+    "review_memo_v2": "/Users/hay2045/Documents/codex-ai-gua-jia-01/docs/yuanli-os-collaborative-governance-dashboard-review-memo-v2.md"
+  },
+  "benchmark_reference": {
+    "project": "openclaw-control-center",
+    "repo_url": "https://github.com/TianyiDataScience/openclaw-control-center",
+    "borrow": [
+      "control_center_posture",
+      "real_work_vs_waiting_distinction",
+      "evidence_plus_action_colocation",
+      "secondary_workbench_entry"
+    ],
+    "do_not_copy": [
+      "openclaw_runtime_coupling",
+      "multi_section_admin_homepage",
+      "ops_signals_as_first_priority",
+      "settings_and_config_as_primary_content"
+    ]
+  },
+  "design_priorities": [
+    "control_center_posture",
+    "human_clarity_first",
+    "intervention_precision",
+    "evidence_first",
+    "premium_but_quiet_visuals",
+    "single_page_cockpit"
+  ],
+  "onboarding_contract": {
+    "placement": "below_hero",
+    "format": "three_light_cards_or_three_short_blocks",
+    "principles": [
+      "shorter_than_whitepaper",
+      "more_conversational_than_manual",
+      "visible_before_data",
+      "not_longform_copy"
+    ],
+    "modules": [
+      {
+        "id": "what_is_yuanli_os",
+        "title": "原力OS 是什么",
+        "must_cover": [
+          "原力OS 是 AI大管家 的人类外显层",
+          "它是人机协同治理系统",
+          "它不是普通聊天助手，也不是普通报表"
+        ]
+      },
+      {
+        "id": "how_we_collaborate",
+        "title": "你和它怎么协同",
+        "must_cover": [
+          "你负责目标、边界和不可替代判断",
+          "系统负责统筹、推进、验真和闭环",
+          "你不需要替系统拆每一步"
+        ]
+      },
+      {
+        "id": "how_to_read_this_page",
+        "title": "这页该怎么看",
+        "must_cover": [
+          "先看当前控制态",
+          "再看阻塞与原因",
+          "然后看该做什么",
+          "如果要深入，再进入对应工作台"
+        ]
+      }
+    ]
+  },
+  "control_center_contract": {
+    "hero_must_signal": [
+      "runtime_state",
+      "frontstage_focus",
+      "risk_level",
+      "last_refresh_time"
+    ],
+    "must_distinguish": [
+      "actively_progressing",
+      "queued_only",
+      "blocked_needs_user",
+      "blocked_system"
+    ],
+    "must_expose_evidence": [
+      "source_view",
+      "related_object",
+      "next_action"
+    ],
+    "workbench_entry_targets": [
+      "threads",
+      "tasks",
+      "decisions",
+      "sources",
+      "docs_memory"
+    ]
+  },
+  "decision_questions": [
+    {
+      "id": "dq-kpi-01",
+      "layer": "overview",
+      "question": "当前真正处于前台推进的主线有几条？",
+      "metric_ids": [
+        "frontstage_thread_count"
+      ],
+      "dimension_ids": [
+        "operating_segment"
+      ]
+    },
+    {
+      "id": "dq-kpi-02",
+      "layer": "overview",
+      "question": "当前有多少事项只差我输入？",
+      "metric_ids": [
+        "blocked_needs_user_count"
+      ],
+      "dimension_ids": [
+        "human_boundary_state"
+      ],
+      "action_target_ids": [
+        "needs_user_queue"
+      ]
+    },
+    {
+      "id": "dq-kpi-03",
+      "layer": "overview",
+      "question": "当前有多少系统级阻塞正在挡路？",
+      "metric_ids": [
+        "blocked_system_count"
+      ],
+      "dimension_ids": [
+        "object_status"
+      ],
+      "action_target_ids": [
+        "blocked_system_queue"
+      ]
+    },
+    {
+      "id": "dq-kpi-04",
+      "layer": "overview",
+      "question": "数据源联通和 transport 当前是否健康？",
+      "metric_ids": [
+        "source_health_score"
+      ],
+      "dimension_ids": [
+        "source_family"
+      ],
+      "action_target_ids": [
+        "source_sync_queue"
+      ]
+    },
+    {
+      "id": "dq-card-01",
+      "layer": "diagnosis",
+      "question": "当前主会场到底在推什么，哪些是真推进，哪些只是等待？",
+      "metric_ids": [
+        "frontstage_thread_count"
+      ],
+      "dimension_ids": [
+        "object_status",
+        "owner_mode"
+      ],
+      "action_target_ids": [
+        "frontstage_threads_queue"
+      ]
+    },
+    {
+      "id": "dq-card-02",
+      "layer": "diagnosis",
+      "question": "任务整体推进态分布如何，堵点集中在哪？",
+      "metric_ids": [
+        "task_status_count"
+      ],
+      "dimension_ids": [
+        "task_status"
+      ],
+      "action_target_ids": [
+        "next_action_queue"
+      ]
+    },
+    {
+      "id": "dq-card-03",
+      "layer": "diagnosis",
+      "question": "数据源同步、transport 和 source 覆盖现在健康吗？",
+      "metric_ids": [
+        "connected_sources_count",
+        "missing_sources_count"
+      ],
+      "dimension_ids": [
+        "remote_reachable_flag"
+      ],
+      "action_target_ids": [
+        "source_sync_queue"
+      ]
+    },
+    {
+      "id": "dq-card-04",
+      "layer": "diagnosis",
+      "question": "最近系统做了哪些 review、decision 和 writeback？",
+      "metric_ids": [
+        "recent_governance_velocity"
+      ],
+      "dimension_ids": [
+        "event_time"
+      ],
+      "action_target_ids": [
+        "decision_trace_queue"
+      ]
+    },
+    {
+      "id": "dq-action-01",
+      "layer": "action",
+      "question": "现在哪些事项必须由我介入？",
+      "metric_ids": [
+        "blocked_needs_user_count"
+      ],
+      "action_target_ids": [
+        "needs_user_queue"
+      ]
+    },
+    {
+      "id": "dq-action-02",
+      "layer": "action",
+      "question": "哪些系统阻塞需要单独处理，而不是继续假推进？",
+      "metric_ids": [
+        "blocked_system_count"
+      ],
+      "action_target_ids": [
+        "blocked_system_queue"
+      ]
+    },
+    {
+      "id": "dq-action-03",
+      "layer": "action",
+      "question": "如果现在开始推进，优先动作是什么？",
+      "metric_ids": [
+        "frontstage_thread_count"
+      ],
+      "action_target_ids": [
+        "next_action_queue"
+      ]
+    },
+    {
+      "id": "dq-action-04",
+      "layer": "action",
+      "question": "哪些能力价值高，但审批或授权摩擦大？",
+      "metric_ids": [
+        "approval_friction_score"
+      ],
+      "dimension_ids": [
+        "requires_human_approval_flag"
+      ],
+      "action_target_ids": [
+        "capability_friction_queue"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "control_objects",
+      "name": "总控对象主表",
+      "grain": "record",
+      "fields": [
+        {
+          "name": "对象Key",
+          "type": "text",
+          "role": "primary_key"
+        },
+        {
+          "name": "对象类型",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "对象标题",
+          "type": "text",
+          "role": "label"
+        },
+        {
+          "name": "治理层级",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "运营分段",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "对象状态",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "负责人模式",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "当前摘要",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "阻塞原因",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "需要人类输入",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "下一步动作",
+          "type": "text",
+          "role": "action"
+        },
+        {
+          "name": "证据入口",
+          "type": "text",
+          "role": "evidence"
+        },
+        {
+          "name": "最近更新时间",
+          "type": "date",
+          "role": "time"
+        }
+      ]
+    },
+    {
+      "id": "threads",
+      "name": "线程总表",
+      "grain": "record",
+      "fields": [
+        {
+          "name": "Thread ID",
+          "type": "text",
+          "role": "primary_key"
+        },
+        {
+          "name": "标题",
+          "type": "text",
+          "role": "label"
+        },
+        {
+          "name": "状态",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "进入方式",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "编排状态",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "闭环状态",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "阻塞原因",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "需要人类输入",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "更新时间",
+          "type": "date",
+          "role": "time"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "name": "任务总表",
+      "grain": "record",
+      "fields": [
+        {
+          "name": "Task ID",
+          "type": "text",
+          "role": "primary_key"
+        },
+        {
+          "name": "标题",
+          "type": "text",
+          "role": "label"
+        },
+        {
+          "name": "Thread ID",
+          "type": "text",
+          "role": "foreign_key"
+        },
+        {
+          "name": "状态",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "任务类型",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "人类边界状态",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "runner_state",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "结果摘要",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "证据入口",
+          "type": "text",
+          "role": "evidence"
+        },
+        {
+          "name": "阻塞原因",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "需要人类输入",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "下一步",
+          "type": "text",
+          "role": "action"
+        },
+        {
+          "name": "最后更新时间",
+          "type": "date",
+          "role": "time"
+        }
+      ]
+    },
+    {
+      "id": "skills_capabilities",
+      "name": "技能与能力表",
+      "grain": "record",
+      "fields": [
+        {
+          "name": "能力Key",
+          "type": "text",
+          "role": "primary_key"
+        },
+        {
+          "name": "记录类型",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "名称",
+          "type": "text",
+          "role": "label"
+        },
+        {
+          "name": "routing_credit",
+          "type": "number",
+          "role": "metric"
+        },
+        {
+          "name": "requires_human_approval",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "verification_strength",
+          "type": "number",
+          "role": "metric"
+        },
+        {
+          "name": "更新时间",
+          "type": "date",
+          "role": "time"
+        }
+      ]
+    },
+    {
+      "id": "sources",
+      "name": "数据源同步表",
+      "grain": "record",
+      "fields": [
+        {
+          "name": "Source Feed ID",
+          "type": "text",
+          "role": "primary_key"
+        },
+        {
+          "name": "标题",
+          "type": "text",
+          "role": "label"
+        },
+        {
+          "name": "来源家族",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "状态",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "最近扫描时间",
+          "type": "date",
+          "role": "time"
+        },
+        {
+          "name": "transport_repo",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "remote_reachable",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "github_backend",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "connected_sources_snapshot",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "missing_sources_snapshot",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "更新时间",
+          "type": "date",
+          "role": "time"
+        }
+      ]
+    },
+    {
+      "id": "reviews",
+      "name": "Review批次表",
+      "grain": "record",
+      "fields": [
+        {
+          "name": "Review ID",
+          "type": "text",
+          "role": "primary_key"
+        },
+        {
+          "name": "评审日期",
+          "type": "date",
+          "role": "time"
+        },
+        {
+          "name": "范围",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "摘要",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "top_risks",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "candidate_actions",
+          "type": "text",
+          "role": "action"
+        }
+      ]
+    },
+    {
+      "id": "decisions",
+      "name": "决策记录表",
+      "grain": "record",
+      "fields": [
+        {
+          "name": "Decision ID",
+          "type": "text",
+          "role": "primary_key"
+        },
+        {
+          "name": "标题",
+          "type": "text",
+          "role": "label"
+        },
+        {
+          "name": "decision_state",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "decision_summary",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "evidence_refs",
+          "type": "text",
+          "role": "evidence"
+        },
+        {
+          "name": "decision_time",
+          "type": "date",
+          "role": "time"
+        }
+      ]
+    },
+    {
+      "id": "governance_events",
+      "name": "治理动作与写回表",
+      "grain": "record",
+      "fields": [
+        {
+          "name": "治理事件Key",
+          "type": "text",
+          "role": "primary_key"
+        },
+        {
+          "name": "记录类型",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "标题",
+          "type": "text",
+          "role": "label"
+        },
+        {
+          "name": "状态",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "verification_state",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "evidence_refs",
+          "type": "text",
+          "role": "evidence"
+        },
+        {
+          "name": "event_time",
+          "type": "date",
+          "role": "time"
+        }
+      ]
+    },
+    {
+      "id": "field_dictionary",
+      "name": "字段字典与术语表",
+      "grain": "record",
+      "fields": [
+        {
+          "name": "字段Key",
+          "type": "text",
+          "role": "primary_key"
+        },
+        {
+          "name": "对象家族",
+          "type": "text",
+          "role": "dimension"
+        },
+        {
+          "name": "中文字段名",
+          "type": "text",
+          "role": "label"
+        },
+        {
+          "name": "英文字段名",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "对应canonical路径",
+          "type": "text",
+          "role": "detail"
+        },
+        {
+          "name": "更新时间",
+          "type": "date",
+          "role": "time"
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "frontstage_thread_count",
+      "name": "前台主线数",
+      "table_id": "control_objects",
+      "field": "对象Key",
+      "aggregation": "count"
+    },
+    {
+      "id": "blocked_needs_user_count",
+      "name": "待人类输入数量",
+      "table_id": "control_objects",
+      "field": "需要人类输入",
+      "aggregation": "count_nonempty"
+    },
+    {
+      "id": "blocked_system_count",
+      "name": "系统阻塞数量",
+      "table_id": "control_objects",
+      "field": "对象状态",
+      "aggregation": "count_filtered"
+    },
+    {
+      "id": "source_health_score",
+      "name": "数据源健康度",
+      "table_id": "sources",
+      "field": "remote_reachable",
+      "aggregation": "derived_health_score"
+    },
+    {
+      "id": "task_status_count",
+      "name": "任务状态分布",
+      "table_id": "tasks",
+      "field": "状态",
+      "aggregation": "count"
+    },
+    {
+      "id": "connected_sources_count",
+      "name": "已连接来源数",
+      "table_id": "sources",
+      "field": "connected_sources_snapshot",
+      "aggregation": "derived_count"
+    },
+    {
+      "id": "missing_sources_count",
+      "name": "缺失来源数",
+      "table_id": "sources",
+      "field": "missing_sources_snapshot",
+      "aggregation": "derived_count"
+    },
+    {
+      "id": "recent_governance_velocity",
+      "name": "近期治理推进量",
+      "table_id": "governance_events",
+      "field": "治理事件Key",
+      "aggregation": "count_recent"
+    },
+    {
+      "id": "approval_friction_score",
+      "name": "审批摩擦度",
+      "table_id": "skills_capabilities",
+      "field": "requires_human_approval",
+      "aggregation": "derived_friction_score"
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "operating_segment",
+      "name": "运营分段",
+      "table_id": "control_objects",
+      "field": "运营分段",
+      "type": "category"
+    },
+    {
+      "id": "object_status",
+      "name": "对象状态",
+      "table_id": "control_objects",
+      "field": "对象状态",
+      "type": "category"
+    },
+    {
+      "id": "owner_mode",
+      "name": "负责人模式",
+      "table_id": "control_objects",
+      "field": "负责人模式",
+      "type": "category"
+    },
+    {
+      "id": "human_boundary_state",
+      "name": "人类边界状态",
+      "table_id": "tasks",
+      "field": "人类边界状态",
+      "type": "category"
+    },
+    {
+      "id": "task_status",
+      "name": "任务状态",
+      "table_id": "tasks",
+      "field": "状态",
+      "type": "category"
+    },
+    {
+      "id": "source_family",
+      "name": "来源家族",
+      "table_id": "sources",
+      "field": "来源家族",
+      "type": "category"
+    },
+    {
+      "id": "remote_reachable_flag",
+      "name": "远端可达",
+      "table_id": "sources",
+      "field": "remote_reachable",
+      "type": "category"
+    },
+    {
+      "id": "requires_human_approval_flag",
+      "name": "需要人工审批",
+      "table_id": "skills_capabilities",
+      "field": "requires_human_approval",
+      "type": "category"
+    },
+    {
+      "id": "event_time",
+      "name": "事件时间",
+      "table_id": "governance_events",
+      "field": "event_time",
+      "type": "time"
+    }
+  ],
+  "time_grain": "day",
+  "action_targets": [
+    {
+      "id": "frontstage_threads_queue",
+      "name": "前台主线视图",
+      "table_id": "control_objects",
+      "record_filter": "运营分段 = frontstage",
+      "display_fields": [
+        "对象标题",
+        "对象状态",
+        "当前摘要",
+        "下一步动作",
+        "证据入口"
+      ]
+    },
+    {
+      "id": "needs_user_queue",
+      "name": "待你处理队列",
+      "table_id": "control_objects",
+      "record_filter": "需要人类输入 != 空",
+      "display_fields": [
+        "对象标题",
+        "需要人类输入",
+        "阻塞原因",
+        "下一步动作",
+        "证据入口"
+      ]
+    },
+    {
+      "id": "blocked_system_queue",
+      "name": "系统阻塞队列",
+      "table_id": "control_objects",
+      "record_filter": "对象状态 = blocked_system",
+      "display_fields": [
+        "对象标题",
+        "阻塞原因",
+        "证据入口",
+        "下一步动作"
+      ]
+    },
+    {
+      "id": "next_action_queue",
+      "name": "下一步动作队列",
+      "table_id": "control_objects",
+      "record_filter": "下一步动作 != 空",
+      "display_fields": [
+        "对象标题",
+        "对象状态",
+        "负责人模式",
+        "下一步动作",
+        "证据入口"
+      ]
+    },
+    {
+      "id": "source_sync_queue",
+      "name": "数据源同步队列",
+      "table_id": "sources",
+      "record_filter": "missing_sources_snapshot != none OR remote_reachable != true",
+      "display_fields": [
+        "标题",
+        "状态",
+        "remote_reachable",
+        "missing_sources_snapshot",
+        "github_backend"
+      ]
+    },
+    {
+      "id": "decision_trace_queue",
+      "name": "最近治理推进队列",
+      "table_id": "governance_events",
+      "record_filter": "event_time within last 14 days",
+      "display_fields": [
+        "标题",
+        "状态",
+        "verification_state",
+        "evidence_refs",
+        "event_time"
+      ]
+    },
+    {
+      "id": "capability_friction_queue",
+      "name": "能力与审批摩擦队列",
+      "table_id": "skills_capabilities",
+      "record_filter": "requires_human_approval = true",
+      "display_fields": [
+        "名称",
+        "routing_credit",
+        "requires_human_approval",
+        "verification_strength"
+      ]
+    }
+  ],
+  "visual_contract": {
+    "reference": [
+      "300年康波周期分析仪表盘",
+      "openclaw-control-center"
+    ],
+    "translation_rule": "keep_premium_clarity_but_shift_from_narrative_dashboard_to_quiet_governance_control_center",
+    "theme": {
+      "background": "slate_ink_dark",
+      "surface": "glass_dark_soft",
+      "accent_running": "cyan_blue",
+      "accent_needs_user": "amber",
+      "accent_blocked_system": "rose_red"
+    },
+    "style_keywords": [
+      "premium",
+      "quiet_luxury",
+      "restrained_glassmorphism",
+      "clear_hierarchy",
+      "system_product_feel",
+      "control_center"
+    ],
+    "avoid": [
+      "generic_enterprise_bi",
+      "light_spreadsheet_aesthetics",
+      "historical_timeline_storytelling",
+      "overdecorated_sci_fi_wall",
+      "long_manifesto_copy"
+    ]
+  },
+  "page_contract": {
+    "shape": "single_page",
+    "reading_order": [
+      "what_is_this",
+      "what_is_happening",
+      "why_is_it_happening",
+      "what_should_i_do",
+      "where_to_go_deeper"
+    ],
+    "rows": [
+      {
+        "row_id": "hero",
+        "type": "hero_control_header",
+        "required_elements": [
+          "title",
+          "subtitle",
+          "last_refresh_time",
+          "runtime_badge",
+          "frontstage_focus_badge",
+          "risk_level_badge"
+        ]
+      },
+      {
+        "row_id": "onboarding",
+        "type": "light_guidance_strip",
+        "card_count": 3
+      },
+      {
+        "row_id": "kpis",
+        "type": "kpi_grid",
+        "card_count": 4
+      },
+      {
+        "row_id": "diagnosis",
+        "type": "diagnostic_grid",
+        "card_count": 4
+      },
+      {
+        "row_id": "action",
+        "type": "action_grid",
+        "card_count": 4
+      },
+      {
+        "row_id": "workbench_entry",
+        "type": "utility_rail",
+        "card_count": 5
+      }
+    ]
+  },
+  "automation_boundary": {
+    "primary_mode": "use current 协同治理 base as source of truth",
+    "if_miaoda_binding_is_limited": "generate page shell and explicit binding placeholders from this spec",
+    "do_not_claim": [
+      "card_level_automation",
+      "fine_grained_widget_layout_automation",
+      "unsupported_feishu_dashboard_interactions"
+    ]
+  }
+}

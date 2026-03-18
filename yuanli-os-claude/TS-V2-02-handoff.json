@@ -1,0 +1,30 @@
+{
+  "task_id": "TS-V2-02",
+  "task_title": "飞书 Base 初始化脚本",
+  "status": "completed_local",
+  "object_family": "Shared Startup Memory",
+  "canonical_outputs": [
+    "/Users/liming/Documents/codex-ai-gua-jia-01/yuanli-os-claude/scripts/ts_v2_02_feishu_base_init.py",
+    "/Users/liming/Documents/codex-ai-gua-jia-01/yuanli-os-claude/INSTANCE-BOOTSTRAP.example.json"
+  ],
+  "verification": {
+    "script_compiles": true,
+    "dry_run_plan_generated": true,
+    "live_feishu_apply_executed": false
+  },
+  "gained": [
+    "V2/V3 实例现在有了可复用的飞书 Base 初始化脚本入口",
+    "CLAUDE-INIT 模板与飞书表面初始化被收敛进一份实例化流程"
+  ],
+  "open_questions": [
+    "治理成熟度表最终是否要继续收敛到现有治理总账多表结构，而不是单表占位面"
+  ],
+  "next_iterate": [
+    "在真实 app token 上执行 --apply 并做 API readback",
+    "把妙搭模板化接入同一实例 bootstrap 链"
+  ],
+  "not_done": [
+    "未调用真实飞书 API apply",
+    "未更新 GitHub 或 Feishu 镜像"
+  ]
+}

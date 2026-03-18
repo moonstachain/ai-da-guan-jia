@@ -109,6 +109,222 @@
         "canonical/entities/assets.json"
       ],
       "requires_human_approval": true
+    },
+    {
+      "action_id": "lead-capture",
+      "title": "录入销售线索",
+      "target_entity_type": "sales_lead",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "lead_id",
+          "component_domain",
+          "evidence_refs"
+        ],
+        "optional": [
+          "source_channel",
+          "owner_mode"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "task_id",
+          "next_action",
+          "writeback_event_type"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/tasks.json",
+        "work/ai-da-guan-jia/artifacts/ai-da-guan-jia/strategy/current/execute-sales-v1.json"
+      ],
+      "requires_human_approval": false
+    },
+    {
+      "action_id": "opportunity-qualify",
+      "title": "判定商机是否成立",
+      "target_entity_type": "sales_opportunity",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "opportunity_id",
+          "qualification_signal",
+          "evidence_refs"
+        ],
+        "optional": [
+          "priority_band",
+          "owner_mode"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "decision_summary",
+          "success_state",
+          "writeback_event_type"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/decision_records.json",
+        "work/ai-da-guan-jia/artifacts/ai-da-guan-jia/strategy/current/execute-sales-v1.json"
+      ],
+      "requires_human_approval": false
+    },
+    {
+      "action_id": "proposal-quote",
+      "title": "形成报价与方案",
+      "target_entity_type": "sales_quote",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "quote_id",
+          "opportunity_id",
+          "evidence_refs"
+        ],
+        "optional": [
+          "price_band",
+          "required_human_approval"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "quote_status",
+          "next_action",
+          "writeback_event_type"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/tasks.json",
+        "work/ai-da-guan-jia/artifacts/ai-da-guan-jia/strategy/current/execute-sales-v1.json"
+      ],
+      "requires_human_approval": true
+    },
+    {
+      "action_id": "deal-commit",
+      "title": "推动成交承诺",
+      "target_entity_type": "sales_deal",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "deal_id",
+          "commit_signal",
+          "evidence_refs"
+        ],
+        "optional": [
+          "risk_notes",
+          "owner_mode"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "deal_stage",
+          "next_action",
+          "writeback_event_type"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/tasks.json",
+        "canonical/entities/decision_records.json"
+      ],
+      "requires_human_approval": false
+    },
+    {
+      "action_id": "deal-close",
+      "title": "确认成交结果",
+      "target_entity_type": "sales_deal",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "deal_id",
+          "close_state",
+          "evidence_refs"
+        ],
+        "optional": [
+          "loss_reason",
+          "handoff_required"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "deal_result",
+          "writeback_event_type",
+          "next_action"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/writeback_events.json",
+        "work/ai-da-guan-jia/artifacts/ai-da-guan-jia/strategy/current/execute-sales-v1.json"
+      ],
+      "requires_human_approval": true
+    },
+    {
+      "action_id": "post-close-handoff",
+      "title": "完成成交后交接",
+      "target_entity_type": "sales_handoff",
+      "allowed_actor_types": [
+        "ai_agent",
+        "human"
+      ],
+      "required_policy_ids": [
+        "policy-read-business",
+        "policy-execute-sales-action"
+      ],
+      "input_contract": {
+        "required": [
+          "deal_id",
+          "handoff_state",
+          "evidence_refs"
+        ],
+        "optional": [
+          "delivery_owner",
+          "finance_owner"
+        ]
+      },
+      "output_contract": {
+        "required": [
+          "handoff_result",
+          "writeback_event_type",
+          "next_action"
+        ]
+      },
+      "writeback_targets": [
+        "canonical/entities/tasks.json",
+        "canonical/entities/threads.json"
+      ],
+      "requires_human_approval": false
     }
   ]
 }

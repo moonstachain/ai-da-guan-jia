@@ -11,7 +11,7 @@
     "federation_role": "root",
     "source_ref": "generated://federation-root",
     "confidence": 0.96,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "space-personal-zero",
@@ -25,7 +25,7 @@
     "federation_role": "personal",
     "source_ref": "generated://space/personal-zero",
     "confidence": 0.95,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "space-internal-team",
@@ -39,7 +39,7 @@
     "federation_role": "internal",
     "source_ref": "generated://space/internal-team",
     "confidence": 0.9,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "space-client-template",
@@ -53,7 +53,7 @@
     "federation_role": "client",
     "source_ref": "generated://space/client-template",
     "confidence": 0.88,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "space-downstream-template",
@@ -67,6 +67,6 @@
     "federation_role": "downstream",
     "source_ref": "generated://space/downstream-template",
     "confidence": 0.85,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   }
 ]

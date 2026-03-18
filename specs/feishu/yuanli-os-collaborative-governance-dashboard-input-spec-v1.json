@@ -1,0 +1,407 @@
+{
+  "id": "yuanli-os-collaborative-governance-dashboard-v1",
+  "title": "原力OS 协同治理总控舱",
+  "goal": "为原力OS生成一个面向人类运营者的单页协同治理驾驶舱，让用户一页判断当前运行态、阻塞边界与下一步动作。",
+  "audience": [
+    "hay",
+    "原力OS 人类协作者"
+  ],
+  "product_definition": {
+    "external_name": "原力OS",
+    "internal_engine": "AI大管家",
+    "page_type": "single_page_governance_cockpit",
+    "language": "zh-CN",
+    "positioning": [
+      "human_operating_cockpit",
+      "governance_dashboard",
+      "not_generic_bi",
+      "not_kondratieff_timeline_clone"
+    ]
+  },
+  "source_of_truth": {
+    "docs_link": "https://h52xu4gwob.feishu.cn/wiki/BNCQwWVZdiEbIFkpeL6cYuKMnxg?from=from_copylink",
+    "base_link": "https://h52xu4gwob.feishu.cn/wiki/Iwzvwon1IiIEo4kQcX5cm0pMnyc?from=from_copylink",
+    "whitepaper_bundle": "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/control-base/current/whitepaper",
+    "schema_manifest": "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/control-base/current/schema-manifest.json"
+  },
+  "decision_questions": [
+    {
+      "id": "dq-kpi-01",
+      "layer": "overview",
+      "question": "当前真正处于前台推进的主线有几条？",
+      "answer_card": "kpi_frontstage_threads"
+    },
+    {
+      "id": "dq-kpi-02",
+      "layer": "overview",
+      "question": "当前有多少事项只差我输入？",
+      "answer_card": "kpi_blocked_needs_user"
+    },
+    {
+      "id": "dq-kpi-03",
+      "layer": "overview",
+      "question": "当前有多少系统级阻塞正在挡路？",
+      "answer_card": "kpi_blocked_system"
+    },
+    {
+      "id": "dq-kpi-04",
+      "layer": "overview",
+      "question": "数据源联通和 transport 当前是否健康？",
+      "answer_card": "kpi_source_health"
+    },
+    {
+      "id": "dq-card-01",
+      "layer": "diagnosis",
+      "question": "当前主会场到底在推什么？",
+      "answer_card": "frontstage_threads"
+    },
+    {
+      "id": "dq-card-02",
+      "layer": "diagnosis",
+      "question": "任务整体推进态分布如何，堵点集中在哪？",
+      "answer_card": "task_status_distribution"
+    },
+    {
+      "id": "dq-card-03",
+      "layer": "diagnosis",
+      "question": "数据源同步、transport 和 source 覆盖现在健康吗？",
+      "answer_card": "source_sync_health"
+    },
+    {
+      "id": "dq-card-04",
+      "layer": "diagnosis",
+      "question": "最近系统做了哪些 review、decision 和 writeback？",
+      "answer_card": "recent_governance_progress"
+    },
+    {
+      "id": "dq-action-01",
+      "layer": "action",
+      "question": "现在哪些事项必须由我介入？",
+      "answer_card": "needs_user_queue"
+    },
+    {
+      "id": "dq-action-02",
+      "layer": "action",
+      "question": "哪些系统阻塞需要单独处理而不是继续假推进？",
+      "answer_card": "blocked_system_queue"
+    },
+    {
+      "id": "dq-action-03",
+      "layer": "action",
+      "question": "如果现在开始推进，优先动作是什么？",
+      "answer_card": "next_action_queue"
+    },
+    {
+      "id": "dq-action-04",
+      "layer": "action",
+      "question": "哪些能力价值高，但审批或授权摩擦大？",
+      "answer_card": "capability_friction"
+    }
+  ],
+  "visual_contract": {
+    "reference": "300年康波周期分析仪表盘",
+    "translation_rule": "keep_premium_clarity_but_shift_from_historical_narrative_to_governance_cockpit",
+    "theme": {
+      "background": "slate_ink_dark",
+      "surface": "glass_dark_soft",
+      "accent_running": "cyan_blue",
+      "accent_needs_user": "amber",
+      "accent_blocked_system": "rose_red"
+    },
+    "style_keywords": [
+      "premium",
+      "controlled glow",
+      "glassmorphism restrained",
+      "clear hierarchy",
+      "dense but readable",
+      "center-of-gravity visual"
+    ],
+    "avoid": [
+      "generic enterprise BI",
+      "light theme spreadsheet look",
+      "historical timeline storytelling",
+      "overdecorated sci-fi wall"
+    ]
+  },
+  "page_contract": {
+    "shape": "single_page",
+    "reading_order": [
+      "overview",
+      "diagnosis",
+      "action"
+    ],
+    "rows": [
+      {
+        "row_id": "hero",
+        "type": "hero_header",
+        "required_elements": [
+          "title",
+          "subtitle",
+          "last_refresh_time",
+          "runtime_badge",
+          "frontstage_focus_badge"
+        ]
+      },
+      {
+        "row_id": "kpis",
+        "type": "kpi_grid",
+        "card_count": 4
+      },
+      {
+        "row_id": "diagnosis",
+        "type": "diagnostic_grid",
+        "card_count": 4
+      },
+      {
+        "row_id": "action",
+        "type": "action_grid",
+        "card_count": 4
+      }
+    ]
+  },
+  "cards": [
+    {
+      "card_id": "kpi_frontstage_threads",
+      "title": "当前前台主线数",
+      "layer": "overview",
+      "source_tables": [
+        "总控对象主表"
+      ],
+      "fields": [
+        "运营分段",
+        "对象状态"
+      ],
+      "derived_metric": "frontstage_thread_count",
+      "visual_type": "glow_kpi"
+    },
+    {
+      "card_id": "kpi_blocked_needs_user",
+      "title": "待你处理",
+      "layer": "overview",
+      "source_tables": [
+        "总控对象主表",
+        "任务总表"
+      ],
+      "fields": [
+        "需要人类输入",
+        "人类边界状态"
+      ],
+      "derived_metric": "blocked_needs_user_count",
+      "visual_type": "amber_kpi"
+    },
+    {
+      "card_id": "kpi_blocked_system",
+      "title": "系统阻塞",
+      "layer": "overview",
+      "source_tables": [
+        "总控对象主表"
+      ],
+      "fields": [
+        "对象状态",
+        "阻塞原因"
+      ],
+      "derived_metric": "blocked_system_count",
+      "visual_type": "rose_kpi"
+    },
+    {
+      "card_id": "kpi_source_health",
+      "title": "联通健康度",
+      "layer": "overview",
+      "source_tables": [
+        "数据源同步表"
+      ],
+      "fields": [
+        "remote_reachable",
+        "github_backend",
+        "missing_sources_snapshot"
+      ],
+      "derived_metric": "source_health_score",
+      "visual_type": "health_ring_kpi"
+    },
+    {
+      "card_id": "frontstage_threads",
+      "title": "前台主线",
+      "layer": "diagnosis",
+      "source_tables": [
+        "总控对象主表"
+      ],
+      "preferred_view": "前台主线",
+      "fields": [
+        "对象标题",
+        "对象状态",
+        "当前摘要",
+        "下一步动作"
+      ],
+      "visual_type": "priority_list"
+    },
+    {
+      "card_id": "task_status_distribution",
+      "title": "任务状态分布",
+      "layer": "diagnosis",
+      "source_tables": [
+        "任务总表"
+      ],
+      "fields": [
+        "状态",
+        "runner_state",
+        "人类边界状态",
+        "优先级"
+      ],
+      "visual_type": "stacked_status_chart"
+    },
+    {
+      "card_id": "source_sync_health",
+      "title": "数据源同步健康",
+      "layer": "diagnosis",
+      "source_tables": [
+        "数据源同步表"
+      ],
+      "fields": [
+        "标题",
+        "状态",
+        "最近扫描时间",
+        "remote_reachable",
+        "github_backend",
+        "missing_sources_snapshot"
+      ],
+      "visual_type": "source_health_matrix"
+    },
+    {
+      "card_id": "recent_governance_progress",
+      "title": "最近治理推进",
+      "layer": "diagnosis",
+      "source_tables": [
+        "Review批次表",
+        "决策记录表",
+        "治理动作与写回表"
+      ],
+      "fields": [
+        "评审日期",
+        "摘要",
+        "decision_summary",
+        "event_time",
+        "verification_state"
+      ],
+      "visual_type": "governance_activity_feed"
+    },
+    {
+      "card_id": "needs_user_queue",
+      "title": "待你处理",
+      "layer": "action",
+      "source_tables": [
+        "总控对象主表",
+        "任务总表"
+      ],
+      "filters": [
+        "需要人类输入 != 空"
+      ],
+      "fields": [
+        "对象标题",
+        "需要人类输入",
+        "阻塞原因",
+        "下一步动作"
+      ],
+      "visual_type": "owner_queue"
+    },
+    {
+      "card_id": "blocked_system_queue",
+      "title": "系统阻塞队列",
+      "layer": "action",
+      "source_tables": [
+        "总控对象主表"
+      ],
+      "filters": [
+        "对象状态 = blocked_system"
+      ],
+      "fields": [
+        "对象标题",
+        "阻塞原因",
+        "证据入口"
+      ],
+      "visual_type": "exception_queue"
+    },
+    {
+      "card_id": "next_action_queue",
+      "title": "下一步动作",
+      "layer": "action",
+      "source_tables": [
+        "总控对象主表"
+      ],
+      "fields": [
+        "对象标题",
+        "负责人模式",
+        "对象状态",
+        "下一步动作"
+      ],
+      "visual_type": "action_checklist"
+    },
+    {
+      "card_id": "capability_friction",
+      "title": "能力与审批摩擦",
+      "layer": "action",
+      "source_tables": [
+        "技能与能力表"
+      ],
+      "fields": [
+        "名称",
+        "verification_strength",
+        "auth_reuse",
+        "routing_credit",
+        "requires_human_approval",
+        "状态"
+      ],
+      "visual_type": "value_friction_map"
+    }
+  ],
+  "data_contract": {
+    "primary_tables": [
+      "总控对象主表",
+      "任务总表",
+      "线程总表",
+      "数据源同步表",
+      "Review批次表",
+      "决策记录表",
+      "治理动作与写回表"
+    ],
+    "secondary_tables": [
+      "技能与能力表",
+      "字段字典与术语表"
+    ],
+    "inventory_snapshot": {
+      "threads": 32,
+      "tasks": 38,
+      "skills": 112,
+      "capabilities": 3,
+      "source_feeds": 7,
+      "reviews": 1,
+      "decisions": 4,
+      "governance_events": 4
+    }
+  },
+  "automation_boundary": {
+    "supported": [
+      "use 协同治理 base as primary source",
+      "generate page shell and component structure",
+      "suggest binding points and field mapping"
+    ],
+    "fallback_if_binding_is_unstable": [
+      "generate page shell first",
+      "render cards from JSON contract",
+      "mark data slots as binding placeholders"
+    ],
+    "not_supported": [
+      "assume Miaoda automatically understands 原力OS whitepaper",
+      "pretend complex Feishu widget creation is already automated",
+      "promise precise layout binding through unsupported APIs"
+    ]
+  },
+  "acceptance_criteria": [
+    "The page clearly reads as 原力OS rather than a generic BI dashboard.",
+    "The structure is locked to hero + 4 KPI + 4 diagnosis cards + 4 action cards.",
+    "Each card maps to a real table and real fields in 协同治理.",
+    "The reading order is overview -> diagnosis -> action.",
+    "The page feels premium and polished like the 300-year cycle reference, but more restrained.",
+    "The page does not become a historical narrative page or a light enterprise spreadsheet.",
+    "The page makes next actions obvious to a human operator."
+  ]
+}

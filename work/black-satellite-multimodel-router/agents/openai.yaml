@@ -1,0 +1,7 @@
+interface:
+  display_name: "黑色卫星多模型路由"
+  short_description: "把黑色卫星任务自动路由到 GPT-5.4、Claude、Gemini 或 Kimi"
+  default_prompt: "Use $black-satellite-multimodel-router to run this task on the black satellite, auto-pick the best model, and return both the answer and routing metadata."
+
+policy:
+  allow_implicit_invocation: false

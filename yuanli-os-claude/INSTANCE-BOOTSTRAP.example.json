@@ -1,0 +1,35 @@
+{
+  "instance_name": "v2-colleague-alpha",
+  "placeholders": {
+    "CURRENT_ROUND": "R18 V2 colleague bootstrap",
+    "CURRENT_STAGE": "Agent 第二代末期 → 第三代入口",
+    "TESTS_PASSED": "120",
+    "TESTS_FAILED": "3",
+    "TOTAL_COMMITS": "8",
+    "CURRENT_FOCUS": "完成同事实例的 INIT 启动面与飞书 Base 骨架初始化",
+    "CURRENT_WARNING": "不要把新实例的飞书前台绑定误当成本地 canonical",
+    "FEISHU_APP_TOKEN_LIVE": "app_v2_live_demo",
+    "FEISHU_TABLE_ID_LIVE_CONTROL": "tbl_v2_live_control_demo",
+    "FEISHU_APP_TOKEN_SKILL": "app_v2_skill_demo",
+    "FEISHU_TABLE_ID_SKILL": "tbl_v2_skill_demo",
+    "FEISHU_APP_TOKEN_GOVERNANCE": "app_v2_governance_demo",
+    "FEISHU_TABLE_ID_EVOLUTION": "tbl_v2_evolution_demo",
+    "FEISHU_TABLE_ID_MATURITY": "tbl_v2_maturity_demo",
+    "FEISHU_APP_TOKEN_LEGACY": "app_v2_legacy_demo",
+    "FEISHU_TABLE_ID_LEGACY_CONTROL": "tbl_v2_legacy_demo",
+    "WIKI_TOKEN_GOVERNANCE": "wiki_v2_governance_demo",
+    "WIKI_TOKEN_DOMAIN": "wiki_v2_domain_demo",
+    "FRONTSTAGE_GOVERNANCE_STATUS": "待初始化",
+    "FRONTSTAGE_BUSINESS_STATUS": "待初始化",
+    "DOMAIN_APP_STATUS": "待定义域应用",
+    "SKILL_TOTAL_GOVERNED": "0",
+    "SKILL_TOTAL_ACTIVE": "0"
+  },
+  "table_names": {
+    "live_control": "L0_运行态总控",
+    "skill_inventory": "Skill全景盘点表",
+    "evolution_chronicle": "原力OS进化编年史",
+    "governance_maturity": "治理成熟度评估",
+    "legacy_control": "旧治理总控表"
+  }
+}

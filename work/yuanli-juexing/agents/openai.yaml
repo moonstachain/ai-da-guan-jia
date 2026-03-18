@@ -1,0 +1,7 @@
+interface:
+  display_name: "原力觉醒"
+  short_description: "用双原力协议吸收你的知识材料，持续校准 AI 对你的理解"
+  default_prompt: "Use $yuanli-juexing to absorb my Feishu knowledge and transcripts, model our dual force, and update how you collaborate with me."
+
+policy:
+  allow_implicit_invocation: true

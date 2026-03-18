@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evolution-log.schema.json",
+  "title": "进化记录",
+  "description": "每轮闭环后的进化记录。gained/wasted/next iterate 不是仪式化日志，而是真实参数更新。对应闭环规则第3、4条。",
+  "type": "object",
+  "required": ["round_id", "timestamp", "status", "context", "closure_check", "gained", "wasted", "next_iterate"],
+  "properties": {
+    "round_id": { "type": "string", "pattern": "^R[0-9]+$" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "status": {
+      "type": "string",
+      "enum": ["completed", "blocked_needs_user", "blocked_system", "failed_partial"]
+    },
+    "context": {
+      "type": "object",
+      "required": ["component_domain", "control_level"],
+      "properties": {
+        "component_domain": { "type": "string", "enum": ["governance", "sales", "delivery", "clone"] },
+        "control_level": { "type": "string", "enum": ["direct", "control", "execute"] },
+        "evolution_stage": { "type": "string" }
+      }
+    },
+    "closure_check": {
+      "type": "object",
+      "description": "四条闭环规则的终态检查",
+      "required": ["path_routed", "result_verified", "evolution_recorded", "next_captured"],
+      "properties": {
+        "path_routed": { "type": "boolean" },
+        "result_verified": { "type": "boolean" },
+        "evolution_recorded": { "type": "boolean" },
+        "next_captured": { "type": "boolean" }
+      }
+    },
+    "governance_checkpoint_ref": { "type": "string" },
+    "codex_task_spec_ref": { "type": "string" },
+    "execution_evidence": {
+      "type": "object",
+      "properties": {
+        "pr_url": { "type": "string", "format": "uri" },
+        "tests_passed": { "type": "boolean" },
+        "files_created": { "type": "array", "items": { "type": "string" } },
+        "files_modified": { "type": "array", "items": { "type": "string" } },
+        "evidence_atoms": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "本轮产生的 EvidenceAtom ID 列表"
+        }
+      }
+    },
+    "gained": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "真实收获——新增的能力、规则、模板或治理资产。必须具体，不能写'理解加深了'。"
+    },
+    "wasted": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "浪费——做了但没价值的事。可以为空但不能省略字段。"
+    },
+    "next_iterate": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "下一轮改进候选——具体到可执行的下一步。这是递归进化的燃料。"
+    },
+    "capability_delta": {
+      "type": "string",
+      "description": "系统因本轮变强了什么——判断力、路由力、验真力还是执行力"
+    },
+    "distortion_status": {
+      "type": "object",
+      "properties": {
+        "previous_distortion_resolved": { "type": "boolean" },
+        "new_distortion_identified": { "type": "string" }
+      }
+    }
+  }
+}

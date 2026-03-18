@@ -14,6 +14,13 @@ log() {
   printf '[bootstrap] %s\n' "$1"
 }
 
+load_homebrew_env() {
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+  export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:/opt/homebrew/opt/node@20/bin:$PATH"
+}
+
 require_command() {
   if ! command -v "$1" >/dev/null 2>&1; then
     printf 'missing command: %s\n' "$1" >&2
@@ -103,6 +110,8 @@ clone_versioned_asset_if_missing() {
 }
 
 main() {
+  load_homebrew_env
+
   require_command git
   require_command rsync
   require_command python3

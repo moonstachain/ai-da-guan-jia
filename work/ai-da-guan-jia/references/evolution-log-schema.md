@@ -44,8 +44,13 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 
 - `run_id`
 - `created_at`
+- `run_kind`
 - `task_text`
 - `goal_model`
+- `clone_id`
+- `customer_id`
+- `training_cycle_id`
+- `target_capability`
 - `autonomy_judgment`
 - `global_optimum_judgment`
 - `reuse_judgment`
@@ -56,6 +61,10 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `skills_selected`
 - `human_boundary`
 - `verification_result`
+- `score_before`
+- `score_after`
+- `promotion_recommendation`
+- `budget_weight`
 - `effective_patterns`
 - `wasted_patterns`
 - `evolution_candidates`
@@ -96,6 +105,21 @@ Do not sync stale open questions. `verification_result.open_questions` must refl
 - `credit_influenced_selection`: bool. True only when routing credit affected at least one selected skill.
 - `proposal_authority_summary`: object grouping selected skills into suggestion-capable vs execution-focused roles.
 
+## Clone Training Fields
+
+When the run belongs to the clone factory:
+
+- `run_kind` must be `clone_training`
+- `clone_id` must match one registered clone
+- `customer_id` must identify the owning customer
+- `org_id` and `tenant_id` should identify the org / tenant boundary used by governance mirrors
+- `actor_type`, `role_template_id`, `visibility_policy`, `service_tier`, and `manager_clone_id` should be preserved when known
+- `training_cycle_id` must group the round into one cycle label
+- `target_capability` states what the clone is training
+- `score_before` and `score_after` must preserve the training delta
+- `promotion_recommendation` must be one of `promote | hold | watch | hibernate`
+- `budget_weight` is the suggested budget share captured at the time of the round
+
 ## Feishu Mirror Mapping
 
 Flatten `worklog.json` into these human-readable fields:
@@ -115,6 +139,13 @@ Flatten `worklog.json` into these human-readable fields:
 - `验真证据摘要`
 - `验真开放问题`
 - `人类边界`
+- `closure_state`
+- `verdict`
+- `enhancer_status`
+- `gained`
+- `wasted`
+- `next_iterate`
+- `pending_human_feedback`
 - `后续建议`
 - `同步状态`
 

@@ -1,0 +1,2614 @@
+{
+  "summary": {
+    "goal": "把原力OS 从治理总控舱升级成总控舱加组件驾驶舱，让共同治理者同时看见控制态、组件失衡、责任缺口、优先级和行动队列。",
+    "audience": [
+      "共同治理者",
+      "AI大管家",
+      "治理运营者",
+      "第一次接触原力OS的人类协作者"
+    ],
+    "time_grain": "day",
+    "generated_at": "2026-03-13T19:57:15+08:00"
+  },
+  "official_boundary": {
+    "supported_openapi": [
+      "bitable app metadata",
+      "tables",
+      "fields",
+      "records",
+      "views",
+      "dashboard list",
+      "dashboard copy"
+    ],
+    "manual_or_template_driven": [
+      "dashboard card creation",
+      "widget binding",
+      "canvas layout placement"
+    ],
+    "implementation_mode": "source views can be automated; dashboard cards remain checklist-driven in v1"
+  },
+  "public_rules": [
+    "One card answers one management question.",
+    "Every card points to one source view.",
+    "Diagnosis and action cards should make the next move explicit.",
+    "Long text, attachments, and raw payload fields should not become chart dimensions."
+  ],
+  "normalized_input": {
+    "goal": "把原力OS 从治理总控舱升级成总控舱加组件驾驶舱，让共同治理者同时看见控制态、组件失衡、责任缺口、优先级和行动队列。",
+    "audience": [
+      "共同治理者",
+      "AI大管家",
+      "治理运营者",
+      "第一次接触原力OS的人类协作者"
+    ],
+    "decision_questions": [
+      {
+        "id": "dq-overview-01",
+        "layer": "overview",
+        "question": "当前系统处于什么控制态？",
+        "metric_ids": [
+          "runtime_state_count"
+        ],
+        "dimension_ids": [
+          "runtime_state"
+        ],
+        "action_target_ids": [],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-overview-02",
+        "layer": "overview",
+        "question": "当前真正处于前台推进的主线有哪些？",
+        "metric_ids": [
+          "frontstage_thread_count"
+        ],
+        "dimension_ids": [
+          "operating_segment"
+        ],
+        "action_target_ids": [
+          "frontstage_threads_queue"
+        ],
+        "chart_preference": "bar_chart"
+      },
+      {
+        "id": "dq-overview-03",
+        "layer": "overview",
+        "question": "当前有多少事项必须由你介入？",
+        "metric_ids": [
+          "blocked_needs_user_count"
+        ],
+        "dimension_ids": [
+          "human_boundary_state"
+        ],
+        "action_target_ids": [
+          "needs_user_queue"
+        ],
+        "chart_preference": "bar_chart"
+      },
+      {
+        "id": "dq-overview-04",
+        "layer": "overview",
+        "question": "当前有多少系统级阻塞正在挡路？",
+        "metric_ids": [
+          "blocked_system_count"
+        ],
+        "dimension_ids": [
+          "runtime_state"
+        ],
+        "action_target_ids": [
+          "blocked_system_queue"
+        ],
+        "chart_preference": "bar_chart"
+      },
+      {
+        "id": "dq-component-01",
+        "card_id": "overview-05",
+        "layer": "overview",
+        "question": "哪些组件当前优先级最高？",
+        "metric_ids": [
+          "high_priority_component_count"
+        ],
+        "dimension_ids": [
+          "component_domain",
+          "priority_band"
+        ],
+        "action_target_ids": [
+          "priority_actions_queue"
+        ],
+        "chart_preference": "bar_chart"
+      },
+      {
+        "id": "dq-component-02",
+        "card_id": "overview-06",
+        "layer": "overview",
+        "question": "哪些组件在 direct、control、execute 上最失衡？",
+        "metric_ids": [
+          "component_gap_count"
+        ],
+        "dimension_ids": [
+          "component_domain",
+          "control_level"
+        ],
+        "action_target_ids": [
+          "control_imbalance_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-component-03",
+        "card_id": "overview-07",
+        "layer": "overview",
+        "question": "哪些组件的人类 Owner 或 AI Copilot 仍然缺位？",
+        "metric_ids": [
+          "component_owner_gap_count"
+        ],
+        "dimension_ids": [
+          "component_domain",
+          "owner_gap_status"
+        ],
+        "action_target_ids": [
+          "component_owner_gap_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-component-04",
+        "card_id": "overview-08",
+        "layer": "overview",
+        "question": "哪些组件 gap 最大、最值得优先补？",
+        "metric_ids": [
+          "hot_component_count"
+        ],
+        "dimension_ids": [
+          "component_domain",
+          "priority_band",
+          "evidence_strength"
+        ],
+        "action_target_ids": [
+          "component_heatmap_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-diagnosis-01",
+        "layer": "diagnosis",
+        "question": "当前主会场到底在推什么？",
+        "metric_ids": [
+          "frontstage_thread_count"
+        ],
+        "dimension_ids": [
+          "component_domain"
+        ],
+        "action_target_ids": [
+          "frontstage_threads_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-diagnosis-02",
+        "layer": "diagnosis",
+        "question": "哪些任务是真推进，哪些只是看起来在推进？",
+        "metric_ids": [
+          "active_task_count"
+        ],
+        "dimension_ids": [
+          "task_status",
+          "priority_band"
+        ],
+        "action_target_ids": [
+          "pseudo_progress_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-diagnosis-03",
+        "card_id": "diagnosis-03",
+        "layer": "diagnosis",
+        "question": "数据源与证据链当前健康吗？",
+        "metric_ids": [
+          "source_health_issue_count"
+        ],
+        "dimension_ids": [
+          "source_health_state"
+        ],
+        "action_target_ids": [
+          "source_evidence_queue"
+        ],
+        "chart_preference": "bar_chart"
+      },
+      {
+        "id": "dq-diagnosis-04",
+        "layer": "diagnosis",
+        "question": "最近系统做了哪些 review、decision 和 writeback？",
+        "metric_ids": [
+          "recent_governance_event_count"
+        ],
+        "dimension_ids": [
+          "review_date"
+        ],
+        "action_target_ids": [
+          "governance_trace_queue"
+        ],
+        "chart_preference": "line_chart"
+      },
+      {
+        "id": "dq-action-01",
+        "layer": "action",
+        "question": "哪些事项必须由你立即处理？",
+        "metric_ids": [],
+        "dimension_ids": [],
+        "action_target_ids": [
+          "needs_user_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-action-02",
+        "layer": "action",
+        "question": "哪些系统阻塞不能再假推进，必须单独处理？",
+        "metric_ids": [],
+        "dimension_ids": [],
+        "action_target_ids": [
+          "blocked_system_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-action-03",
+        "layer": "action",
+        "question": "如果现在开始推进，优先动作是什么？",
+        "metric_ids": [
+          "priority_action_count"
+        ],
+        "dimension_ids": [
+          "component_domain",
+          "priority_band"
+        ],
+        "action_target_ids": [
+          "priority_actions_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-action-04",
+        "card_id": "action-04",
+        "layer": "action",
+        "question": "哪些能力价值高，但审批或授权摩擦仍然很大？",
+        "metric_ids": [
+          "approval_friction_count"
+        ],
+        "dimension_ids": [
+          "capability_cluster"
+        ],
+        "action_target_ids": [
+          "approval_friction_queue"
+        ],
+        "chart_preference": "table"
+      }
+    ],
+    "tables": [
+      {
+        "id": "control_objects",
+        "name": "总控对象主表",
+        "grain": "control_object",
+        "fields": [
+          {
+            "name": "对象Key",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "对象类型",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "对象标题",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "治理层级",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "运营分段",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "对象状态",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "goal_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "component_domain",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "control_level",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "priority_band",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "owner_mode",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "human_boundary_state",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "需要人类输入",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "阻塞原因",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "下一步动作",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "evidence_ref",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "evidence_strength",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "strategic_linkage",
+        "name": "战略链路表",
+        "grain": "strategic_link",
+        "fields": [
+          {
+            "name": "战略链路Key",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "goal_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "theme_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "strategy_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "experiment_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "workflow_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "component_domain",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "control_level_scope",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "current_gap",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "next_action",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "evidence_ref",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "cbm_component_responsibility",
+        "name": "CBM组件责任表",
+        "grain": "component_domain",
+        "fields": [
+          {
+            "name": "组件Key",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "component_domain",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "control_level_scope",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "human_owner",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "ai_copilot",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "goal_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "theme_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "strategy_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "workflow_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "owner_gap",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "evidence_ref",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "cbm_component_heatmap",
+        "name": "CBM组件热图表",
+        "grain": "component_domain_control_level",
+        "fields": [
+          {
+            "name": "热图Key",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "component_domain",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "control_level",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "kpi_hint",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "current_gap",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "priority_band",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "next_action",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "owner_mode",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "evidence_strength",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "latest_decision_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "latest_writeback_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "threads",
+        "name": "线程总表",
+        "grain": "thread",
+        "fields": [
+          {
+            "name": "thread_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "goal_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "theme_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "strategy_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "experiment_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "workflow_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "component_domain",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "control_level",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "required_human_input",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "blocker_reason",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "tasks",
+        "name": "任务总表",
+        "grain": "task",
+        "fields": [
+          {
+            "name": "task_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "thread_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "goal_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "component_domain",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "control_level",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "owner_mode",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "human_boundary_state",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "task_status",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "kpi_gap",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "priority_band",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "next_action",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "evidence_ref",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "skills_capabilities",
+        "name": "技能与能力表",
+        "grain": "skill_or_capability",
+        "fields": [
+          {
+            "name": "capability_key",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "record_type",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "cluster_or_actor",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "routing_credit",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "verification_strength",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "requires_human_approval",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "source_feeds",
+        "name": "数据源同步表",
+        "grain": "source_feed",
+        "fields": [
+          {
+            "name": "source_feed_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "source_family",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "remote_reachable",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "missing_sources_snapshot",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "connected_sources_snapshot",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "review_runs",
+        "name": "Review批次表",
+        "grain": "review_run",
+        "fields": [
+          {
+            "name": "review_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "review_date",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "scope",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "summary",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "top_risks",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "candidate_actions",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "human_decision",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "decision_records",
+        "name": "决策记录表",
+        "grain": "decision_record",
+        "fields": [
+          {
+            "name": "decision_id",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "decision_type",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "decision_state",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "target_entity_ids",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "decision_summary",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "rationale",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "evidence_refs",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "decision_time",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      },
+      {
+        "id": "governance_events",
+        "name": "治理动作与写回表",
+        "grain": "governance_event",
+        "fields": [
+          {
+            "name": "governance_event_key",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "record_type",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "status",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "target_entity_type_or_refs",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "required_policy_ids",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "verification_state",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "evidence_refs",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "event_time",
+            "type": "text",
+            "role": ""
+          },
+          {
+            "name": "updated_at",
+            "type": "text",
+            "role": ""
+          }
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "id": "runtime_state_count",
+        "name": "控制态分布",
+        "table_id": "control_objects",
+        "field": "对象状态",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "frontstage_thread_count",
+        "name": "前台主线数",
+        "table_id": "threads",
+        "field": "",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "blocked_needs_user_count",
+        "name": "待你处理数",
+        "table_id": "control_objects",
+        "field": "",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "blocked_system_count",
+        "name": "系统阻塞数",
+        "table_id": "control_objects",
+        "field": "",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "high_priority_component_count",
+        "name": "高优先级组件数",
+        "table_id": "cbm_component_heatmap",
+        "field": "priority_band",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "component_gap_count",
+        "name": "组件缺口数",
+        "table_id": "cbm_component_heatmap",
+        "field": "",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "component_owner_gap_count",
+        "name": "组件责任缺口数",
+        "table_id": "cbm_component_responsibility",
+        "field": "owner_gap",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "hot_component_count",
+        "name": "热点组件数",
+        "table_id": "cbm_component_heatmap",
+        "field": "component_domain",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "active_task_count",
+        "name": "活跃任务数",
+        "table_id": "tasks",
+        "field": "",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "source_health_issue_count",
+        "name": "数据源健康异常数",
+        "table_id": "source_feeds",
+        "field": "",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "recent_governance_event_count",
+        "name": "近期治理动作数",
+        "table_id": "governance_events",
+        "field": "",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "priority_action_count",
+        "name": "优先动作数",
+        "table_id": "cbm_component_heatmap",
+        "field": "priority_band",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      },
+      {
+        "id": "approval_friction_count",
+        "name": "审批摩擦数",
+        "table_id": "skills_capabilities",
+        "field": "requires_human_approval",
+        "aggregation": "count",
+        "type": "",
+        "questions": []
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "runtime_state",
+        "name": "控制态",
+        "table_id": "control_objects",
+        "field": "对象状态",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "operating_segment",
+        "name": "运营分段",
+        "table_id": "control_objects",
+        "field": "运营分段",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "human_boundary_state",
+        "name": "人类边界状态",
+        "table_id": "control_objects",
+        "field": "human_boundary_state",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "component_domain",
+        "name": "组件域",
+        "table_id": "cbm_component_heatmap",
+        "field": "component_domain",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "control_level",
+        "name": "管理纵线",
+        "table_id": "cbm_component_heatmap",
+        "field": "control_level",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "priority_band",
+        "name": "优先级带",
+        "table_id": "cbm_component_heatmap",
+        "field": "priority_band",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "owner_gap_status",
+        "name": "责任缺口状态",
+        "table_id": "cbm_component_responsibility",
+        "field": "owner_gap",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "evidence_strength",
+        "name": "证据强度",
+        "table_id": "cbm_component_heatmap",
+        "field": "evidence_strength",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "task_status",
+        "name": "任务状态",
+        "table_id": "tasks",
+        "field": "task_status",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "source_health_state",
+        "name": "数据源健康",
+        "table_id": "source_feeds",
+        "field": "status",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      },
+      {
+        "id": "review_date",
+        "name": "评审日期",
+        "table_id": "review_runs",
+        "field": "review_date",
+        "aggregation": "",
+        "type": "time",
+        "questions": []
+      },
+      {
+        "id": "capability_cluster",
+        "name": "能力簇",
+        "table_id": "skills_capabilities",
+        "field": "cluster_or_actor",
+        "aggregation": "",
+        "type": "single_select",
+        "questions": []
+      }
+    ],
+    "time_grain": "day",
+    "action_targets": [
+      {
+        "id": "needs_user_queue",
+        "name": "待你处理队列",
+        "table_id": "control_objects",
+        "record_filter": "需要人类输入 != 空",
+        "display_fields": [
+          "对象标题",
+          "component_domain",
+          "control_level",
+          "需要人类输入",
+          "阻塞原因",
+          "下一步动作",
+          "evidence_ref"
+        ]
+      },
+      {
+        "id": "blocked_system_queue",
+        "name": "系统阻塞队列",
+        "table_id": "control_objects",
+        "record_filter": "对象状态 = blocked_system",
+        "display_fields": [
+          "对象标题",
+          "component_domain",
+          "control_level",
+          "阻塞原因",
+          "下一步动作",
+          "evidence_ref"
+        ]
+      },
+      {
+        "id": "frontstage_threads_queue",
+        "name": "前台主线队列",
+        "table_id": "threads",
+        "record_filter": "status in [active, frontstage_now]",
+        "display_fields": [
+          "title",
+          "goal_id",
+          "component_domain",
+          "control_level",
+          "status",
+          "required_human_input",
+          "blocker_reason"
+        ]
+      },
+      {
+        "id": "component_owner_gap_queue",
+        "name": "组件 Owner Gap 队列",
+        "table_id": "cbm_component_responsibility",
+        "record_filter": "owner_gap != none",
+        "display_fields": [
+          "component_domain",
+          "control_level_scope",
+          "human_owner",
+          "ai_copilot",
+          "owner_gap",
+          "goal_id",
+          "strategy_id",
+          "evidence_ref"
+        ]
+      },
+      {
+        "id": "component_heatmap_queue",
+        "name": "组件热图优先队列",
+        "table_id": "cbm_component_heatmap",
+        "record_filter": "priority_band in [P0, P1]",
+        "display_fields": [
+          "component_domain",
+          "control_level",
+          "kpi_hint",
+          "current_gap",
+          "priority_band",
+          "next_action",
+          "evidence_strength"
+        ]
+      },
+      {
+        "id": "control_imbalance_queue",
+        "name": "管理纵线失衡队列",
+        "table_id": "cbm_component_heatmap",
+        "record_filter": "current_gap != 空",
+        "display_fields": [
+          "component_domain",
+          "control_level",
+          "current_gap",
+          "priority_band",
+          "next_action",
+          "latest_decision_id"
+        ]
+      },
+      {
+        "id": "pseudo_progress_queue",
+        "name": "假推进排查队列",
+        "table_id": "tasks",
+        "record_filter": "task_status in [waiting, blocked_needs_user, blocked_system]",
+        "display_fields": [
+          "title",
+          "thread_id",
+          "component_domain",
+          "control_level",
+          "task_status",
+          "priority_band",
+          "next_action",
+          "evidence_ref"
+        ]
+      },
+      {
+        "id": "source_evidence_queue",
+        "name": "数据源与证据健康队列",
+        "table_id": "source_feeds",
+        "record_filter": "status != healthy OR missing_sources_snapshot != none",
+        "display_fields": [
+          "title",
+          "source_family",
+          "status",
+          "remote_reachable",
+          "missing_sources_snapshot",
+          "connected_sources_snapshot"
+        ]
+      },
+      {
+        "id": "governance_trace_queue",
+        "name": "治理轨迹队列",
+        "table_id": "governance_events",
+        "record_filter": "event_time within last 14 days",
+        "display_fields": [
+          "title",
+          "record_type",
+          "status",
+          "verification_state",
+          "evidence_refs",
+          "event_time"
+        ]
+      },
+      {
+        "id": "priority_actions_queue",
+        "name": "优先动作队列",
+        "table_id": "cbm_component_heatmap",
+        "record_filter": "priority_band in [P0, P1] AND next_action != 空",
+        "display_fields": [
+          "component_domain",
+          "control_level",
+          "priority_band",
+          "current_gap",
+          "next_action",
+          "latest_decision_id",
+          "latest_writeback_id"
+        ]
+      },
+      {
+        "id": "approval_friction_queue",
+        "name": "审批摩擦队列",
+        "table_id": "skills_capabilities",
+        "record_filter": "requires_human_approval = true",
+        "display_fields": [
+          "name",
+          "cluster_or_actor",
+          "routing_credit",
+          "verification_strength",
+          "requires_human_approval",
+          "status"
+        ]
+      }
+    ]
+  },
+  "dashboards": [
+    {
+      "name": "把原力OS 从治理总控舱升级成总控舱加组件驾驶舱，让共同治理者同时看见控制态、组件失衡、责任缺口、优先级和行动队列。仪表盘",
+      "layers": [
+        {
+          "layer": "overview",
+          "cards": [
+            {
+              "id": "card-dq-overview-01",
+              "title": "当前系统处于什么控制态？",
+              "layer": "overview",
+              "card_type": "table",
+              "question_id": "dq-overview-01",
+              "question": "当前系统处于什么控制态？",
+              "source_view_id": "view-dq-overview-01",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "runtime_state_count"
+              ],
+              "dimension_ids": [
+                "runtime_state"
+              ],
+              "action_target_ids": [],
+              "recommended_position": 1
+            },
+            {
+              "id": "card-dq-overview-02",
+              "title": "当前真正处于前台推进的主线有哪些？",
+              "layer": "overview",
+              "card_type": "bar_chart",
+              "question_id": "dq-overview-02",
+              "question": "当前真正处于前台推进的主线有哪些？",
+              "source_view_id": "view-dq-overview-02",
+              "table_id": "threads",
+              "metric_ids": [
+                "frontstage_thread_count"
+              ],
+              "dimension_ids": [
+                "operating_segment"
+              ],
+              "action_target_ids": [
+                "frontstage_threads_queue"
+              ],
+              "recommended_position": 2
+            },
+            {
+              "id": "card-dq-overview-03",
+              "title": "当前有多少事项必须由你介入？",
+              "layer": "overview",
+              "card_type": "bar_chart",
+              "question_id": "dq-overview-03",
+              "question": "当前有多少事项必须由你介入？",
+              "source_view_id": "view-dq-overview-03",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "blocked_needs_user_count"
+              ],
+              "dimension_ids": [
+                "human_boundary_state"
+              ],
+              "action_target_ids": [
+                "needs_user_queue"
+              ],
+              "recommended_position": 3
+            },
+            {
+              "id": "card-dq-overview-04",
+              "title": "当前有多少系统级阻塞正在挡路？",
+              "layer": "overview",
+              "card_type": "bar_chart",
+              "question_id": "dq-overview-04",
+              "question": "当前有多少系统级阻塞正在挡路？",
+              "source_view_id": "view-dq-overview-04",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "blocked_system_count"
+              ],
+              "dimension_ids": [
+                "runtime_state"
+              ],
+              "action_target_ids": [
+                "blocked_system_queue"
+              ],
+              "recommended_position": 4
+            },
+            {
+              "id": "card-dq-component-01",
+              "card_id": "overview-05",
+              "title": "哪些组件当前优先级最高？",
+              "layer": "overview",
+              "card_type": "bar_chart",
+              "question_id": "dq-component-01",
+              "question": "哪些组件当前优先级最高？",
+              "source_view_id": "view-dq-component-01",
+              "table_id": "cbm_component_heatmap",
+              "metric_ids": [
+                "high_priority_component_count"
+              ],
+              "dimension_ids": [
+                "component_domain",
+                "priority_band"
+              ],
+              "action_target_ids": [
+                "priority_actions_queue"
+              ],
+              "recommended_position": 5
+            },
+            {
+              "id": "card-dq-component-02",
+              "card_id": "overview-06",
+              "title": "哪些组件在 direct、control、execute 上最失衡？",
+              "layer": "overview",
+              "card_type": "table",
+              "question_id": "dq-component-02",
+              "question": "哪些组件在 direct、control、execute 上最失衡？",
+              "source_view_id": "view-dq-component-02",
+              "table_id": "cbm_component_heatmap",
+              "metric_ids": [
+                "component_gap_count"
+              ],
+              "dimension_ids": [
+                "component_domain",
+                "control_level"
+              ],
+              "action_target_ids": [
+                "control_imbalance_queue"
+              ],
+              "recommended_position": 6
+            },
+            {
+              "id": "card-dq-component-03",
+              "card_id": "overview-07",
+              "title": "哪些组件的人类 Owner 或 AI Copilot 仍然缺位？",
+              "layer": "overview",
+              "card_type": "table",
+              "question_id": "dq-component-03",
+              "question": "哪些组件的人类 Owner 或 AI Copilot 仍然缺位？",
+              "source_view_id": "view-dq-component-03",
+              "table_id": "cbm_component_responsibility",
+              "metric_ids": [
+                "component_owner_gap_count"
+              ],
+              "dimension_ids": [
+                "component_domain",
+                "owner_gap_status"
+              ],
+              "action_target_ids": [
+                "component_owner_gap_queue"
+              ],
+              "recommended_position": 7
+            },
+            {
+              "id": "card-dq-component-04",
+              "card_id": "overview-08",
+              "title": "哪些组件 gap 最大、最值得优先补？",
+              "layer": "overview",
+              "card_type": "table",
+              "question_id": "dq-component-04",
+              "question": "哪些组件 gap 最大、最值得优先补？",
+              "source_view_id": "view-dq-component-04",
+              "table_id": "cbm_component_heatmap",
+              "metric_ids": [
+                "hot_component_count"
+              ],
+              "dimension_ids": [
+                "component_domain",
+                "priority_band",
+                "evidence_strength"
+              ],
+              "action_target_ids": [
+                "component_heatmap_queue"
+              ],
+              "recommended_position": 8
+            }
+          ]
+        },
+        {
+          "layer": "diagnosis",
+          "cards": [
+            {
+              "id": "card-dq-diagnosis-01",
+              "title": "当前主会场到底在推什么？",
+              "layer": "diagnosis",
+              "card_type": "table",
+              "question_id": "dq-diagnosis-01",
+              "question": "当前主会场到底在推什么？",
+              "source_view_id": "view-dq-diagnosis-01",
+              "table_id": "threads",
+              "metric_ids": [
+                "frontstage_thread_count"
+              ],
+              "dimension_ids": [
+                "component_domain"
+              ],
+              "action_target_ids": [
+                "frontstage_threads_queue"
+              ],
+              "recommended_position": 9
+            },
+            {
+              "id": "card-dq-diagnosis-02",
+              "title": "哪些任务是真推进，哪些只是看起来在推进？",
+              "layer": "diagnosis",
+              "card_type": "table",
+              "question_id": "dq-diagnosis-02",
+              "question": "哪些任务是真推进，哪些只是看起来在推进？",
+              "source_view_id": "view-dq-diagnosis-02",
+              "table_id": "tasks",
+              "metric_ids": [
+                "active_task_count"
+              ],
+              "dimension_ids": [
+                "task_status",
+                "priority_band"
+              ],
+              "action_target_ids": [
+                "pseudo_progress_queue"
+              ],
+              "recommended_position": 10
+            },
+            {
+              "id": "card-dq-diagnosis-03",
+              "card_id": "diagnosis-03",
+              "title": "数据源与证据链当前健康吗？",
+              "layer": "diagnosis",
+              "card_type": "bar_chart",
+              "question_id": "dq-diagnosis-03",
+              "question": "数据源与证据链当前健康吗？",
+              "source_view_id": "view-dq-diagnosis-03",
+              "table_id": "source_feeds",
+              "metric_ids": [
+                "source_health_issue_count"
+              ],
+              "dimension_ids": [
+                "source_health_state"
+              ],
+              "action_target_ids": [
+                "source_evidence_queue"
+              ],
+              "recommended_position": 11
+            },
+            {
+              "id": "card-dq-diagnosis-04",
+              "title": "最近系统做了哪些 review、decision 和 writeback？",
+              "layer": "diagnosis",
+              "card_type": "line_chart",
+              "question_id": "dq-diagnosis-04",
+              "question": "最近系统做了哪些 review、decision 和 writeback？",
+              "source_view_id": "view-dq-diagnosis-04",
+              "table_id": "governance_events",
+              "metric_ids": [
+                "recent_governance_event_count"
+              ],
+              "dimension_ids": [
+                "review_date"
+              ],
+              "action_target_ids": [
+                "governance_trace_queue"
+              ],
+              "recommended_position": 12
+            }
+          ]
+        },
+        {
+          "layer": "action",
+          "cards": [
+            {
+              "id": "card-dq-action-01",
+              "title": "哪些事项必须由你立即处理？",
+              "layer": "action",
+              "card_type": "table",
+              "question_id": "dq-action-01",
+              "question": "哪些事项必须由你立即处理？",
+              "source_view_id": "view-dq-action-01",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "runtime_state_count"
+              ],
+              "dimension_ids": [],
+              "action_target_ids": [
+                "needs_user_queue"
+              ],
+              "recommended_position": 13
+            },
+            {
+              "id": "card-dq-action-02",
+              "title": "哪些系统阻塞不能再假推进，必须单独处理？",
+              "layer": "action",
+              "card_type": "table",
+              "question_id": "dq-action-02",
+              "question": "哪些系统阻塞不能再假推进，必须单独处理？",
+              "source_view_id": "view-dq-action-02",
+              "table_id": "control_objects",
+              "metric_ids": [
+                "runtime_state_count"
+              ],
+              "dimension_ids": [],
+              "action_target_ids": [
+                "blocked_system_queue"
+              ],
+              "recommended_position": 14
+            },
+            {
+              "id": "card-dq-action-03",
+              "title": "如果现在开始推进，优先动作是什么？",
+              "layer": "action",
+              "card_type": "table",
+              "question_id": "dq-action-03",
+              "question": "如果现在开始推进，优先动作是什么？",
+              "source_view_id": "view-dq-action-03",
+              "table_id": "cbm_component_heatmap",
+              "metric_ids": [
+                "priority_action_count"
+              ],
+              "dimension_ids": [
+                "component_domain",
+                "priority_band"
+              ],
+              "action_target_ids": [
+                "priority_actions_queue"
+              ],
+              "recommended_position": 15
+            },
+            {
+              "id": "card-dq-action-04",
+              "card_id": "action-04",
+              "title": "哪些能力价值高，但审批或授权摩擦仍然很大？",
+              "layer": "action",
+              "card_type": "table",
+              "question_id": "dq-action-04",
+              "question": "哪些能力价值高，但审批或授权摩擦仍然很大？",
+              "source_view_id": "view-dq-action-04",
+              "table_id": "skills_capabilities",
+              "metric_ids": [
+                "approval_friction_count"
+              ],
+              "dimension_ids": [
+                "capability_cluster"
+              ],
+              "action_target_ids": [
+                "approval_friction_queue"
+              ],
+              "recommended_position": 16
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_views": [
+    {
+      "id": "view-dq-overview-01",
+      "view_name": "overview-当前系统处于什么控制态",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-overview-01",
+      "question": "当前系统处于什么控制态？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "runtime_state_count",
+          "name": "控制态分布",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "runtime_state",
+          "name": "控制态",
+          "field": "对象状态"
+        }
+      ],
+      "filters": [
+        "time grain = day"
+      ],
+      "display_fields": [
+        "对象状态"
+      ],
+      "action_target_ids": []
+    },
+    {
+      "id": "view-dq-overview-02",
+      "view_name": "overview-当前真正处于前台推进的主线有哪些",
+      "table_id": "threads",
+      "table_name": "线程总表",
+      "question_id": "dq-overview-02",
+      "question": "当前真正处于前台推进的主线有哪些？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "frontstage_thread_count",
+          "name": "前台主线数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "operating_segment",
+          "name": "运营分段",
+          "field": "运营分段"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "status in [active, frontstage_now]"
+      ],
+      "display_fields": [
+        "运营分段",
+        "title",
+        "goal_id",
+        "component_domain",
+        "control_level",
+        "status",
+        "required_human_input",
+        "blocker_reason"
+      ],
+      "action_target_ids": [
+        "frontstage_threads_queue"
+      ]
+    },
+    {
+      "id": "view-dq-overview-03",
+      "view_name": "overview-当前有多少事项必须由你介入",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-overview-03",
+      "question": "当前有多少事项必须由你介入？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "blocked_needs_user_count",
+          "name": "待你处理数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "human_boundary_state",
+          "name": "人类边界状态",
+          "field": "human_boundary_state"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "需要人类输入 != 空"
+      ],
+      "display_fields": [
+        "human_boundary_state",
+        "对象标题",
+        "component_domain",
+        "control_level",
+        "需要人类输入",
+        "阻塞原因",
+        "下一步动作",
+        "evidence_ref"
+      ],
+      "action_target_ids": [
+        "needs_user_queue"
+      ]
+    },
+    {
+      "id": "view-dq-overview-04",
+      "view_name": "overview-当前有多少系统级阻塞正在挡路",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-overview-04",
+      "question": "当前有多少系统级阻塞正在挡路？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "blocked_system_count",
+          "name": "系统阻塞数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "runtime_state",
+          "name": "控制态",
+          "field": "对象状态"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "对象状态 = blocked_system"
+      ],
+      "display_fields": [
+        "对象状态",
+        "对象标题",
+        "component_domain",
+        "control_level",
+        "阻塞原因",
+        "下一步动作",
+        "evidence_ref"
+      ],
+      "action_target_ids": [
+        "blocked_system_queue"
+      ]
+    },
+    {
+      "id": "view-dq-component-01",
+      "card_id": "overview-05",
+      "view_name": "overview-哪些组件当前优先级最高",
+      "table_id": "cbm_component_heatmap",
+      "table_name": "CBM组件热图表",
+      "question_id": "dq-component-01",
+      "question": "哪些组件当前优先级最高？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "high_priority_component_count",
+          "name": "高优先级组件数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "component_domain",
+          "name": "组件域",
+          "field": "component_domain"
+        },
+        {
+          "id": "priority_band",
+          "name": "优先级带",
+          "field": "priority_band"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "priority_band in [P0, P1] AND next_action != 空"
+      ],
+      "display_fields": [
+        "component_domain",
+        "priority_band",
+        "control_level",
+        "current_gap",
+        "next_action",
+        "latest_decision_id",
+        "latest_writeback_id"
+      ],
+      "action_target_ids": [
+        "priority_actions_queue"
+      ]
+    },
+    {
+      "id": "view-dq-component-02",
+      "card_id": "overview-06",
+      "view_name": "overview-哪些组件在-direct-control-execute-上最失衡",
+      "table_id": "cbm_component_heatmap",
+      "table_name": "CBM组件热图表",
+      "question_id": "dq-component-02",
+      "question": "哪些组件在 direct、control、execute 上最失衡？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "component_gap_count",
+          "name": "组件缺口数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "component_domain",
+          "name": "组件域",
+          "field": "component_domain"
+        },
+        {
+          "id": "control_level",
+          "name": "管理纵线",
+          "field": "control_level"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "current_gap != 空"
+      ],
+      "display_fields": [
+        "component_domain",
+        "control_level",
+        "current_gap",
+        "priority_band",
+        "next_action",
+        "latest_decision_id"
+      ],
+      "action_target_ids": [
+        "control_imbalance_queue"
+      ]
+    },
+    {
+      "id": "view-dq-component-03",
+      "card_id": "overview-07",
+      "view_name": "overview-哪些组件的人类-owner-或-ai-copilot-仍然缺位",
+      "table_id": "cbm_component_responsibility",
+      "table_name": "CBM组件责任表",
+      "question_id": "dq-component-03",
+      "question": "哪些组件的人类 Owner 或 AI Copilot 仍然缺位？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "component_owner_gap_count",
+          "name": "组件责任缺口数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "component_domain",
+          "name": "组件域",
+          "field": "component_domain"
+        },
+        {
+          "id": "owner_gap_status",
+          "name": "责任缺口状态",
+          "field": "owner_gap"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "owner_gap != none"
+      ],
+      "display_fields": [
+        "component_domain",
+        "owner_gap",
+        "control_level_scope",
+        "human_owner",
+        "ai_copilot",
+        "goal_id",
+        "strategy_id",
+        "evidence_ref"
+      ],
+      "action_target_ids": [
+        "component_owner_gap_queue"
+      ]
+    },
+    {
+      "id": "view-dq-component-04",
+      "card_id": "overview-08",
+      "view_name": "overview-哪些组件-gap-最大-最值得优先补",
+      "table_id": "cbm_component_heatmap",
+      "table_name": "CBM组件热图表",
+      "question_id": "dq-component-04",
+      "question": "哪些组件 gap 最大、最值得优先补？",
+      "layer": "overview",
+      "metrics": [
+        {
+          "id": "hot_component_count",
+          "name": "热点组件数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "component_domain",
+          "name": "组件域",
+          "field": "component_domain"
+        },
+        {
+          "id": "priority_band",
+          "name": "优先级带",
+          "field": "priority_band"
+        },
+        {
+          "id": "evidence_strength",
+          "name": "证据强度",
+          "field": "evidence_strength"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "priority_band in [P0, P1]"
+      ],
+      "display_fields": [
+        "component_domain",
+        "priority_band",
+        "evidence_strength",
+        "control_level",
+        "kpi_hint",
+        "current_gap",
+        "next_action"
+      ],
+      "action_target_ids": [
+        "component_heatmap_queue"
+      ]
+    },
+    {
+      "id": "view-dq-diagnosis-01",
+      "view_name": "diagnosis-当前主会场到底在推什么",
+      "table_id": "threads",
+      "table_name": "线程总表",
+      "question_id": "dq-diagnosis-01",
+      "question": "当前主会场到底在推什么？",
+      "layer": "diagnosis",
+      "metrics": [
+        {
+          "id": "frontstage_thread_count",
+          "name": "前台主线数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "component_domain",
+          "name": "组件域",
+          "field": "component_domain"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "status in [active, frontstage_now]"
+      ],
+      "display_fields": [
+        "component_domain",
+        "title",
+        "goal_id",
+        "control_level",
+        "status",
+        "required_human_input",
+        "blocker_reason"
+      ],
+      "action_target_ids": [
+        "frontstage_threads_queue"
+      ]
+    },
+    {
+      "id": "view-dq-diagnosis-02",
+      "view_name": "diagnosis-哪些任务是真推进-哪些只是看起来在推进",
+      "table_id": "tasks",
+      "table_name": "任务总表",
+      "question_id": "dq-diagnosis-02",
+      "question": "哪些任务是真推进，哪些只是看起来在推进？",
+      "layer": "diagnosis",
+      "metrics": [
+        {
+          "id": "active_task_count",
+          "name": "活跃任务数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "task_status",
+          "name": "任务状态",
+          "field": "task_status"
+        },
+        {
+          "id": "priority_band",
+          "name": "优先级带",
+          "field": "priority_band"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "task_status in [waiting, blocked_needs_user, blocked_system]"
+      ],
+      "display_fields": [
+        "task_status",
+        "priority_band",
+        "title",
+        "thread_id",
+        "component_domain",
+        "control_level",
+        "next_action",
+        "evidence_ref"
+      ],
+      "action_target_ids": [
+        "pseudo_progress_queue"
+      ]
+    },
+    {
+      "id": "view-dq-diagnosis-03",
+      "card_id": "diagnosis-03",
+      "view_name": "diagnosis-数据源与证据链当前健康吗",
+      "table_id": "source_feeds",
+      "table_name": "数据源同步表",
+      "question_id": "dq-diagnosis-03",
+      "question": "数据源与证据链当前健康吗？",
+      "layer": "diagnosis",
+      "metrics": [
+        {
+          "id": "source_health_issue_count",
+          "name": "数据源健康异常数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "source_health_state",
+          "name": "数据源健康",
+          "field": "status"
+        }
+      ],
+      "filters": [
+        "time grain = day"
+      ],
+      "display_fields": [
+        "status",
+        "title",
+        "source_family",
+        "remote_reachable",
+        "missing_sources_snapshot",
+        "connected_sources_snapshot"
+      ],
+      "action_target_ids": [
+        "source_evidence_queue"
+      ]
+    },
+    {
+      "id": "view-dq-diagnosis-04",
+      "view_name": "diagnosis-最近系统做了哪些-review-decision-和-writeback",
+      "table_id": "governance_events",
+      "table_name": "治理动作与写回表",
+      "question_id": "dq-diagnosis-04",
+      "question": "最近系统做了哪些 review、decision 和 writeback？",
+      "layer": "diagnosis",
+      "metrics": [
+        {
+          "id": "recent_governance_event_count",
+          "name": "近期治理动作数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "review_date",
+          "name": "评审日期",
+          "field": "review_date"
+        }
+      ],
+      "filters": [
+        "time grain = day",
+        "event_time within last 14 days"
+      ],
+      "display_fields": [
+        "review_date",
+        "title",
+        "record_type",
+        "status",
+        "verification_state",
+        "evidence_refs",
+        "event_time"
+      ],
+      "action_target_ids": [
+        "governance_trace_queue"
+      ]
+    },
+    {
+      "id": "view-dq-action-01",
+      "view_name": "action-哪些事项必须由你立即处理",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-action-01",
+      "question": "哪些事项必须由你立即处理？",
+      "layer": "action",
+      "metrics": [
+        {
+          "id": "runtime_state_count",
+          "name": "控制态分布",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [],
+      "filters": [
+        "需要人类输入 != 空"
+      ],
+      "display_fields": [
+        "对象标题",
+        "component_domain",
+        "control_level",
+        "需要人类输入",
+        "阻塞原因",
+        "下一步动作",
+        "evidence_ref"
+      ],
+      "action_target_ids": [
+        "needs_user_queue"
+      ]
+    },
+    {
+      "id": "view-dq-action-02",
+      "view_name": "action-哪些系统阻塞不能再假推进-必须单独处理",
+      "table_id": "control_objects",
+      "table_name": "总控对象主表",
+      "question_id": "dq-action-02",
+      "question": "哪些系统阻塞不能再假推进，必须单独处理？",
+      "layer": "action",
+      "metrics": [
+        {
+          "id": "runtime_state_count",
+          "name": "控制态分布",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [],
+      "filters": [
+        "对象状态 = blocked_system"
+      ],
+      "display_fields": [
+        "对象标题",
+        "component_domain",
+        "control_level",
+        "阻塞原因",
+        "下一步动作",
+        "evidence_ref"
+      ],
+      "action_target_ids": [
+        "blocked_system_queue"
+      ]
+    },
+    {
+      "id": "view-dq-action-03",
+      "view_name": "action-如果现在开始推进-优先动作是什么",
+      "table_id": "cbm_component_heatmap",
+      "table_name": "CBM组件热图表",
+      "question_id": "dq-action-03",
+      "question": "如果现在开始推进，优先动作是什么？",
+      "layer": "action",
+      "metrics": [
+        {
+          "id": "priority_action_count",
+          "name": "优先动作数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "component_domain",
+          "name": "组件域",
+          "field": "component_domain"
+        },
+        {
+          "id": "priority_band",
+          "name": "优先级带",
+          "field": "priority_band"
+        }
+      ],
+      "filters": [
+        "priority_band in [P0, P1] AND next_action != 空"
+      ],
+      "display_fields": [
+        "component_domain",
+        "priority_band",
+        "control_level",
+        "current_gap",
+        "next_action",
+        "latest_decision_id",
+        "latest_writeback_id"
+      ],
+      "action_target_ids": [
+        "priority_actions_queue"
+      ]
+    },
+    {
+      "id": "view-dq-action-04",
+      "card_id": "action-04",
+      "view_name": "action-哪些能力价值高-但审批或授权摩擦仍然很大",
+      "table_id": "skills_capabilities",
+      "table_name": "技能与能力表",
+      "question_id": "dq-action-04",
+      "question": "哪些能力价值高，但审批或授权摩擦仍然很大？",
+      "layer": "action",
+      "metrics": [
+        {
+          "id": "approval_friction_count",
+          "name": "审批摩擦数",
+          "aggregation": "count"
+        }
+      ],
+      "dimensions": [
+        {
+          "id": "capability_cluster",
+          "name": "能力簇",
+          "field": "cluster_or_actor"
+        }
+      ],
+      "filters": [
+        "requires_human_approval = 是"
+      ],
+      "display_fields": [
+        "cluster_or_actor",
+        "name",
+        "routing_credit",
+        "verification_strength",
+        "requires_human_approval",
+        "status"
+      ],
+      "action_target_ids": [
+        "approval_friction_queue"
+      ]
+    }
+  ],
+  "card_checklist": [
+    {
+      "card_title": "当前系统处于什么控制态？",
+      "layer": "overview",
+      "card_type": "table",
+      "source_view_id": "view-dq-overview-01",
+      "source_view_name": "overview-当前系统处于什么控制态",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `overview-当前系统处于什么控制态`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "当前真正处于前台推进的主线有哪些？",
+      "layer": "overview",
+      "card_type": "bar_chart",
+      "source_view_id": "view-dq-overview-02",
+      "source_view_name": "overview-当前真正处于前台推进的主线有哪些",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a bar_chart card.",
+        "Bind the card to source view `overview-当前真正处于前台推进的主线有哪些`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "当前有多少事项必须由你介入？",
+      "layer": "overview",
+      "card_type": "bar_chart",
+      "source_view_id": "view-dq-overview-03",
+      "source_view_name": "overview-当前有多少事项必须由你介入",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a bar_chart card.",
+        "Bind the card to source view `overview-当前有多少事项必须由你介入`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "当前有多少系统级阻塞正在挡路？",
+      "layer": "overview",
+      "card_type": "bar_chart",
+      "source_view_id": "view-dq-overview-04",
+      "source_view_name": "overview-当前有多少系统级阻塞正在挡路",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a bar_chart card.",
+        "Bind the card to source view `overview-当前有多少系统级阻塞正在挡路`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些组件当前优先级最高？",
+      "card_id": "overview-05",
+      "layer": "overview",
+      "card_type": "bar_chart",
+      "source_view_id": "view-dq-component-01",
+      "source_view_name": "overview-哪些组件当前优先级最高",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a bar_chart card.",
+        "Bind the card to source view `overview-哪些组件当前优先级最高`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些组件在 direct、control、execute 上最失衡？",
+      "card_id": "overview-06",
+      "layer": "overview",
+      "card_type": "table",
+      "source_view_id": "view-dq-component-02",
+      "source_view_name": "overview-哪些组件在-direct-control-execute-上最失衡",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `overview-哪些组件在-direct-control-execute-上最失衡`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些组件的人类 Owner 或 AI Copilot 仍然缺位？",
+      "card_id": "overview-07",
+      "layer": "overview",
+      "card_type": "table",
+      "source_view_id": "view-dq-component-03",
+      "source_view_name": "overview-哪些组件的人类-owner-或-ai-copilot-仍然缺位",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `overview-哪些组件的人类-owner-或-ai-copilot-仍然缺位`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些组件 gap 最大、最值得优先补？",
+      "card_id": "overview-08",
+      "layer": "overview",
+      "card_type": "table",
+      "source_view_id": "view-dq-component-04",
+      "source_view_name": "overview-哪些组件-gap-最大-最值得优先补",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `overview-哪些组件-gap-最大-最值得优先补`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "当前主会场到底在推什么？",
+      "layer": "diagnosis",
+      "card_type": "table",
+      "source_view_id": "view-dq-diagnosis-01",
+      "source_view_name": "diagnosis-当前主会场到底在推什么",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `diagnosis-当前主会场到底在推什么`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些任务是真推进，哪些只是看起来在推进？",
+      "layer": "diagnosis",
+      "card_type": "table",
+      "source_view_id": "view-dq-diagnosis-02",
+      "source_view_name": "diagnosis-哪些任务是真推进-哪些只是看起来在推进",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `diagnosis-哪些任务是真推进-哪些只是看起来在推进`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "数据源与证据链当前健康吗？",
+      "card_id": "diagnosis-03",
+      "layer": "diagnosis",
+      "card_type": "bar_chart",
+      "source_view_id": "view-dq-diagnosis-03",
+      "source_view_name": "diagnosis-数据源与证据链当前健康吗",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a bar_chart card.",
+        "Bind the card to source view `diagnosis-数据源与证据链当前健康吗`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "最近系统做了哪些 review、decision 和 writeback？",
+      "layer": "diagnosis",
+      "card_type": "line_chart",
+      "source_view_id": "view-dq-diagnosis-04",
+      "source_view_name": "diagnosis-最近系统做了哪些-review-decision-和-writeback",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a line_chart card.",
+        "Bind the card to source view `diagnosis-最近系统做了哪些-review-decision-和-writeback`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些事项必须由你立即处理？",
+      "layer": "action",
+      "card_type": "table",
+      "source_view_id": "view-dq-action-01",
+      "source_view_name": "action-哪些事项必须由你立即处理",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `action-哪些事项必须由你立即处理`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些系统阻塞不能再假推进，必须单独处理？",
+      "layer": "action",
+      "card_type": "table",
+      "source_view_id": "view-dq-action-02",
+      "source_view_name": "action-哪些系统阻塞不能再假推进-必须单独处理",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `action-哪些系统阻塞不能再假推进-必须单独处理`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "如果现在开始推进，优先动作是什么？",
+      "layer": "action",
+      "card_type": "table",
+      "source_view_id": "view-dq-action-03",
+      "source_view_name": "action-如果现在开始推进-优先动作是什么",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `action-如果现在开始推进-优先动作是什么`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    },
+    {
+      "card_title": "哪些能力价值高，但审批或授权摩擦仍然很大？",
+      "card_id": "action-04",
+      "layer": "action",
+      "card_type": "table",
+      "source_view_id": "view-dq-action-04",
+      "source_view_name": "action-哪些能力价值高-但审批或授权摩擦仍然很大",
+      "manual_steps": [
+        "Open the dashboard canvas.",
+        "Create or select a table card.",
+        "Bind the card to source view `action-哪些能力价值高-但审批或授权摩擦仍然很大`.",
+        "Check metric formatting, legend labels, and click-through behavior."
+      ]
+    }
+  ]
+}

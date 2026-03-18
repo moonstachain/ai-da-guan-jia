@@ -1,0 +1,331 @@
+{
+  "generated_at": "2026-03-13T18:33:26+08:00",
+  "map_id": "governance-map-v1",
+  "title": "原力治理主图 v1",
+  "scope": "top_backbone_plus_endpoint_account_asset_anchors",
+  "notes": [
+    "Keep task-adagj-001 and thread-adagj-001 as external_active_thread samples.",
+    "Do not introduce a new task management mode or canonical migration in this round."
+  ],
+  "root": {
+    "node_id": "space-personal-zero",
+    "node_type": "space",
+    "title": "0号实例-你本人",
+    "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/entities/spaces.json#space-personal-zero",
+    "backlink_ids": [
+      "subject-hay2045",
+      "thread-yuanli-os-mainline-closure-v1",
+      "thread-adagj-001"
+    ],
+    "evidence_refs": [
+      "generated://subject/hay2045",
+      "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/intake/threads.local.json",
+      "/Users/liming/Documents/codex-ai-gua-jia-01/derived/morning-review/morning-review-input.json#thread-adagj-001"
+    ],
+    "children": [
+      {
+        "node_id": "subject-hay2045",
+        "node_type": "subject",
+        "title": "hay2045",
+        "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/entities/subjects.json#subject-hay2045",
+        "backlink_ids": [
+          "space-personal-zero",
+          "module-governance",
+          "endpoint-local-workstation",
+          "account-github",
+          "task-adagj-001"
+        ],
+        "evidence_refs": [
+          "generated://subject/hay2045",
+          "generated://module/governance",
+          "generated://endpoint/local-workstation",
+          "generated://account/github"
+        ],
+        "children": [
+          {
+            "node_id": "module-governance",
+            "node_type": "operating_module",
+            "title": "治理控制",
+            "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/entities/operating_modules.json#module-governance",
+            "backlink_ids": [
+              "subject-hay2045",
+              "task-yuanli-os-mainline-closure-v1",
+              "task-adagj-001",
+              "asset-db2ee9207e"
+            ],
+            "evidence_refs": [
+              "generated://module/governance",
+              "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/intake/tasks.local.json#task-yuanli-os-mainline-closure-v1",
+              "/Users/liming/Documents/codex-ai-gua-jia-01/derived/morning-review/morning-review-input.json#task-adagj-001",
+              "generated://asset-supports-module/governance-dashboard"
+            ],
+            "children": [
+              {
+                "node_id": "task-yuanli-os-mainline-closure-v1",
+                "node_type": "task",
+                "title": "建立原力OS主线收口计划的总控母任务：按三波推进执行。Wave 1 前台推进治理体系研究、分形设计主线、信息聚合主线；Wave 2 收尾原力茶馆-小石头的大世…",
+                "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/entities/tasks.json#task-yuanli-os-mainline-closure-v1",
+                "backlink_ids": [
+                  "module-governance",
+                  "thread-yuanli-os-mainline-closure-v1"
+                ],
+                "evidence_refs": [
+                  "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/intake/tasks.local.json#task-yuanli-os-mainline-closure-v1",
+                  "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/intake/yuanli-os-mainline-closure-v1/program-summary.md"
+                ],
+                "children": [
+                  {
+                    "node_id": "thread-yuanli-os-mainline-closure-v1",
+                    "node_type": "thread",
+                    "title": "建立原力OS主线收口计划的总控母任务：按三波推进执行。Wave 1 前台推进治理体系研究、分形设计主线、信息聚合主线；Wave 2 收尾原力茶馆-小石头的大世…",
+                    "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/entities/threads.json#thread-yuanli-os-mainline-closure-v1",
+                    "backlink_ids": [
+                      "task-yuanli-os-mainline-closure-v1",
+                      "space-personal-zero",
+                      "module-governance"
+                    ],
+                    "evidence_refs": [
+                      "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/intake/threads.local.json",
+                      "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/intake/yuanli-os-mainline-closure-v1/program-control.json"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "node_id": "task-adagj-001",
+                "node_type": "task",
+                "title": "完成原力治理主图",
+                "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/morning-review/morning-review-input.json#task-adagj-001",
+                "backlink_ids": [
+                  "module-governance",
+                  "thread-adagj-001",
+                  "subject-hay2045"
+                ],
+                "evidence_refs": [
+                  "/Users/liming/Documents/codex-ai-gua-jia-01/derived/morning-review/morning-review-input.json#task-adagj-001",
+                  "/Users/liming/Documents/codex-ai-gua-jia-01/specs/osa/examples/task-adagj-001-osa.json",
+                  "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp31b5dsrw/strategy/current/active-threads.json#adagj-001"
+                ],
+                "children": [
+                  {
+                    "node_id": "thread-adagj-001",
+                    "node_type": "thread",
+                    "title": "完成原力治理主图",
+                    "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/derived/morning-review/morning-review-input.json#thread-adagj-001",
+                    "backlink_ids": [
+                      "task-adagj-001",
+                      "space-personal-zero",
+                      "module-governance"
+                    ],
+                    "evidence_refs": [
+                      "/Users/liming/Documents/codex-ai-gua-jia-01/derived/morning-review/morning-review-input.json#thread-adagj-001",
+                      "/Users/liming/Documents/codex-ai-gua-jia-01/specs/osa/examples/task-adagj-001-osa.json",
+                      "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp31b5dsrw/strategy/current/active-threads.json#adagj-001"
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "node_id": "endpoint-local-workstation",
+            "node_type": "endpoint",
+            "title": "本地工作站",
+            "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/entities/endpoints.json#endpoint-local-workstation",
+            "backlink_ids": [
+              "subject-hay2045",
+              "account-github"
+            ],
+            "evidence_refs": [
+              "generated://endpoint/local-workstation",
+              "generated://account/github"
+            ],
+            "children": [
+              {
+                "node_id": "account-github",
+                "node_type": "account",
+                "title": "GitHub 主账号",
+                "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/entities/accounts.json#account-github",
+                "backlink_ids": [
+                  "subject-hay2045",
+                  "endpoint-local-workstation",
+                  "asset-db2ee9207e",
+                  "module-governance"
+                ],
+                "evidence_refs": [
+                  "generated://account/github",
+                  "generated://asset-supports-account/github"
+                ],
+                "children": [
+                  {
+                    "node_id": "asset-db2ee9207e",
+                    "node_type": "asset",
+                    "title": "governance-dashboard.md",
+                    "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/canonical/entities/assets.json#asset-db2ee9207e",
+                    "backlink_ids": [
+                      "account-github",
+                      "module-governance"
+                    ],
+                    "evidence_refs": [
+                      "/Users/liming/.codex/skills/ai-da-guan-jia/artifacts/ai-da-guan-jia/strategy/current/governance-dashboard.md",
+                      "generated://asset-supports-account/github",
+                      "generated://asset-supports-module/governance-dashboard"
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "relation_samples": [
+    {
+      "relation_id": "rel-5377ac85e0",
+      "relation_type": "space_contains_subject",
+      "from_id": "space-personal-zero",
+      "to_id": "subject-hay2045",
+      "evidence_ref": "generated://subject/hay2045"
+    },
+    {
+      "relation_id": "rel-e1c127199f",
+      "relation_type": "subject_responsible_for_module",
+      "from_id": "subject-hay2045",
+      "to_id": "module-governance",
+      "evidence_ref": "generated://module/governance"
+    },
+    {
+      "relation_id": "rel-2fb5e1cf3c",
+      "relation_type": "task_targets_module",
+      "from_id": "task-yuanli-os-mainline-closure-v1",
+      "to_id": "module-governance",
+      "evidence_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/intake/tasks.local.json#task-yuanli-os-mainline-closure-v1"
+    },
+    {
+      "relation_id": "rel-6e7d6b2f88",
+      "relation_type": "task_belongs_to_thread",
+      "from_id": "task-yuanli-os-mainline-closure-v1",
+      "to_id": "thread-yuanli-os-mainline-closure-v1",
+      "evidence_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/intake/tasks.local.json#task-yuanli-os-mainline-closure-v1"
+    },
+    {
+      "relation_id": "rel-85b121941a",
+      "relation_type": "thread_tracks_space",
+      "from_id": "thread-yuanli-os-mainline-closure-v1",
+      "to_id": "space-personal-zero",
+      "evidence_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/output/ai-da-guan-jia/intake/threads.local.json"
+    },
+    {
+      "relation_id": "rel-f3ceb43990",
+      "relation_type": "task_belongs_to_thread",
+      "from_id": "task-adagj-001",
+      "to_id": "thread-adagj-001",
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp31b5dsrw/strategy/current/active-threads.json#adagj-001"
+    },
+    {
+      "relation_id": "rel-3799e6a6b4",
+      "relation_type": "task_targets_module",
+      "from_id": "task-adagj-001",
+      "to_id": "module-governance",
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp31b5dsrw/strategy/current/active-threads.json#adagj-001"
+    },
+    {
+      "relation_id": "rel-1d043f14b6",
+      "relation_type": "thread_tracks_space",
+      "from_id": "thread-adagj-001",
+      "to_id": "space-personal-zero",
+      "evidence_ref": "/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmp31b5dsrw/strategy/current/active-threads.json#adagj-001"
+    },
+    {
+      "relation_id": "rel-afb217567f",
+      "relation_type": "subject_owns_endpoint",
+      "from_id": "subject-hay2045",
+      "to_id": "endpoint-local-workstation",
+      "evidence_ref": "generated://endpoint/local-workstation"
+    },
+    {
+      "relation_id": "rel-51323d8257",
+      "relation_type": "subject_controls_account",
+      "from_id": "subject-hay2045",
+      "to_id": "account-github",
+      "evidence_ref": "generated://account/github"
+    },
+    {
+      "relation_id": "rel-5886315167",
+      "relation_type": "endpoint_hosts_account",
+      "from_id": "endpoint-local-workstation",
+      "to_id": "account-github",
+      "evidence_ref": "generated://account/github"
+    },
+    {
+      "relation_id": "rel-1127a374cb",
+      "relation_type": "asset_supports_account",
+      "from_id": "asset-db2ee9207e",
+      "to_id": "account-github",
+      "evidence_ref": "generated://asset-supports-account/github"
+    },
+    {
+      "relation_id": "rel-da64f09a64",
+      "relation_type": "asset_supports_module",
+      "from_id": "asset-db2ee9207e",
+      "to_id": "module-governance",
+      "evidence_ref": "generated://asset-supports-module/governance-dashboard"
+    }
+  ],
+  "validation_paths": [
+    {
+      "path_id": "g1_mainline_backbone",
+      "node_ids": [
+        "space-personal-zero",
+        "subject-hay2045",
+        "module-governance",
+        "task-yuanli-os-mainline-closure-v1",
+        "thread-yuanli-os-mainline-closure-v1"
+      ],
+      "relation_ids": [
+        "rel-5377ac85e0",
+        "rel-e1c127199f",
+        "rel-2fb5e1cf3c",
+        "rel-6e7d6b2f88",
+        "rel-85b121941a"
+      ]
+    },
+    {
+      "path_id": "governance_map_trial_thread",
+      "node_ids": [
+        "space-personal-zero",
+        "subject-hay2045",
+        "module-governance",
+        "task-adagj-001",
+        "thread-adagj-001"
+      ],
+      "relation_ids": [
+        "rel-5377ac85e0",
+        "rel-e1c127199f",
+        "rel-3799e6a6b4",
+        "rel-f3ceb43990",
+        "rel-1d043f14b6"
+      ]
+    },
+    {
+      "path_id": "anchor_chain_endpoint_account_asset",
+      "node_ids": [
+        "subject-hay2045",
+        "endpoint-local-workstation",
+        "account-github",
+        "asset-db2ee9207e",
+        "module-governance"
+      ],
+      "relation_ids": [
+        "rel-afb217567f",
+        "rel-5886315167",
+        "rel-1127a374cb",
+        "rel-da64f09a64"
+      ]
+    }
+  ]
+}

@@ -26,6 +26,8 @@ from zoneinfo import ZoneInfo
 
 from .contracts import (
     AGENT_SKILL_HINTS,
+    BUSINESS_DEPUTY_SUBJECT_ID,
+    BUSINESS_MODULE_CODES,
     CLUSTER_DEFAULTS,
     DASHBOARD_QUESTIONS,
     DEFAULT_ACCOUNT_SPECS,
@@ -55,6 +57,7 @@ SPECS_ROOT = PROJECT_ROOT / "specs"
 CODEX_HOME = Path(os.getenv("CODEX_HOME", str(Path.home() / ".codex"))).expanduser().resolve()
 DEFAULT_FEISHU_INGEST_ROOT = PROJECT_ROOT / "output" / "feishu-reader"
 DEFAULT_TENCENT_MEETING_INGEST_ROOT = PROJECT_ROOT / "output" / "tencent-meeting"
+DEFAULT_TASK_INTAKE_ROOT = PROJECT_ROOT / "output" / "ai-da-guan-jia" / "intake"
 KNOWLEDGE_SOURCE_ALLOWED_STATUSES = {
     "validated",
     "auth_required",
@@ -78,6 +81,42 @@ TENCENT_MEETING_NATIVE_TRANSCRIPT_CAPABILITY_ALLOWED_STATUSES = {"supported", "u
 TENCENT_MEETING_NATIVE_TRANSCRIPT_ENABLED_ALLOWED_STATUSES = {"enabled", "disabled", "unknown"}
 TENCENT_MEETING_SHARE_PAGE_TRANSCRIPT_VISIBLE_ALLOWED_STATUSES = {"visible", "hidden", "gated", "unknown"}
 TENCENT_MEETING_TRANSCRIPT_ACCESS_PATH_ALLOWED_STATUSES = {"share_page", "login_probe", "open_api", "external_transcribe"}
+HUMAN_BOUNDARY_STATE_ALLOWED_STATUSES = {"not_needed", "needs_user", "granted", "blocked"}
+TASK_KIND_ALLOWED_STATUSES = {"parent", "execution"}
+TASK_MANAGED_BY_ALLOWED_STATUSES = {"external_active_thread", "repo_intake"}
+THREAD_ENTRY_MODE_ALLOWED_STATUSES = {"conversation_intake"}
+TASK_EXECUTION_MODE_ALLOWED_STATUSES = {"repo_builtin", "skill_cli", "handoff_only"}
+TASK_RUNNER_STATE_ALLOWED_STATUSES = {"planned", "ready", "running", "succeeded", "verified", "blocked", "failed", "handoff_only"}
+TASK_CLOSURE_STATE_ALLOWED_STATUSES = {
+    "not_started",
+    "pending",
+    "completed",
+    "feedback_pending",
+    "feedback_recorded",
+    "blocked_needs_user_explicit",
+}
+THREAD_ORCHESTRATION_STATE_ALLOWED_STATUSES = {"intake_created", "running", "blocked_needs_user", "failed_partial", "completed"}
+THREAD_CLOSURE_STATE_ALLOWED_STATUSES = {"not_started", "pending", "completed", "feedback_pending", "feedback_recorded", "blocked"}
+TASK_TERMINAL_SUCCESS_STATUSES = {"verified", "handoff_only_closed", "blocked_needs_user_explicit"}
+TASK_TERMINAL_FAILURE_STATUSES = {"failed"}
+TASK_ACTIVE_EXECUTION_STATES = {"not_needed", "granted"}
+DISPATCH_REGISTRY = {
+    "ai-da-guan-jia": {
+        "execution_mode": "repo_builtin",
+        "runner_id": "repo-local-governance-runner",
+        "description": "Write a local execution artifact and mark the task verified inside the repo intake pipeline.",
+    },
+    "knowledge-orchestrator": {
+        "execution_mode": "handoff_only",
+        "runner_id": "knowledge-handoff-packet",
+        "description": "Prepare a handoff packet for a downstream knowledge-driven workflow without running it here.",
+    },
+    "yuanli-core": {
+        "execution_mode": "handoff_only",
+        "runner_id": "yuanli-handoff-packet",
+        "description": "Prepare a Yuanli-oriented handoff packet without auto-running the downstream skill.",
+    },
+}
 OPERATIONAL_CAPABILITY_DEFAULTS = [
     {
         "capability_id": "capability-skill-review-proposal",
@@ -266,6 +305,10 @@ def ensure_scope_defaults(scope: dict[str, Any]) -> dict[str, Any]:
     payload.setdefault("source_registry_groups", ["sync_hub_roots", "business_finance_roots", "content_knowledge_roots", "governance_roots"])
     payload.setdefault("feishu_ingest_root", str(DEFAULT_FEISHU_INGEST_ROOT))
     payload.setdefault("tencent_meeting_ingest_root", str(DEFAULT_TENCENT_MEETING_INGEST_ROOT))
+    payload.setdefault("task_intake_root", str(DEFAULT_TASK_INTAKE_ROOT))
+    payload["governance_roots"] = unique_strings(
+        payload["governance_roots"] + [str(payload.get("task_intake_root", "")).strip()]
+    )
     return payload
 
 
@@ -351,6 +394,51 @@ def load_goal_priority(path: Path) -> dict[str, int]:
     return mapping
 
 
+LEGACY_GOAL_THEME_IDS = {"G1", "G2", "G3"}
+
+
+def normalize_text(value: str) -> str:
+    return re.sub(r"\s+", " ", str(value or "").strip().lower())
+
+
+def infer_thread_theme_id(title: str, goal_id: str, existing_theme: str = "") -> str:
+    theme = str(existing_theme or "").strip()
+    if theme and theme not in LEGACY_GOAL_THEME_IDS:
+        return theme
+    text = normalize_text(title)
+    if any(keyword in text for keyword in ["业务", "客户", "销售", "营收", "订单", "pipeline", "finance", "收入", "交付", "转化"]):
+        return "theme-business"
+    if any(
+        keyword in text
+        for keyword in ["人机", "协同", "共进化", "共识", "少打扰", "自治", "mvp", "experiment", "workflow", "共同治理", "ai大管家"]
+    ):
+        return "theme-human-ai-coevolution"
+    if goal_id == "G2":
+        return "theme-human-ai-coevolution"
+    return "theme-governance"
+
+
+def infer_thread_strategy_axis(title: str, goal_id: str, existing_theme: str = "") -> dict[str, str]:
+    theme_id = infer_thread_theme_id(title, goal_id, existing_theme=existing_theme)
+    text = normalize_text(title)
+    strategy_id = ""
+    if theme_id == "theme-human-ai-coevolution":
+        if any(keyword in text for keyword in ["连续表达", "低打断", "收着听", "先听", "收束"]):
+            strategy_id = "strategy-human-ai-low-interruption-convergence"
+        elif any(keyword in text for keyword in ["mvp", "快证", "实验", "试点", "最小可控"]):
+            strategy_id = "strategy-human-ai-mvp-fast-validation"
+        elif any(keyword in text for keyword in ["共识", "先聊清楚", "自动化", "固化"]):
+            strategy_id = "strategy-human-ai-consensus-before-automation"
+        else:
+            strategy_id = "strategy-human-ai-success-efficiency"
+    return {
+        "theme": theme_id,
+        "strategy_id": strategy_id,
+        "experiment_id": "",
+        "workflow_id": "",
+    }
+
+
 def priority_label(priority: int | None) -> str:
     if priority == 1:
         return "P1"
@@ -359,6 +447,366 @@ def priority_label(priority: int | None) -> str:
     if priority == 3:
         return "P3"
     return "P4"
+
+
+def task_intake_root(scope: dict[str, Any]) -> Path:
+    return Path(str(scope.get("task_intake_root") or DEFAULT_TASK_INTAKE_ROOT)).expanduser().resolve()
+
+
+def task_intake_tasks_path(scope: dict[str, Any]) -> Path:
+    return task_intake_root(scope) / "tasks.local.json"
+
+
+def task_intake_threads_path(scope: dict[str, Any]) -> Path:
+    return task_intake_root(scope) / "threads.local.json"
+
+
+def task_intake_run_dir(scope: dict[str, Any], run_id: str) -> Path:
+    return task_intake_root(scope) / run_id
+
+
+def read_local_intake_tasks(scope: dict[str, Any]) -> list[dict[str, Any]]:
+    return read_json(task_intake_tasks_path(scope), default=[])
+
+
+def read_local_intake_threads(scope: dict[str, Any]) -> list[dict[str, Any]]:
+    return read_json(task_intake_threads_path(scope), default=[])
+
+
+def upsert_rows_by_key(items: list[dict[str, Any]], key: str, incoming: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    merged: list[dict[str, Any]] = []
+    incoming_map = {
+        str(item.get(key, "")).strip(): item for item in incoming if str(item.get(key, "")).strip()
+    }
+    seen: set[str] = set()
+    for item in items:
+        row_key = str(item.get(key, "")).strip()
+        if not row_key:
+            continue
+        if row_key in incoming_map:
+            merged.append(incoming_map[row_key])
+        else:
+            merged.append(item)
+        seen.add(row_key)
+    for row_key, item in incoming_map.items():
+        if row_key not in seen:
+            merged.append(item)
+    return merged
+
+
+def dispatch_contract_for_skills(selected_skills: list[str]) -> dict[str, Any]:
+    for skill in selected_skills:
+        contract = DISPATCH_REGISTRY.get(skill)
+        if contract:
+            return {
+                "skill": skill,
+                "execution_mode": str(contract.get("execution_mode") or "handoff_only"),
+                "runner_id": str(contract.get("runner_id") or "handoff-only-runner"),
+                "description": str(contract.get("description") or ""),
+            }
+    return {
+        "skill": "",
+        "execution_mode": "handoff_only",
+        "runner_id": "handoff-only-runner",
+        "description": "No registered runner is available for the selected skills, so the task is kept as a tracked handoff.",
+    }
+
+
+def initialize_task_runtime_fields(task: dict[str, Any]) -> dict[str, Any]:
+    task = dict(task)
+    binding = runtime_binding_for_module(
+        module_code=str(task.get("module_code", "")).strip(),
+        module_id=str(task.get("target_module_id", "")).strip(),
+    )
+    if binding["module_code"]:
+        task.setdefault("module_code", binding["module_code"])
+    if binding["module_id"]:
+        task.setdefault("target_module_id", binding["module_id"])
+    if binding["owner_subject_id"]:
+        task.setdefault("owner_subject_id", binding["owner_subject_id"])
+        task.setdefault("target_subject_id", binding["owner_subject_id"])
+    if binding["ai_subject_id"]:
+        task.setdefault("ai_subject_id", binding["ai_subject_id"])
+    if binding["deputy_subject_id"]:
+        task.setdefault("deputy_subject_id", binding["deputy_subject_id"])
+    selected_skills = [str(item).strip() for item in task.get("selected_skills", []) if str(item).strip()]
+    contract = dispatch_contract_for_skills(selected_skills)
+    task.setdefault("execution_mode", contract["execution_mode"])
+    task.setdefault("runner_state", "planned")
+    task.setdefault("run_artifact_ref", "")
+    task.setdefault("result_summary", "")
+    task.setdefault("evidence_refs", [])
+    task.setdefault("closure_state", "not_started")
+    task.setdefault("closure_run_id", "")
+    task.setdefault("blocker_reason", "")
+    task.setdefault("required_human_input", "")
+    return task
+
+
+def initialize_thread_runtime_fields(thread: dict[str, Any]) -> dict[str, Any]:
+    thread = dict(thread)
+    thread.setdefault("orchestration_state", "intake_created")
+    thread.setdefault("closure_state", "not_started")
+    thread.setdefault("closure_run_id", "")
+    thread.setdefault("blocker_reason", "")
+    thread.setdefault("required_human_input", "")
+    return thread
+
+
+def load_local_intake_state(scope: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    tasks = [initialize_task_runtime_fields(item) for item in read_local_intake_tasks(scope)]
+    threads = [initialize_thread_runtime_fields(item) for item in read_local_intake_threads(scope)]
+    return tasks, threads
+
+
+def write_local_intake_state(
+    scope: dict[str, Any],
+    *,
+    tasks: list[dict[str, Any]],
+    threads: list[dict[str, Any]],
+    scope_path: Path | None = None,
+) -> dict[str, Any]:
+    write_json(task_intake_tasks_path(scope), tasks)
+    write_json(task_intake_threads_path(scope), threads)
+    inventory = build_inventory(scope_path)
+    return inventory
+
+
+def parse_thread_run_id(thread_id: str) -> str:
+    normalized = str(thread_id or "").strip()
+    return normalized[len("thread-") :] if normalized.startswith("thread-") else normalized
+
+
+def closure_run_id_for_intake(run_id: str) -> str:
+    return f"adagj-intake-{slugify(run_id)}"
+
+
+def allocate_intake_run_id(prompt: str) -> str:
+    timestamp = now_local().strftime("%Y%m%d-%H%M%S")
+    return f"intake-{timestamp}-{sha1(prompt.strip().encode('utf-8')).hexdigest()[:8]}"
+
+
+def normalize_task_text(value: str) -> str:
+    collapsed = re.sub(r"\s+", " ", value.strip())
+    return collapsed
+
+
+def short_title(value: str, limit: int = 42) -> str:
+    normalized = normalize_task_text(value)
+    if len(normalized) <= limit:
+        return normalized
+    return normalized[: limit - 1].rstrip() + "…"
+
+
+def infer_human_boundary_state(prompt: str, route_payload: dict[str, Any]) -> str:
+    lowered = prompt.lower()
+    signals = route_payload.get("signals", {}) if isinstance(route_payload.get("signals", {}), dict) else {}
+    boundary_text = " ".join([lowered, json.dumps(signals, ensure_ascii=False).lower()])
+    keywords = ["登录", "授权", "payment", "publish", "delete", "付款", "发布", "删除", "subjective", "主观"]
+    if bool(signals.get("hard_boundary")):
+        return "needs_user"
+    return "needs_user" if any(keyword in boundary_text for keyword in keywords) else "not_needed"
+
+
+def interrupt_only_if(boundary_state: str) -> str:
+    if boundary_state == "needs_user":
+        return "只在登录、授权、付款、不可逆发布/删除、或不可替代主观判断时打断共同治理者。"
+    return "默认不打断共同治理者；仅在登录、授权、付款、不可逆发布/删除、或不可替代主观判断时升级。"
+
+
+def human_boundary_details(task: dict[str, Any]) -> tuple[str, str]:
+    title = str(task.get("title", "")).strip()
+    combined = f"{title} {task.get('interrupt_only_if', '')} {task.get('next_action', '')}".lower()
+    mapping = [
+        ("登录", "需要你完成登录或维持登录态。"),
+        ("authorization", "需要你确认授权或权限授予。"),
+        ("授权", "需要你确认授权或权限授予。"),
+        ("payment", "需要你完成付款或预算确认。"),
+        ("付款", "需要你完成付款或预算确认。"),
+        ("publish", "需要你确认是否执行发布。"),
+        ("发布", "需要你确认是否执行发布。"),
+        ("delete", "需要你确认是否执行不可逆删除。"),
+        ("删除", "需要你确认是否执行不可逆删除。"),
+        ("主观", "需要你给出不可替代的主观判断。"),
+        ("subjective", "需要你给出不可替代的主观判断。"),
+    ]
+    for keyword, required_input in mapping:
+        if keyword in combined:
+            return (
+                f"{title or task.get('task_id', '')} 触发了真实的人类边界，自动执行在此暂停。",
+                required_input,
+            )
+    return (
+        f"{title or task.get('task_id', '')} 需要共同治理者完成边界输入后再继续。",
+        "请完成登录、授权、付款、不可逆操作确认，或补充不可替代的主观判断，然后再恢复执行。",
+    )
+
+
+def split_prompt_into_execution_units(prompt: str) -> list[str]:
+    lines = [
+        re.sub(r"^[\-\*\d\.\)\(、\s]+", "", line).strip()
+        for line in prompt.splitlines()
+        if line.strip()
+    ]
+    unique_lines = unique_strings([line for line in lines if line])
+    if len(unique_lines) >= 2:
+        return unique_lines[:5]
+    chunks = [
+        chunk.strip("，,。.；; ")
+        for chunk in re.split(r"[；;\n]+", prompt)
+        if chunk.strip("，,。.；; ")
+    ]
+    chunks = unique_strings(chunks)
+    if len(chunks) >= 2:
+        return chunks[:5]
+    title = short_title(prompt, limit=28)
+    return [
+        f"澄清并锁定“{title}”的任务边界与交付定义",
+        f"为“{title}”准备执行链、依赖与分派包",
+        f"为“{title}”设定验真标准与闭环条件",
+    ]
+
+
+def choose_execution_skill_chain(route_payload: dict[str, Any], index: int) -> list[str]:
+    selected = [str(item).strip() for item in route_payload.get("selected_skills", []) if str(item).strip()]
+    rankings = [str(item.get("name", "")).strip() for item in route_payload.get("candidate_rankings", []) if str(item.get("name", "")).strip()]
+    pool = unique_strings(selected + rankings)
+    if index == 0:
+        return pool[: min(3, len(pool))] or ["ai-da-guan-jia"]
+    if index == 1:
+        return pool[: min(2, len(pool))] or ["ai-da-guan-jia"]
+    return pool[:1] or ["ai-da-guan-jia"]
+
+
+def build_execution_verification_targets(route_payload: dict[str, Any], item_text: str) -> list[str]:
+    targets = unique_strings([str(item).strip() for item in route_payload.get("verification_targets", []) if str(item).strip()])
+    if targets:
+        return targets[:3]
+    item_title = short_title(item_text, limit=24)
+    return [
+        f"Need a concrete artifact proving “{item_title}” moved from discussion into an executable handoff.",
+        "Need a clear next action and evidence path instead of a narrative-only summary.",
+    ]
+
+
+def parse_key_value_stdout(output: str) -> dict[str, str]:
+    payload: dict[str, str] = {}
+    for line in output.splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        payload[key.strip()] = value.strip()
+    return payload
+
+
+def run_ai_da_guan_jia_route(prompt: str, scope: dict[str, Any]) -> dict[str, Any]:
+    script_path = Path(str(scope.get("ai_da_guan_jia_script", "")).strip()).expanduser().resolve()
+    if not script_path.exists():
+        raise RuntimeError(f"AI大管家 route script not found: {script_path}")
+    result = subprocess.run(
+        ["python3", str(script_path), "route", "--prompt", prompt],
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or result.stdout.strip() or "AI大管家 route failed.")
+    meta = parse_key_value_stdout(result.stdout)
+    run_dir_text = meta.get("run_dir", "").strip()
+    run_dir = Path(run_dir_text).expanduser().resolve() if run_dir_text else None
+    route_path = run_dir / "route.json" if run_dir else None
+    situation_path = run_dir / "situation-map.md" if run_dir else None
+    route_payload = read_json(route_path, default={}) if route_path and route_path.exists() else {}
+    situation_map_markdown = situation_path.read_text(encoding="utf-8") if situation_path and situation_path.exists() else ""
+    return {
+        "stdout": result.stdout,
+        "stderr": result.stderr,
+        "meta": meta,
+        "run_dir": run_dir,
+        "route_payload": route_payload,
+        "situation_map_markdown": situation_map_markdown,
+    }
+
+
+def preview_ai_da_guan_jia_route(prompt: str, scope: dict[str, Any]) -> dict[str, Any]:
+    script_path = Path(str(scope.get("ai_da_guan_jia_script", "")).strip()).expanduser().resolve()
+    profiles = load_core_profiles(script_path)
+    ordered = sorted(
+        profiles.values(),
+        key=lambda item: (
+            0 if str(item.get("name", "")).strip() == "ai-da-guan-jia" else 1,
+            -int(item.get("verification_strength", 0)),
+            -int(item.get("cost_efficiency", 0)),
+        ),
+    )
+    selected = [str(item.get("name", "")).strip() for item in ordered if str(item.get("name", "")).strip()][:3]
+    if "ai-da-guan-jia" not in selected:
+        selected.insert(0, "ai-da-guan-jia")
+    selected = unique_strings(selected)[:3]
+    route_payload = {
+        "run_id": f"preview-{stable_id('route', prompt)}",
+        "task_text": prompt,
+        "selected_skills": selected,
+        "candidate_rankings": [{"name": name} for name in selected],
+        "verification_targets": [
+            "Need a parent task, execution tasks, and an OSA card preview.",
+            "Need the intake plan to remain local-first and mirror-later.",
+        ],
+        "human_boundary": "Only interrupt for login, authorization, payment, publish, delete, or irreplaceable subjective choice.",
+        "signals": {"hard_boundary": False},
+        "situation_map": {
+            "自治判断": "Default to high autonomy. Use a dry-run preview without writing repo-local sources.",
+            "全局最优判断": "Preview the intake locally first; do not mirror or mutate canonical ledgers yet.",
+            "能力复用判断": "Reuse the AI大管家 skill profile inventory as the lightweight dry-run route source.",
+            "验真判断": "Dry-run is valid only if it previews the parent task, child tasks, and boundary policy.",
+            "进化判断": "Promote the intake pattern only after a real non-dry-run writes the local source layer.",
+            "当前最大失真": "把 dry-run 误解成已经落地 canonical 真相源。",
+        },
+    }
+    situation_map_markdown = "\n".join(
+        [
+            "# Situation Map",
+            "",
+            f"- `任务`: {prompt}",
+            "",
+            f"- `自治判断`: {route_payload['situation_map']['自治判断']}",
+            f"- `全局最优判断`: {route_payload['situation_map']['全局最优判断']}",
+            f"- `能力复用判断`: {route_payload['situation_map']['能力复用判断']}",
+            f"- `验真判断`: {route_payload['situation_map']['验真判断']}",
+            f"- `进化判断`: {route_payload['situation_map']['进化判断']}",
+            f"- `当前最大失真`: {route_payload['situation_map']['当前最大失真']}",
+        ]
+    )
+    return {
+        "stdout": "",
+        "stderr": "",
+        "meta": {"run_id": route_payload["run_id"], "run_dir": ""},
+        "run_dir": None,
+        "route_payload": route_payload,
+        "situation_map_markdown": situation_map_markdown,
+    }
+
+
+def run_ai_da_guan_jia_command(scope: dict[str, Any], args: list[str]) -> dict[str, Any]:
+    script_path = Path(str(scope.get("ai_da_guan_jia_script", "")).strip()).expanduser().resolve()
+    if not script_path.exists():
+        raise RuntimeError(f"AI大管家 script not found: {script_path}")
+    result = subprocess.run(
+        ["python3", str(script_path)] + args,
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    meta = parse_key_value_stdout(result.stdout)
+    return {
+        "command": ["python3", str(script_path)] + args,
+        "returncode": result.returncode,
+        "stdout": result.stdout,
+        "stderr": result.stderr,
+        "meta": meta,
+    }
 
 
 def skill_defaults_for_cluster(cluster: str) -> dict[str, int]:
@@ -655,18 +1103,186 @@ def coerce_float(value: Any) -> float:
         return 0.0
 
 
+def _normalize_close_state(value: Any) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    normalized = text.lower().replace("-", "_").replace(" ", "")
+    if normalized in {"won", "closed_won", "closedwon", "dealwon", "wonclosed"} or text in {
+        "成交",
+        "赢单",
+        "已成交",
+        "成交成功",
+        "关闭赢单",
+    }:
+        return "closed_won"
+    if normalized in {"lost", "closed_lost", "closedlost", "deallost", "lostclosed"} or text in {
+        "丢单",
+        "失单",
+        "未成交",
+        "失败",
+        "成交失败",
+        "关闭失单",
+        "关闭失败",
+    }:
+        return "closed_lost"
+    return ""
+
+
+def _is_lost_contract_row(order: dict[str, Any]) -> bool:
+    if _normalize_close_state(order.get("close_state")) == "closed_lost":
+        return True
+    return any(
+        str(order.get(field, "")).strip()
+        for field in ("lost_at", "loss_reason", "loss_evidence_ref")
+    )
+
+
+def _resolved_order_close_state(order: dict[str, Any]) -> str:
+    explicit = _normalize_close_state(order.get("close_state"))
+    if explicit:
+        return explicit
+    if str(order.get("lost_at", "")).strip() and (
+        str(order.get("loss_reason", "")).strip() or str(order.get("loss_evidence_ref", "")).strip()
+    ):
+        return "closed_lost"
+    return "closed_won"
+
+
+def _is_complete_lost_evidence_row(order: dict[str, Any]) -> bool:
+    return _resolved_order_close_state(order) == "closed_lost" and bool(str(order.get("lost_at", "")).strip()) and bool(
+        str(order.get("loss_reason", "")).strip() or str(order.get("loss_evidence_ref", "")).strip()
+    )
+
+
 def map_order_record(record: dict[str, Any], *, path: Path, source_feed_id: str, classification: dict[str, str]) -> dict[str, Any]:
     order_date = first_non_empty(record, ["订单日期", "日期", "报名日期", "支付日期"])
     order_id = first_non_empty(record, ["订单ID", "订单号"])
     customer_name = first_non_empty(record, ["客户名称", "姓名", "客户", "昵称"])
-    amount = coerce_float(first_non_empty(record, ["支付金额", "金额", "实付金额"]))
+    amount_text = first_non_empty(record, ["支付金额", "金额", "实付金额"])
+    amount = coerce_float(amount_text) if amount_text else None
+    close_state = _normalize_close_state(
+        first_non_empty(
+            record,
+            [
+                "成交状态",
+                "订单结论",
+                "关闭状态",
+                "close_state",
+                "closeState",
+            ],
+        )
+    )
+    lost_at = first_non_empty(
+        record,
+        [
+            "丢单时间",
+            "失单时间",
+            "关闭失败时间",
+            "lost_at",
+            "lostAt",
+        ],
+    )
+    loss_reason = first_non_empty(
+        record,
+        [
+            "丢单原因",
+            "失单原因",
+            "流失原因",
+            "关闭失败原因",
+            "loss_reason",
+            "lossReason",
+        ],
+    )
+    loss_evidence_ref = first_non_empty(
+        record,
+        [
+            "丢单证据",
+            "失单证据",
+            "丢单链接",
+            "失单链接",
+            "loss_evidence_ref",
+            "lossEvidenceRef",
+        ],
+    )
+    quote_id = first_non_empty(
+        record,
+        [
+            "报价ID",
+            "报价单ID",
+            "报价单号",
+            "报价编号",
+            "quote_id",
+            "quoteId",
+        ],
+    )
+    quote_sent_at = first_non_empty(
+        record,
+        [
+            "报价发送时间",
+            "发送报价时间",
+            "报价时间",
+            "quote_sent_at",
+            "quoteSentAt",
+        ],
+    )
+    quote_evidence_ref = first_non_empty(
+        record,
+        [
+            "报价证据",
+            "报价链接",
+            "报价单链接",
+            "报价文件",
+            "quote_evidence_ref",
+            "quoteEvidenceRef",
+        ],
+    )
+    delivery_owner = first_non_empty(
+        record,
+        [
+            "交付负责人",
+            "交付Owner",
+            "交付owner",
+            "delivery_owner",
+            "deliveryOwner",
+        ],
+    )
+    finance_owner = first_non_empty(
+        record,
+        [
+            "财务负责人",
+            "财务Owner",
+            "财务owner",
+            "finance_owner",
+            "financeOwner",
+        ],
+    )
+    handoff_packet_ref = first_non_empty(
+        record,
+        [
+            "交接包",
+            "交接资料",
+            "交接资料链接",
+            "交接链接",
+            "handoff_packet_ref",
+            "handoffPacketRef",
+        ],
+    )
+    handoff_completed_at = first_non_empty(
+        record,
+        [
+            "交接完成时间",
+            "交接时间",
+            "handoff_completed_at",
+            "handoffCompletedAt",
+        ],
+    )
     if not order_id:
         order_id = stable_id("ord", str(path), order_date, customer_name, f"{amount:.2f}")
-    return {
+    payload = {
         "id": order_id,
         "order_id": order_id,
         "order_date": order_date,
-        "payment_amount": amount,
         "payment_platform": first_non_empty(record, ["支付平台", "平台"]),
         "order_source": first_non_empty(record, ["订单来源", "来源"]),
         "customer_name": customer_name,
@@ -676,6 +1292,17 @@ def map_order_record(record: dict[str, Any], *, path: Path, source_feed_id: str,
         "primary_conversion_owner": first_non_empty(record, ["主转化归属"]),
         "secondary_conversion_owner": first_non_empty(record, ["次转化归属"]),
         "opportunity_id": first_non_empty(record, ["关联机会"]),
+        "quote_id": quote_id,
+        "quote_sent_at": quote_sent_at,
+        "quote_evidence_ref": quote_evidence_ref,
+        "close_state": close_state,
+        "lost_at": lost_at,
+        "loss_reason": loss_reason,
+        "loss_evidence_ref": loss_evidence_ref,
+        "delivery_owner": delivery_owner,
+        "finance_owner": finance_owner,
+        "handoff_packet_ref": handoff_packet_ref,
+        "handoff_completed_at": handoff_completed_at,
         "note": first_non_empty(record, ["成单备注"]),
         "card_note": first_non_empty(record, ["名片备注"]),
         "source_feed_id": source_feed_id,
@@ -688,6 +1315,9 @@ def map_order_record(record: dict[str, Any], *, path: Path, source_feed_id: str,
         "confidence": 0.9,
         "updated_at": iso_now(),
     }
+    if amount is not None:
+        payload["payment_amount"] = amount
+    return payload
 
 
 def map_cashflow_record(record: dict[str, Any], *, path: Path, source_feed_id: str, classification: dict[str, str]) -> dict[str, Any]:
@@ -806,15 +1436,39 @@ def build_ingested_entities(scope: dict[str, Any]) -> dict[str, Any]:
             for record in read_tabular_records(path):
                 cashflows.append(map_cashflow_record(record, path=path, source_feed_id=feed_id, classification=classification))
 
-    orders = dedupe_by_key(orders, "order_id")
-    cashflows = dedupe_by_key(cashflows, "cashflow_id")
+    orders = _merge_records_prefer_current_nonempty(orders, [], "order_id")
+    cashflows = _merge_records_prefer_current_nonempty(cashflows, [], "cashflow_id")
+    current_order_count = len(orders)
+    current_cashflow_count = len(cashflows)
+    fallback_snapshot_path = ""
+    fallback_reason = ""
+    fallback = _latest_nonempty_business_snapshot()
+    fallback_orders = fallback.get("orders", [])
+    fallback_cashflows = fallback.get("cashflows", [])
+    if isinstance(fallback_orders, list) and isinstance(fallback_cashflows, list) and (fallback_orders or fallback_cashflows):
+        if not orders and not cashflows:
+            orders = dedupe_by_key(fallback_orders, "order_id")
+            cashflows = dedupe_by_key(fallback_cashflows, "cashflow_id")
+            fallback_snapshot_path = str(fallback.get("source_ref", "")).strip()
+            fallback_reason = "current_scan_empty"
+        elif _should_reuse_last_known_business_snapshot(
+            scope,
+            current_orders=orders,
+            current_cashflows=cashflows,
+            fallback_orders=fallback_orders,
+            fallback_cashflows=fallback_cashflows,
+        ):
+            orders = _merge_records_prefer_current_nonempty(orders, fallback_orders, "order_id")
+            cashflows = _merge_records_prefer_current_nonempty(cashflows, fallback_cashflows, "cashflow_id")
+            fallback_snapshot_path = str(fallback.get("source_ref", "")).strip()
+            fallback_reason = "current_scan_partial_below_last_known_snapshot"
     ingestion_run_id = f"ingest-{now_local().strftime('%Y%m%d-%H%M%S')}"
     ingestion_runs = [
         {
             "id": ingestion_run_id,
             "ingestion_run_id": ingestion_run_id,
             "run_type": "full_inventory",
-            "status": "completed",
+            "status": "completed_from_last_known_snapshot" if fallback_snapshot_path else "completed",
             "scanned_file_count": len(files),
             "recognized_file_count": sum(1 for item in files if item["classification"]["source_family"] != "unclassified"),
             "source_feed_count": len(source_feeds),
@@ -825,8 +1479,12 @@ def build_ingested_entities(scope: dict[str, Any]) -> dict[str, Any]:
             ),
             "unclassified_file_count": len(unclassified_paths),
             "unclassified_paths": unclassified_paths[:50],
+            "current_scan_order_count": current_order_count,
+            "current_scan_cashflow_count": current_cashflow_count,
+            "fallback_snapshot_path": fallback_snapshot_path,
+            "fallback_reason": fallback_reason,
             "sensitivity_check_status": "pending",
-            "source_ref": "registry://full_inventory",
+            "source_ref": fallback_snapshot_path or "registry://full_inventory",
             "confidence": 0.9,
             "updated_at": iso_now(),
         }
@@ -838,6 +1496,594 @@ def build_ingested_entities(scope: dict[str, Any]) -> dict[str, Any]:
         "orders": orders,
         "cashflows": cashflows,
     }
+
+
+def business_ingestion_report_path() -> Path:
+    return DERIVED_ROOT / "reports" / "business-ingestion.json"
+
+
+def build_business_ingestion_payload(
+    *,
+    orders: list[dict[str, Any]],
+    cashflows: list[dict[str, Any]],
+    ingestion_runs: list[dict[str, Any]] | None = None,
+    writeback_events: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    sales_writebacks = [
+        item
+        for item in (writeback_events or [])
+        if str(item.get("action_id", "")).strip() == "deal-close"
+    ]
+    won_writebacks = [
+        item
+        for item in sales_writebacks
+        if str(item.get("writeback_type", "")).strip() == "deal_closed_won"
+    ]
+    lost_writebacks = [
+        item
+        for item in sales_writebacks
+        if str(item.get("writeback_type", "")).strip() == "deal_closed_lost"
+    ]
+    quote_writebacks = [
+        item
+        for item in (writeback_events or [])
+        if str(item.get("action_id", "")).strip() == "proposal-quote"
+    ]
+    handoff_writebacks = [
+        item
+        for item in (writeback_events or [])
+        if str(item.get("action_id", "")).strip() == "post-close-handoff"
+    ]
+    quote_rows = [
+        item
+        for item in orders
+        if str(item.get("quote_id", "")).strip() or str(item.get("quote_sent_at", "")).strip()
+    ]
+    timing_rows = [
+        item
+        for item in orders
+        if str(item.get("quote_sent_at", "")).strip()
+    ]
+    lost_rows = [item for item in orders if _is_lost_contract_row(item)]
+    lost_completed_rows = [item for item in orders if _is_complete_lost_evidence_row(item)]
+    handoff_rows = [
+        item
+        for item in orders
+        if any(
+            str(item.get(field, "")).strip()
+            for field in ("delivery_owner", "finance_owner", "handoff_packet_ref", "handoff_completed_at")
+        )
+    ]
+    handoff_completed_rows = [
+        item
+        for item in orders
+        if str(item.get("handoff_completed_at", "")).strip()
+        and any(
+            str(item.get(field, "")).strip()
+            for field in ("delivery_owner", "finance_owner", "handoff_packet_ref")
+        )
+    ]
+    latest_ingestion_run = (ingestion_runs or [{}])[0] if ingestion_runs else {}
+    return {
+        "generated_at": iso_now(),
+        "orders": orders,
+        "cashflows": cashflows,
+        "latest_ingestion_run_id": str(latest_ingestion_run.get("ingestion_run_id", "")).strip(),
+        "latest_sales_writeback_ids": [
+            str(item.get("writeback_id", "")).strip()
+            for item in sales_writebacks
+            if str(item.get("writeback_id", "")).strip()
+        ],
+        "counts": {
+            "orders": len(orders),
+            "cashflows": len(cashflows),
+            "sales_writebacks": len(sales_writebacks),
+            "closed_won_writebacks": len(won_writebacks),
+            "closed_lost_writebacks": len(lost_writebacks),
+            "proposal_quote_writebacks": len(quote_writebacks),
+            "handoff_writebacks": len(handoff_writebacks),
+        },
+        "source_readiness": {
+            "quote_source_detected": bool(quote_rows),
+            "quote_rows_ingested": len(quote_rows),
+            "timing_rows_ingested": len(timing_rows),
+            "missing_quote_contract": not bool(quote_rows),
+            "lost_source_detected": bool(lost_rows),
+            "lost_rows_ingested": len(lost_rows),
+            "lost_completed_rows_ingested": len(lost_completed_rows),
+            "missing_lost_contract": not bool(lost_completed_rows),
+            "handoff_source_detected": bool(handoff_rows),
+            "handoff_rows_ingested": len(handoff_rows),
+            "handoff_completed_rows_ingested": len(handoff_completed_rows),
+            "missing_handoff_contract": not bool(handoff_completed_rows),
+        },
+    }
+
+
+def _has_meaningful_overlay_value(value: Any) -> bool:
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return bool(value.strip())
+    if isinstance(value, (list, tuple, set, dict)):
+        return bool(value)
+    return True
+
+
+def _merge_records_prefer_current_nonempty(
+    current_rows: list[dict[str, Any]],
+    fallback_rows: list[dict[str, Any]],
+    key: str,
+) -> list[dict[str, Any]]:
+    current_by_key: dict[str, dict[str, Any]] = {}
+    current_order: list[str] = []
+    for item in current_rows:
+        record_key = str(item.get(key, "")).strip()
+        if not record_key:
+            continue
+        if record_key not in current_by_key:
+            current_by_key[record_key] = {}
+            current_order.append(record_key)
+        for field, value in item.items():
+            if field not in current_by_key[record_key] or _has_meaningful_overlay_value(value):
+                current_by_key[record_key][field] = value
+    fallback_by_key = {
+        str(item.get(key, "")).strip(): dict(item)
+        for item in fallback_rows
+        if str(item.get(key, "")).strip()
+    }
+    merged: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for record_key in current_order:
+        base = dict(fallback_by_key.get(record_key, {}))
+        for field, value in current_by_key[record_key].items():
+            if field not in base or _has_meaningful_overlay_value(value):
+                base[field] = value
+        merged.append(base)
+        seen.add(record_key)
+    for item in fallback_rows:
+        record_key = str(item.get(key, "")).strip()
+        if not record_key or record_key in seen:
+            continue
+        merged.append(dict(item))
+        seen.add(record_key)
+    return merged
+
+
+def _latest_nonempty_business_snapshot() -> dict[str, Any]:
+    snapshot_root = CANONICAL_ROOT / "snapshots"
+    if not snapshot_root.exists():
+        return {"orders": [], "cashflows": [], "source_ref": ""}
+
+    def is_stable_source(item: dict[str, Any]) -> bool:
+        source_ref = str(item.get("source_ref", "")).strip() or str(item.get("source_path", "")).strip()
+        if not source_ref:
+            return False
+        return not (
+            source_ref.startswith("/tmp/")
+            or source_ref.startswith("/private/var/folders/")
+            or "/T/tmp" in source_ref
+        )
+
+    for path in sorted(snapshot_root.glob("*/inventory-snapshot.json"), reverse=True):
+        payload = read_json(path, default={})
+        orders = payload.get("orders", [])
+        cashflows = payload.get("cashflows", [])
+        if not (isinstance(orders, list) and isinstance(cashflows, list) and (orders or cashflows)):
+            continue
+        if not any(is_stable_source(item) for item in [*orders, *cashflows]):
+            continue
+        if isinstance(orders, list) and isinstance(cashflows, list) and (orders or cashflows):
+            return {
+                "orders": orders,
+                "cashflows": cashflows,
+                "source_ref": str(path),
+            }
+    return {"orders": [], "cashflows": [], "source_ref": ""}
+
+
+def _root_is_ephemeral(path_text: str) -> bool:
+    normalized = str(path_text or "").strip()
+    return (
+        normalized.startswith("/tmp/")
+        or normalized.startswith("/private/var/folders/")
+        or normalized.startswith("/var/folders/")
+        or "/T/tmp" in normalized
+    )
+
+
+def _scope_uses_ephemeral_roots(scope: dict[str, Any]) -> bool:
+    for group in scope.get("source_registry_groups", []):
+        for root in scope.get(group, []):
+            if _root_is_ephemeral(str(root)):
+                return True
+    return False
+
+
+def _should_reuse_last_known_business_snapshot(
+    scope: dict[str, Any],
+    *,
+    current_orders: list[dict[str, Any]],
+    current_cashflows: list[dict[str, Any]],
+    fallback_orders: list[dict[str, Any]],
+    fallback_cashflows: list[dict[str, Any]],
+) -> bool:
+    if _scope_uses_ephemeral_roots(scope):
+        return False
+    fallback_total = len(fallback_orders) + len(fallback_cashflows)
+    if fallback_total < 50:
+        return False
+    current_total = len(current_orders) + len(current_cashflows)
+    return current_total < max(5, int(fallback_total * 0.2))
+
+
+def _normalized_business_text(value: Any) -> str:
+    return re.sub(r"\s+", "", str(value or "")).strip().lower()
+
+
+def _normalized_phone_text(value: Any) -> str:
+    return re.sub(r"\D+", "", str(value or ""))
+
+
+def _score_order_cashflow_match(order: dict[str, Any], cashflow: dict[str, Any]) -> int:
+    try:
+        order_amount = abs(float(order.get("payment_amount", 0) or 0))
+        cashflow_amount = abs(float(cashflow.get("amount", 0) or 0))
+    except (TypeError, ValueError):
+        return -1
+    if order_amount <= 0 or abs(order_amount - cashflow_amount) > 0.01:
+        return -1
+
+    direction = str(cashflow.get("direction", "")).strip().lower()
+    if direction and direction != "inflow":
+        return -1
+
+    customer_name = _normalized_business_text(order.get("customer_name"))
+    counterparty = _normalized_business_text(cashflow.get("counterparty"))
+    summary = _normalized_business_text(cashflow.get("summary"))
+    phone = _normalized_phone_text(order.get("customer_phone"))
+    cashflow_text = _normalized_phone_text(str(cashflow.get("counterparty", "")) + str(cashflow.get("summary", "")))
+
+    score = 10
+    if customer_name:
+        if customer_name in counterparty:
+            score += 6
+        elif customer_name in summary:
+            score += 4
+        else:
+            return -1
+    if phone and phone in cashflow_text:
+        score += 3
+    return score
+
+
+def _match_cashflows_to_orders(
+    orders: list[dict[str, Any]],
+    cashflows: list[dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    matches: dict[str, dict[str, Any]] = {}
+    used_cashflow_ids: set[str] = set()
+    ordered_orders = sorted(
+        orders,
+        key=lambda item: (
+            str(item.get("order_date", "")).strip(),
+            str(item.get("order_id", "")).strip(),
+        ),
+    )
+    for order in ordered_orders:
+        best_match: dict[str, Any] | None = None
+        best_score = -1
+        for cashflow in cashflows:
+            cashflow_id = str(cashflow.get("cashflow_id", "")).strip()
+            if not cashflow_id or cashflow_id in used_cashflow_ids:
+                continue
+            score = _score_order_cashflow_match(order, cashflow)
+            if score > best_score:
+                best_score = score
+                best_match = cashflow
+        if best_match and best_score >= 0:
+            cashflow_id = str(best_match.get("cashflow_id", "")).strip()
+            used_cashflow_ids.add(cashflow_id)
+            matches[str(order.get("order_id", "")).strip()] = best_match
+    return matches
+
+
+def _build_sales_execute_evidence_rows(
+    orders: list[dict[str, Any]],
+    cashflows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    report_path = str(business_ingestion_report_path())
+    rows: list[dict[str, Any]] = []
+    matched_cashflows = _match_cashflows_to_orders(orders, cashflows)
+    for order in orders:
+        order_id = str(order.get("order_id", "")).strip()
+        if not order_id or _resolved_order_close_state(order) != "closed_won":
+            continue
+        opportunity_id = str(order.get("opportunity_id", "")).strip()
+        matched_cashflow = matched_cashflows.get(order_id, {})
+        matched_cashflow_id = str(matched_cashflow.get("cashflow_id", "")).strip()
+        order_source_ref = str(order.get("source_ref", "")).strip() or str(order.get("source_path", "")).strip()
+        cashflow_source_ref = str(matched_cashflow.get("source_ref", "")).strip()
+        evidence_refs = unique_strings([order_source_ref, cashflow_source_ref, report_path])
+        target_entity_ids = unique_strings([order_id, opportunity_id, "module-sales"])
+        target_refs = unique_strings(
+            [
+                f"canonical://orders/{order_id}",
+                order_source_ref,
+                cashflow_source_ref,
+                report_path,
+            ]
+        )
+        decision_id = stable_id("decision", order_id, "deal_closed_won")
+        writeback_id = stable_id("writeback", order_id, "deal_closed_won")
+        rationale_parts = [f"订单事实来自 {order_source_ref or 'unknown_source'}。"]
+        if matched_cashflow_id:
+            rationale_parts.append(f"匹配现金流 {matched_cashflow_id}，来源 {cashflow_source_ref or 'unknown_source'}。")
+        else:
+            rationale_parts.append("暂未匹配到可靠现金流，因此当前赢单证据只基于订单成交事实。")
+        if opportunity_id:
+            rationale_parts.append(f"关联机会 {opportunity_id} 已纳入 qualified_opportunities 统计。")
+        owner_gaps = []
+        if not str(order.get("lead_owner", "")).strip():
+            owner_gaps.append("lead_owner_missing")
+        if not str(order.get("primary_conversion_owner", "")).strip():
+            owner_gaps.append("primary_conversion_owner_missing")
+        changed_fields = ["sales_execute_status", "win_loss_count"]
+        if opportunity_id:
+            changed_fields.append("qualified_opportunities")
+        if owner_gaps:
+            changed_fields.append("owner_gap")
+        rows.append(
+            {
+                "order_id": order_id,
+                "opportunity_id": opportunity_id,
+                "decision_id": decision_id,
+                "writeback_id": writeback_id,
+                "decision_title": f"确认订单 {order_id} 已成交并进入赢单证据闭环",
+                "target_entity_ids": target_entity_ids,
+                "target_refs": target_refs,
+                "evidence_refs": evidence_refs,
+                "evidence_ref": report_path,
+                "confidence": 0.94 if matched_cashflow_id else 0.9,
+                "decision_summary": f"订单 {order_id} 已基于真实订单事实确认 closed_won，并进入可追踪的 execute 证据闭环。",
+                "rationale": " ".join(rationale_parts),
+                "next_action": "先补 quote_sent 或阶段时间戳证据，再补 handoff 证据，并补齐缺失 owner/opportunity 的成交订单字段。",
+                "matched_cashflow_id": matched_cashflow_id,
+                "changed_fields": changed_fields,
+                "decision_semantics": "deal_closed_won",
+                "writeback_type": "deal_closed_won",
+                "entity_type": "order",
+                "entity_id": order_id,
+                "status_after": "closed_won",
+                "order": order,
+            }
+        )
+    return rows
+
+
+def _build_sales_lost_rows(orders: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    report_path = str(business_ingestion_report_path())
+    rows: list[dict[str, Any]] = []
+    for order in orders:
+        order_id = str(order.get("order_id", "")).strip()
+        if not order_id or not _is_complete_lost_evidence_row(order):
+            continue
+        opportunity_id = str(order.get("opportunity_id", "")).strip()
+        order_source_ref = str(order.get("source_ref", "")).strip() or str(order.get("source_path", "")).strip()
+        lost_at = str(order.get("lost_at", "")).strip()
+        loss_reason = str(order.get("loss_reason", "")).strip()
+        loss_evidence_ref = str(order.get("loss_evidence_ref", "")).strip()
+        evidence_refs = unique_strings([loss_evidence_ref, order_source_ref, report_path])
+        target_refs = unique_strings(
+            [
+                f"canonical://orders/{order_id}",
+                order_source_ref,
+                loss_evidence_ref,
+                report_path,
+            ]
+        )
+        decision_id = stable_id("decision", order_id, lost_at or loss_reason or loss_evidence_ref, "deal_closed_lost")
+        writeback_id = stable_id("writeback", order_id, lost_at or loss_reason or loss_evidence_ref, "deal_closed_lost")
+        changed_fields = ["sales_execute_status", "win_loss_count", "lost_at"]
+        if opportunity_id:
+            changed_fields.append("qualified_opportunities")
+        if loss_reason:
+            changed_fields.append("loss_reason")
+        owner_gaps = []
+        if not str(order.get("lead_owner", "")).strip():
+            owner_gaps.append("lead_owner_missing")
+        if not str(order.get("primary_conversion_owner", "")).strip():
+            owner_gaps.append("primary_conversion_owner_missing")
+        if owner_gaps:
+            changed_fields.append("owner_gap")
+        rationale_parts = [f"订单事实来自 {order_source_ref or 'unknown_source'}。", f"lost_at={lost_at}。"]
+        if loss_reason:
+            rationale_parts.append(f"丢单原因={loss_reason}。")
+        if loss_evidence_ref:
+            rationale_parts.append(f"丢单证据来自 {loss_evidence_ref}。")
+        else:
+            rationale_parts.append("丢单证据暂按 business-ingestion report 归档。")
+        if opportunity_id:
+            rationale_parts.append(f"关联机会 {opportunity_id} 继续作为 qualified_opportunities 锚点保留。")
+        rows.append(
+            {
+                "order_id": order_id,
+                "opportunity_id": opportunity_id,
+                "decision_id": decision_id,
+                "writeback_id": writeback_id,
+                "decision_title": f"确认订单 {order_id} 已形成真实丢单证据",
+                "target_entity_ids": unique_strings([order_id, opportunity_id, "module-sales"]),
+                "target_refs": target_refs,
+                "evidence_refs": evidence_refs,
+                "evidence_ref": loss_evidence_ref or report_path,
+                "confidence": 0.93 if loss_evidence_ref else 0.89,
+                "decision_summary": f"订单 {order_id} 已基于真实丢单证据确认 closed_lost，并进入可追踪的 execute 证据闭环。",
+                "rationale": " ".join(rationale_parts),
+                "next_action": "补 handoff owner 覆盖，并校准 owner/opportunity 与 loss_reason 字段质量。",
+                "changed_fields": changed_fields,
+                "decision_semantics": "deal_closed_lost",
+                "writeback_type": "deal_closed_lost",
+                "entity_type": "order",
+                "entity_id": order_id,
+                "status_after": "closed_lost",
+                "close_state": "closed_lost",
+                "lost_at": lost_at,
+                "loss_reason": loss_reason,
+                "loss_evidence_ref": loss_evidence_ref,
+                "order": order,
+            }
+        )
+    return rows
+
+
+def _build_sales_quote_source_rows(orders: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    report_path = str(business_ingestion_report_path())
+    rows: list[dict[str, Any]] = []
+    for order in orders:
+        order_id = str(order.get("order_id", "")).strip()
+        quote_id = str(order.get("quote_id", "")).strip()
+        quote_sent_at = str(order.get("quote_sent_at", "")).strip()
+        if not order_id or not (quote_id or quote_sent_at):
+            continue
+        order_source_ref = str(order.get("source_ref", "")).strip() or str(order.get("source_path", "")).strip()
+        quote_evidence_ref = str(order.get("quote_evidence_ref", "")).strip()
+        evidence_refs = unique_strings([quote_evidence_ref, order_source_ref, report_path])
+        target_refs = unique_strings(
+            [
+                f"canonical://orders/{order_id}",
+                order_source_ref,
+                quote_evidence_ref,
+                report_path,
+            ]
+        )
+        decision_id = stable_id("decision", order_id, quote_id or quote_sent_at, "quote_sent")
+        writeback_id = stable_id("writeback", order_id, quote_id or quote_sent_at, "quote_sent")
+        changed_fields = ["quote_throughput"]
+        if quote_id:
+            changed_fields.append("quote_id")
+        if quote_sent_at:
+            changed_fields.append("quote_sent_at")
+            if str(order.get("order_date", "")).strip():
+                changed_fields.append("deal_cycle_delay")
+        rationale_parts = [f"订单 {order_id} 已检测到真实 quote 源字段。"]
+        if quote_id:
+            rationale_parts.append(f"quote_id={quote_id}。")
+        if quote_sent_at:
+            rationale_parts.append(f"quote_sent_at={quote_sent_at}。")
+        if quote_evidence_ref:
+            rationale_parts.append(f"报价证据来自 {quote_evidence_ref}。")
+        else:
+            rationale_parts.append(f"报价证据暂按订单来源 {order_source_ref or 'unknown_source'} 归档。")
+        rows.append(
+            {
+                "order_id": order_id,
+                "decision_id": decision_id,
+                "writeback_id": writeback_id,
+                "decision_title": f"确认订单 {order_id} 已形成真实报价证据",
+                "target_entity_ids": unique_strings(
+                    [order_id, str(order.get("opportunity_id", "")).strip(), "module-sales"]
+                ),
+                "target_refs": target_refs,
+                "evidence_refs": evidence_refs,
+                "evidence_ref": quote_evidence_ref or report_path,
+                "confidence": 0.92 if quote_evidence_ref else 0.88,
+                "decision_summary": f"订单 {order_id} 已形成 source-backed 的 quote_sent 证据，可进入报价吞吐与阶段 timing 观测。",
+                "rationale": " ".join(rationale_parts),
+                "next_action": "若已具备阶段时间戳，则继续补 handoff；若仍缺 timing，则先补阶段时间戳。",
+                "changed_fields": changed_fields,
+                "decision_semantics": "quote_sent",
+                "writeback_type": "quote_sent",
+                "entity_type": "order",
+                "entity_id": order_id,
+                "status_after": "quote_sent",
+                "quote_id": quote_id,
+                "quote_sent_at": quote_sent_at,
+                "order": order,
+            }
+        )
+    return rows
+
+
+def _build_sales_handoff_rows(orders: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    report_path = str(business_ingestion_report_path())
+    rows: list[dict[str, Any]] = []
+    for order in orders:
+        order_id = str(order.get("order_id", "")).strip()
+        handoff_completed_at = str(order.get("handoff_completed_at", "")).strip()
+        delivery_owner = str(order.get("delivery_owner", "")).strip()
+        finance_owner = str(order.get("finance_owner", "")).strip()
+        handoff_packet_ref = str(order.get("handoff_packet_ref", "")).strip()
+        if (
+            not order_id
+            or _resolved_order_close_state(order) == "closed_lost"
+            or not handoff_completed_at
+            or not (delivery_owner or finance_owner or handoff_packet_ref)
+        ):
+            continue
+        order_source_ref = str(order.get("source_ref", "")).strip() or str(order.get("source_path", "")).strip()
+        opportunity_id = str(order.get("opportunity_id", "")).strip()
+        evidence_refs = unique_strings([handoff_packet_ref, order_source_ref, report_path])
+        target_refs = unique_strings(
+            [
+                f"canonical://orders/{order_id}",
+                order_source_ref,
+                handoff_packet_ref,
+                report_path,
+            ]
+        )
+        decision_id = stable_id("decision", order_id, handoff_completed_at, "handoff_completed")
+        writeback_id = stable_id("writeback", order_id, handoff_completed_at, "handoff_completed")
+        changed_fields = ["handoff_completed"]
+        if delivery_owner:
+            changed_fields.append("delivery_owner")
+        if finance_owner:
+            changed_fields.append("finance_owner")
+        if handoff_packet_ref:
+            changed_fields.append("handoff_packet_ref")
+        if not delivery_owner or not finance_owner:
+            changed_fields.append("owner_gap")
+        rationale_parts = [f"订单 {order_id} 已检测到真实 handoff 完成证据。"]
+        rationale_parts.append(f"handoff_completed_at={handoff_completed_at}。")
+        if delivery_owner:
+            rationale_parts.append(f"交付负责人={delivery_owner}。")
+        else:
+            rationale_parts.append("交付负责人仍缺。")
+        if finance_owner:
+            rationale_parts.append(f"财务负责人={finance_owner}。")
+        else:
+            rationale_parts.append("财务负责人仍缺。")
+        if handoff_packet_ref:
+            rationale_parts.append(f"交接资料来自 {handoff_packet_ref}。")
+        else:
+            rationale_parts.append(f"交接证据暂按订单来源 {order_source_ref or 'unknown_source'} 归档。")
+        rows.append(
+            {
+                "order_id": order_id,
+                "decision_id": decision_id,
+                "writeback_id": writeback_id,
+                "decision_title": f"确认订单 {order_id} 已形成真实交接完成证据",
+                "target_entity_ids": unique_strings([order_id, opportunity_id, "module-sales"]),
+                "target_refs": target_refs,
+                "evidence_refs": evidence_refs,
+                "evidence_ref": handoff_packet_ref or report_path,
+                "confidence": 0.93 if handoff_packet_ref else 0.89,
+                "decision_summary": f"订单 {order_id} 已形成 source-backed 的 handoff_completed 证据，可将成交主线安全切给 delivery / finance。",
+                "rationale": " ".join(rationale_parts),
+                "next_action": "补 lost，并继续补 handoff owner 覆盖。",
+                "changed_fields": changed_fields,
+                "decision_semantics": "handoff_completed",
+                "writeback_type": "handoff_completed",
+                "entity_type": "order",
+                "entity_id": order_id,
+                "status_after": "handoff_completed",
+                "delivery_owner": delivery_owner,
+                "finance_owner": finance_owner,
+                "handoff_packet_ref": handoff_packet_ref,
+                "handoff_completed_at": handoff_completed_at,
+                "order": order,
+            }
+        )
+    return rows
 
 
 def reconcile_accounts_with_source_feeds(accounts: list[dict[str, Any]], source_feeds: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -889,10 +2135,49 @@ def module_id_from_code(module_code: str) -> str:
     return f"module-{module_code}"
 
 
+def operating_module_spec_for(module_code: str = "", module_id: str = "") -> dict[str, Any]:
+    normalized_code = str(module_code or "").strip()
+    normalized_id = str(module_id or "").strip()
+    for item in OPERATING_MODULE_SPECS:
+        if normalized_code and str(item.get("module_code", "")).strip() == normalized_code:
+            return dict(item)
+        if normalized_id and str(item.get("module_id", "")).strip() == normalized_id:
+            return dict(item)
+    return {}
+
+
+def runtime_binding_for_module(*, module_code: str = "", module_id: str = "") -> dict[str, str]:
+    spec = operating_module_spec_for(module_code=module_code, module_id=module_id)
+    resolved_code = str(spec.get("module_code", "")).strip() or str(module_code or "").strip()
+    resolved_id = str(spec.get("module_id", "")).strip() or str(module_id or "").strip()
+    if not resolved_code and resolved_id.startswith("module-"):
+        resolved_code = resolved_id[len("module-") :]
+    if not resolved_id and resolved_code:
+        resolved_id = module_id_from_code(resolved_code)
+    return {
+        "module_code": resolved_code,
+        "module_id": resolved_id,
+        "owner_subject_id": str(spec.get("owner_subject_id", "")).strip(),
+        "ai_subject_id": str(spec.get("ai_subject_id", "")).strip(),
+        "deputy_subject_id": str(spec.get("deputy_subject_id", "")).strip(),
+    }
+
+
 def subject_id_for_module_owner(module_code: str) -> str:
+    binding = runtime_binding_for_module(module_code=module_code)
+    if binding["owner_subject_id"]:
+        return binding["owner_subject_id"]
     if module_code in {"sales", "delivery", "finance"}:
         return "subject-collab-owner"
     return "subject-hay2045"
+
+
+def subject_id_for_module_ai(module_code: str) -> str:
+    return runtime_binding_for_module(module_code=module_code)["ai_subject_id"]
+
+
+def subject_id_for_module_deputy(module_code: str) -> str:
+    return runtime_binding_for_module(module_code=module_code)["deputy_subject_id"]
 
 
 def build_skill_entities(
@@ -1024,6 +2309,29 @@ def build_strategy_assets(scope: dict[str, str]) -> list[dict[str, Any]]:
             }
         )
     return assets
+
+
+def build_task_intake_assets(scope: dict[str, Any]) -> list[dict[str, Any]]:
+    intake_root = task_intake_root(scope)
+    if not intake_root.exists():
+        return []
+    return [
+        {
+            "id": stable_id("asset", str(intake_root)),
+            "asset_id": stable_id("asset", str(intake_root)),
+            "title": intake_root.name,
+            "asset_type": "task_intake_ledger",
+            "domain": "governance",
+            "source_path": str(intake_root),
+            "source_kind": "directory",
+            "source_ref": str(intake_root),
+            "status": "active",
+            "owner_mode": "ai",
+            "confidence": 0.96,
+            "last_seen_at": iso_now(),
+            "updated_at": iso_now(),
+        }
+    ]
 
 
 def operational_action_catalog_path() -> Path:
@@ -1172,6 +2480,18 @@ def build_federation_entities(
                 str(module["source_ref"]),
             )
         )
+        deputy_subject_id = str(module.get("deputy_subject_id", "")).strip()
+        if deputy_subject_id:
+            relations.append(
+                build_relation(
+                    "subject",
+                    deputy_subject_id,
+                    "ai_deputy_oversees_module",
+                    "operating_module",
+                    str(module["module_id"]),
+                    str(module["source_ref"]),
+                )
+            )
     for endpoint in endpoints:
         relations.append(
             build_relation(
@@ -1303,7 +2623,7 @@ def ontology_asset_summary(path: Path) -> dict[str, Any]:
     return {"tables": tables, "path": str(path), "status": "available"}
 
 
-def build_task_thread_entities(
+def build_external_task_thread_entities(
     scope: dict[str, str],
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     active_threads_path = Path(scope["active_threads_path"])
@@ -1319,6 +2639,8 @@ def build_task_thread_entities(
             continue
         title = str(item.get("task_text", run_id)).strip()
         goal_id = str(item.get("goal_id", "")).strip()
+        existing_theme = str(item.get("theme", "")).strip()
+        axis_refs = infer_thread_strategy_axis(title, goal_id, existing_theme=existing_theme)
         status = str(item.get("status", "active")).strip() or "active"
         selected_skills = [str(skill).strip() for skill in item.get("selected_skills", []) if str(skill).strip()]
         open_questions = [str(question).strip() for question in item.get("open_questions", []) if str(question).strip()]
@@ -1328,8 +2650,9 @@ def build_task_thread_entities(
         priority = priority_label(goal_priority.get(goal_id))
         space_id = infer_space_id(title)
         module_code = infer_module_code(title, selected_skills)
-        module_id = module_id_from_code(module_code)
-        subject_id = subject_id_for_module_owner(module_code)
+        binding = runtime_binding_for_module(module_code=module_code)
+        module_id = binding["module_id"] or module_id_from_code(module_code)
+        subject_id = binding["owner_subject_id"] or subject_id_for_module_owner(module_code)
         tasks.append(
             {
                 "id": task_id,
@@ -1339,9 +2662,23 @@ def build_task_thread_entities(
                 "space_id": space_id,
                 "target_subject_id": subject_id,
                 "target_module_id": module_id,
+                "module_code": binding["module_code"] or module_code,
+                "owner_subject_id": binding["owner_subject_id"],
+                "ai_subject_id": binding["ai_subject_id"],
+                "deputy_subject_id": binding["deputy_subject_id"],
                 "status": status,
                 "priority": priority,
                 "owner_mode": "ai",
+                "thread_id": thread_id,
+                "task_kind": "parent",
+                "parent_task_id": "",
+                "depends_on_task_ids": [],
+                "managed_by": "external_active_thread",
+                "intake_run_id": "",
+                "delegation_mode": "external_run",
+                "human_boundary_state": "not_needed",
+                "osa_card_ref": "",
+                "handoff_ref": "",
                 "selected_skills": selected_skills,
                 "verification_state": "needs_follow_up" if open_questions else "verified_or_closed",
                 "evidence_ref": f"{thread_source_ref}#{run_id}",
@@ -1357,12 +2694,19 @@ def build_task_thread_entities(
                 "id": thread_id,
                 "thread_id": thread_id,
                 "title": title,
-                "theme": goal_id or "unclassified",
+                "theme": existing_theme or axis_refs["theme"],
                 "goal_id": goal_id,
+                "strategy_id": str(item.get("strategy_id", "")).strip() or axis_refs["strategy_id"],
+                "experiment_id": str(item.get("experiment_id", "")).strip() or axis_refs["experiment_id"],
+                "workflow_id": str(item.get("workflow_id", "")).strip() or axis_refs["workflow_id"],
                 "space_id": space_id,
                 "module_id": module_id,
                 "status": status,
                 "source_run_id": run_id,
+                "entry_mode": "",
+                "parent_task_id": task_id,
+                "managed_by": "external_active_thread",
+                "osa_card_ref": "",
                 "open_questions": open_questions,
                 "morning_review_flag": status == "active",
                 "next_review_date": now_local().date().isoformat() if status == "active" else "",
@@ -1456,6 +2800,83 @@ def build_task_thread_entities(
     return tasks, threads, relations
 
 
+def build_local_task_thread_entities(
+    scope: dict[str, Any],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    intake_root = task_intake_root(scope)
+    task_source_ref = str(task_intake_tasks_path(scope))
+    thread_source_ref = str(task_intake_threads_path(scope))
+    source_asset_id = stable_id("asset", str(intake_root))
+    tasks, threads = load_local_intake_state(scope)
+    thread_index = {str(item.get("thread_id", "")).strip(): item for item in threads if str(item.get("thread_id", "")).strip()}
+    relations: list[dict[str, Any]] = []
+    for task in tasks:
+        task_id = str(task.get("task_id", "")).strip()
+        thread_id = str(task.get("thread_id", "")).strip()
+        if not task_id or not thread_id or thread_id not in thread_index:
+            continue
+        evidence_ref = str(task.get("evidence_ref", "")).strip() or f"{task_source_ref}#{task_id}"
+        subject_id = str(task.get("target_subject_id", "")).strip()
+        module_id = str(task.get("target_module_id", "")).strip()
+        selected_skills = [str(skill).strip() for skill in task.get("selected_skills", []) if str(skill).strip()]
+        relations.append(build_relation("task", task_id, "task_belongs_to_thread", "thread", thread_id, evidence_ref))
+        relations.append(build_relation("asset", source_asset_id, "asset_supports_task", "task", task_id, task_source_ref))
+        if subject_id:
+            relations.append(build_relation("task", task_id, "task_targets_subject", "subject", subject_id, evidence_ref))
+        if module_id:
+            relations.append(build_relation("task", task_id, "task_targets_module", "operating_module", module_id, evidence_ref))
+        for skill in selected_skills:
+            relations.append(build_relation("skill", skill, "skill_supports_task", "task", task_id, evidence_ref))
+
+    for thread in threads:
+        thread_id = str(thread.get("thread_id", "")).strip()
+        if not thread_id:
+            continue
+        evidence_ref = str(thread.get("source_ref", "")).strip() or f"{thread_source_ref}#{thread_id}"
+        space_id = str(thread.get("space_id", "")).strip()
+        selected_skills = [
+            str(skill).strip()
+            for task in tasks
+            if str(task.get("thread_id", "")).strip() == thread_id
+            for skill in task.get("selected_skills", [])
+            if str(skill).strip()
+        ]
+        relations.append(build_relation("asset", source_asset_id, "asset_supports_thread", "thread", thread_id, thread_source_ref))
+        if space_id:
+            relations.append(build_relation("thread", thread_id, "thread_tracks_space", "space", space_id, evidence_ref))
+        for skill in unique_strings(selected_skills):
+            relations.append(build_relation("skill", skill, "skill_supports_thread", "thread", thread_id, evidence_ref))
+    return tasks, threads, relations
+
+
+def merge_records_by_key(
+    preferred: list[dict[str, Any]],
+    fallback: list[dict[str, Any]],
+    key: str,
+) -> list[dict[str, Any]]:
+    merged: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for collection in [preferred, fallback]:
+        for item in collection:
+            value = str(item.get(key, "")).strip()
+            if not value or value in seen:
+                continue
+            merged.append(item)
+            seen.add(value)
+    return merged
+
+
+def build_task_thread_entities(
+    scope: dict[str, Any],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    local_tasks, local_threads, local_relations = build_local_task_thread_entities(scope)
+    external_tasks, external_threads, external_relations = build_external_task_thread_entities(scope)
+    tasks = merge_records_by_key(local_tasks, external_tasks, "task_id")
+    threads = merge_records_by_key(local_threads, external_threads, "thread_id")
+    relations = merge_records_by_key(local_relations, external_relations, "relation_id")
+    return tasks, threads, relations
+
+
 def load_latest_review(scope: dict[str, str]) -> dict[str, Any]:
     return read_json(Path(scope["latest_review_path"]), default={})
 
@@ -1493,6 +2914,8 @@ def build_operational_decision_records(
     scope: dict[str, str],
     threads: list[dict[str, Any]],
     review_runs: list[dict[str, Any]],
+    orders: list[dict[str, Any]],
+    cashflows: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     active_threads_path = str(scope["active_threads_path"])
@@ -1549,12 +2972,121 @@ def build_operational_decision_records(
                 "updated_at": iso_now(),
             }
         )
+
+    for row in _build_sales_quote_source_rows(orders):
+        order = row["order"]
+        records.append(
+            {
+                "id": row["decision_id"],
+                "decision_id": row["decision_id"],
+                "title": row["decision_title"],
+                "decision_type": "sales_execute_quote_sent",
+                "decision_state": "approved",
+                "target_entity_ids": row["target_entity_ids"],
+                "decision_summary": row["decision_summary"],
+                "rationale": row["rationale"],
+                "evidence_refs": row["evidence_refs"],
+                "evidence_ref": row["evidence_ref"],
+                "decided_by": "automation",
+                "entity_type": row["entity_type"],
+                "entity_id": row["entity_id"],
+                "decision_semantics": row["decision_semantics"],
+                "next_action": row["next_action"],
+                "decision_time": str(order.get("quote_sent_at", "")).strip() or str(order.get("updated_at", "")).strip() or iso_now(),
+                "writeback_event_ids": [row["writeback_id"]],
+                "source_ref": str(business_ingestion_report_path()),
+                "confidence": row["confidence"],
+                "updated_at": iso_now(),
+            }
+        )
+
+    for row in _build_sales_handoff_rows(orders):
+        records.append(
+            {
+                "id": row["decision_id"],
+                "decision_id": row["decision_id"],
+                "title": row["decision_title"],
+                "decision_type": "sales_execute_handoff_completed",
+                "decision_state": "approved",
+                "target_entity_ids": row["target_entity_ids"],
+                "decision_summary": row["decision_summary"],
+                "rationale": row["rationale"],
+                "evidence_refs": row["evidence_refs"],
+                "evidence_ref": row["evidence_ref"],
+                "decided_by": "automation",
+                "entity_type": row["entity_type"],
+                "entity_id": row["entity_id"],
+                "decision_semantics": row["decision_semantics"],
+                "next_action": row["next_action"],
+                "decision_time": str(row.get("handoff_completed_at", "")).strip() or iso_now(),
+                "writeback_event_ids": [row["writeback_id"]],
+                "source_ref": str(business_ingestion_report_path()),
+                "confidence": row["confidence"],
+                "updated_at": iso_now(),
+            }
+        )
+
+    for row in _build_sales_lost_rows(orders):
+        records.append(
+            {
+                "id": row["decision_id"],
+                "decision_id": row["decision_id"],
+                "title": row["decision_title"],
+                "decision_type": "sales_execute_close_lost",
+                "decision_state": "approved",
+                "target_entity_ids": row["target_entity_ids"],
+                "decision_summary": row["decision_summary"],
+                "rationale": row["rationale"],
+                "evidence_refs": row["evidence_refs"],
+                "evidence_ref": row["evidence_ref"],
+                "decided_by": "automation",
+                "entity_type": row["entity_type"],
+                "entity_id": row["entity_id"],
+                "decision_semantics": row["decision_semantics"],
+                "next_action": row["next_action"],
+                "decision_time": str(row.get("lost_at", "")).strip() or iso_now(),
+                "writeback_event_ids": [row["writeback_id"]],
+                "source_ref": str(business_ingestion_report_path()),
+                "confidence": row["confidence"],
+                "updated_at": iso_now(),
+            }
+        )
+
+    for row in _build_sales_execute_evidence_rows(orders, cashflows):
+        order = row["order"]
+        order_id = row["order_id"]
+        records.append(
+            {
+                "id": row["decision_id"],
+                "decision_id": row["decision_id"],
+                "title": row["decision_title"],
+                "decision_type": "sales_execute_close_won",
+                "decision_state": "approved",
+                "target_entity_ids": row["target_entity_ids"],
+                "decision_summary": row["decision_summary"],
+                "rationale": row["rationale"],
+                "evidence_refs": row["evidence_refs"],
+                "evidence_ref": row["evidence_ref"],
+                "decided_by": "automation",
+                "entity_type": row["entity_type"],
+                "entity_id": row["entity_id"],
+                "decision_semantics": row["decision_semantics"],
+                "next_action": row["next_action"],
+                "decision_time": str(order.get("updated_at", "")).strip() or iso_now(),
+                "writeback_event_ids": [row["writeback_id"]],
+                "source_ref": str(business_ingestion_report_path()),
+                "confidence": row["confidence"],
+                "updated_at": iso_now(),
+            }
+        )
     return records
 
 
 def build_operational_writeback_events(
     scope: dict[str, str],
     decision_records: list[dict[str, Any]],
+    orders: list[dict[str, Any]],
+    cashflows: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     approved_decision = next(
         (item for item in decision_records if str(item.get("decision_state", "")).strip() == "approved"),
@@ -1568,7 +3100,7 @@ def build_operational_writeback_events(
         if approved_decision and coerce_string_list(approved_decision.get("writeback_event_ids"))
         else stable_id("writeback", "governance-overview", str(report_path))
     )
-    return [
+    events = [
         {
             "id": writeback_id,
             "writeback_id": writeback_id,
@@ -1585,6 +3117,116 @@ def build_operational_writeback_events(
             "updated_at": iso_now(),
         }
     ]
+    decision_lookup = {
+        str(item.get("decision_id", "")).strip(): item
+        for item in decision_records
+        if str(item.get("decision_id", "")).strip()
+    }
+    for row in _build_sales_quote_source_rows(orders):
+        decision = decision_lookup.get(row["decision_id"], {})
+        if not decision:
+            continue
+        events.append(
+            {
+                "id": row["writeback_id"],
+                "writeback_id": row["writeback_id"],
+                "action_id": "proposal-quote",
+                "writeback_type": row["writeback_type"],
+                "decision_id": row["decision_id"],
+                "entity_type": row["entity_type"],
+                "entity_id": row["entity_id"],
+                "target_refs": row["target_refs"],
+                "changed_fields": row["changed_fields"],
+                "evidence_refs": row["evidence_refs"],
+                "evidence_ref": row["evidence_ref"],
+                "triggered_by": "automation",
+                "status_after": row["status_after"],
+                "writeback_time": str(row.get("quote_sent_at", "")).strip() or iso_now(),
+                "verification_state": "completed",
+                "source_ref": str(business_ingestion_report_path()),
+                "confidence": row["confidence"],
+                "updated_at": iso_now(),
+            }
+        )
+    for row in _build_sales_execute_evidence_rows(orders, cashflows):
+        decision = decision_lookup.get(row["decision_id"], {})
+        if not decision:
+            continue
+        events.append(
+            {
+                "id": row["writeback_id"],
+                "writeback_id": row["writeback_id"],
+                "action_id": "deal-close",
+                "writeback_type": row["writeback_type"],
+                "decision_id": row["decision_id"],
+                "entity_type": row["entity_type"],
+                "entity_id": row["entity_id"],
+                "target_refs": row["target_refs"],
+                "changed_fields": row["changed_fields"],
+                "evidence_refs": row["evidence_refs"],
+                "evidence_ref": row["evidence_ref"],
+                "triggered_by": "automation",
+                "status_after": row["status_after"],
+                "writeback_time": iso_now(),
+                "verification_state": "completed",
+                "source_ref": str(business_ingestion_report_path()),
+                "confidence": row["confidence"],
+                "updated_at": iso_now(),
+            }
+        )
+    for row in _build_sales_lost_rows(orders):
+        decision = decision_lookup.get(row["decision_id"], {})
+        if not decision:
+            continue
+        events.append(
+            {
+                "id": row["writeback_id"],
+                "writeback_id": row["writeback_id"],
+                "action_id": "deal-close",
+                "writeback_type": row["writeback_type"],
+                "decision_id": row["decision_id"],
+                "entity_type": row["entity_type"],
+                "entity_id": row["entity_id"],
+                "target_refs": row["target_refs"],
+                "changed_fields": row["changed_fields"],
+                "evidence_refs": row["evidence_refs"],
+                "evidence_ref": row["evidence_ref"],
+                "triggered_by": "automation",
+                "status_after": row["status_after"],
+                "writeback_time": str(row.get("lost_at", "")).strip() or iso_now(),
+                "verification_state": "completed",
+                "source_ref": str(business_ingestion_report_path()),
+                "confidence": row["confidence"],
+                "updated_at": iso_now(),
+            }
+        )
+    for row in _build_sales_handoff_rows(orders):
+        decision = decision_lookup.get(row["decision_id"], {})
+        if not decision:
+            continue
+        events.append(
+            {
+                "id": row["writeback_id"],
+                "writeback_id": row["writeback_id"],
+                "action_id": "post-close-handoff",
+                "writeback_type": row["writeback_type"],
+                "decision_id": row["decision_id"],
+                "entity_type": row["entity_type"],
+                "entity_id": row["entity_id"],
+                "target_refs": row["target_refs"],
+                "changed_fields": row["changed_fields"],
+                "evidence_refs": row["evidence_refs"],
+                "evidence_ref": row["evidence_ref"],
+                "triggered_by": "automation",
+                "status_after": row["status_after"],
+                "writeback_time": str(row.get("handoff_completed_at", "")).strip() or iso_now(),
+                "verification_state": "completed",
+                "source_ref": str(business_ingestion_report_path()),
+                "confidence": row["confidence"],
+                "updated_at": iso_now(),
+            }
+        )
+    return events
 
 
 def dedupe_by_key(items: list[dict[str, Any]], key: str) -> list[dict[str, Any]]:
@@ -1701,18 +3343,26 @@ def build_inventory(scope_path: Path | None = None) -> dict[str, Any]:
     skills, skill_assets = build_skill_entities(scope)
     automation_assets = build_automation_assets(scope)
     strategy_assets = build_strategy_assets(scope)
+    task_intake_assets = build_task_intake_assets(scope)
     ingested = build_ingested_entities(scope)
-    assets = dedupe_by_key(skill_assets + automation_assets + strategy_assets + ingested["assets"], "asset_id")
+    assets = dedupe_by_key(
+        skill_assets + automation_assets + strategy_assets + task_intake_assets + ingested["assets"],
+        "asset_id",
+    )
     spaces, subjects, endpoints, accounts, operating_modules, federation_relations = build_federation_entities(
         scope, skills, assets
     )
     accounts = reconcile_accounts_with_source_feeds(accounts, ingested["source_feeds"])
+    source_feeds = dedupe_by_key(ingested["source_feeds"], "source_feed_id")
+    ingestion_runs = dedupe_by_key(ingested["ingestion_runs"], "ingestion_run_id")
+    orders = dedupe_by_key(ingested["orders"], "order_id")
+    cashflows = dedupe_by_key(ingested["cashflows"], "cashflow_id")
     tasks, threads, relations = build_task_thread_entities(scope)
     review_runs = build_review_entities(scope)
     actions = build_operational_actions()
     agent_capabilities = build_operational_agent_capabilities()
-    decision_records = build_operational_decision_records(scope, threads, review_runs)
-    writeback_events = build_operational_writeback_events(scope, decision_records)
+    decision_records = build_operational_decision_records(scope, threads, review_runs, orders, cashflows)
+    writeback_events = build_operational_writeback_events(scope, decision_records, orders, cashflows)
     knowledge_items = seed_knowledge_items(knowledge_sources) + read_manual_knowledge_catalogs(scope, knowledge_sources)
 
     spaces = dedupe_by_key(spaces, "space_id")
@@ -1720,10 +3370,6 @@ def build_inventory(scope_path: Path | None = None) -> dict[str, Any]:
     endpoints = dedupe_by_key(endpoints, "endpoint_id")
     accounts = dedupe_by_key(accounts, "account_id")
     operating_modules = dedupe_by_key(operating_modules, "module_id")
-    source_feeds = dedupe_by_key(ingested["source_feeds"], "source_feed_id")
-    ingestion_runs = dedupe_by_key(ingested["ingestion_runs"], "ingestion_run_id")
-    orders = dedupe_by_key(ingested["orders"], "order_id")
-    cashflows = dedupe_by_key(ingested["cashflows"], "cashflow_id")
     skills = dedupe_by_key(skills, "skill_id")
     tasks = dedupe_by_key(tasks, "task_id")
     threads = dedupe_by_key(threads, "thread_id")
@@ -1813,6 +3459,15 @@ def persist_inventory(inventory: dict[str, Any]) -> None:
     write_json(snapshot_path, inventory)
     write_json(CANONICAL_ROOT / "snapshots" / "latest.json", inventory)
     write_json(DERIVED_ROOT / "reports" / "inventory-snapshot.json", inventory)
+    write_json(
+        business_ingestion_report_path(),
+        build_business_ingestion_payload(
+            orders=inventory["orders"],
+            cashflows=inventory["cashflows"],
+            ingestion_runs=inventory["ingestion_runs"],
+            writeback_events=inventory["writeback_events"],
+        ),
+    )
     write_text(DERIVED_ROOT / "reports" / "governance-overview.md", render_governance_overview(inventory))
     write_json(DERIVED_ROOT / "reports" / "governance-overview.json", build_governance_summary(inventory))
 
@@ -1837,20 +3492,1441 @@ def inventory_sources(scope_path: Path | None = None) -> dict[str, Any]:
     return payload
 
 
-def ingest_business(scope_path: Path | None = None) -> dict[str, Any]:
-    scope = load_source_scope(scope_path)
-    ingested = build_ingested_entities(scope)
-    payload = {
+def build_execution_tasks(
+    *,
+    prompt: str,
+    run_id: str,
+    thread_id: str,
+    parent_task_id: str,
+    goal_id: str,
+    space_id: str,
+    subject_id: str,
+    module_id: str,
+    route_payload: dict[str, Any],
+    osa_card_path: Path,
+    delegation_plan_path: Path,
+    task_source_ref: Path,
+    boundary_state: str,
+) -> list[dict[str, Any]]:
+    items = split_prompt_into_execution_units(prompt)
+    binding = runtime_binding_for_module(module_id=module_id)
+    tasks: list[dict[str, Any]] = []
+    for index, item_text in enumerate(items, start=1):
+        task_id = f"{parent_task_id}-{index:02d}"
+        skills = choose_execution_skill_chain(route_payload, index - 1)
+        verification_targets = build_execution_verification_targets(route_payload, item_text)
+        previous_task_id = f"{parent_task_id}-{index - 1:02d}" if index > 1 else ""
+        contract = dispatch_contract_for_skills(skills[:3])
+        tasks.append(
+            {
+                "id": task_id,
+                "task_id": task_id,
+                "thread_id": thread_id,
+                "title": item_text,
+                "goal_id": goal_id,
+                "space_id": space_id,
+                "target_subject_id": subject_id,
+                "target_module_id": module_id,
+                "module_code": binding["module_code"],
+                "owner_subject_id": binding["owner_subject_id"],
+                "ai_subject_id": binding["ai_subject_id"],
+                "deputy_subject_id": binding["deputy_subject_id"],
+                "status": "planned",
+                "priority": "P1",
+                "owner_mode": "ai",
+                "task_kind": "execution",
+                "parent_task_id": parent_task_id,
+                "depends_on_task_ids": [previous_task_id] if previous_task_id else [],
+                "managed_by": "repo_intake",
+                "intake_run_id": run_id,
+                "delegation_mode": "skill_chain",
+                "human_boundary_state": boundary_state,
+                "osa_card_ref": str(osa_card_path),
+                "handoff_ref": str(delegation_plan_path),
+                "selected_skills": skills[:3],
+                "verification_state": "needs_follow_up",
+                "verification_target": verification_targets,
+                "interrupt_only_if": interrupt_only_if(boundary_state),
+                "evidence_ref": f"{task_source_ref}#{task_id}",
+                "next_action": "等待分派后推进并补充执行证据。",
+                "execution_mode": contract["execution_mode"],
+                "runner_state": "planned",
+                "run_artifact_ref": "",
+                "result_summary": "",
+                "evidence_refs": [],
+                "closure_state": "not_started",
+                "closure_run_id": "",
+                "blocker_reason": "",
+                "required_human_input": "",
+                "source_ref": str(task_source_ref),
+                "confidence": 0.9,
+                "last_updated_at": iso_now(),
+                "updated_at": iso_now(),
+            }
+        )
+    return tasks
+
+
+def build_delegation_plan(
+    *,
+    run_id: str,
+    thread_id: str,
+    parent_task_id: str,
+    execution_tasks: list[dict[str, Any]],
+) -> dict[str, Any]:
+    return {
+        "run_id": run_id,
+        "thread_id": thread_id,
+        "parent_task_id": parent_task_id,
+        "mirror_policy": "prepare_only_after_closure",
+        "tasks": [
+            {
+                "task_id": task["task_id"],
+                "title": task["title"],
+                "goal": task["title"],
+                "execution_mode": task.get("execution_mode", "handoff_only"),
+                "selected_skills": task.get("selected_skills", []),
+                "recommended_skill_chain": task.get("selected_skills", []),
+                "depends_on_task_ids": task.get("depends_on_task_ids", []),
+                "runner_state": task.get("runner_state", "planned"),
+                "run_artifact_ref": task.get("run_artifact_ref", ""),
+                "result_summary": task.get("result_summary", ""),
+                "evidence_refs": task.get("evidence_refs", []),
+                "verification_target": task.get("verification_target", []),
+                "next_action": task.get("next_action", ""),
+                "interrupt_only_if": task.get("interrupt_only_if", ""),
+                "status": task.get("status", "planned"),
+            }
+            for task in execution_tasks
+        ],
+    }
+
+
+def build_task_intake_osa_card(
+    *,
+    prompt: str,
+    run_id: str,
+    thread: dict[str, Any],
+    parent_task: dict[str, Any],
+    execution_tasks: list[dict[str, Any]],
+    route_payload: dict[str, Any],
+) -> dict[str, Any]:
+    situation_map = route_payload.get("situation_map", {}) if isinstance(route_payload.get("situation_map", {}), dict) else {}
+    selected_skills = [str(item).strip() for item in route_payload.get("selected_skills", []) if str(item).strip()]
+    verification_targets = build_execution_verification_targets(route_payload, prompt)
+    work_breakdown = []
+    capability_orchestration = []
+    for index, task in enumerate(execution_tasks, start=1):
+        step_id = f"A{index}"
+        work_breakdown.append(
+            {
+                "step_id": step_id,
+                "description": str(task.get("title", "")),
+                "depends_on": [f"A{index - 1}"] if index > 1 else [],
+            }
+        )
+        capability_orchestration.append(
+            {
+                "step_id": step_id,
+                "primary_executor": "ai-da-guan-jia",
+                "selected_tools": list(task.get("selected_skills", [])),
+                "reason": "Use the smallest sufficient skill chain to move the task from conversation into an executable handoff.",
+            }
+        )
+    return {
+        "schema_version": "1.0",
+        "osa_id": f"osa-{run_id}",
         "generated_at": iso_now(),
-        "orders": ingested["orders"],
-        "cashflows": ingested["cashflows"],
-        "counts": {
-            "orders": len(ingested["orders"]),
-            "cashflows": len(ingested["cashflows"]),
+        "task_context": {
+            "task_id": parent_task["task_id"],
+            "title": parent_task["title"],
+            "goal_id": parent_task["goal_id"],
+            "space_id": parent_task["space_id"],
+            "target_module_id": parent_task["target_module_id"],
+            "status": parent_task["status"],
+            "source_ref": parent_task["source_ref"],
+        },
+        "governance_judgments": {
+            "autonomy_judgment": {
+                "decision": situation_map.get("自治判断", "default_to_high_autonomy"),
+                "basis": "默认少打扰共同治理者，只在真正的人类边界出现时升级。",
+            },
+            "global_optimum_judgment": {
+                "decision": situation_map.get("全局最优判断", "local_intake_before_external_mirror"),
+                "basis": "先落本地 canonical 与任务包，再考虑外部镜像，避免把同步误当真相源。",
+            },
+            "capability_reuse_judgment": {
+                "decision": situation_map.get("能力复用判断", "reuse_ai_da_guan_jia_route"),
+                "basis": "复用现有 AI大管家 route 与最小 skill 链，不额外发明第二套路由器。",
+            },
+            "verification_judgment": {
+                "decision": situation_map.get("验真判断", "require_packet_and_canonical_visibility"),
+                "basis": "必须同时有 repo-local packet 和 canonical task/thread 映射，才算进入可执行状态。",
+            },
+            "evolution_judgment": {
+                "decision": situation_map.get("进化判断", "promote_intake_pattern_if_stable"),
+                "basis": "每轮 intake 都要沉淀可复用的拆解、分派和边界规则。",
+            },
+            "current_max_distortion": {
+                "distortion": situation_map.get("当前最大失真", "把任务 intake 误解成立即执行或立即镜像。"),
+                "why_it_matters": "这会制造任务已闭环的假象，破坏本地真相源和后续验证。",
+            },
+        },
+        "objective": {
+            "origin_goal_alignment": {
+                "charter_relation": "这轮 intake 服务于 AI大管家的递归进化协作入口，不只是登记一条任务。",
+                "recursive_value": "如果 intake 结构稳定，后续任务都能复用同一套 conversation -> parent -> execution 的治理链。",
+            },
+            "strategic_goal_alignment": {
+                "goal_id": parent_task["goal_id"],
+                "strategic_goal": "治理操作系统化",
+                "relation": "把需求对话转成可分派、可验证、少打扰的任务入口。",
+            },
+            "task_goal_definition": {
+                "deliverable": "产出母任务、子执行单、OSA 卡、delegation plan 和本地 ledger。",
+                "done_definition": [
+                    "母任务和子执行单写入 repo-local intake ledger",
+                    "canonical tasks/threads 可由 inventory 重建并保留",
+                    "每个子任务都带 skill 链、验真目标和打断边界",
+                ],
+                "not_in_scope": [
+                    "不在 intake 阶段自动执行子任务",
+                    "不在 intake 阶段自动 apply GitHub/飞书镜像",
+                ],
+            },
+            "distortion_boundary": {
+                "pseudo_completion_risk": "只写一条任务标题，没有形成可执行分派包和可重建 canonical 来源。",
+                "prevention_rule": "必须同时生成任务包、ledger、以及 inventory 可见的 task/thread 记录。",
+            },
+        },
+        "strategy": {
+            "external_benchmarking": [
+                "优先复用现有 AI大管家 route，不新增第二套技能选择体系。",
+                "遵循本地优先、闭环后再镜像，而不是创建即同步。",
+            ],
+            "prior_experience": [
+                "复用 route 输出中的 selected_skills、verification_targets 和 situation_map。",
+                "复用既有 canonical inventory pipeline，而不是手工直写最终 tasks.json 当真相源。",
+            ],
+            "feasibility_assessment": {
+                "cost_level": "medium",
+                "dependencies": ["AI大管家 route script", "repo-local intake ledgers", "inventory merge path"],
+                "risks": [
+                    "dry-run 只阻止 repo-local 写入，但 route 依赖仍可能写外部 run artifact",
+                    "若不走 ledger merge，inventory 会覆盖本地 intake 结果",
+                ],
+                "verification_difficulty": "medium",
+            },
+            "path_decision": {
+                "chosen_path": "先写 repo-local intake 真相源，再由 inventory 合并生成 canonical tasks/threads。",
+                "rejected_alternatives": [
+                    {
+                        "path": "直接把 intake 结果写进 canonical/entities/tasks.json",
+                        "reason": "下次 inventory 会被外部 active-threads 覆盖。",
+                    },
+                    {
+                        "path": "创建即同步 GitHub/飞书",
+                        "reason": "会把外部镜像误当 canonical，并带来额外噪音。",
+                    },
+                ],
+                "rationale": "先保护本地来源层，再复用现有 inventory 和 mirror 管线。",
+            },
+            "verification_target": {
+                "evidence_required": verification_targets,
+                "pass_condition": "共同治理者能看到 thread / parent / execution 任务包，并且 inventory 后 canonical 仍保留这些记录。",
+            },
+        },
+        "action": {
+            "work_breakdown": work_breakdown,
+            "capability_orchestration": capability_orchestration,
+            "control_gates": [
+                {
+                    "gate": "goal_gate",
+                    "trigger": "intake 开始前",
+                    "check": "六个治理判断和母任务目标已写清。",
+                    "escalation_condition": "如果 prompt 本身需要主观取舍，标记 needs_user。",
+                },
+                {
+                    "gate": "delegation_gate",
+                    "trigger": "子任务生成后",
+                    "check": "每个子任务都带 skill 链、依赖、验真目标和打断边界。",
+                    "escalation_condition": "如果子任务仍是摘要而非执行单，则不能落地。",
+                },
+                {
+                    "gate": "closure_gate",
+                    "trigger": "准备镜像或归档前",
+                    "check": "先有本地证据和状态，再准备外部 mirror。",
+                    "escalation_condition": "若没有验证证据，不得执行 apply。",
+                },
+            ],
+            "human_boundary": {
+                "default_mode": "strict_boundary_min_interruptions",
+                "escalate_only_when": [
+                    "需要登录、授权、付款",
+                    "需要不可逆发布或删除",
+                    "需要共同治理者做不可替代主观判断",
+                ],
+            },
+            "closure_outputs": {
+                "final_result": "repo-local task packet 与 canonical 可重建的 intake 任务源。",
+                "evidence": verification_targets,
+                "retrospective": ["记录 gain / waste / next iterate，供后续 close-task 使用。"],
+                "next_iteration_candidates": ["把 task-update 接入真实执行闭环。"],
+            },
+        },
+        "closure_gate": {
+            "result_status": "planned_example",
+            "evidence": verification_targets,
+            "gain": [
+                "对话需求被转成稳定的母任务 + 子执行单结构。",
+                "inventory 不再覆盖 repo-local intake 真相源。",
+            ],
+            "waste": [
+                "若过早同步外部镜像，会让协作噪音先于本地真相层。",
+            ],
+            "next_iterate": [
+                "把执行结果通过 task-update 回写 ledger。",
+            ],
+            "rule_candidate": "所有 conversation intake 都先落 repo-local source ledger，再进入 canonical merge。",
+        },
+        "interface_projection": {
+            "route": {
+                "recommended_skill_chain": selected_skills[:3],
+                "verification_target": verification_targets,
+                "control_gates": ["goal_gate", "delegation_gate", "closure_gate"],
+            },
+            "strategy_governor": {
+                "origin_goal": "递归进化",
+                "strategic_goal": "治理操作系统化",
+                "thread_id": thread["thread_id"],
+                "task_id": parent_task["task_id"],
+            },
+            "review_close_task": {
+                "result_status": "planned_example",
+                "evidence": verification_targets,
+            },
         },
     }
-    write_json(DERIVED_ROOT / "reports" / "business-ingestion.json", payload)
+
+
+def render_intake_summary(
+    parent_task: dict[str, Any],
+    execution_tasks: list[dict[str, Any]],
+    boundary_state: str,
+) -> str:
+    lines = [
+        f"# {parent_task['title']}",
+        "",
+        "## 母任务",
+        f"- 任务 ID: {parent_task['task_id']}",
+        f"- 线程 ID: {parent_task['thread_id']}",
+        f"- 状态: {parent_task['status']}",
+        f"- 选中技能: {', '.join(parent_task.get('selected_skills', [])) or 'none'}",
+        "",
+        "## 子执行单",
+    ]
+    for task in execution_tasks:
+        lines.extend(
+            [
+                f"- {task['task_id']} :: {task['title']}",
+                f"  状态: {task['status']}; 依赖: {', '.join(task.get('depends_on_task_ids', [])) or 'none'}",
+                f"  技能链: {', '.join(task.get('selected_skills', [])) or 'none'}",
+            ]
+        )
+    lines.extend(
+        [
+            "",
+            "## 何时找你",
+            interrupt_only_if(boundary_state),
+            "",
+            "## 暂不做什么",
+            "- 不在 intake 阶段自动执行子任务。",
+            "- 不在 intake 阶段自动 apply GitHub/飞书镜像。",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def task_intake(
+    prompt: str,
+    *,
+    scope_path: Path | None = None,
+    goal_id: str = "G1",
+    space_id: str = "space-personal-zero",
+    subject_id: str = "subject-hay2045",
+    run_id: str | None = None,
+    dry_run: bool = False,
+) -> dict[str, Any]:
+    scope = load_source_scope(scope_path)
+    run_id_value = run_id or allocate_intake_run_id(prompt)
+    thread_id = f"thread-{run_id_value}"
+    parent_task_id = f"task-{run_id_value}"
+    intake_root = task_intake_root(scope)
+    packet_dir = task_intake_run_dir(scope, run_id_value)
+    route_bundle = preview_ai_da_guan_jia_route(prompt, scope) if dry_run else run_ai_da_guan_jia_route(prompt, scope)
+    route_payload = dict(route_bundle.get("route_payload") or {})
+    situation_map_markdown = str(route_bundle.get("situation_map_markdown") or "").strip()
+    route_payload.setdefault("task_text", prompt)
+    route_payload.setdefault("selected_skills", [])
+    route_payload.setdefault("verification_targets", build_execution_verification_targets(route_payload, prompt))
+    module_code = infer_module_code(prompt, [str(item).strip() for item in route_payload.get("selected_skills", []) if str(item).strip()])
+    binding = runtime_binding_for_module(module_code=module_code)
+    module_id = binding["module_id"] or module_id_from_code(module_code)
+    boundary_state = infer_human_boundary_state(prompt, route_payload)
+    route_path = packet_dir / "route.json"
+    situation_path = packet_dir / "situation-map.md"
+    osa_card_path = packet_dir / "osa-card.json"
+    summary_path = packet_dir / "intake-summary.md"
+    delegation_path = packet_dir / "delegation-plan.json"
+    task_ledger_path = task_intake_tasks_path(scope)
+    thread_ledger_path = task_intake_threads_path(scope)
+
+    thread = {
+        "id": thread_id,
+        "thread_id": thread_id,
+        "title": short_title(prompt, limit=80),
+        **infer_thread_strategy_axis(prompt, goal_id),
+        "goal_id": goal_id,
+        "space_id": space_id,
+        "module_id": module_id,
+        "status": "active",
+        "source_run_id": run_id_value,
+        "entry_mode": "conversation_intake",
+        "parent_task_id": parent_task_id,
+        "managed_by": "repo_intake",
+        "osa_card_ref": str(osa_card_path),
+        "orchestration_state": "intake_created",
+        "closure_state": "not_started",
+        "closure_run_id": "",
+        "blocker_reason": "",
+        "required_human_input": "",
+        "open_questions": [],
+        "morning_review_flag": True,
+        "next_review_date": now_local().date().isoformat(),
+        "source_ref": str(thread_ledger_path),
+        "confidence": 0.94,
+        "updated_at": iso_now(),
+    }
+    parent_task = {
+        "id": parent_task_id,
+        "task_id": parent_task_id,
+        "thread_id": thread_id,
+        "title": short_title(prompt, limit=80),
+        "goal_id": goal_id,
+        "space_id": space_id,
+        "target_subject_id": subject_id,
+        "target_module_id": module_id,
+        "module_code": binding["module_code"] or module_code,
+        "owner_subject_id": binding["owner_subject_id"],
+        "ai_subject_id": binding["ai_subject_id"],
+        "deputy_subject_id": binding["deputy_subject_id"],
+        "status": "active",
+        "priority": "P1",
+        "owner_mode": "ai",
+        "task_kind": "parent",
+        "parent_task_id": "",
+        "depends_on_task_ids": [],
+        "managed_by": "repo_intake",
+        "intake_run_id": run_id_value,
+        "delegation_mode": "conversation_governor",
+        "human_boundary_state": boundary_state,
+        "osa_card_ref": str(osa_card_path),
+        "handoff_ref": str(delegation_path),
+        "selected_skills": [str(item).strip() for item in route_payload.get("selected_skills", []) if str(item).strip()][:3],
+        "verification_state": "needs_follow_up",
+        "verification_target": build_execution_verification_targets(route_payload, prompt),
+        "interrupt_only_if": interrupt_only_if(boundary_state),
+        "evidence_ref": f"{task_ledger_path}#{parent_task_id}",
+        "next_action": "确认子执行单后按 delegation plan 推进。",
+        "execution_mode": "repo_builtin",
+        "runner_state": "planned",
+        "run_artifact_ref": "",
+        "result_summary": "",
+        "evidence_refs": [],
+        "closure_state": "not_started",
+        "closure_run_id": "",
+        "blocker_reason": "",
+        "required_human_input": "",
+        "source_ref": str(task_ledger_path),
+        "confidence": 0.94,
+        "last_updated_at": iso_now(),
+        "updated_at": iso_now(),
+    }
+    execution_tasks = build_execution_tasks(
+        prompt=prompt,
+        run_id=run_id_value,
+        thread_id=thread_id,
+        parent_task_id=parent_task_id,
+        goal_id=goal_id,
+        space_id=space_id,
+        subject_id=subject_id,
+        module_id=module_id,
+        route_payload=route_payload,
+        osa_card_path=osa_card_path,
+        delegation_plan_path=delegation_path,
+        task_source_ref=task_ledger_path,
+        boundary_state=boundary_state,
+    )
+    delegation_plan = build_delegation_plan(
+        run_id=run_id_value,
+        thread_id=thread_id,
+        parent_task_id=parent_task_id,
+        execution_tasks=execution_tasks,
+    )
+    osa_card = build_task_intake_osa_card(
+        prompt=prompt,
+        run_id=run_id_value,
+        thread=thread,
+        parent_task=parent_task,
+        execution_tasks=execution_tasks,
+        route_payload=route_payload,
+    )
+    summary_markdown = render_intake_summary(parent_task, execution_tasks, boundary_state)
+    payload = {
+        "generated_at": iso_now(),
+        "run_id": run_id_value,
+        "dry_run": dry_run,
+        "packet_dir": str(packet_dir),
+        "task_ledger_path": str(task_ledger_path),
+        "thread_ledger_path": str(thread_ledger_path),
+        "thread": thread,
+        "parent_task": parent_task,
+        "execution_tasks": execution_tasks,
+        "delegation_plan": delegation_plan,
+        "route_preview": route_payload,
+        "situation_map_markdown": situation_map_markdown,
+    }
+    if dry_run:
+        return payload
+
+    write_json(route_path, route_payload)
+    write_text(situation_path, situation_map_markdown or "# Situation Map\n")
+    write_json(osa_card_path, osa_card)
+    write_text(summary_path, summary_markdown)
+    write_json(delegation_path, delegation_plan)
+    tasks = upsert_rows_by_key(read_local_intake_tasks(scope), "task_id", [parent_task] + execution_tasks)
+    threads = upsert_rows_by_key(read_local_intake_threads(scope), "thread_id", [thread])
+    write_json(task_ledger_path, tasks)
+    write_json(thread_ledger_path, threads)
+    inventory = build_inventory(scope_path)
+    payload["inventory_counts"] = inventory["counts"]
     return payload
+
+
+def task_update(
+    task_id: str,
+    *,
+    status: str,
+    scope_path: Path | None = None,
+    next_action: str = "",
+    verification_state: str = "",
+    evidence_ref: str = "",
+    human_boundary_state: str = "",
+) -> dict[str, Any]:
+    scope = load_source_scope(scope_path)
+    tasks, threads = load_local_intake_state(scope)
+    target = next((item for item in tasks if str(item.get("task_id", "")).strip() == task_id), None)
+    if target is None:
+        raise RuntimeError(f"Unknown repo-local intake task: {task_id}")
+    target["status"] = status
+    if next_action:
+        target["next_action"] = next_action
+    if verification_state:
+        target["verification_state"] = verification_state
+    if evidence_ref:
+        target["evidence_ref"] = evidence_ref
+    if human_boundary_state:
+        target["human_boundary_state"] = human_boundary_state
+    target["last_updated_at"] = iso_now()
+    target["updated_at"] = iso_now()
+    inventory = write_local_intake_state(scope, tasks=tasks, threads=threads, scope_path=scope_path)
+    return {
+        "generated_at": iso_now(),
+        "task_id": task_id,
+        "status": status,
+        "task_ledger_path": str(task_intake_tasks_path(scope)),
+        "inventory_counts": inventory["counts"],
+    }
+
+
+def execution_artifact_dir(packet_dir: Path, task_id: str, kind: str) -> Path:
+    return packet_dir / kind / task_id
+
+
+def write_execution_artifact(artifact_dir: Path, name: str, payload: Any, *, markdown: bool = False) -> Path:
+    path = artifact_dir / name
+    if markdown:
+        write_text(path, str(payload))
+    else:
+        write_json(path, payload)
+    return path
+
+
+def render_execution_summary_markdown(parent_task: dict[str, Any], execution_tasks: list[dict[str, Any]]) -> str:
+    lines = [
+        f"# Execution Summary - {parent_task['task_id']}",
+        "",
+        f"- Parent Task: {parent_task['title']}",
+        f"- Thread ID: {parent_task['thread_id']}",
+        "",
+        "## Execution Tasks",
+    ]
+    for task in execution_tasks:
+        lines.extend(
+            [
+                f"- {task['task_id']} :: {task['status']}",
+                f"  runner_state: {task.get('runner_state', '') or 'planned'}",
+                f"  execution_mode: {task.get('execution_mode', '') or 'handoff_only'}",
+                f"  result: {task.get('result_summary', '') or 'none'}",
+            ]
+        )
+    return "\n".join(lines)
+
+
+def render_closure_summary_markdown(
+    result_status: str,
+    *,
+    thread: dict[str, Any],
+    parent_task: dict[str, Any],
+    execution_tasks: list[dict[str, Any]],
+    blockers: list[dict[str, Any]],
+    failed_tasks: list[dict[str, Any]],
+    closure_run_id: str,
+) -> str:
+    lines = [
+        f"# Closure Summary - {thread['thread_id']}",
+        "",
+        f"- Result: {result_status}",
+        f"- Parent Task: {parent_task['task_id']}",
+        f"- Closure Run ID: {closure_run_id or 'none'}",
+        "",
+        "## Tasks",
+    ]
+    for task in execution_tasks:
+        lines.append(f"- {task['task_id']} :: {task['status']} :: {task.get('result_summary', '') or 'no summary'}")
+    lines.extend(["", "## Blockers"])
+    if blockers:
+        for blocker in blockers:
+            lines.append(f"- {blocker['task_id']} :: {blocker['blocker_reason']}")
+    else:
+        lines.append("- none")
+    lines.extend(["", "## Failures"])
+    if failed_tasks:
+        for item in failed_tasks:
+            lines.append(f"- {item['task_id']} :: {item.get('result_summary', '') or 'failed'}")
+    else:
+        lines.append("- none")
+    return "\n".join(lines)
+
+
+def load_thread_bundle(
+    scope: dict[str, Any],
+    *,
+    thread_id: str,
+) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]], Path, str]:
+    tasks, threads = load_local_intake_state(scope)
+    thread = next((item for item in threads if str(item.get("thread_id", "")).strip() == thread_id), None)
+    if thread is None:
+        raise RuntimeError(f"Unknown repo-local intake thread: {thread_id}")
+    thread_tasks = [item for item in tasks if str(item.get("thread_id", "")).strip() == thread_id]
+    parent_task = next((item for item in thread_tasks if str(item.get("task_kind", "")).strip() == "parent"), None)
+    if parent_task is None:
+        raise RuntimeError(f"Thread {thread_id} is missing its parent task.")
+    execution_tasks = sorted(
+        [item for item in thread_tasks if str(item.get("task_kind", "")).strip() == "execution"],
+        key=lambda item: str(item.get("task_id", "")),
+    )
+    run_id = str(parent_task.get("intake_run_id") or parse_thread_run_id(thread_id)).strip()
+    packet_dir = task_intake_run_dir(scope, run_id)
+    return thread, parent_task, execution_tasks, tasks, threads, packet_dir, run_id
+
+
+def dependency_ready(execution_index: dict[str, dict[str, Any]], task: dict[str, Any]) -> bool:
+    for dependency_id in [str(item).strip() for item in task.get("depends_on_task_ids", []) if str(item).strip()]:
+        dependency = execution_index.get(dependency_id)
+        if not dependency:
+            return False
+        if str(dependency.get("status", "")).strip() not in TASK_TERMINAL_SUCCESS_STATUSES:
+            return False
+    return True
+
+
+def execute_repo_builtin_task(task: dict[str, Any], packet_dir: Path, *, dry_run: bool) -> dict[str, Any]:
+    artifact_dir = execution_artifact_dir(packet_dir, str(task["task_id"]), "execution")
+    result_payload = {
+        "task_id": task["task_id"],
+        "runner_id": "repo-local-governance-runner",
+        "execution_mode": "repo_builtin",
+        "selected_skills": task.get("selected_skills", []),
+        "verification_target": task.get("verification_target", []),
+        "generated_at": iso_now(),
+        "summary": "Repo-local governance runner wrote execution evidence and verified the task.",
+    }
+    summary_markdown = "\n".join(
+        [
+            f"# {task['task_id']}",
+            "",
+            "- execution_mode: repo_builtin",
+            "- result: verified locally",
+        ]
+    )
+    result_path = artifact_dir / "result.json"
+    summary_path = artifact_dir / "summary.md"
+    if not dry_run:
+        write_execution_artifact(artifact_dir, "result.json", result_payload)
+        write_execution_artifact(artifact_dir, "summary.md", summary_markdown, markdown=True)
+    return {
+        "status": "verified",
+        "runner_state": "verified",
+        "verification_state": "verified",
+        "run_artifact_ref": str(artifact_dir),
+        "result_summary": result_payload["summary"],
+        "evidence_refs": [str(result_path), str(summary_path)],
+        "evidence_ref": str(result_path),
+        "next_action": "等待本地闭环汇总。",
+        "last_updated_at": iso_now(),
+        "updated_at": iso_now(),
+    }
+
+
+def execute_handoff_only_task(task: dict[str, Any], packet_dir: Path, *, dry_run: bool) -> dict[str, Any]:
+    artifact_dir = execution_artifact_dir(packet_dir, str(task["task_id"]), "handoffs")
+    handoff_payload = {
+        "task_id": task["task_id"],
+        "execution_mode": "handoff_only",
+        "selected_skills": task.get("selected_skills", []),
+        "verification_target": task.get("verification_target", []),
+        "interrupt_only_if": task.get("interrupt_only_if", ""),
+        "generated_at": iso_now(),
+        "summary": "No registered runner was available; a tracked handoff packet was prepared instead.",
+    }
+    handoff_markdown = "\n".join(
+        [
+            f"# Handoff - {task['task_id']}",
+            "",
+            f"- Skills: {', '.join(task.get('selected_skills', [])) or 'none'}",
+            f"- Verification: {', '.join(task.get('verification_target', [])) or 'none'}",
+        ]
+    )
+    handoff_json_path = artifact_dir / "handoff.json"
+    handoff_md_path = artifact_dir / "handoff.md"
+    if not dry_run:
+        write_execution_artifact(artifact_dir, "handoff.json", handoff_payload)
+        write_execution_artifact(artifact_dir, "handoff.md", handoff_markdown, markdown=True)
+    return {
+        "status": "handoff_only_closed",
+        "runner_state": "handoff_only",
+        "verification_state": "handoff_prepared",
+        "run_artifact_ref": str(artifact_dir),
+        "result_summary": handoff_payload["summary"],
+        "evidence_refs": [str(handoff_json_path), str(handoff_md_path)],
+        "evidence_ref": str(handoff_json_path),
+        "next_action": "等待下游技能或人工接手；当前本地闭环可继续。",
+        "last_updated_at": iso_now(),
+        "updated_at": iso_now(),
+    }
+
+
+def execute_skill_cli_task(scope: dict[str, Any], task: dict[str, Any], packet_dir: Path, *, dry_run: bool) -> dict[str, Any]:
+    if dry_run:
+        artifact_dir = execution_artifact_dir(packet_dir, str(task["task_id"]), "skill-cli")
+        stdout_path = artifact_dir / "stdout.txt"
+        stderr_path = artifact_dir / "stderr.txt"
+        return {
+            "status": "verified",
+            "runner_state": "verified",
+            "verification_state": "verified",
+            "run_artifact_ref": str(artifact_dir),
+            "result_summary": "Dry-run preview only: skill CLI execution was not started.",
+            "evidence_refs": [str(stdout_path), str(stderr_path)],
+            "evidence_ref": str(stdout_path),
+            "next_action": "等待真实 orchestrate 执行。",
+            "last_updated_at": iso_now(),
+            "updated_at": iso_now(),
+        }
+    command_result = run_ai_da_guan_jia_command(scope, ["route", "--prompt", str(task.get("title", ""))])
+    artifact_dir = execution_artifact_dir(packet_dir, str(task["task_id"]), "skill-cli")
+    stdout_path = artifact_dir / "stdout.txt"
+    stderr_path = artifact_dir / "stderr.txt"
+    meta_path = artifact_dir / "command.json"
+    write_text(stdout_path, command_result["stdout"])
+    write_text(stderr_path, command_result["stderr"])
+    write_json(meta_path, command_result)
+    if command_result["returncode"] != 0:
+        return {
+            "status": "failed",
+            "runner_state": "failed",
+            "verification_state": "failed",
+            "run_artifact_ref": str(artifact_dir),
+            "result_summary": command_result["stderr"].strip() or "skill_cli execution failed.",
+            "evidence_refs": [str(meta_path), str(stdout_path), str(stderr_path)],
+            "evidence_ref": str(meta_path),
+            "next_action": "检查 CLI 执行输出后再恢复。",
+            "last_updated_at": iso_now(),
+            "updated_at": iso_now(),
+        }
+    return {
+        "status": "verified",
+        "runner_state": "verified",
+        "verification_state": "verified",
+        "run_artifact_ref": str(artifact_dir),
+        "result_summary": "Skill CLI runner completed and preserved stdout/stderr evidence.",
+        "evidence_refs": [str(meta_path), str(stdout_path), str(stderr_path)],
+        "evidence_ref": str(meta_path),
+        "next_action": "等待本地闭环汇总。",
+        "last_updated_at": iso_now(),
+        "updated_at": iso_now(),
+    }
+
+
+def execute_dispatch_task(scope: dict[str, Any], task: dict[str, Any], packet_dir: Path, *, dry_run: bool) -> dict[str, Any]:
+    execution_mode = str(task.get("execution_mode", "handoff_only")).strip() or "handoff_only"
+    if execution_mode == "repo_builtin":
+        return execute_repo_builtin_task(task, packet_dir, dry_run=dry_run)
+    if execution_mode == "skill_cli":
+        return execute_skill_cli_task(scope, task, packet_dir, dry_run=dry_run)
+    return execute_handoff_only_task(task, packet_dir, dry_run=dry_run)
+
+
+def closure_preview_payload(closure_run_id: str, parent_task: dict[str, Any], execution_tasks: list[dict[str, Any]]) -> dict[str, Any]:
+    return {
+        "closure_run_id": closure_run_id,
+        "record_evolution": {
+            "would_run": True,
+            "task_text": parent_task["title"],
+        },
+        "sync_feishu": {"would_run": True, "mode": "dry-run"},
+        "sync_github": [
+            {"would_run": True, "phase": "intake", "mode": "dry-run"},
+            {"would_run": True, "phase": "closure", "mode": "dry-run"},
+        ],
+        "human_feedback_slot": {
+            "status": "pending_human_feedback",
+            "tasks": [task["task_id"] for task in execution_tasks],
+        },
+    }
+
+
+def run_local_closure(
+    scope: dict[str, Any],
+    *,
+    scope_path: Path | None,
+    packet_dir: Path,
+    thread: dict[str, Any],
+    parent_task: dict[str, Any],
+    execution_tasks: list[dict[str, Any]],
+    dry_run: bool,
+) -> dict[str, Any]:
+    closure_run_id = closure_run_id_for_intake(str(parent_task.get("intake_run_id") or parse_thread_run_id(thread["thread_id"])))
+    closure_dir = packet_dir / "closure"
+    execution_summary = render_execution_summary_markdown(parent_task, execution_tasks)
+    if dry_run:
+        return {
+            "status": "preview_ready",
+            "closure_run_id": closure_run_id,
+            "closure_dir": str(closure_dir),
+            "preview": closure_preview_payload(closure_run_id, parent_task, execution_tasks),
+        }
+
+    route_payload = read_json(packet_dir / "route.json", default={})
+    evidence_refs = unique_strings(
+        [
+            ref
+            for task in execution_tasks
+            for ref in [str(task.get("run_artifact_ref", "")).strip()] + coerce_string_list(task.get("evidence_refs"))
+            if str(ref).strip()
+        ]
+    )
+    evolution_input = {
+        "run_id": closure_run_id,
+        "created_at": iso_now(),
+        "task_text": parent_task["title"],
+        "goal_model": "Close the repo-local orchestration run with verified local evidence and mirror dry-runs only.",
+        "skills_selected": parent_task.get("selected_skills", []),
+        "skills_considered": parent_task.get("selected_skills", []),
+        "human_boundary": parent_task.get("interrupt_only_if", ""),
+        "autonomy_judgment": route_payload.get("situation_map", {}).get("自治判断", ""),
+        "global_optimum_judgment": route_payload.get("situation_map", {}).get("全局最优判断", ""),
+        "reuse_judgment": route_payload.get("situation_map", {}).get("能力复用判断", ""),
+        "verification_judgment": route_payload.get("situation_map", {}).get("验真判断", ""),
+        "evolution_judgment": route_payload.get("situation_map", {}).get("进化判断", ""),
+        "max_distortion": route_payload.get("situation_map", {}).get("当前最大失真", ""),
+        "verification_result": {
+            "status": "completed",
+            "evidence": evidence_refs or [str(packet_dir / "delegation-plan.json")],
+            "open_questions": [],
+        },
+        "effective_patterns": [
+            "One-shot local orchestration from intake to closure.",
+            "Keep repo-local truth first and external mirrors in dry-run mode only.",
+        ],
+        "wasted_patterns": [],
+        "evolution_candidates": ["Expand the dispatch registry beyond the current stable local runner set."],
+        "github_sync_status": "pending_intake",
+        "human_feedback_status": "pending_human_feedback",
+    }
+    evolution_input_path = closure_dir / "evolution-input.json"
+    execution_summary_path = closure_dir / "execution-summary.md"
+    write_json(evolution_input_path, evolution_input)
+    write_text(execution_summary_path, execution_summary)
+
+    record_result = run_ai_da_guan_jia_command(scope, ["record-evolution", "--input", str(evolution_input_path)])
+    record_meta = dict(record_result.get("meta") or {})
+    if record_result["returncode"] != 0:
+        write_json(closure_dir / "evolution-result.json", record_result)
+        return {
+            "status": "failed",
+            "closure_run_id": closure_run_id,
+            "closure_dir": str(closure_dir),
+            "error": record_result["stderr"].strip() or record_result["stdout"].strip() or "record-evolution failed",
+        }
+    external_run_dir_text = str(record_meta.get("run_dir", "")).strip()
+    external_run_dir = Path(external_run_dir_text).expanduser().resolve() if external_run_dir_text else None
+    evolution_json = read_json(external_run_dir / "evolution.json", default={}) if external_run_dir and external_run_dir.exists() else {}
+    write_json(
+        closure_dir / "evolution-result.json",
+        {
+            "command_result": record_result,
+            "run_dir": str(external_run_dir) if external_run_dir else "",
+            "evolution": evolution_json,
+        },
+    )
+
+    feishu_result = run_ai_da_guan_jia_command(scope, ["sync-feishu", "--run-id", closure_run_id, "--dry-run"])
+    write_json(closure_dir / "feishu-dry-run.json", feishu_result)
+    if feishu_result["returncode"] != 0:
+        return {
+            "status": "failed",
+            "closure_run_id": closure_run_id,
+            "closure_dir": str(closure_dir),
+            "error": feishu_result["stderr"].strip() or feishu_result["stdout"].strip() or "sync-feishu dry-run failed",
+        }
+
+    github_intake_result = run_ai_da_guan_jia_command(
+        scope, ["sync-github", "--run-id", closure_run_id, "--phase", "intake", "--dry-run"]
+    )
+    write_json(closure_dir / "github-intake-dry-run.json", github_intake_result)
+    if github_intake_result["returncode"] != 0:
+        return {
+            "status": "failed",
+            "closure_run_id": closure_run_id,
+            "closure_dir": str(closure_dir),
+            "error": github_intake_result["stderr"].strip() or github_intake_result["stdout"].strip() or "sync-github intake dry-run failed",
+        }
+
+    github_closure_result = run_ai_da_guan_jia_command(
+        scope, ["sync-github", "--run-id", closure_run_id, "--phase", "closure", "--dry-run"]
+    )
+    write_json(closure_dir / "github-closure-dry-run.json", github_closure_result)
+    if github_closure_result["returncode"] != 0:
+        return {
+            "status": "failed",
+            "closure_run_id": closure_run_id,
+            "closure_dir": str(closure_dir),
+            "error": github_closure_result["stderr"].strip() or github_closure_result["stdout"].strip() or "sync-github closure dry-run failed",
+        }
+
+    feedback_slot = {
+        "run_id": closure_run_id,
+        "status": "pending_human_feedback",
+        "recorded_at": "",
+        "by": "",
+        "comment": "",
+    }
+    write_json(closure_dir / "human-feedback-slot.json", feedback_slot)
+    write_text(
+        closure_dir / "closure-summary.md",
+        render_closure_summary_markdown(
+            "completed",
+            thread=thread,
+            parent_task=parent_task,
+            execution_tasks=execution_tasks,
+            blockers=[],
+            failed_tasks=[],
+            closure_run_id=closure_run_id,
+        ),
+    )
+    return {
+        "status": "completed",
+        "closure_run_id": closure_run_id,
+        "closure_dir": str(closure_dir),
+        "inventory_counts": build_inventory(scope_path)["counts"] if scope_path else build_inventory(None)["counts"],
+    }
+
+
+def save_thread_bundle(
+    scope: dict[str, Any],
+    *,
+    tasks: list[dict[str, Any]],
+    threads: list[dict[str, Any]],
+    parent_task: dict[str, Any],
+    execution_tasks: list[dict[str, Any]],
+    thread: dict[str, Any],
+    packet_dir: Path,
+    run_id: str,
+    scope_path: Path | None,
+    write_changes: bool,
+) -> dict[str, Any] | None:
+    if not write_changes:
+        return None
+    merged_tasks = upsert_rows_by_key(tasks, "task_id", [parent_task] + execution_tasks)
+    merged_threads = upsert_rows_by_key(threads, "thread_id", [thread])
+    write_json(packet_dir / "delegation-plan.json", build_delegation_plan(run_id=run_id, thread_id=thread["thread_id"], parent_task_id=parent_task["task_id"], execution_tasks=execution_tasks))
+    return write_local_intake_state(scope, tasks=merged_tasks, threads=merged_threads, scope_path=scope_path)
+
+
+def orchestrate_existing_thread(
+    thread_id: str,
+    *,
+    scope_path: Path | None = None,
+    dry_run: bool = False,
+) -> dict[str, Any]:
+    scope = load_source_scope(scope_path)
+    thread, parent_task, execution_tasks, tasks, threads, packet_dir, run_id = load_thread_bundle(scope, thread_id=thread_id)
+    if (
+        str(thread.get("closure_state", "")).strip() in {"feedback_pending", "feedback_recorded", "completed"}
+        and str(thread.get("closure_run_id", "")).strip()
+        and all(str(task.get("status", "")).strip() in TASK_TERMINAL_SUCCESS_STATUSES for task in execution_tasks)
+    ):
+        return {
+            "generated_at": iso_now(),
+            "result_status": "completed",
+            "dry_run": dry_run,
+            "run_id": run_id,
+            "thread_id": thread_id,
+            "parent_task_id": parent_task["task_id"],
+            "packet_dir": str(packet_dir),
+            "blockers": [],
+            "completed_tasks": [str(task.get("task_id", "")) for task in execution_tasks],
+            "next_interrupts": [],
+            "closure": {
+                "status": "already_completed",
+                "closure_run_id": str(thread.get("closure_run_id", "")).strip(),
+                "closure_dir": str(packet_dir / "closure"),
+            },
+        }
+    execution_index = {str(item.get("task_id", "")).strip(): item for item in execution_tasks}
+    blockers: list[dict[str, Any]] = []
+    failed_tasks: list[dict[str, Any]] = []
+    completed_tasks: list[str] = []
+
+    thread["orchestration_state"] = "running"
+    thread["status"] = "active"
+    thread["updated_at"] = iso_now()
+    parent_task["status"] = "in_progress"
+    parent_task["runner_state"] = "running"
+    parent_task["last_updated_at"] = iso_now()
+    parent_task["updated_at"] = iso_now()
+
+    for task in execution_tasks:
+        task_id = str(task["task_id"])
+        current_status = str(task.get("status", "")).strip()
+        if current_status in TASK_TERMINAL_SUCCESS_STATUSES:
+            completed_tasks.append(task_id)
+            continue
+        if current_status in TASK_TERMINAL_FAILURE_STATUSES:
+            failed_tasks.append(task)
+            continue
+        if not dependency_ready(execution_index, task):
+            task["runner_state"] = "blocked"
+            task["result_summary"] = "Waiting for dependencies to reach a closure-eligible state."
+            task["last_updated_at"] = iso_now()
+            task["updated_at"] = iso_now()
+            continue
+        if str(task.get("human_boundary_state", "")).strip() not in TASK_ACTIVE_EXECUTION_STATES:
+            blocker_reason, required_input = human_boundary_details(task)
+            task["status"] = "blocked_needs_user_explicit"
+            task["runner_state"] = "blocked"
+            task["verification_state"] = "blocked_needs_user"
+            task["blocker_reason"] = blocker_reason
+            task["required_human_input"] = required_input
+            task["result_summary"] = blocker_reason
+            task["last_updated_at"] = iso_now()
+            task["updated_at"] = iso_now()
+            thread["orchestration_state"] = "blocked_needs_user"
+            thread["status"] = "blocked_needs_user"
+            thread["blocker_reason"] = blocker_reason
+            thread["required_human_input"] = required_input
+            blockers.append(
+                {
+                    "task_id": task_id,
+                    "blocker_reason": blocker_reason,
+                    "required_human_input": required_input,
+                }
+            )
+            break
+        task["runner_state"] = "running"
+        task["status"] = "in_progress"
+        task["last_updated_at"] = iso_now()
+        task["updated_at"] = iso_now()
+        updates = execute_dispatch_task(scope, task, packet_dir, dry_run=dry_run)
+        task.update(updates)
+        if str(task.get("status", "")).strip() in TASK_TERMINAL_FAILURE_STATUSES:
+            failed_tasks.append(task)
+            break
+        completed_tasks.append(task_id)
+
+    inventory = save_thread_bundle(
+        scope,
+        tasks=tasks,
+        threads=threads,
+        parent_task=parent_task,
+        execution_tasks=execution_tasks,
+        thread=thread,
+        packet_dir=packet_dir,
+        run_id=run_id,
+        scope_path=scope_path,
+        write_changes=not dry_run,
+    )
+
+    if blockers:
+        parent_task["status"] = "blocked_needs_user"
+        parent_task["runner_state"] = "blocked"
+        parent_task["result_summary"] = blockers[0]["blocker_reason"]
+        parent_task["next_action"] = blockers[0]["required_human_input"]
+        parent_task["last_updated_at"] = iso_now()
+        parent_task["updated_at"] = iso_now()
+        inventory = save_thread_bundle(
+            scope,
+            tasks=tasks,
+            threads=threads,
+            parent_task=parent_task,
+            execution_tasks=execution_tasks,
+            thread=thread,
+            packet_dir=packet_dir,
+            run_id=run_id,
+            scope_path=scope_path,
+            write_changes=not dry_run,
+        )
+        return {
+            "generated_at": iso_now(),
+            "result_status": "blocked_needs_user",
+            "dry_run": dry_run,
+            "run_id": run_id,
+            "thread_id": thread_id,
+            "parent_task_id": parent_task["task_id"],
+            "packet_dir": str(packet_dir),
+            "blockers": blockers,
+            "completed_tasks": completed_tasks,
+            "next_interrupts": [blockers[0]["required_human_input"]],
+            "inventory_counts": inventory["counts"] if inventory else {},
+        }
+
+    if failed_tasks:
+        thread["orchestration_state"] = "failed_partial"
+        thread["status"] = "failed_partial"
+        parent_task["status"] = "failed_partial"
+        parent_task["runner_state"] = "failed"
+        parent_task["result_summary"] = failed_tasks[0].get("result_summary", "Execution failed.")
+        parent_task["last_updated_at"] = iso_now()
+        parent_task["updated_at"] = iso_now()
+        inventory = save_thread_bundle(
+            scope,
+            tasks=tasks,
+            threads=threads,
+            parent_task=parent_task,
+            execution_tasks=execution_tasks,
+            thread=thread,
+            packet_dir=packet_dir,
+            run_id=run_id,
+            scope_path=scope_path,
+            write_changes=not dry_run,
+        )
+        return {
+            "generated_at": iso_now(),
+            "result_status": "failed_partial",
+            "dry_run": dry_run,
+            "run_id": run_id,
+            "thread_id": thread_id,
+            "parent_task_id": parent_task["task_id"],
+            "packet_dir": str(packet_dir),
+            "blockers": [],
+            "completed_tasks": completed_tasks,
+            "failed_tasks": [{"task_id": item["task_id"], "result_summary": item.get("result_summary", "")} for item in failed_tasks],
+            "next_interrupts": ["使用 task-resume 继续，或检查失败任务证据后手动修复。"],
+            "inventory_counts": inventory["counts"] if inventory else {},
+        }
+
+    closure = run_local_closure(
+        scope,
+        scope_path=scope_path,
+        packet_dir=packet_dir,
+        thread=thread,
+        parent_task=parent_task,
+        execution_tasks=execution_tasks,
+        dry_run=dry_run,
+    )
+    if str(closure.get("status", "")).strip() == "failed":
+        thread["orchestration_state"] = "failed_partial"
+        thread["closure_state"] = "blocked"
+        thread["status"] = "failed_partial"
+        parent_task["status"] = "failed_partial"
+        parent_task["runner_state"] = "failed"
+        parent_task["result_summary"] = str(closure.get("error", "")).strip() or "Local closure failed."
+        if not dry_run:
+            inventory = save_thread_bundle(
+                scope,
+                tasks=tasks,
+                threads=threads,
+                parent_task=parent_task,
+                execution_tasks=execution_tasks,
+                thread=thread,
+                packet_dir=packet_dir,
+                run_id=run_id,
+                scope_path=scope_path,
+                write_changes=True,
+            )
+        return {
+            "generated_at": iso_now(),
+            "result_status": "failed_partial",
+            "dry_run": dry_run,
+            "run_id": run_id,
+            "thread_id": thread_id,
+            "parent_task_id": parent_task["task_id"],
+            "packet_dir": str(packet_dir),
+            "blockers": [],
+            "completed_tasks": completed_tasks,
+            "failed_tasks": [{"task_id": parent_task["task_id"], "result_summary": parent_task["result_summary"]}],
+            "next_interrupts": ["本地闭环 dry-run 失败，需要检查 closure 目录里的结果。"],
+            "inventory_counts": inventory["counts"] if inventory else {},
+            "closure": closure,
+        }
+
+    closure_run_id = str(closure.get("closure_run_id", "")).strip()
+    thread["orchestration_state"] = "completed"
+    thread["closure_state"] = "feedback_pending"
+    thread["closure_run_id"] = closure_run_id
+    thread["status"] = "completed"
+    thread["updated_at"] = iso_now()
+    parent_task["status"] = "completed"
+    parent_task["runner_state"] = "verified"
+    parent_task["verification_state"] = "verified"
+    parent_task["result_summary"] = "All execution tasks reached a closure-eligible state and local closure completed."
+    parent_task["closure_state"] = "feedback_pending"
+    parent_task["closure_run_id"] = closure_run_id
+    parent_task["last_updated_at"] = iso_now()
+    parent_task["updated_at"] = iso_now()
+    for task in execution_tasks:
+        task["closure_state"] = "feedback_pending"
+        task["closure_run_id"] = closure_run_id
+        task["last_updated_at"] = iso_now()
+        task["updated_at"] = iso_now()
+
+    inventory = save_thread_bundle(
+        scope,
+        tasks=tasks,
+        threads=threads,
+        parent_task=parent_task,
+        execution_tasks=execution_tasks,
+        thread=thread,
+        packet_dir=packet_dir,
+        run_id=run_id,
+        scope_path=scope_path,
+        write_changes=not dry_run,
+    )
+    if dry_run:
+        return {
+            "generated_at": iso_now(),
+            "result_status": "completed",
+            "dry_run": True,
+            "run_id": run_id,
+            "thread_id": thread_id,
+            "parent_task_id": parent_task["task_id"],
+            "packet_dir": str(packet_dir),
+            "blockers": [],
+            "completed_tasks": completed_tasks,
+            "next_interrupts": [],
+            "closure": closure,
+        }
+    closure_dir = Path(str(closure.get("closure_dir", ""))).expanduser().resolve()
+    write_text(
+        closure_dir / "closure-summary.md",
+        render_closure_summary_markdown(
+            "completed",
+            thread=thread,
+            parent_task=parent_task,
+            execution_tasks=execution_tasks,
+            blockers=[],
+            failed_tasks=[],
+            closure_run_id=closure_run_id,
+        ),
+    )
+    return {
+        "generated_at": iso_now(),
+        "result_status": "completed",
+        "dry_run": False,
+        "run_id": run_id,
+        "thread_id": thread_id,
+        "parent_task_id": parent_task["task_id"],
+        "packet_dir": str(packet_dir),
+        "blockers": [],
+        "completed_tasks": completed_tasks,
+        "next_interrupts": [],
+        "inventory_counts": inventory["counts"] if inventory else {},
+        "closure": closure,
+    }
+
+
+def task_orchestrate(
+    prompt: str,
+    *,
+    scope_path: Path | None = None,
+    goal_id: str = "G1",
+    space_id: str = "space-personal-zero",
+    subject_id: str = "subject-hay2045",
+    run_id: str | None = None,
+    dry_run: bool = False,
+) -> dict[str, Any]:
+    if dry_run:
+        intake_payload = task_intake(
+            prompt,
+            scope_path=scope_path,
+            goal_id=goal_id,
+            space_id=space_id,
+            subject_id=subject_id,
+            run_id=run_id,
+            dry_run=True,
+        )
+        scope = load_source_scope(scope_path)
+        preview_thread = initialize_thread_runtime_fields(dict(intake_payload["thread"]))
+        preview_parent = initialize_task_runtime_fields(dict(intake_payload["parent_task"]))
+        preview_execution = [initialize_task_runtime_fields(dict(item)) for item in intake_payload["execution_tasks"]]
+        packet_dir = Path(str(intake_payload["packet_dir"])).expanduser().resolve()
+        execution_index = {str(item.get("task_id", "")): item for item in preview_execution}
+        blockers: list[dict[str, Any]] = []
+        completed_tasks: list[str] = []
+        for task in preview_execution:
+            if not dependency_ready(execution_index, task):
+                task["runner_state"] = "blocked"
+                task["result_summary"] = "Waiting for dependencies to reach a closure-eligible state."
+                continue
+            if str(task.get("human_boundary_state", "")).strip() not in TASK_ACTIVE_EXECUTION_STATES:
+                blocker_reason, required_input = human_boundary_details(task)
+                task["status"] = "blocked_needs_user_explicit"
+                task["runner_state"] = "blocked"
+                task["blocker_reason"] = blocker_reason
+                task["required_human_input"] = required_input
+                blockers.append({"task_id": task["task_id"], "blocker_reason": blocker_reason, "required_human_input": required_input})
+                break
+            task.update(execute_dispatch_task(scope, task, packet_dir, dry_run=True))
+            completed_tasks.append(task["task_id"])
+        closure = {}
+        result_status = "blocked_needs_user" if blockers else "completed"
+        if not blockers:
+            closure = run_local_closure(
+                scope,
+                scope_path=scope_path,
+                packet_dir=packet_dir,
+                thread=preview_thread,
+                parent_task=preview_parent,
+                execution_tasks=preview_execution,
+                dry_run=True,
+            )
+        return {
+            "generated_at": iso_now(),
+            "result_status": result_status,
+            "dry_run": True,
+            "run_id": intake_payload["run_id"],
+            "thread_id": preview_thread["thread_id"],
+            "parent_task_id": preview_parent["task_id"],
+            "packet_dir": str(packet_dir),
+            "blockers": blockers,
+            "completed_tasks": completed_tasks,
+            "next_interrupts": [item["required_human_input"] for item in blockers],
+            "closure": closure,
+            "delegation_plan": build_delegation_plan(
+                run_id=intake_payload["run_id"],
+                thread_id=preview_thread["thread_id"],
+                parent_task_id=preview_parent["task_id"],
+                execution_tasks=preview_execution,
+            ),
+        }
+
+    intake_payload = task_intake(
+        prompt,
+        scope_path=scope_path,
+        goal_id=goal_id,
+        space_id=space_id,
+        subject_id=subject_id,
+        run_id=run_id,
+        dry_run=False,
+    )
+    return orchestrate_existing_thread(str(intake_payload["thread"]["thread_id"]), scope_path=scope_path, dry_run=False)
+
+
+def task_resume(
+    thread_id: str,
+    *,
+    scope_path: Path | None = None,
+) -> dict[str, Any]:
+    return orchestrate_existing_thread(thread_id, scope_path=scope_path, dry_run=False)
+
+
+def task_feedback(
+    run_id: str,
+    *,
+    label: str,
+    comment: str,
+    by: str,
+    scope_path: Path | None = None,
+) -> dict[str, Any]:
+    scope = load_source_scope(scope_path)
+    result = run_ai_da_guan_jia_command(
+        scope,
+        ["record-human-feedback", "--run-id", run_id, "--label", label, "--comment", comment, "--by", by],
+    )
+    if result["returncode"] != 0:
+        raise RuntimeError(result["stderr"].strip() or result["stdout"].strip() or "record-human-feedback failed")
+    tasks, threads = load_local_intake_state(scope)
+    updated_task_ids: list[str] = []
+    updated_thread_ids: list[str] = []
+    affected_run_ids: set[str] = set()
+    for task in tasks:
+        if str(task.get("closure_run_id", "")).strip() == run_id:
+            task["closure_state"] = "feedback_recorded"
+            task["last_updated_at"] = iso_now()
+            task["updated_at"] = iso_now()
+            updated_task_ids.append(str(task.get("task_id", "")))
+            affected_run_ids.add(str(task.get("intake_run_id", "")).strip())
+    for thread in threads:
+        if str(thread.get("closure_run_id", "")).strip() == run_id:
+            thread["closure_state"] = "feedback_recorded"
+            thread["updated_at"] = iso_now()
+            updated_thread_ids.append(str(thread.get("thread_id", "")))
+            affected_run_ids.add(parse_thread_run_id(str(thread.get("thread_id", ""))))
+    for intake_run_id in [item for item in affected_run_ids if item]:
+        slot_path = task_intake_run_dir(scope, intake_run_id) / "closure" / "human-feedback-slot.json"
+        if slot_path.exists():
+            write_json(
+                slot_path,
+                {
+                    "run_id": run_id,
+                    "status": "recorded",
+                    "label": label,
+                    "comment": comment,
+                    "by": by,
+                    "recorded_at": iso_now(),
+                },
+            )
+    inventory = write_local_intake_state(scope, tasks=tasks, threads=threads, scope_path=scope_path)
+    return {
+        "generated_at": iso_now(),
+        "run_id": run_id,
+        "status": "feedback_recorded",
+        "updated_task_ids": updated_task_ids,
+        "updated_thread_ids": updated_thread_ids,
+        "inventory_counts": inventory["counts"],
+    }
+
+
+def ingest_business(scope_path: Path | None = None) -> dict[str, Any]:
+    inventory = build_inventory(scope_path)
+    return build_business_ingestion_payload(
+        orders=inventory["orders"],
+        cashflows=inventory["cashflows"],
+        ingestion_runs=inventory["ingestion_runs"],
+        writeback_events=inventory["writeback_events"],
+    )
 
 
 def ingest_content(scope_path: Path | None = None) -> dict[str, Any]:
@@ -3182,6 +6258,12 @@ def build_governance_summary(inventory: dict[str, Any]) -> dict[str, Any]:
         if item["relation_type"] == "ai_agent_copilots_module"
         and subject_index.get(item["from_id"], {}).get("subject_type") == "ai_agent"
     }
+    business_deputy_modules = {
+        item["to_id"]
+        for item in inventory["relations"]
+        if item["relation_type"] == "ai_deputy_oversees_module"
+        and item["from_id"] == BUSINESS_DEPUTY_SUBJECT_ID
+    }
     controlled_accounts = {
         item["to_id"] for item in inventory["relations"] if item["relation_type"] == "subject_controls_account"
     }
@@ -3206,6 +6288,7 @@ def build_governance_summary(inventory: dict[str, Any]) -> dict[str, Any]:
             "human_owned": len(human_owned_modules),
             "ai_copilot_ready": len(ai_staffed_modules),
             "fully_staffed": len(fully_staffed_modules),
+            "business_deputy_ready": len(business_deputy_modules),
         },
         "active_thread_count": len(active_threads),
         "blocked_task_count": len(blocked_tasks),
@@ -3258,6 +6341,11 @@ def render_governance_overview(inventory: dict[str, Any]) -> str:
         for item in inventory["relations"]
         if item["relation_type"] == "ai_agent_copilots_module"
     }
+    module_deputy_map = {
+        item["to_id"]: item["from_id"]
+        for item in inventory["relations"]
+        if item["relation_type"] == "ai_deputy_oversees_module"
+    }
     subject_titles = {item["subject_id"]: item["title"] for item in inventory["subjects"]}
     lines = [
         "# 原力全体系治理总览",
@@ -3269,6 +6357,7 @@ def render_governance_overview(inventory: dict[str, Any]) -> str:
         f"- 账号数: {summary['account_count']}",
         f"- 来源数: {summary['source_feed_count']}",
         f"- 模块覆盖: {summary['module_coverage']['fully_staffed']}/{summary['module_coverage']['total']}",
+        f"- 业务副手覆盖: {summary['module_coverage']['business_deputy_ready']}/{len(BUSINESS_MODULE_CODES)}",
         f"- 资产数: {inventory['counts']['assets']}",
         f"- 订单数: {summary['order_count']}",
         f"- 现金流数: {summary['cashflow_count']}",
@@ -3289,7 +6378,7 @@ def render_governance_overview(inventory: dict[str, Any]) -> str:
     lines.extend(["", "## 模块责任覆盖"])
     for module in modules:
         lines.append(
-            f"- {module['title']} :: human={subject_titles.get(module_owner_map.get(module['module_id'], ''), '缺失')} :: ai={subject_titles.get(module_agent_map.get(module['module_id'], ''), '缺失')}"
+            f"- {module['title']} :: human={subject_titles.get(module_owner_map.get(module['module_id'], ''), '缺失')} :: ai={subject_titles.get(module_agent_map.get(module['module_id'], ''), '缺失')} :: deputy={subject_titles.get(module_deputy_map.get(module['module_id'], ''), '缺失')}"
         )
     lines.extend(["", "## 当前活跃线程"])
     if active_threads:
@@ -3825,7 +6914,7 @@ def mask_freeform_value(value: Any) -> Any:
 def sanitize_order_for_feishu(order: dict[str, Any]) -> dict[str, Any]:
     payload = dict(order)
     payload["customer_phone"] = mask_phone(str(payload.get("customer_phone", "")))
-    for key in ["customer_name", "note", "card_note"]:
+    for key in ["id", "order_id", "customer_name", "note", "card_note"]:
         payload[key] = mask_freeform_value(payload.get(key, ""))
     return payload
 
@@ -3923,6 +7012,23 @@ def mirror_feishu(*, dry_run: bool = False, apply: bool = False) -> dict[str, An
     }
     write_json(result_path, result)
     return result
+
+
+def sync_yuanli_os_control(
+    link: str,
+    *,
+    scope_path: Path | None = None,
+    dry_run: bool = False,
+    apply: bool = False,
+) -> dict[str, Any]:
+    from .yuanli_os_control import sync_yuanli_os_control_impl
+
+    return sync_yuanli_os_control_impl(
+        link,
+        scope_path=scope_path,
+        dry_run=dry_run,
+        apply=apply,
+    )
 
 
 def validate_entities(scope_path: Path | None = None) -> dict[str, Any]:
@@ -4100,6 +7206,150 @@ def validate_entities(scope_path: Path | None = None) -> dict[str, Any]:
             "name": "cashflows_unique",
             "ok": len(entity_index["cashflow"]) == len(entities["cashflows"]),
             "details": [],
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "task_kinds_valid",
+            "ok": all(
+                not str(item.get("task_kind", "")).strip()
+                or str(item.get("task_kind", "")).strip() in TASK_KIND_ALLOWED_STATUSES
+                for item in entities["tasks"]
+            ),
+            "details": [
+                str(item.get("task_id", ""))
+                for item in entities["tasks"]
+                if str(item.get("task_kind", "")).strip()
+                and str(item.get("task_kind", "")).strip() not in TASK_KIND_ALLOWED_STATUSES
+            ],
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "task_managed_by_valid",
+            "ok": all(
+                not str(item.get("managed_by", "")).strip()
+                or str(item.get("managed_by", "")).strip() in TASK_MANAGED_BY_ALLOWED_STATUSES
+                for item in entities["tasks"]
+            ),
+            "details": [
+                str(item.get("task_id", ""))
+                for item in entities["tasks"]
+                if str(item.get("managed_by", "")).strip()
+                and str(item.get("managed_by", "")).strip() not in TASK_MANAGED_BY_ALLOWED_STATUSES
+            ],
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "human_boundary_states_valid",
+            "ok": all(
+                not str(item.get("human_boundary_state", "")).strip()
+                or str(item.get("human_boundary_state", "")).strip() in HUMAN_BOUNDARY_STATE_ALLOWED_STATUSES
+                for item in entities["tasks"]
+            ),
+            "details": [
+                str(item.get("task_id", ""))
+                for item in entities["tasks"]
+                if str(item.get("human_boundary_state", "")).strip()
+                and str(item.get("human_boundary_state", "")).strip() not in HUMAN_BOUNDARY_STATE_ALLOWED_STATUSES
+            ],
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "thread_entry_modes_valid",
+            "ok": all(
+                not str(item.get("entry_mode", "")).strip()
+                or str(item.get("entry_mode", "")).strip() in THREAD_ENTRY_MODE_ALLOWED_STATUSES
+                for item in entities["threads"]
+            ),
+            "details": [
+                str(item.get("thread_id", ""))
+                for item in entities["threads"]
+                if str(item.get("entry_mode", "")).strip()
+                and str(item.get("entry_mode", "")).strip() not in THREAD_ENTRY_MODE_ALLOWED_STATUSES
+            ],
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "task_execution_modes_valid",
+            "ok": all(
+                not str(item.get("execution_mode", "")).strip()
+                or str(item.get("execution_mode", "")).strip() in TASK_EXECUTION_MODE_ALLOWED_STATUSES
+                for item in entities["tasks"]
+            ),
+            "details": [
+                str(item.get("task_id", ""))
+                for item in entities["tasks"]
+                if str(item.get("execution_mode", "")).strip()
+                and str(item.get("execution_mode", "")).strip() not in TASK_EXECUTION_MODE_ALLOWED_STATUSES
+            ],
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "task_runner_states_valid",
+            "ok": all(
+                not str(item.get("runner_state", "")).strip()
+                or str(item.get("runner_state", "")).strip() in TASK_RUNNER_STATE_ALLOWED_STATUSES
+                for item in entities["tasks"]
+            ),
+            "details": [
+                str(item.get("task_id", ""))
+                for item in entities["tasks"]
+                if str(item.get("runner_state", "")).strip()
+                and str(item.get("runner_state", "")).strip() not in TASK_RUNNER_STATE_ALLOWED_STATUSES
+            ],
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "task_closure_states_valid",
+            "ok": all(
+                not str(item.get("closure_state", "")).strip()
+                or str(item.get("closure_state", "")).strip() in TASK_CLOSURE_STATE_ALLOWED_STATUSES
+                for item in entities["tasks"]
+            ),
+            "details": [
+                str(item.get("task_id", ""))
+                for item in entities["tasks"]
+                if str(item.get("closure_state", "")).strip()
+                and str(item.get("closure_state", "")).strip() not in TASK_CLOSURE_STATE_ALLOWED_STATUSES
+            ],
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "thread_orchestration_states_valid",
+            "ok": all(
+                not str(item.get("orchestration_state", "")).strip()
+                or str(item.get("orchestration_state", "")).strip() in THREAD_ORCHESTRATION_STATE_ALLOWED_STATUSES
+                for item in entities["threads"]
+            ),
+            "details": [
+                str(item.get("thread_id", ""))
+                for item in entities["threads"]
+                if str(item.get("orchestration_state", "")).strip()
+                and str(item.get("orchestration_state", "")).strip() not in THREAD_ORCHESTRATION_STATE_ALLOWED_STATUSES
+            ],
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "thread_closure_states_valid",
+            "ok": all(
+                not str(item.get("closure_state", "")).strip()
+                or str(item.get("closure_state", "")).strip() in THREAD_CLOSURE_STATE_ALLOWED_STATUSES
+                for item in entities["threads"]
+            ),
+            "details": [
+                str(item.get("thread_id", ""))
+                for item in entities["threads"]
+                if str(item.get("closure_state", "")).strip()
+                and str(item.get("closure_state", "")).strip() not in THREAD_CLOSURE_STATE_ALLOWED_STATUSES
+            ],
         }
     )
     results["checks"].append(
@@ -4378,6 +7628,12 @@ def validate_entities(scope_path: Path | None = None) -> dict[str, Any]:
         if relation["relation_type"] == "ai_agent_copilots_module"
         and subject_types.get(relation["from_id"]) == "ai_agent"
     }
+    business_deputy_modules = {
+        relation["to_id"]
+        for relation in entities["relations"]
+        if relation["relation_type"] == "ai_deputy_oversees_module"
+        and relation["from_id"] == BUSINESS_DEPUTY_SUBJECT_ID
+    }
     results["checks"].append(
         {
             "name": "accounts_have_subject_owner",
@@ -4404,6 +7660,13 @@ def validate_entities(scope_path: Path | None = None) -> dict[str, Any]:
             "name": "modules_have_ai_copilot",
             "ok": ai_copilot_modules == entity_index["operating_module"],
             "details": sorted(entity_index["operating_module"] - ai_copilot_modules),
+        }
+    )
+    results["checks"].append(
+        {
+            "name": "business_modules_have_business_deputy",
+            "ok": business_deputy_modules == {module_id_from_code(code) for code in BUSINESS_MODULE_CODES},
+            "details": sorted({module_id_from_code(code) for code in BUSINESS_MODULE_CODES} - business_deputy_modules),
         }
     )
     results["checks"].append(

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-03-11T19:39:02+08:00",
+  "generated_at": "2026-03-17T12:19:52+08:00",
   "inventory_counts": {
     "spaces": 5,
-    "subjects": 11,
+    "subjects": 12,
     "endpoints": 5,
     "accounts": 7,
     "operating_modules": 6,
@@ -14,16 +14,16 @@
     "tasks": 5,
     "threads": 5,
     "skills": 3,
-    "actions": 3,
+    "actions": 9,
     "agent_capabilities": 3,
-    "decision_records": 4,
-    "writeback_events": 1,
+    "decision_records": 6,
+    "writeback_events": 3,
     "knowledge_items": 0,
     "review_runs": 1,
-    "relations": 112
+    "relations": 117
   },
   "dashboard_cards": 10,
   "dry_run_status": "validated",
-  "morning_review_id": "yrgs-review-20260311-193902",
+  "morning_review_id": "yrgs-review-20260317-121952",
   "validation_ok": true
 }

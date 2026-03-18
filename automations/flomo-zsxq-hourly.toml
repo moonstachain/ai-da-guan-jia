@@ -1,0 +1,10 @@
+version = 1
+id = "flomo-zsxq-hourly"
+name = "原力小刺猬"
+prompt = "Use [$ai-da-guan-jia](/Users/liming/.codex/skills/ai-da-guan-jia/SKILL.md) to monitor Flomo memos tagged `#星球精选` every hour. First run `python3 /Users/liming/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/scripts/ai_da_guan_jia.py flomo-zsxq-poll --tag '#星球精选' --column-name '原力小刺猬' --series-mode ai_da_guan_jia_observer --image-source flomo_attachment --image-policy required --rollout-stage staged --group-url 'https://wx.zsxq.com/group/15554854424522'`. Treat `worklog.md + soul.md` as the primary canon, use Flomo `#星球精选` as the outward trigger and screenshot evidence layer, and keep the public serial in a semi-explicit `小刺猬 + 小精怪` hero's-journey structure where one concrete task difficulty is crossed by two partners together. Preserve the fixed sections `开场场景 / 那一刻我看到了什么 / 我当时为什么会这样判断 / 这其实说明了 AI 的什么变化 / 如果你是普通人，这件事和你有什么关系 / 事实 / 观察 / 推断`. Then open the Knowledge Planet publish flow for each draft-ready run with `python3 /Users/liming/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/scripts/ai_da_guan_jia.py flomo-zsxq-publish --run-id <run_id> --apply --column-name '原力小刺猬' --series-mode ai_da_guan_jia_observer --image-source flomo_attachment --image-policy required --rollout-stage staged --group-url 'https://wx.zsxq.com/group/15554854424522'`. During staged rollout, keep the first five posts at `manual_confirmation_required` with evidence only. Never final-send without explicit human confirmation before publish. Preserve blocker details if Flomo auth, image capture, column selection, or 知识星球 auth fails."
+status = "ACTIVE"
+rrule = "FREQ=HOURLY;INTERVAL=1"
+execution_environment = "worktree"
+model = "gpt-5.4"
+reasoning_effort = "medium"
+cwds = ["/Users/liming/Documents/codex-ai-gua-jia-01"]

@@ -1,0 +1,34 @@
+{
+  "task_id": "TS-V2-01",
+  "task_title": "CLAUDE-INIT 模板化",
+  "status": "completed",
+  "object_family": "Shared Startup Memory",
+  "canonical_outputs": [
+    "/Users/liming/Documents/codex-ai-gua-jia-01/yuanli-os-claude/CLAUDE-INIT-TEMPLATE.md",
+    "/Users/liming/Documents/codex-ai-gua-jia-01/yuanli-os-claude/TEMPLATE-FIELDS.md"
+  ],
+  "mirror_surfaces": [
+    "GitHub distribution surface"
+  ],
+  "verification": {
+    "template_exists": true,
+    "fields_exists": true,
+    "placeholder_format": "double_curly_braces",
+    "real_feishu_tokens_removed": true
+  },
+  "gained": [
+    "CLAUDE-INIT 已拥有可复制的模板层，不必再从实例版手工抄结构",
+    "V2 同事复制与 V3 客户同构有了共享启动记忆模板入口"
+  ],
+  "open_questions": [
+    "占位符命名是否需要进一步收敛成跨仓库统一命名规范"
+  ],
+  "next_iterate": [
+    "TS-V2-02 飞书 Base 初始化脚本"
+  ],
+  "not_done": [
+    "未修改现有 CLAUDE-INIT.md",
+    "未做飞书 Base 初始化",
+    "未做 GitHub push"
+  ]
+}

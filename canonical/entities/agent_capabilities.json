@@ -13,9 +13,9 @@
       "policy-propose-skill-review"
     ],
     "requires_human_approval": false,
-    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+    "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
     "confidence": 0.95,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "capability-review-resolution-draft",
@@ -31,9 +31,9 @@
       "policy-resolve-review-action"
     ],
     "requires_human_approval": true,
-    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+    "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
     "confidence": 0.95,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "capability-report-publication",
@@ -49,8 +49,8 @@
       "policy-publish-derived-report"
     ],
     "requires_human_approval": true,
-    "source_ref": "/Users/hay2045/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
+    "source_ref": "/Users/liming/Documents/codex-ai-gua-jia-01/specs/policy-boundary-v0.md",
     "confidence": 0.95,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   }
 ]

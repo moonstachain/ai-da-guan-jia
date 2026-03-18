@@ -1,0 +1,8 @@
+version = 1
+id = "transcript-governance-morning"
+name = "Transcript governance morning"
+prompt = "Use [$ai-da-guan-jia](/Users/hay2045/.codex/skills/ai-da-guan-jia/SKILL.md) to run the governed transcript review in scheduled mode. Use the dual-source Feishu Minutes and Get笔记 inputs, keep proposal mode as propose_only, write the local canonical log first, then mirror the digest to Feishu chat/card when configuration is available. The digest must include exactly these sections: 新增逐字稿, 核心意图, 建议任务, 风险/阻塞, 待你拍板, 下一轮 AI 动作."
+status = "ACTIVE"
+rrule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;BYHOUR=9;BYMINUTE=0"
+execution_environment = "worktree"
+cwds = ["/Users/hay2045/Documents/codex-ai-gua-jia-01"]

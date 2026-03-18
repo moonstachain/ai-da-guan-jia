@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-03-11T19:39:01+08:00",
+  "generated_at": "2026-03-17T12:19:51+08:00",
   "content_assets": [
     {
-      "id": "asset-f55e4318f2",
-      "asset_id": "asset-f55e4318f2",
+      "id": "asset-315b3e640f",
+      "asset_id": "asset-315b3e640f",
       "title": "混沌课程-工业互联网",
       "asset_type": "source_file",
       "domain": "content_knowledge_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/content/courses/混沌课程-工业互联网.pdf",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpy_lvikg2/content/courses/混沌课程-工业互联网.pdf",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/content/courses/混沌课程-工业互联网.pdf",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpy_lvikg2/content/courses/混沌课程-工业互联网.pdf",
       "content_class": "course_material",
       "source_family": "course_material",
       "module_code": "delivery",
@@ -21,18 +21,18 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:01+08:00",
-      "updated_at": "2026-03-11T19:39:01+08:00"
+      "last_seen_at": "2026-03-17T12:19:51+08:00",
+      "updated_at": "2026-03-17T12:19:51+08:00"
     },
     {
-      "id": "asset-5c36cf743c",
-      "asset_id": "asset-5c36cf743c",
+      "id": "asset-9bb5672410",
+      "asset_id": "asset-9bb5672410",
       "title": "wechat_draft_payload_meta",
       "asset_type": "source_file",
       "domain": "content_knowledge_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/content/wechat_draft_payload_meta.json",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpy_lvikg2/content/wechat_draft_payload_meta.json",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/content/wechat_draft_payload_meta.json",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpy_lvikg2/content/wechat_draft_payload_meta.json",
       "content_class": "article_asset",
       "source_family": "wechat_content",
       "module_code": "public",
@@ -44,18 +44,18 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:01+08:00",
-      "updated_at": "2026-03-11T19:39:01+08:00"
+      "last_seen_at": "2026-03-17T12:19:51+08:00",
+      "updated_at": "2026-03-17T12:19:51+08:00"
     },
     {
-      "id": "asset-fe3729dc74",
-      "asset_id": "asset-fe3729dc74",
+      "id": "asset-8ab95ffba0",
+      "asset_id": "asset-8ab95ffba0",
       "title": "wechat_writer_run_summary",
       "asset_type": "source_file",
       "domain": "content_knowledge_roots",
-      "source_path": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/content/wechat_writer_run_summary.json",
+      "source_path": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpy_lvikg2/content/wechat_writer_run_summary.json",
       "source_kind": "file",
-      "source_ref": "/private/var/folders/mk/wfjc6qf533v3nvmjjrmdh8p80000gp/T/tmpy0b6yjjf/content/wechat_writer_run_summary.json",
+      "source_ref": "/private/var/folders/s0/wg55q6h55k57vqbnt6qc6wlw0000gn/T/tmpy_lvikg2/content/wechat_writer_run_summary.json",
       "content_class": "article_asset",
       "source_family": "wechat_content",
       "module_code": "public",
@@ -67,8 +67,8 @@
       "status": "active",
       "owner_mode": "hybrid",
       "confidence": 0.88,
-      "last_seen_at": "2026-03-11T19:39:01+08:00",
-      "updated_at": "2026-03-11T19:39:01+08:00"
+      "last_seen_at": "2026-03-17T12:19:51+08:00",
+      "updated_at": "2026-03-17T12:19:51+08:00"
     }
   ],
   "counts": {

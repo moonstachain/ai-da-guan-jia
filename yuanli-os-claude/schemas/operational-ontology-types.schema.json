@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "operational-ontology-types.schema.json",
+  "title": "Operational Ontology 核心类型",
+  "description": "对象→动作→权限→写回→审计 硬链的最小公共类型定义。来源：operational-ontology-v0.md。",
+  "$defs": {
+    "Entity": {
+      "type": "object",
+      "description": "运行世界中的稳定对象",
+      "required": ["entity_id", "entity_type", "status", "component_domain", "control_level"],
+      "properties": {
+        "entity_id": { "type": "string" },
+        "entity_type": {
+          "type": "string",
+          "enum": ["task", "thread", "asset", "skill", "datasource", "goal", "theme", "strategy", "experiment", "workflow"]
+        },
+        "status": { "type": "string" },
+        "component_domain": {
+          "type": "string",
+          "enum": ["governance", "sales", "delivery", "clone"]
+        },
+        "control_level": {
+          "type": "string",
+          "enum": ["direct", "control", "execute"]
+        },
+        "owner_mode": {
+          "type": "string",
+          "enum": ["human", "ai", "shared"],
+          "description": "当前由谁主责"
+        },
+        "canonical_path": {
+          "type": "string",
+          "description": "本地 canonical 工件路径"
+        }
+      }
+    },
+    "Action": {
+      "type": "object",
+      "description": "可执行的对象化动作",
+      "required": ["action_id", "action_type", "target_entity_id", "requires_permission"],
+      "properties": {
+        "action_id": { "type": "string" },
+        "action_type": { "type": "string" },
+        "target_entity_id": { "type": "string" },
+        "requires_permission": { "type": "boolean" },
+        "policy_ref": { "type": "string" },
+        "human_boundary": {
+          "type": "boolean",
+          "description": "是否需要人类授权才能执行"
+        }
+      }
+    },
+    "Policy": {
+      "type": "object",
+      "description": "约束动作的规则",
+      "required": ["policy_id", "scope", "rule"],
+      "properties": {
+        "policy_id": { "type": "string" },
+        "scope": {
+          "type": "string",
+          "description": "适用范围：component_domain + control_level"
+        },
+        "rule": { "type": "string" },
+        "enforcement": {
+          "type": "string",
+          "enum": ["hard_block", "soft_warn", "audit_only"]
+        }
+      }
+    },
+    "Permission": {
+      "type": "object",
+      "description": "谁被允许做什么",
+      "required": ["permission_id", "agent_id", "action_types", "boundary"],
+      "properties": {
+        "permission_id": { "type": "string" },
+        "agent_id": { "type": "string" },
+        "action_types": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "boundary": {
+          "type": "string",
+          "enum": ["autonomous", "needs_approval", "forbidden"]
+        }
+      }
+    },
+    "EvidenceAtom": {
+      "type": "object",
+      "description": "最小证据单元",
+      "required": ["evidence_id", "source_type", "content", "confidence"],
+      "properties": {
+        "evidence_id": { "type": "string" },
+        "source_type": {
+          "type": "string",
+          "enum": ["explicit_statement", "behavior_trace", "repeated_pattern", "inference", "system_output", "screenshot"]
+        },
+        "content": { "type": "string" },
+        "confidence": {
+          "type": "string",
+          "enum": ["confirmed", "provisional", "superseded"]
+        },
+        "source_ref": { "type": "string" }
+      }
+    },
+    "DecisionRecord": {
+      "type": "object",
+      "description": "为什么这样判断",
+      "required": ["decision_id", "decision_type", "rationale", "evidence_refs"],
+      "properties": {
+        "decision_id": { "type": "string" },
+        "decision_type": { "type": "string" },
+        "rationale": { "type": "string" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "alternatives_considered": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "AgentCapability": {
+      "type": "object",
+      "description": "每个 agent/skill 能做什么",
+      "required": ["agent_id", "capabilities", "limitations"],
+      "properties": {
+        "agent_id": { "type": "string" },
+        "capabilities": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "limitations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "success_rate_hint": { "type": "string" }
+      }
+    },
+    "WritebackEvent": {
+      "type": "object",
+      "description": "写回事件——对象→动作→权限之后的留痕",
+      "required": ["writeback_id", "target_entity_id", "action_id", "timestamp", "result"],
+      "properties": {
+        "writeback_id": { "type": "string" },
+        "target_entity_id": { "type": "string" },
+        "action_id": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "result": {
+          "type": "string",
+          "enum": ["success", "partial", "failed", "rolled_back"]
+        },
+        "evidence_ref": { "type": "string" },
+        "canonical_path": { "type": "string" }
+      }
+    }
+  }
+}

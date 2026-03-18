@@ -1,0 +1,155 @@
+{
+  "name": "yuanlios_strategic_task_tracker",
+  "version": "0.1.0",
+  "status": "placeholder",
+  "description": "Feishu Bitable-backed strategic task tracker configuration for the governance cockpit. This artifact is intentionally read-only placeholder metadata until real wiring is added.",
+  "object_family": "Strategic State",
+  "canonical_object": {
+    "kind": "local_configuration_artifact",
+    "path": "work/MiroFish/backend/capabilities/yuanlios_strategic_task_tracker.json",
+    "authority": "local_placeholder"
+  },
+  "mirror_surface": {
+    "primary": "Feishu Bitable",
+    "base_id": "PVDgbdWYFaDLBiss0hlcM5WRnQc",
+    "table_id": "tblB9JQ4cROTBUnr",
+    "table_name": "战略任务追踪",
+    "sync_direction": "canonical_to_frontstage_mirror_when_wired"
+  },
+  "integration": {
+    "adapter": "@official-plugins/feishu-bitable",
+    "binding_mode": "full-field_readable",
+    "wiring_state": "not_implemented",
+    "notes": [
+      "This file defines the intended shape of the tracker.",
+      "No live API calls are made from this artifact yet.",
+      "Real Feishu token/scopes wiring should be added in a separate integration layer.",
+      "Current bound table_id: tblB9JQ4cROTBUnr"
+    ]
+  },
+  "fields": [
+    {
+      "name": "project_id",
+      "type": "text",
+      "required": true,
+      "example": "R18"
+    },
+    {
+      "name": "project_name",
+      "type": "text",
+      "required": true,
+      "example": "R18 三向量扩展 + 驾驶舱 2.0 + 康波智库"
+    },
+    {
+      "name": "project_status",
+      "type": "single_select",
+      "required": true,
+      "options": ["进行中", "已完成", "已归档"]
+    },
+    {
+      "name": "task_id",
+      "type": "text",
+      "required": true,
+      "example": "TS-DASH-03"
+    },
+    {
+      "name": "task_name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "task_status",
+      "type": "single_select",
+      "required": true,
+      "options": ["已完成", "进行中", "阻塞", "待启动"]
+    },
+    {
+      "name": "priority",
+      "type": "single_select",
+      "required": true,
+      "options": ["P0", "P1", "P2"]
+    },
+    {
+      "name": "owner",
+      "type": "single_select",
+      "required": true,
+      "options": ["Claude", "Codex", "人类", "妙搭"]
+    },
+    {
+      "name": "start_date",
+      "type": "datetime",
+      "required": false
+    },
+    {
+      "name": "completion_date",
+      "type": "datetime",
+      "required": false
+    },
+    {
+      "name": "blockers",
+      "type": "text",
+      "required": false
+    },
+    {
+      "name": "evidence_ref",
+      "type": "text",
+      "required": false,
+      "examples": ["commit hash", "screenshot path", "file path"]
+    },
+    {
+      "name": "dependencies",
+      "type": "text",
+      "required": false
+    },
+    {
+      "name": "notes",
+      "type": "text",
+      "required": false
+    }
+  ],
+  "views": [
+    {
+      "name": "project_overview",
+      "purpose": "Grouped by project_id with progress summary"
+    },
+    {
+      "name": "blockers",
+      "purpose": "Filtered view for task_status = 阻塞"
+    },
+    {
+      "name": "timeline",
+      "purpose": "Ordered by completion_date descending"
+    }
+  ],
+  "status_mapping": {
+    "已完成": {
+      "color": "#69f0ae",
+      "icon": "check_circle",
+      "css": "bg-[#69f0ae]/15 text-[#69f0ae]"
+    },
+    "进行中": {
+      "color": "#00e5ff",
+      "icon": "pulse_dot",
+      "css": "bg-[#00e5ff]/15 text-[#00e5ff]"
+    },
+    "阻塞": {
+      "color": "#ff5252",
+      "icon": "warning",
+      "css": "bg-[#ff5252]/15 text-[#ff5252]"
+    },
+    "待启动": {
+      "color": "#5f6368",
+      "icon": "empty_circle",
+      "css": "bg-[#5f6368]/15 text-[#5f6368]"
+    }
+  },
+  "refresh": {
+    "interval_seconds": 30,
+    "enabled": true
+  },
+  "acceptance_notes": [
+    "This artifact is a readable schema/config placeholder only.",
+    "Frontend UI wiring and live Feishu connectivity are intentionally out of scope for this file.",
+    "The next implementation step should connect this config to a real data adapter and cockpit page."
+  ]
+}

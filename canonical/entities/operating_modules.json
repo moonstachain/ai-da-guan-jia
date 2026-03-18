@@ -9,10 +9,11 @@
     "status": "active",
     "owner_subject_id": "subject-hay2045",
     "ai_subject_id": "subject-agent-public",
+    "deputy_subject_id": "subject-agent-business-deputy",
     "kpi_hint": "流量、触达、线索输入",
     "source_ref": "generated://module/public",
     "confidence": 0.95,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "module-private",
@@ -24,10 +25,11 @@
     "status": "active",
     "owner_subject_id": "subject-hay2045",
     "ai_subject_id": "subject-agent-private",
+    "deputy_subject_id": "subject-agent-business-deputy",
     "kpi_hint": "线索状态、转化节奏、复购机会",
     "source_ref": "generated://module/private",
     "confidence": 0.95,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "module-sales",
@@ -39,10 +41,11 @@
     "status": "active",
     "owner_subject_id": "subject-collab-owner",
     "ai_subject_id": "subject-agent-sales",
+    "deputy_subject_id": "subject-agent-business-deputy",
     "kpi_hint": "商机推进、报价、成交额",
     "source_ref": "generated://module/sales",
     "confidence": 0.94,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "module-delivery",
@@ -54,10 +57,11 @@
     "status": "active",
     "owner_subject_id": "subject-collab-owner",
     "ai_subject_id": "subject-agent-delivery",
+    "deputy_subject_id": "",
     "kpi_hint": "交付节奏、里程碑、满意度",
     "source_ref": "generated://module/delivery",
     "confidence": 0.94,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "module-finance",
@@ -69,10 +73,11 @@
     "status": "active",
     "owner_subject_id": "subject-collab-owner",
     "ai_subject_id": "subject-agent-finance",
+    "deputy_subject_id": "",
     "kpi_hint": "回款、利润、现金流",
     "source_ref": "generated://module/finance",
     "confidence": 0.94,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   },
   {
     "id": "module-governance",
@@ -84,9 +89,10 @@
     "status": "active",
     "owner_subject_id": "subject-hay2045",
     "ai_subject_id": "subject-agent-governance",
+    "deputy_subject_id": "",
     "kpi_hint": "闭环率、失真率、复制进度",
     "source_ref": "generated://module/governance",
     "confidence": 0.97,
-    "updated_at": "2026-03-11T19:39:02+08:00"
+    "updated_at": "2026-03-14T21:48:39+08:00"
   }
 ]

@@ -1,0 +1,83 @@
+{
+  "source_name": "黑色卫星机",
+  "preferred_hosts": [
+    "liming@172.16.77.38",
+    "H9V6Q97K6Y",
+    "liming@MacBook-Pro-2.local",
+    "liming@192.168.31.86"
+  ],
+  "historical_evidence": {
+    "captured_at": "2026-03-14",
+    "doc_path": "/Users/liming/Documents/codex-ai-gua-jia-01/docs/black-mac-yuanli-os-deep-audit-v1.md"
+  },
+  "snapshot": {
+    "snapshot_mode": "historical_baseline",
+    "machine": {
+      "host": "limingdeMacBook-Pro.local",
+      "user": "liming",
+      "workspace_root": "/Users/liming/Documents/codex-ai-gua-jia-01",
+      "os_family": "macOS",
+      "arch": "arm64"
+    },
+    "repos": {
+      "project_root": {
+        "present": true
+      },
+      "ai_da_guan_jia": {
+        "present": true
+      },
+      "os_yuanli": {
+        "present": true
+      },
+      "yuanli_os_ops": {
+        "present": true
+      },
+      "yuanli_os_skills_pack": {
+        "present": true
+      }
+    },
+    "codex": {
+      "skill_count": 110,
+      "automation_count": 10,
+      "required_skills": {
+        "ai-da-guan-jia": true,
+        "os-yuanli": true,
+        "intent-grounding": true,
+        "skill-router": true,
+        "jiyao-youyao-haiyao-zaiyao": true,
+        "evidence-gate": true,
+        "closure-evolution": true,
+        "wechat-style-profiler": true,
+        "wechat-topic-outline-planner": true,
+        "wechat-draft-writer": true,
+        "wechat-title-generator": true,
+        "wechat-article-writer": true,
+        "feishu-reader": true,
+        "openai-docs": true,
+        "pdf": true,
+        "spreadsheet": true,
+        "feishu-bitable-bridge": true
+      }
+    },
+    "credentials": {
+      "github_auth": {
+        "valid": true,
+        "summary": "gh auth status logged in to moonstachain"
+      },
+      "github_hosts": {
+        "present": true
+      },
+      "openclaw": {
+        "present": false
+      }
+    },
+    "profiles": {
+      "feishu_reader": true,
+      "get_biji": true
+    },
+    "workflow": {
+      "content_smoke": true,
+      "audit_sync": true
+    }
+  }
+}

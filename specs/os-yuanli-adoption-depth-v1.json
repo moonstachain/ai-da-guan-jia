@@ -1,0 +1,129 @@
+{
+  "source": {
+    "repo": "moonstachain/os-yuanli",
+    "benchmark_mirror_path": "/Users/hay2045/Documents/codex-ai-gua-jia-01/tmp/external-repos/os-yuanli",
+    "download_artifact": "/Users/hay2045/Documents/codex-ai-gua-jia-01/tmp/external-repos/_downloads/os-yuanli-7dc8c259.tar.gz",
+    "default_branch": "main",
+    "commit_sha": "7dc8c25962daad44b81145b0278f473e1d633d68",
+    "download_mode": "tarball_benchmark_mirror"
+  },
+  "classification": {
+    "what_it_is": "github_published_root_protocol_mirror",
+    "primary_role": "method_kernel_benchmark",
+    "secondary_role": "audit_scoring_appendix",
+    "not_recommended_as": [
+      "active_root_skill",
+      "replacement_for_ai_da_guan_jia",
+      "full_runtime_shell"
+    ]
+  },
+  "depth_assessment": {
+    "safe_max_depth": "L2",
+    "safe_max_depth_label": "局部可运行桥接层",
+    "why_not_deeper": [
+      "missing_dependency_organs",
+      "overlap_with_ai_da_guan_jia_root_ownership",
+      "no_proven_runtime_on_current_local_stack",
+      "does_not_own_current_canonical_closure_stack"
+    ],
+    "levels": {
+      "L0": "仅参考",
+      "L1": "宪法/方法覆盖层",
+      "L2": "局部可运行桥接层",
+      "L3": "实验 root skill",
+      "L4": "正式主入口"
+    }
+  },
+  "coverage_estimate": {
+    "coo_vision_method_layer_pct": 75,
+    "coo_vision_runtime_layer_pct": 30,
+    "coo_vision_overall_pct": 58
+  },
+  "boundary_mapping": {
+    "os_yuanli_owns": [
+      "治理OS × 工作OS method kernel",
+      "theme_strategy_execution gates",
+      "task family adaptation",
+      "adaptive artifact pack",
+      "audit rubric and playbook",
+      "evolution note convention"
+    ],
+    "ai_da_guan_jia_owns": [
+      "top-level skill governance",
+      "inventory and top-level route",
+      "local canonical closure",
+      "local run truth source",
+      "Feishu and GitHub sync policy",
+      "human-facing collaboration protocol"
+    ],
+    "relationship": "kernel_inside_governor_not_replacement"
+  },
+  "dependency_gaps": {
+    "required_by_os_yuanli": [
+      "intent-grounding",
+      "skill-router",
+      "jiyao-youyao-haiyao-zaiyao",
+      "evidence-gate",
+      "closure-evolution"
+    ],
+    "local_status": {
+      "intent-grounding": "missing",
+      "skill-router": "missing",
+      "jiyao-youyao-haiyao-zaiyao": "found",
+      "evidence-gate": "missing",
+      "closure-evolution": "missing"
+    },
+    "doctor_extra_missing": [
+      "wechat-style-profiler",
+      "wechat-topic-outline-planner",
+      "wechat-draft-writer",
+      "wechat-title-generator"
+    ]
+  },
+  "adoption_ladder": {
+    "adopt_now": [
+      "constitution_formula_and_3x3_matrix",
+      "task_family_artifact_pack_discipline",
+      "audit_rubric_and_system_audit_playbook"
+    ],
+    "adopt_after_organs": [
+      "formal_theme_strategy_execution_runtime_gates",
+      "standalone_router_evidence_closure_organs",
+      "isolated_experimental_root_skill_trial"
+    ],
+    "do_not_adopt_now": [
+      "install_as_current_active_root_skill",
+      "duplicate_sync_and_canonical_closure_logic",
+      "replace_existing_ai_da_guan_jia_governor_stack"
+    ]
+  },
+  "top_three_absorption_points": [
+    "3x3_method_kernel_appendix",
+    "audit_rubric_for_governance_reviews",
+    "task_family_map_for_adaptive_output_packs"
+  ],
+  "stop_conditions": [
+    "missing intent-grounding or skill-router or evidence-gate or closure-evolution",
+    "ai-da-guan-jia still owns the current top-level route and canonical closure stack",
+    "os-yuanli has not passed isolated validation on at least three real task families",
+    "activation would create dual root governors or dual closure stacks"
+  ],
+  "verifications": {
+    "benchmark_downloaded": true,
+    "commit_locked": true,
+    "doctor_ran": true,
+    "doctor_passed": false,
+    "native_ai_da_guan_jia_external_eval_run": true,
+    "native_eval_summary": {
+      "category": "intel_only",
+      "can_use_now": "no",
+      "best_use_mode": "research_only"
+    }
+  },
+  "final_answer": {
+    "can_it_be_used_for_you": "yes_as_kernel_benchmark",
+    "how_to_use": "absorb_as_method_kernel_and_audit_appendix_not_as_active_entrypoint",
+    "how_deep_to_use_now": "L2",
+    "next_best_action": "reuse_the_method_constitution_audit_rubric_and_task_family_pack_rules_inside_current_yuanli_os_and_ai_da_guan_jia"
+  }
+}
