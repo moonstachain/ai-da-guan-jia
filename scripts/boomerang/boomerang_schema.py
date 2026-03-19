@@ -14,8 +14,8 @@ def number(name: str, *, formatter: str | None = None) -> dict[str, Any]:
     return field
 
 
-def datetime_field(name: str, *, formatter: str = "yyyy-MM") -> dict[str, Any]:
-    return {"name": name, "type": "datetime", "property": {"date_formatter": formatter}}
+def datetime_field(name: str, *, formatter: str = "yyyy-MM-dd") -> dict[str, Any]:
+    return {"name": name, "type": "datetime", "property": {"date_formatter": formatter, "auto_fill": False}}
 
 
 def single_select(name: str, options: Iterable[str]) -> dict[str, Any]:
@@ -48,8 +48,8 @@ def _base_options() -> list[str]:
 
 def t01_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
-        datetime_field("month", formatter="yyyy-MM"),
+        text("record_key"),
+        datetime_field("month", formatter="yyyy-MM-dd"),
         single_select("base", _base_options()),
         number("gmv", formatter="0.00"),
         number("effective_sales", formatter="0.00"),
@@ -80,8 +80,8 @@ def t01_fields() -> list[dict[str, Any]]:
 
 def t02_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
-        datetime_field("month", formatter="yyyy-MM"),
+        text("record_key"),
+        datetime_field("month", formatter="yyyy-MM-dd"),
         number("revenue_commission", formatter="0.00"),
         number("revenue_membership", formatter="0.00"),
         number("revenue_ip_content", formatter="0.00"),
@@ -159,8 +159,8 @@ def t03_fields() -> list[dict[str, Any]]:
         number("satisfaction_score", formatter="0.0"),
     ]
     return [
-        autonumber("record_id"),
-        datetime_field("month", formatter="yyyy-MM"),
+        text("record_key"),
+        datetime_field("month", formatter="yyyy-MM-dd"),
         single_select("base", _base_options()),
         single_select("segment_type", ["客户分层", "复购", "生命周期", "流失", "会员", "区域", "客诉", "新客"]),
         text("segment_name"),
@@ -175,8 +175,8 @@ def t03_fields() -> list[dict[str, Any]]:
 
 def t04_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
-        datetime_field("month", formatter="yyyy-MM"),
+        text("record_key"),
+        datetime_field("month", formatter="yyyy-MM-dd"),
         single_select("base", _base_options()),
         text("category"),
         number("items_received", formatter="0"),
@@ -201,8 +201,8 @@ def t04_fields() -> list[dict[str, Any]]:
 
 def t05_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
-        datetime_field("month", formatter="yyyy-MM"),
+        text("record_key"),
+        datetime_field("month", formatter="yyyy-MM-dd"),
         single_select("base", _base_options()),
         number("logistics_outbound_tickets", formatter="0"),
         number("logistics_inbound_tickets", formatter="0"),
@@ -226,8 +226,8 @@ def t05_fields() -> list[dict[str, Any]]:
 
 def t06_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
-        datetime_field("month", formatter="yyyy-MM"),
+        text("record_key"),
+        datetime_field("month", formatter="yyyy-MM-dd"),
         single_select("platform", ["抖音", "视频号", "小红书", "公众号", "直播", "私域"]),
         single_select("content_type", ["杨老师IP", "品类专家IP", "直播", "投放", "其他内容"]),
         number("posts_count", formatter="0"),
@@ -249,7 +249,7 @@ def t06_fields() -> list[dict[str, Any]]:
 
 def t07_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
+        text("record_key"),
         text("scenario"),
         text("year"),
         number("annual_gmv", formatter="0.00"),
@@ -268,7 +268,7 @@ def t07_fields() -> list[dict[str, Any]]:
 
 def t08_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
+        text("record_key"),
         text("company"),
         text("country"),
         text("model_type"),
@@ -295,7 +295,7 @@ def t08_fields() -> list[dict[str, Any]]:
 
 def t09_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
+        text("record_key"),
         text("initiative_id"),
         text("dimension"),
         text("initiative_name"),
@@ -313,7 +313,7 @@ def t09_fields() -> list[dict[str, Any]]:
 
 def t10_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
+        text("record_key"),
         text("round"),
         text("target_year"),
         number("gmv_basis", formatter="0.00"),
@@ -331,8 +331,8 @@ def t10_fields() -> list[dict[str, Any]]:
 
 def t11_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
-        datetime_field("month", formatter="yyyy-MM"),
+        text("record_key"),
+        datetime_field("month", formatter="yyyy-MM-dd"),
         number("gmv", formatter="0.00"),
         number("effective_sales", formatter="0.00"),
         number("revenue_total", formatter="0.00"),
@@ -352,7 +352,7 @@ def t11_fields() -> list[dict[str, Any]]:
 
 def t12_fields() -> list[dict[str, Any]]:
     return [
-        autonumber("record_id"),
+        text("record_key"),
         text("config_key"),
         text("config_value", multiline=True),
         text("config_group"),
@@ -369,84 +369,84 @@ TABLE_SPECS = [
     {
         "table_key": "T01",
         "table_name": "T01_月度经营数据",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "录入层",
         "fields": t01_fields(),
     },
     {
         "table_key": "T02",
         "table_name": "T02_月度财务数据",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "录入层",
         "fields": t02_fields(),
     },
     {
         "table_key": "T03",
         "table_name": "T03_客户分析",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "业务层",
         "fields": t03_fields(),
     },
     {
         "table_key": "T04",
         "table_name": "T04_品类分析",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "业务层",
         "fields": t04_fields(),
     },
     {
         "table_key": "T05",
         "table_name": "T05_供应链效率",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "业务层",
         "fields": t05_fields(),
     },
     {
         "table_key": "T06",
         "table_name": "T06_内容与IP",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "业务层",
         "fields": t06_fields(),
     },
     {
         "table_key": "T07",
         "table_name": "T07_财务建模",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "分析层",
         "fields": t07_fields(),
     },
     {
         "table_key": "T08",
         "table_name": "T08_对标矩阵",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "分析层",
         "fields": t08_fields(),
     },
     {
         "table_key": "T09",
         "table_name": "T09_进化追踪",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "分析层",
         "fields": t09_fields(),
     },
     {
         "table_key": "T10",
         "table_name": "T10_估值测算",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "分析层",
         "fields": t10_fields(),
     },
     {
         "table_key": "T11",
         "table_name": "T11_月度经营快照",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "补充",
         "fields": t11_fields(),
     },
     {
         "table_key": "T12",
         "table_name": "T12_元数据与配置",
-        "primary_field": "record_id",
+        "primary_field": "record_key",
         "layer": "补充",
         "fields": t12_fields(),
     },
