@@ -7,6 +7,7 @@ import argparse
 import os
 from pathlib import Path
 import shlex
+import shutil
 import socket
 import subprocess
 import sys
@@ -147,6 +148,8 @@ def show_status() -> int:
 def install_shortcuts() -> int:
     local_bin = Path.home() / ".local" / "bin"
     local_bin.mkdir(parents=True, exist_ok=True)
+    for config_dir in (Path.home() / ".claude", Path.home() / ".gemini"):
+        config_dir.mkdir(parents=True, exist_ok=True)
 
     def write_symlink(name: str, target: Path) -> None:
         link = local_bin / name
