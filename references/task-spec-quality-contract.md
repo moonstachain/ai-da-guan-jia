@@ -215,6 +215,20 @@ At minimum this means:
 
 If the task has no explicit final step, it is prone to pseudo-closure.
 
+### 14. Strategic Task Tracker Closure Clause
+
+If the Task Spec is about a strategic task, or any task whose result must be reflected in the strategic task tracker, the final step must include the following exact block:
+
+```md
+> **最后一步：同步飞书战略任务追踪表**
+> - 表: `PVDgbdWYFaDLBiss0hlcM5WRnQc / tblB9JQ4cROTBUnr`
+> - 如果task_id不在表中 → batch_create
+> - 如果已在表中 → batch_update（更新status和completion_date）
+> - 必填: task_id, project_id, task_name, task_status, priority
+```
+
+The executor may only claim full closure after that sync is applied, or after the spec explicitly records the blocking reason and fallback payload state.
+
 ## Spec Classes
 
 Not all Task Specs are the same.

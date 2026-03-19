@@ -81,3 +81,12 @@ Codex 是执行器 + 提案者，人类是桥接器和最终审批者。
 2. 是否更新飞书总控或其他 mirror
 3. 失败时是否输出兜底文件
 4. 最终回传什么 evidence 给 Claude
+5. 是否同步飞书战略任务追踪表
+
+```md
+> **最后一步：同步飞书战略任务追踪表**
+> - 表: `PVDgbdWYFaDLBiss0hlcM5WRnQc / tblB9JQ4cROTBUnr`
+> - 如果task_id不在表中 → batch_create
+> - 如果已在表中 → batch_update（更新status和completion_date）
+> - 必填: task_id, project_id, task_name, task_status, priority
+```
