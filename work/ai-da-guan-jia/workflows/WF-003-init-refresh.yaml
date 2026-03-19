@@ -1,0 +1,39 @@
+workflow_id: WF-003
+name: init-refresh
+description: 刷新 CLAUDE-INIT.md 的坐标、任务状态、架构决策，保持启动记忆与实际进度对齐
+trigger: 任意 Task 完成后需要更新 INIT（Task Spec "最后一步"标准第1条）
+owner: codex
+strategy_id: strategy-human-ai-success-efficiency
+cost_class: low
+
+steps:
+  - step: 1
+    name: collect_changes
+    action: 从最近完成的 Task 收集需要入账的变更（新坐标/任务状态/架构决策）
+    output: change_list
+  - step: 2
+    name: apply_changes
+    action: 精准修改 CLAUDE-INIT.md 对应章节，不重写无关内容
+    output: updated CLAUDE-INIT.md
+  - step: 3
+    name: version_bump
+    action: 更新 INIT 头部的版本号和日期
+    output: new_version_tag
+  - step: 4
+    name: commit_push
+    action: git commit + push 到 yuanli-os-claude
+    output: commit_sha
+
+success_criteria:
+  - 只改动相关章节，不引入无关变更
+  - 版本号递增
+  - 新坐标/任务状态与 evidence 一致
+
+historical_executions:
+  - TS-V2-01 INIT模板化
+  - TS-INIT-REFRESH (2026-03-17)
+  - TS-MIRROR-02 闭环后 INIT 更新
+  - TS-MIRROR-02A 闭环后 INIT 更新
+  - TS-V2-PHASE0 闭环后 INIT 更新
+
+reuse_count: 5

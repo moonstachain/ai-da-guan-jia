@@ -1,0 +1,42 @@
+workflow_id: WF-004
+name: daily-retro
+description: 每日 23:00 深盘，产出 run 归档链 + 镜像同步 payload
+trigger: 每日 23:00 cron（与 I-REV-001 对齐）
+owner: codex
+strategy_id: strategy-human-ai-mvp-fast-validation
+cost_class: medium
+
+steps:
+  - step: 1
+    name: collect_day_evidence
+    action: 扫描当日 runs/，统计任务完成/失败/阻塞
+    output: day_summary
+  - step: 2
+    name: generate_retro
+    action: 产出 review.md + evolution.md + action-candidates.md
+    output: retro_artifacts
+  - step: 3
+    name: update_scorecard
+    action: 更新 governance-dashboard.md 的 production metrics
+    output: updated_metrics
+  - step: 4
+    name: mirror_sync
+    action: 生成 Feishu/GitHub mirror payloads
+    output: mirror_payloads
+  - step: 5
+    name: archive
+    action: 归档到 runs/YYYY-MM-DD/adagj-*-retro-*/
+    output: archive_path
+
+success_criteria:
+  - retro 归档链完整（review + evolution + action-candidates）
+  - dashboard metrics 已更新
+  - 镜像 payload 已生成（即使推送因网络阻塞而延迟）
+
+historical_executions:
+  - 2026-03-18 首次完整复盘
+  - 2026-03-19 日盘（本轮）
+  - 持续每日执行
+
+reuse_count: 2
+reuse_count_note: 2+（持续累积）

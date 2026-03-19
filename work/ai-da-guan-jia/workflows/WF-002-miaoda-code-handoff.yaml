@@ -1,0 +1,37 @@
+workflow_id: WF-002
+name: miaoda-code-handoff
+description: Claude 生成/修改妙搭前端代码 -> 人类手动替换到妙搭仓库 -> 部署验收
+trigger: Task Spec 涉及妙搭应用 .tsx 文件修改
+owner: claude+human
+strategy_id: strategy-human-ai-consensus-before-automation
+cost_class: medium
+
+steps:
+  - step: 1
+    name: generate_code
+    action: Claude 基于需求和现有代码生成完整 .tsx 替换文件
+    output: PostBWPage.tsx / AnalysisPage.tsx / etc.
+  - step: 2
+    name: diff_review
+    action: Claude 对比新旧文件，输出改动摘要
+    output: diff_summary
+  - step: 3
+    name: human_handoff
+    action: 人类将文件替换到妙搭应用仓库 client/src/pages/
+    output: deployment confirmation
+  - step: 4
+    name: verify_live
+    action: 妙搭部署后截图验收
+    output: screenshot + functional_checklist
+
+success_criteria:
+  - 新代码括号平衡（opens == closes）
+  - 功能点全部可见可交互
+  - fallback mock 仍工作
+
+historical_executions:
+  - TS-MIRROR-02 Phase 2 (PostBWPage 镜像联动Tab)
+  - TS-MIRROR-02A Phase 2 (PostBWPage 02A数据补全 - 实际未执行，合入03)
+  - TS-MIRROR-03 (PostBWPage 全量升级 + pre-1971)
+
+reuse_count: 3

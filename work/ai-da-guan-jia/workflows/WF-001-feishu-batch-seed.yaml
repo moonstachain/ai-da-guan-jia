@@ -1,0 +1,44 @@
+workflow_id: WF-001
+name: feishu-batch-seed
+description: 从 Excel/JSON 数据源批量写入飞书多维表，含建表/upsert/验真完整链路
+trigger: Claude 出 Task Spec 且包含"飞书写入"或"Bitable seed"关键字
+owner: codex
+strategy_id: strategy-human-ai-success-efficiency
+cost_class: medium
+
+steps:
+  - step: 1
+    name: confirm_table
+    action: GET /bitable/v1/apps/{app_token}/tables -> 确认目标表存在或创建
+    output: table_id
+  - step: 2
+    name: read_existing
+    action: GET searchRecords -> 获取已有记录
+    output: existing_ids[]
+  - step: 3
+    name: diff_and_write
+    action: 对比数据源 vs 已有 -> batch_create 新增 + batch_update 已有
+    output: created_count, updated_count
+  - step: 4
+    name: verify
+    action: GET searchRecords -> 确认 total >= expected
+    output: record_count, sample_records[]
+  - step: 5
+    name: evidence
+    action: 输出 JSON evidence -> 写入 runs/ -> 同步飞书总控
+    output: evidence.json
+
+success_criteria:
+  - record_count >= expected_count
+  - sample_records 字段非空率 > 95%
+
+historical_executions:
+  - TS-KB-03 (L2专家×33 + L3洞察×48)
+  - TS-KB-06-B (L4财富三观 4张表)
+  - TS-KB-07 (L0/L5政策信号 4张表)
+  - TS-BW50-01 (BW50 3张表 事件27+资产15+矩阵48)
+  - TS-MIRROR-02 (L1历史镜像 31条)
+  - TS-MIRROR-02A (BW50事件+4 矩阵+12 回填+4)
+  - TS-V2-PHASE0-D4 (clone_management 表)
+
+reuse_count: 7

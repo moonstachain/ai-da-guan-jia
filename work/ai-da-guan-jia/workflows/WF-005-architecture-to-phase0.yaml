@@ -1,0 +1,39 @@
+workflow_id: WF-005
+name: architecture-to-phase0
+description: 从架构蓝图文档到可执行的模板/schema/工具准备，标准的 Phase 0 流程
+trigger: Claude 输出架构蓝图 + 人类审批决策点后
+owner: claude+codex
+strategy_id: strategy-human-ai-consensus-before-automation
+cost_class: medium
+
+steps:
+  - step: 1
+    name: blueprint
+    action: Claude 出完整架构蓝图（含决策点）
+    output: blueprint.md
+  - step: 2
+    name: decision_review
+    action: 人类审批所有决策点
+    output: decisions_approved
+  - step: 3
+    name: task_spec
+    action: Claude 出 Phase 0 Task Spec（含所有交付件的完整内容）
+    output: task_spec.md
+  - step: 4
+    name: execute
+    action: Codex 按 spec 执行（创建模板/schema/工具/飞书表）
+    output: execution_evidence
+  - step: 5
+    name: verify_and_close
+    action: Claude 复核 evidence -> 闭环
+    output: closure.md
+
+success_criteria:
+  - 所有决策点有明确审批结果
+  - 交付件数量与 spec 一致
+  - 验真通过率 100%
+
+historical_executions:
+  - TS-V2-PHASE0 (V2复制扩展 Phase 0)
+
+reuse_count: 1

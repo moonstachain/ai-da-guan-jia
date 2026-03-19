@@ -1,5 +1,5 @@
 # CLAUDE-INIT.md — 新 Claude 会话启动记忆
-# 最后更新：2026-03-18 · V17（INIT refreshed after first full evolution review）
+# 最后更新：2026-03-19 · V18（workflow hardening gate applied）
 
 > 用法：在新 Claude 会话开始时先读本文件。
 > 定位：这是 `shared startup memory distribution object`，不是 runtime ledger。
@@ -41,7 +41,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 当前定位：`Agent 第二代末期 → 第三代入口`
 - 当前进度摘要：`464 passed / 12 failed / 16 commits on main`（分发快照，待下轮验真后再更新）
 - 当前状态口径：以上是分发快照，不是 Layer 1 runtime truth；如需真相源，回到 `ai-da-guan-jia` 本地 canonical
-- 治理成熟度：`26/40`（`D1=3 D2=3 D3=2 D4=2 D5=3 D6=1 D7=3 D8=3 D9=3 D10=3`，baseline audit 2026-03-17 canonical）
+- 治理成熟度：`30/40`（`D1=3 D2=3 D3=3 D4=3 D5=3 D6=3 D7=3 D8=3 D9=3 D10=3`，TS-WF-HARDEN-01 hardening snapshot 2026-03-19）
 - 当前重点：`驾驶舱 2.0 部署验收 + 康波智库首轮闭环（L2×33 / L3×49 / scan_t0 已验真）`
 - Codex 定位升级：从 `主要执行器` 升级为 `执行器 + 提案者`（proposal_first 范式下仍需人类审批）
 - 首次完整复盘：2026-03-18 已完成，三方综合评分 8.3/10
@@ -63,7 +63,8 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - `TS-MIRROR-02` 历史镜像穷尽版写入飞书 + 妙搭镜像联动 Tab 上线：进行中（Phase 1 已完成，Phase 2 需目标 React 仓库确认）
 - `TS-MIRROR-02A` 历史镜像补链：BW50 事件扩展 + linked_bw50_event_id 回填：进行中（Phase 1 已完成，Phase 2 需目标 React 仓库确认）
 - `TS-OC-02` task-spec Skill v1.1：草案入表 + 批准执行 闭环 MVP（已完成，草案待审 / 已审批待执行 两态已打通）
-- `TS-V2-PHASE0` clone 复制扩展：Phase 0 模板 / schema / health probe 已就绪，`clone_management` 已纳入治理 base schema/manifest，Phase 1 仍待 `workflow-hardening` 拉升治理成熟度到 30
+- `TS-V2-PHASE0` clone 复制扩展：Phase 0 模板 / schema / health probe 已就绪，`clone_management` 已纳入治理 base schema/manifest，Phase 1 gate 已由 TS-WF-HARDEN-01 满足
+- `TS-WF-HARDEN-01` workflow-hardening：已完成（WF-001..005 固化 + Workflow Registry 上线 + D6 1→3）
 - 驾驶舱 2.0 代码交付：已完成（`yuanli-os-dashboard-v2.zip`，5 页面 / 12 插件）
 - `I-REV-001` 递归复盘引擎：已落位（09:00 轻量 review + 23:00 深盘 + 周 / 月 / 季 / 年 rollup）
 
