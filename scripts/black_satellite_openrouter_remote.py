@@ -45,11 +45,36 @@ def build_env() -> dict[str, str]:
     path_parts = [
         str(Path.home() / ".local" / "bin"),
         str(Path.home() / ".npm-global" / "bin"),
+        "/opt/homebrew/opt/node@20/bin",
         "/opt/homebrew/bin",
         env.get("PATH", ""),
     ]
     env["PATH"] = ":".join(part for part in path_parts if part)
     return env
+
+
+def resolve_cli_path(tool: str) -> Path | None:
+    env = build_env()
+    discovered = shutil.which(tool, path=env["PATH"])
+    if discovered:
+        return Path(discovered)
+
+    fallback_paths = {
+        "codex": [
+            Path.home() / ".local" / "bin" / "codex",
+            Path("/Applications/Codex.app/Contents/Resources/codex"),
+        ],
+        "claude": [
+            Path.home() / ".local" / "bin" / "claude",
+        ],
+        "gemini": [
+            Path.home() / ".local" / "bin" / "gemini",
+        ],
+    }
+    for candidate in fallback_paths.get(tool, []):
+        if candidate.exists():
+            return candidate
+    return None
 
 
 def run_bridge(*args: str, capture_output: bool = False) -> subprocess.CompletedProcess[str]:
@@ -122,6 +147,20 @@ def show_status() -> int:
 def install_shortcuts() -> int:
     local_bin = Path.home() / ".local" / "bin"
     local_bin.mkdir(parents=True, exist_ok=True)
+
+    def write_symlink(name: str, target: Path) -> None:
+        link = local_bin / name
+        if link.exists() or link.is_symlink():
+            try:
+                if link.resolve() == target.resolve():
+                    print(f"installed={link}")
+                    return
+            except FileNotFoundError:
+                pass
+            link.unlink()
+        link.symlink_to(target)
+        print(f"installed={link} -> {target}")
+
     wrappers = {
         "or-use": f"#!/bin/zsh\nexec python3 {shlex.quote(str(REMOTE_SELF))} model \"$@\"\n",
         "or-status": f"#!/bin/zsh\nexec python3 {shlex.quote(str(REMOTE_SELF))} status\n",
@@ -131,14 +170,22 @@ def install_shortcuts() -> int:
         target.write_text(content, encoding="utf-8")
         target.chmod(0o755)
         print(f"installed={target}")
+
+    for tool in ("codex", "claude", "gemini"):
+        resolved = resolve_cli_path(tool)
+        if resolved is None:
+            print(f"skipped={tool} (missing on PATH)")
+            continue
+        write_symlink(tool, resolved)
     return 0
 
 
 def exec_cli(tool: str, args: Sequence[str]) -> int:
     enter_workspace()
-    path = CLI_PATHS[tool]
-    if not path.exists():
-        raise FileNotFoundError(f"Missing CLI for {tool}: {path}")
+    path = resolve_cli_path(tool)
+    if path is None:
+        fallback = CLI_PATHS[tool]
+        raise FileNotFoundError(f"Missing CLI for {tool}: {fallback}")
     env = build_env()
     os.execvpe(str(path), [tool, *args], env)
     return 0
