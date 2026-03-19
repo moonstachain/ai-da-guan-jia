@@ -22,10 +22,9 @@ SSH_SCRIPT = PROJECT_ROOT / "scripts" / "ssh_with_codex_identities.sh"
 AI_DA_GUAN_JIA_SCRIPT = PROJECT_ROOT / "work" / "ai-da-guan-jia" / "scripts" / "ai_da_guan_jia.py"
 
 DEFAULT_HOST_CANDIDATES = [
-    "liming@limingdeMacBook-Pro.local",
+    "liming@MacBook-Pro-2.local",
     "liming@172.16.77.38",
     "liming@192.168.31.86",
-    "liming@MacBook-Pro-2.local",
 ]
 
 GOVERNANCE_SKILLS = {

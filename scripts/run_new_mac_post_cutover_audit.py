@@ -32,7 +32,7 @@ SKILLS_PACK_VERIFY = PROJECT_ROOT / "tmp" / "external-repos" / "yuanli-os-skills
 OPS_VERIFY = OPS_ROOT / "scripts" / "verify_yuanli_os_ops_bundle.py"
 OPS_AUDIT_SYNC = OPS_ROOT / "FORCE-CLAW" / "scripts" / "sync_yuanli_os_audit_to_feishu.py"
 SSH_WRAPPER = PROJECT_ROOT / "scripts" / "ssh_with_codex_identities.sh"
-DEFAULT_SOURCE_HOSTS = ["liming@limingdeMacBook-Pro.local", "liming@172.16.77.38", "H9V6Q97K6Y", "liming@192.168.31.86", "liming@MacBook-Pro-2.local"]
+DEFAULT_SOURCE_HOSTS = ["liming@MacBook-Pro-2.local", "liming@172.16.77.38", "H9V6Q97K6Y", "liming@192.168.31.86"]
 DEFAULT_FEISHU_LINK = "https://h52xu4gwob.feishu.cn/wiki/DdNXw06poicDHHkSKIdcRrYDnod?from=from_copylink"
 DEFAULT_ACCOUNT_ID = "feishu-claw"
 INTENTIONAL_NOT_COPY = [

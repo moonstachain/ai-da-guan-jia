@@ -1,10 +1,9 @@
 #!/bin/zsh
 set -euo pipefail
 
-default_host="liming@limingdeMacBook-Pro.local"
+preferred_host="liming@MacBook-Pro-2.local"
 fallback_host="liming@172.16.77.38"
 secondary_fallback_host="liming@192.168.31.86"
-legacy_hostname_host="liming@MacBook-Pro-2.local"
 ssh_script="/Users/liming/Documents/codex-ai-gua-jia-01/scripts/ssh_with_codex_identities.sh"
 remote_script="/Users/liming/Documents/codex-ai-gua-jia-01/scripts/black_satellite_openrouter_remote.py"
 known_hosts_file="/tmp/codex_satellite_known_hosts"
@@ -36,7 +35,7 @@ resolve_host() {
   fi
 
   local -a candidates=()
-  candidates+=("$default_host" "$fallback_host" "$secondary_fallback_host" "$legacy_hostname_host")
+  candidates+=("$preferred_host" "$fallback_host" "$secondary_fallback_host")
 
   local candidate
   for candidate in "${candidates[@]}"; do

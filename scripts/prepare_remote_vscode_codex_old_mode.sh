@@ -1,7 +1,7 @@
 #!/bin/zsh
 set -euo pipefail
 
-host="${1:-liming@limingdeMacBook-Pro.local}"
+host="${1:-liming@MacBook-Pro-2.local}"
 action="${2:-prepare}"
 remote_script="/Users/liming/Documents/codex-ai-gua-jia-01/scripts/vscode_codex_old_mode_bridge.py"
 

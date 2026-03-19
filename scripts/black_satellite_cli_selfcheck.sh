@@ -6,10 +6,9 @@ SSH_SCRIPT="${SCRIPT_DIR}/ssh_with_codex_identities.sh"
 KNOWN_HOSTS_FILE="/tmp/codex_satellite_known_hosts"
 ARTIFACT_ROOT="${SCRIPT_DIR}/../artifacts/black-satellite-cli-selfcheck"
 
-DEFAULT_HOST="liming@limingdeMacBook-Pro.local"
+DEFAULT_HOST="liming@MacBook-Pro-2.local"
 FALLBACK_HOST="liming@172.16.77.38"
 SECONDARY_FALLBACK_HOST="liming@192.168.31.86"
-LEGACY_HOST="liming@MacBook-Pro-2.local"
 
 REPAIR="1"
 RUN_EXEC="1"
@@ -77,7 +76,7 @@ resolve_host() {
     return 0
   fi
 
-  local -a candidates=("$DEFAULT_HOST" "$FALLBACK_HOST" "$SECONDARY_FALLBACK_HOST" "$LEGACY_HOST")
+  local -a candidates=("$DEFAULT_HOST" "$FALLBACK_HOST" "$SECONDARY_FALLBACK_HOST")
   local candidate
   for candidate in "${candidates[@]}"; do
     if "$SSH_SCRIPT" \
