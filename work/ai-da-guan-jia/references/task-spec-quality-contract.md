@@ -398,6 +398,7 @@ This contract imposes the following requirements on future work:
   - acceptance criteria
   - human boundary
   - fallback
+- recommended reusable baseline: [`task-spec-template.md`](task-spec-template.md)
 
 ## Acceptance
 
