@@ -59,7 +59,11 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - `TS-KB-06` 财富三观认知层落地：已完成（本地 schema-first + 四页前端 + 真实飞书 wiring 已闭环）
 - `TS-KB-06-A` 智能资产·量化投资全景：已完成（量化全景表 + 二级钻取页面 + 路由验真）
 - `TS-KB-06-B` 财富三观 + 量化全景飞书真实表 wiring：已完成（康波 Base 4 张 L4 表创建 + seed + table_id 回填）
+- `TS-KB-07` 十五五政策信号层：已完成（L0/L5×3 飞书 live 表创建与 seed + 3 页 React 前端 + 2 capability 插件）
+- `TS-MIRROR-02` 历史镜像穷尽版写入飞书 + 妙搭镜像联动 Tab 上线：进行中（Phase 1 已完成，Phase 2 需目标 React 仓库确认）
+- `TS-MIRROR-02A` 历史镜像补链：BW50 事件扩展 + linked_bw50_event_id 回填：进行中（Phase 1 已完成，Phase 2 需目标 React 仓库确认）
 - `TS-OC-02` task-spec Skill v1.1：草案入表 + 批准执行 闭环 MVP（已完成，草案待审 / 已审批待执行 两态已打通）
+- `TS-V2-PHASE0` clone 复制扩展：Phase 0 模板 / schema / health probe 已就绪，`clone_management` 已纳入治理 base schema/manifest，Phase 1 仍待 `workflow-hardening` 拉升治理成熟度到 30
 - 驾驶舱 2.0 代码交付：已完成（`yuanli-os-dashboard-v2.zip`，5 页面 / 12 插件）
 - `I-REV-001` 递归复盘引擎：已落位（09:00 轻量 review + 23:00 深盘 + 周 / 月 / 季 / 年 rollup）
 
@@ -74,7 +78,10 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 康波 wiki 节点：`INApw2UoXiSeMTkBMVFc5daVnle`
 - 康波 Base（投研）：`IqZhbMJJxaq8D4sHOvkciaWFnid`
 - 康波表坐标：`L1_康波事件信号 / tbl6QgzUgcXq4HO5` · `L2_专家智库 / tbl82HhewJxuU8hV` · `L3_专家洞察 / tblcAxYlxfEHbPHv`
+- BW50 事件 / 矩阵 live 表：`BW50_重大事件1 / tbl5v57S6EUDFbNO` · `BW50_事件资产矩阵1 / tbl7xvp71C22Nwog`
+- 历史镜像 live 表：`L1_历史镜像表 / tblbFFR8KqgJ88lE`
 - 财富三观 live 表：`L4_财富三观_核心命题表 / tblu9j7rpLFYCkto` · `L4_资产审美_标的库 / tblypdAEzkxIyISM` · `L4_配置策略表 / tblUrtJLbF7aerLm` · `L4_智能资产_量化全景 / tblIwtSUXnsHWoGs`
+- 十五五政策信号 live 表：`L0_五次五年规划宏观对比 / tblwzxos2mtbBo4G` · `L5_政策信号年度对比 / tblGERh218ui9oyC` · `L5_政策资产映射 / tblhZGYE7WEAe2fc` · `L5_六年信号矩阵 / tbljcZoJhpBurxXL`
 
 注意：
 
@@ -88,6 +95,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 驾驶舱 2.0：V2 代码已交付（5 页面 / 12 插件 / 2441 行），待妙搭部署验收
 - 康波相关应用：L1/L2/L3 数据层已落地，当前 live 为 `L2×33 / L3×49`，capability 已补齐 `yuanlios_expert_network` + `yuanlios_expert_insights`
 - 财富三观认知层：本地 schema-first + 四页前端 + 真实飞书表 wiring 已闭环；`TS-KB-06-A` 已完成量化投资全景钻取，`TS-KB-06-B` 已完成 live Bitable 写入
+- 十五五政策信号层：已完成 live Feishu 建表/seed 与 3 页前端接入；`TS-KB-07` 通过 `ts_kb_07_policy_signal_wire.py` 完成 4 张表写入与表坐标回填
 - OpenClaw Skill Pack：`task-spec v1.1` 草案入表 + 批准执行闭环 MVP 已完成，`草案待审 / 已审批待执行` 两态已打通到飞书战略任务追踪
 - GitHub issue sync：`gh auth` 已恢复，TS-DASH-02 暴露的认证 blocker 已解除
 - GitHub 仍是分发基座，不是 runtime truth

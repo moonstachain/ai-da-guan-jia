@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Clone Training State",
+  "description": "clone 的学习与适配状态追踪",
+  "type": "object",
+  "required": ["clone_id", "init_version", "skills_version", "onboarding_status"],
+  "properties": {
+    "clone_id": { "type": "string" },
+    "init_version": { "type": "string" },
+    "skills_version": { "type": "string" },
+    "onboarding_status": { "type": "string", "enum": ["not_started", "in_progress", "completed", "refreshing"] },
+    "onboarding_completed_at": { "type": ["string", "null"], "format": "date-time" },
+    "upgrade_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from_version": { "type": "string" },
+          "to_version": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "result": { "type": "string", "enum": ["success", "rollback", "partial"] },
+          "note": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "skill_adoption": {
+      "type": "object",
+      "description": "每个 Skill 的采用状态",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["not_tried", "tried", "adopted", "rejected"]
+      }
+    }
+  }
+}

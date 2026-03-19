@@ -167,6 +167,136 @@
       "views": [
         "全部"
       ]
+    },
+    {
+      "table_name": "clone_management",
+      "primary_field": "clone_id",
+      "fields": [
+        "tenant_id",
+        "operator",
+        "type",
+        "status",
+        "created_at",
+        "repo_url",
+        "feishu_base_app_token",
+        "init_version",
+        "skills_version",
+        "governance_maturity",
+        "last_heartbeat",
+        "tasks_completed_total",
+        "alerts_active",
+        "proposals_submitted",
+        "proposals_promoted",
+        "notes"
+      ],
+      "views": [
+        "全部",
+        "按状态分组"
+      ],
+      "field_specs": [
+        {
+          "field_name": "clone_id",
+          "type": "Text",
+          "required": true,
+          "description": "主键，格式 clone-{name}"
+        },
+        {
+          "field_name": "tenant_id",
+          "type": "Text",
+          "required": true,
+          "description": "租户 ID"
+        },
+        {
+          "field_name": "operator",
+          "type": "Text",
+          "required": true,
+          "description": "运营者姓名"
+        },
+        {
+          "field_name": "type",
+          "type": "SingleSelect",
+          "required": true,
+          "description": "internal_colleague / client_tenant"
+        },
+        {
+          "field_name": "status",
+          "type": "SingleSelect",
+          "required": true,
+          "description": "initializing / active / paused / retired"
+        },
+        {
+          "field_name": "created_at",
+          "type": "DateTime",
+          "required": true,
+          "description": "创建时间"
+        },
+        {
+          "field_name": "repo_url",
+          "type": "URL",
+          "required": true,
+          "description": "GitHub 仓库地址"
+        },
+        {
+          "field_name": "feishu_base_app_token",
+          "type": "Text",
+          "required": true,
+          "description": "clone 飞书 Base 的 app_token"
+        },
+        {
+          "field_name": "init_version",
+          "type": "Text",
+          "required": true,
+          "description": "当前使用的 INIT 模板版本"
+        },
+        {
+          "field_name": "skills_version",
+          "type": "Text",
+          "required": true,
+          "description": "当前使用的 Skill Pack 版本"
+        },
+        {
+          "field_name": "governance_maturity",
+          "type": "Number",
+          "required": true,
+          "description": "治理成熟度得分 (0-40)"
+        },
+        {
+          "field_name": "last_heartbeat",
+          "type": "DateTime",
+          "required": false,
+          "description": "最近一次健康度上报时间"
+        },
+        {
+          "field_name": "tasks_completed_total",
+          "type": "Number",
+          "required": false,
+          "description": "累计完成任务数"
+        },
+        {
+          "field_name": "alerts_active",
+          "type": "Number",
+          "required": false,
+          "description": "当前活跃告警数"
+        },
+        {
+          "field_name": "proposals_submitted",
+          "type": "Number",
+          "required": false,
+          "description": "累计提交晋升提案数"
+        },
+        {
+          "field_name": "proposals_promoted",
+          "type": "Number",
+          "required": false,
+          "description": "累计晋升成功数"
+        },
+        {
+          "field_name": "notes",
+          "type": "Text",
+          "required": false,
+          "description": "备注"
+        }
+      ]
     }
   ]
 }

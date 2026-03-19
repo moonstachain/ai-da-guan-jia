@@ -7,6 +7,9 @@
         <router-link to="/strategic-tasks" class="nav-link strategic-link">
           战略任务
         </router-link>
+        <router-link to="/wealth-philosophy" class="nav-link wealth-link">
+          财富三观
+        </router-link>
         <a href="https://github.com/666ghj/MiroFish" target="_blank" class="github-link">
           访问我们的Github主页 <span class="arrow">↗</span>
         </a>
@@ -377,6 +380,10 @@ const startSimulation = () => {
 
 .strategic-link {
   background: linear-gradient(90deg, rgba(0, 229, 255, 0.18), rgba(105, 240, 174, 0.18));
+}
+
+.wealth-link {
+  background: linear-gradient(90deg, rgba(255, 196, 104, 0.18), rgba(0, 229, 255, 0.16));
 }
 
 .github-link {

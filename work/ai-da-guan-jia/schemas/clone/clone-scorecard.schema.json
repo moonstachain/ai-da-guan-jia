@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Clone Scorecard",
+  "description": "单个 clone 的治理评分卡",
+  "type": "object",
+  "required": ["clone_id", "period", "dimensions", "total"],
+  "properties": {
+    "clone_id": { "type": "string" },
+    "period": { "type": "string", "format": "date" },
+    "dimensions": {
+      "type": "object",
+      "required": ["D1_strategy_alignment", "D2_execution_quality", "D3_closure_rate", "D4_workflow_reuse", "D5_feedback_quality", "D6_autonomy_level", "D7_drift_frequency", "D8_skill_utilization", "D9_human_boundary_respect", "D10_evolution_contribution"],
+      "properties": {
+        "D1_strategy_alignment": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "D2_execution_quality": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "D3_closure_rate": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "D4_workflow_reuse": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "D5_feedback_quality": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "D6_autonomy_level": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "D7_drift_frequency": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "D8_skill_utilization": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "D9_human_boundary_respect": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "D10_evolution_contribution": { "type": "integer", "minimum": 0, "maximum": 4 }
+      }
+    },
+    "total": { "type": "integer", "minimum": 0, "maximum": 40 },
+    "trend": { "type": "string", "enum": ["improving", "stable", "declining", "new"] },
+    "top_pain_points": { "type": "array", "items": { "type": "string" } },
+    "skill_usage": { "type": "object", "additionalProperties": { "type": "integer" } }
+  }
+}

@@ -19,11 +19,11 @@
   "integration": {
     "adapter": "@official-plugins/feishu-bitable",
     "binding_mode": "full-field_readable",
-    "wiring_state": "not_implemented",
+    "wiring_state": "live",
     "notes": [
-      "This file defines the intended shape of the tracker.",
-      "No live API calls are made from this artifact yet.",
-      "Real Feishu token/scopes wiring should be added in a separate integration layer.",
+      "This file defines the intended shape of the tracker and mirrors the live Feishu table.",
+      "Live Feishu wiring is active through the canonical table_id below.",
+      "Real Feishu token/scopes wiring should be handled in the bridge layer, not here.",
       "Current bound table_id: tblB9JQ4cROTBUnr"
     ]
   },
@@ -61,7 +61,7 @@
       "name": "task_status",
       "type": "single_select",
       "required": true,
-      "options": ["已完成", "进行中", "阻塞", "待启动"]
+      "options": ["已完成", "进行中", "阻塞", "待启动", "草案待审", "已审批待执行"]
     },
     {
       "name": "priority",
@@ -141,6 +141,16 @@
       "color": "#5f6368",
       "icon": "empty_circle",
       "css": "bg-[#5f6368]/15 text-[#5f6368]"
+    },
+    "草案待审": {
+      "color": "#ffb74d",
+      "icon": "hourglass_empty",
+      "css": "bg-[#ffb74d]/15 text-[#ffb74d]"
+    },
+    "已审批待执行": {
+      "color": "#7e57c2",
+      "icon": "verified",
+      "css": "bg-[#7e57c2]/15 text-[#7e57c2]"
     }
   },
   "refresh": {

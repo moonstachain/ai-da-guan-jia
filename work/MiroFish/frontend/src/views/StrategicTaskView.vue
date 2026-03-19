@@ -13,6 +13,9 @@
       </div>
 
       <div class="hero-actions">
+        <router-link to="/wealth-philosophy" class="promo-btn">
+          财富三观
+        </router-link>
         <div class="status-chip" :class="refreshStateClass">
           <span class="status-dot"></span>
           {{ refreshStatusText }}
@@ -82,7 +85,7 @@
             <p class="section-kicker">任务拆解清单</p>
             <h2>按状态和优先级排序</h2>
           </div>
-          <div class="small-copy">自动刷新倒计时：{{ refreshCountdown }}s</div>
+          <div class="small-copy">自动刷新倒计时：{{ refreshCountdownLabel }}</div>
         </div>
 
         <div class="task-list">
@@ -153,22 +156,40 @@
           <div class="summary-lines">
             <div>项目：{{ selectedProject.project_id }}</div>
             <div>状态：{{ selectedProject.project_status }}</div>
+            <div>数据源：{{ dataSourceLabel }}</div>
+            <div v-if="dataSourceHint">来源：{{ dataSourceHint }}</div>
             <div>最近刷新：{{ lastRefreshedLabel }}</div>
           </div>
         </div>
       </aside>
+    </section>
+
+    <section v-if="loadError" class="fallback-banner">
+      <div class="fallback-title">数据回退</div>
+      <div class="fallback-copy">{{ loadError }}</div>
     </section>
   </div>
 </template>
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { strategicTaskProjects, strategicTaskRecords } from '../data/strategicTasks'
+import { getStrategicTasks } from '../api/strategicTasks'
+import {
+  strategicTaskProjects as localStrategicTaskProjects,
+  strategicTaskRecords as localStrategicTaskRecords
+} from '../data/strategicTasks'
 
+const refreshIntervalSeconds = 1800
 const selectedProjectId = ref('R18')
 const lastRefreshedAt = ref(Date.now())
-const refreshCountdown = ref(30)
+const refreshCountdown = ref(refreshIntervalSeconds)
 const clockTick = ref(0)
+const dataSourceLabel = ref('本地种子')
+const dataSourceHint = ref('页面尚未连接飞书实时数据')
+const loadError = ref('')
+const isLoading = ref(false)
+const activeProjects = ref([...localStrategicTaskProjects])
+const activeRecords = ref([...localStrategicTaskRecords])
 let countdownTimer = null
 
 const statusRank = {
@@ -184,16 +205,129 @@ const priorityRank = {
   P2: 2
 }
 
+const normalizeText = (value) => {
+  if (value == null) return ''
+  if (Array.isArray(value)) {
+    return value.map(item => normalizeText(item)).filter(Boolean).join('、')
+  }
+  if (typeof value === 'object') {
+    return normalizeText(value.name ?? value.text ?? value.value ?? value.label ?? value.display_text)
+  }
+  return String(value).trim()
+}
+
+const normalizeDate = (value) => {
+  if (value == null || value === '') return ''
+  if (Array.isArray(value)) {
+    return normalizeDate(value[0])
+  }
+  if (typeof value === 'object') {
+    return normalizeDate(value.value ?? value.timestamp ?? value.text ?? value.date)
+  }
+  if (typeof value === 'number') {
+    const timestamp = Math.abs(value) >= 10 ** 12 ? value : value * 1000
+    return new Date(timestamp).toISOString()
+  }
+  const text = String(value).trim()
+  if (!text) return ''
+  if (/^\d+$/.test(text)) {
+    const timestamp = Number(text)
+    return new Date(Math.abs(timestamp) >= 10 ** 12 ? timestamp : timestamp * 1000).toISOString()
+  }
+  return text
+}
+
+const normalizeTaskRecord = (record) => {
+  const fields = record?.fields ?? record ?? {}
+  return {
+    project_id: normalizeText(fields.project_id),
+    project_name: normalizeText(fields.project_name),
+    project_status: normalizeText(fields.project_status) || '进行中',
+    task_id: normalizeText(fields.task_id),
+    task_name: normalizeText(fields.task_name),
+    task_status: normalizeText(fields.task_status) || '待启动',
+    priority: normalizeText(fields.priority) || 'P1',
+    owner: normalizeText(fields.owner) || '未指定',
+    start_date: normalizeDate(fields.start_date),
+    completion_date: normalizeDate(fields.completion_date),
+    blockers: normalizeText(fields.blockers),
+    evidence_ref: normalizeText(fields.evidence_ref),
+    dependencies: normalizeText(fields.dependencies),
+    notes: normalizeText(fields.notes)
+  }
+}
+
+const buildProjectList = (records) => {
+  const fallbackOrder = new Map(localStrategicTaskProjects.map((project, index) => [project.project_id, index]))
+  const byProject = new Map()
+
+  for (const record of records) {
+    if (!record.project_id || byProject.has(record.project_id)) continue
+    const fallback = localStrategicTaskProjects.find(project => project.project_id === record.project_id) || {}
+    byProject.set(record.project_id, {
+      ...fallback,
+      project_id: record.project_id,
+      project_name: record.project_name || fallback.project_name || record.project_id,
+      project_status: record.project_status || fallback.project_status || '进行中',
+      project_order: fallback.project_order ?? fallbackOrder.get(record.project_id) ?? byProject.size
+    })
+  }
+
+  const projects = [...byProject.values()].sort((a, b) => {
+    if (a.project_order !== b.project_order) {
+      return a.project_order - b.project_order
+    }
+    return a.project_id.localeCompare(b.project_id)
+  })
+
+  return projects.length > 0 ? projects : [...localStrategicTaskProjects]
+}
+
+const applyDataset = (records, sourceLabel, hint) => {
+  const normalizedRecords = records.map(normalizeTaskRecord).filter(record => record.task_id)
+  activeRecords.value = normalizedRecords
+  activeProjects.value = buildProjectList(normalizedRecords)
+  dataSourceLabel.value = sourceLabel
+  dataSourceHint.value = hint
+
+  if (!activeProjects.value.some(project => project.project_id === selectedProjectId.value)) {
+    selectedProjectId.value = activeProjects.value[0]?.project_id || 'R18'
+  }
+}
+
+const applyFallbackDataset = (message) => {
+  activeRecords.value = [...localStrategicTaskRecords]
+  activeProjects.value = [...localStrategicTaskProjects]
+  dataSourceLabel.value = '本地种子'
+  dataSourceHint.value = '页面暂时回退到本地种子数据'
+  loadError.value = message
+
+  if (!activeProjects.value.some(project => project.project_id === selectedProjectId.value)) {
+    selectedProjectId.value = activeProjects.value[0]?.project_id || 'R18'
+  }
+}
+
+const formatCountdown = (seconds) => {
+  const safeSeconds = Math.max(0, Number(seconds) || 0)
+  const minutes = Math.floor(safeSeconds / 60)
+  const remainder = safeSeconds % 60
+  return `${minutes}m ${String(remainder).padStart(2, '0')}s`
+}
+
 const orderedProjects = computed(() => {
-  return [...strategicTaskProjects].sort((a, b) => a.project_order - b.project_order)
+  return [...activeProjects.value].sort((a, b) => a.project_order - b.project_order)
 })
 
 const selectedProject = computed(() => {
-  return orderedProjects.value.find(project => project.project_id === selectedProjectId.value) || orderedProjects.value[0]
+  return orderedProjects.value.find(project => project.project_id === selectedProjectId.value) || orderedProjects.value[0] || {
+    project_id: 'R18',
+    project_name: '战略任务追踪',
+    project_status: '进行中'
+  }
 })
 
 const selectedProjectTasks = computed(() => {
-  return strategicTaskRecords
+  return activeRecords.value
     .filter(task => task.project_id === selectedProjectId.value)
     .map(task => ({
       ...task,
@@ -209,7 +343,7 @@ const selectedProjectTasks = computed(() => {
 })
 
 const selectedProjectStats = computed(() => {
-  const tasks = strategicTaskRecords.filter(task => task.project_id === selectedProjectId.value)
+  const tasks = activeRecords.value.filter(task => task.project_id === selectedProjectId.value)
   const total = tasks.length
   const completed = tasks.filter(task => task.task_status === '已完成').length
   const blocked = tasks.filter(task => task.task_status === '阻塞').length
@@ -240,19 +374,22 @@ const blockedTasks = computed(() => {
 })
 
 const completionTimeline = computed(() => {
-  return strategicTaskRecords
+  return activeRecords.value
     .filter(task => task.project_id === selectedProjectId.value && task.task_status === '已完成' && task.completion_date)
     .sort((a, b) => new Date(b.completion_date) - new Date(a.completion_date))
 })
 
 const refreshStateClass = computed(() => {
-  return refreshCountdown.value <= 5 ? 'urgent' : 'calm'
+  return refreshCountdown.value <= 300 ? 'urgent' : 'calm'
 })
 
+const refreshCountdownLabel = computed(() => formatCountdown(refreshCountdown.value))
+
 const refreshStatusText = computed(() => {
-  return refreshCountdown.value <= 5
-    ? `即将自动刷新 · ${refreshCountdown.value}s`
-    : `自动刷新中 · ${refreshCountdown.value}s`
+  const countdownText = refreshCountdownLabel.value
+  return refreshCountdown.value <= 300
+    ? `即将自动刷新 · ${countdownText}`
+    : `自动刷新中 · ${countdownText}`
 })
 
 const lastRefreshedLabel = computed(() => {
@@ -283,18 +420,39 @@ const formatDate = (input) => {
   }).format(date)
 }
 
+const loadStrategicTasks = async () => {
+  if (isLoading.value) return
+  isLoading.value = true
+  try {
+    const response = await getStrategicTasks()
+    const payload = response?.data || response
+    const records = Array.isArray(payload?.records) ? payload.records : []
+    if (!records.length) {
+      throw new Error('飞书接口返回了 0 条记录')
+    }
+    applyDataset(records, '飞书多维表', `Base ${payload.base_id} · Table ${payload.table_id}`)
+    loadError.value = ''
+  } catch (error) {
+    applyFallbackDataset(error?.message || '飞书任务数据读取失败')
+  } finally {
+    lastRefreshedAt.value = Date.now()
+    refreshCountdown.value = refreshIntervalSeconds
+    clockTick.value += 1
+    isLoading.value = false
+  }
+}
+
 const refreshBoard = () => {
-  lastRefreshedAt.value = Date.now()
-  refreshCountdown.value = 30
-  clockTick.value += 1
+  void loadStrategicTasks()
 }
 
 onMounted(() => {
+  void loadStrategicTasks()
   countdownTimer = window.setInterval(() => {
-    refreshCountdown.value -= 1
+    refreshCountdown.value = Math.max(0, refreshCountdown.value - 1)
     clockTick.value += 1
     if (refreshCountdown.value <= 0) {
-      refreshBoard()
+      void loadStrategicTasks()
     }
   }, 1000)
 })
@@ -388,6 +546,7 @@ onBeforeUnmount(() => {
 }
 
 .status-chip,
+.promo-btn,
 .refresh-btn,
 .kpi-card,
 .progress-card,
@@ -408,6 +567,18 @@ onBeforeUnmount(() => {
   border-radius: 999px;
   color: #dfe7ff;
   font-size: 0.9rem;
+}
+
+.promo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 999px;
+  color: #0b1020;
+  text-decoration: none;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffc468 0%, #69f0ae 100%);
 }
 
 .status-chip.urgent {
@@ -774,6 +945,30 @@ onBeforeUnmount(() => {
   letter-spacing: 0.1em;
   color: rgba(191, 205, 255, 0.76);
   margin-bottom: 4px;
+}
+
+.fallback-banner {
+  position: relative;
+  z-index: 1;
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 181, 74, 0.22);
+  background: rgba(13, 17, 30, 0.82);
+  color: #ffe1b5;
+}
+
+.fallback-title {
+  margin-bottom: 6px;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 225, 181, 0.72);
+}
+
+.fallback-copy {
+  line-height: 1.6;
+  color: rgba(255, 235, 213, 0.9);
 }
 
 @media (max-width: 1080px) {

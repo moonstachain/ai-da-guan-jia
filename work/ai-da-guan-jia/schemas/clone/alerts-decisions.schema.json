@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Alerts and Decisions",
+  "description": "clone 异常告警与母体决策记录",
+  "type": "object",
+  "required": ["alerts"],
+  "properties": {
+    "alerts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["alert_id", "clone_id", "type", "severity", "message", "timestamp"],
+        "properties": {
+          "alert_id": { "type": "string", "pattern": "^ALT-[0-9]+$" },
+          "clone_id": { "type": "string" },
+          "type": { "type": "string", "enum": ["drift", "inactive", "low_closure_rate", "auth_failure", "sync_failure", "maturity_decline"] },
+          "severity": { "type": "string", "enum": ["info", "warning", "critical"] },
+          "message": { "type": "string" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "decision": { "type": "string", "enum": ["investigate", "auto_resolved", "human_resolved", "escalated", "ignored"] },
+          "resolved": { "type": "boolean" },
+          "resolved_at": { "type": ["string", "null"], "format": "date-time" },
+          "resolution_note": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

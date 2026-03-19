@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Clone Registry",
+  "description": "母体侧追踪所有复制体的注册信息",
+  "type": "object",
+  "required": ["clones"],
+  "properties": {
+    "clones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["clone_id", "tenant_id", "memory_namespace", "operator", "type", "status", "created_at", "repo", "feishu_base"],
+        "properties": {
+          "clone_id": { "type": "string", "pattern": "^clone-[a-z0-9-]+$" },
+          "tenant_id": { "type": "string", "pattern": "^tenant-[a-z0-9-]+$" },
+          "memory_namespace": { "type": "string", "pattern": "^ns-[a-z0-9-]+$" },
+          "operator": { "type": "string" },
+          "type": { "type": "string", "enum": ["internal_colleague", "client_tenant"] },
+          "status": { "type": "string", "enum": ["initializing", "active", "paused", "retired"] },
+          "created_at": { "type": "string", "format": "date-time" },
+          "repo": { "type": "string" },
+          "feishu_base": { "type": "string" },
+          "init_version": { "type": "string" },
+          "skills_version": { "type": "string" },
+          "governance_maturity": { "type": "integer", "minimum": 0, "maximum": 40 },
+          "last_heartbeat": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

@@ -12,7 +12,6 @@
 - Governance closure mother strategy: strategy-governance-mainline-closure
 - Frontstage threads: 原力OS-治理体系研究 | 原力OS-分形设计主线 | 原力OS-信息聚合主线
 - First thread proposal: 建立统一治理视图与战略 review
-- Recurring review layer: 23:00 递归复盘 + 周 / 月 / 季 / 年 rollup
 - Proposal-governance linkage: ai-da-guan-jia:0.97 | feishu-bitable-bridge:0.97 | jiyao-youyao-haiyao:0.97
 - Proposal object expansion: skill=adagj-20260318-172718-000000 | workflow=adagj-20260318-172718-000000 | clone=none
 - Hub audit snapshot: none

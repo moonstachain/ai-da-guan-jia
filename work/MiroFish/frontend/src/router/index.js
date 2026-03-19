@@ -6,6 +6,11 @@ import SimulationRunView from '../views/SimulationRunView.vue'
 import ReportView from '../views/ReportView.vue'
 import InteractionView from '../views/InteractionView.vue'
 import StrategicTaskView from '../views/StrategicTaskView.vue'
+import WealthPhilosophyView from '../views/WealthPhilosophyView.vue'
+import WealthPastPresentView from '../views/WealthPastPresentView.vue'
+import WealthEastWestView from '../views/WealthEastWestView.vue'
+import WealthVirtualRealView from '../views/WealthVirtualRealView.vue'
+import QuantPanoramaView from '../views/QuantPanoramaView.vue'
 
 const routes = [
   {
@@ -47,6 +52,31 @@ const routes = [
     path: '/strategic-tasks',
     name: 'StrategicTasks',
     component: StrategicTaskView
+  },
+  {
+    path: '/wealth-philosophy',
+    name: 'WealthPhilosophy',
+    component: WealthPhilosophyView
+  },
+  {
+    path: '/wealth-philosophy/past-present',
+    name: 'WealthPastPresent',
+    component: WealthPastPresentView
+  },
+  {
+    path: '/wealth-philosophy/east-west',
+    name: 'WealthEastWest',
+    component: WealthEastWestView
+  },
+  {
+    path: '/wealth-philosophy/virtual-real',
+    name: 'WealthVirtualReal',
+    component: WealthVirtualRealView
+  },
+  {
+    path: '/wealth-philosophy/virtual-real/quant-panorama',
+    name: 'QuantPanorama',
+    component: QuantPanoramaView
   }
 ]
 

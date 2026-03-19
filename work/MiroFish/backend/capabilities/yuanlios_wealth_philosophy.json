@@ -1,0 +1,124 @@
+{
+  "name": "yuanlios_wealth_philosophy",
+  "version": "0.1.0",
+  "status": "placeholder",
+  "description": "Wealth philosophy cognitive layer schema placeholder for the MiroFish cockpit. This artifact keeps the three-table shape local before any Feishu wiring is added.",
+  "object_family": "Wealth Philosophy",
+  "canonical_object": {
+    "kind": "local_configuration_artifact",
+    "path": "work/MiroFish/backend/capabilities/yuanlios_wealth_philosophy.json",
+    "authority": "local_placeholder"
+  },
+  "mirror_surface": {
+    "primary": "Feishu Bitable",
+    "base_id": "IqZhbMJJxaq8D4sHOvkciaWFnid",
+    "tables": {
+      "L4_核心命题": "tblu9j7rpLFYCkto",
+      "L4_资产审美": "tblypdAEzkxIyISM",
+      "L4_配置策略": "tblUrtJLbF7aerLm",
+      "L4_量化全景": "tblIwtSUXnsHWoGs"
+    },
+    "sync_direction": "canonical_to_frontstage_mirror_when_wired"
+  },
+  "tables": [
+    {
+      "name": "L4_财富三观_核心命题表",
+      "purpose": "Capture the core propositions, evidence chains, and memorization anchors for the three wealth-philosophy tracks.",
+      "fields": [
+        { "name": "proposition_id", "type": "text", "required": true, "example": "SG-GJ-01" },
+        { "name": "san_guan", "type": "single_select", "required": true, "options": ["古今之变", "东西之变", "虚实之变"] },
+        { "name": "model_name", "type": "text", "required": true },
+        { "name": "layer", "type": "number", "required": true, "range": "1-5" },
+        { "name": "title", "type": "text", "required": true },
+        { "name": "thesis", "type": "long_text", "required": true },
+        { "name": "evidence_chain", "type": "long_text", "required": true },
+        { "name": "golden_quote", "type": "text", "required": true },
+        { "name": "related_event_ids", "type": "text", "required": false },
+        { "name": "related_principle_ids", "type": "text", "required": false },
+        { "name": "related_asset_ids", "type": "text", "required": false },
+        { "name": "display_order", "type": "number", "required": true }
+      ],
+      "seed_estimate": 30
+    },
+    {
+      "name": "L4_资产审美_标的库",
+      "purpose": "Track the asset aesthetic matrix across实体/线上/链上/智能 forms and keep tax logic visible.",
+      "fields": [
+        { "name": "asset_aesthetic_id", "type": "text", "required": true, "example": "AA-GOLD-01" },
+        { "name": "asset_name", "type": "text", "required": true },
+        { "name": "asset_form", "type": "single_select", "required": true, "options": ["实体资产", "线上资产", "链上资产", "智能资产"] },
+        { "name": "san_guan_link", "type": "multi_select", "required": true, "options": ["古今之变", "东西之变", "虚实之变"] },
+        { "name": "scarcity_score", "type": "number", "required": true, "range": "1-5" },
+        { "name": "productivity_score", "type": "number", "required": true, "range": "1-5" },
+        { "name": "consensus_score", "type": "number", "required": true, "range": "1-5" },
+        { "name": "tax_logic", "type": "text", "required": true },
+        { "name": "representative_ticker", "type": "text", "required": false },
+        { "name": "narrative", "type": "long_text", "required": true },
+        { "name": "risk_level", "type": "single_select", "required": true, "options": ["低", "中", "高", "极高"] }
+      ],
+      "seed_estimate": 40
+    },
+    {
+      "name": "L4_配置策略表",
+      "purpose": "Hold allocation heuristics, persona fit notes, and action guidance for the wealth-philosophy layer.",
+      "fields": [
+        { "name": "strategy_id", "type": "text", "required": true, "example": "STR-GJ-01" },
+        { "name": "strategy_name", "type": "text", "required": true },
+        { "name": "san_guan_basis", "type": "multi_select", "required": true, "options": ["古今之变", "东西之变", "虚实之变"] },
+        { "name": "target_persona", "type": "text", "required": true },
+        { "name": "asset_threshold", "type": "text", "required": true },
+        { "name": "allocation_pct", "type": "text", "required": true },
+        { "name": "holding_period", "type": "text", "required": true },
+        { "name": "risk_profile", "type": "single_select", "required": true, "options": ["保守", "稳健", "进取"] },
+        { "name": "yuanli_match", "type": "text", "required": true },
+        { "name": "action_guide", "type": "long_text", "required": true }
+      ],
+      "seed_estimate": 15
+    },
+    {
+      "name": "L4_智能资产_量化全景",
+      "purpose": "Model the smart-asset quant panorama as a drill-down tree with family, category, and variant nodes.",
+      "fields": [
+        { "name": "node_id", "type": "text", "required": true, "example": "QS-EQ-QL-RE-1000" },
+        { "name": "parent_id", "type": "text", "required": true, "example": "QS-EQ-QL-RE" },
+        { "name": "layer", "type": "number", "required": true, "range": "0-3" },
+        { "name": "node_name", "type": "text", "required": true },
+        { "name": "node_name_en", "type": "text", "required": false },
+        { "name": "strategy_family", "type": "text", "required": true },
+        { "name": "decision_mode", "type": "single_select", "required": true, "options": ["量化", "主观", "量化 + 主观"] },
+        { "name": "classification_axis", "type": "text", "required": true },
+        { "name": "description", "type": "long_text", "required": true },
+        { "name": "risk_return_profile", "type": "text", "required": true },
+        { "name": "expected_annual_return", "type": "text", "required": true },
+        { "name": "expected_excess_return", "type": "text", "required": true },
+        { "name": "expected_max_drawdown", "type": "text", "required": true },
+        { "name": "market_condition_fit", "type": "multi_select", "required": true, "options": ["牛市", "熊市", "震荡市", "结构市"] },
+        { "name": "liquidity_requirement", "type": "text", "required": true },
+        { "name": "min_investment", "type": "text", "required": true },
+        { "name": "ai_dependency", "type": "number", "required": true, "range": "1-5" },
+        { "name": "industry_avg_return_2025", "type": "text", "required": true },
+        { "name": "industry_aum", "type": "text", "required": true },
+        { "name": "key_players", "type": "text", "required": false },
+        { "name": "analogy", "type": "long_text", "required": true },
+        { "name": "color_code", "type": "text", "required": true },
+        { "name": "display_order", "type": "number", "required": true },
+        { "name": "is_highlighted", "type": "checkbox", "required": false }
+      ],
+      "seed_estimate": 75
+    }
+  ],
+  "integration": {
+    "adapter": "frontend-local-data-bundle",
+    "binding_mode": "mock-first",
+    "wiring_state": "live",
+    "notes": [
+      "This file is the schema-first placeholder for the new wealth-philosophy layer.",
+      "The front-end pages read from a local data bundle until real Feishu wiring exists.",
+      "Feishu live table ids are now populated for the real Kangbo base and should be treated as the canonical mirror coordinates."
+    ]
+  },
+  "acceptance_notes": [
+    "The three-table shape is now represented locally and can be used as the canonical implementation target.",
+    "A later wiring task can swap the local bundle for Feishu reads without changing the page contract."
+  ]
+}
