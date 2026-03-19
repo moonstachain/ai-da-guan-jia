@@ -270,6 +270,14 @@ class FeishuBitableAPI:
         )
         return response.get("data") or {}
 
+    def batch_update_records(self, app_token: str, table_id: str, rows: list[dict[str, Any]]) -> dict[str, Any]:
+        response = self._request(
+            f"/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/records/batch_update",
+            method="POST",
+            payload={"records": [{"record_id": row["record_id"], "fields": row["fields"]} for row in rows]},
+        )
+        return response.get("data") or {}
+
 
 class DashboardFeishuDeployer:
     def __init__(self, api: FeishuBitableAPI, *, artifact_dir: Path = ARTIFACT_DIR) -> None:

@@ -1,0 +1,59 @@
+[
+  {
+    "task_id": "TS-KB-07-EVIDENCE",
+    "operation": "batch_update",
+    "fields": {
+      "task_status": "已完成",
+      "completion_date": "2026-03-19T19:50:00+08:00",
+      "notes": "信息溯源补全已完成。3字段创建+62条evidence_note+source_url/source_doc_url全量100%。Phase 4(excerpt爬取)跳过留后续。"
+    }
+  },
+  {
+    "task_id": "TS-WF-HARDEN-01",
+    "operation": "batch_create",
+    "fields": {
+      "task_id": "TS-WF-HARDEN-01",
+      "project_id": "R18",
+      "project_name": "R18 三向量扩展 + 驾驶舱 2.0 + 康波智库",
+      "project_status": "进行中",
+      "task_name": "Workflow Hardening（WF-001..005固化+Workflow Registry上线+D6提升）",
+      "task_status": "已完成",
+      "priority": "P1",
+      "start_date": "2026-03-19T12:00:00+08:00",
+      "completion_date": "2026-03-19T16:00:00+08:00",
+      "notes": "治理成熟度26→30/40。task-spec-quality-contract.md第14条写入。INIT V18 workflow hardening gate applied。"
+    }
+  },
+  {
+    "task_id": "TS-V2-PHASE0",
+    "operation": "batch_create",
+    "fields": {
+      "task_id": "TS-V2-PHASE0",
+      "project_id": "R18",
+      "project_name": "R18 三向量扩展 + 驾驶舱 2.0 + 康波智库",
+      "project_status": "进行中",
+      "task_name": "Clone复制扩展Phase 0（模板/schema/health probe就绪）",
+      "task_status": "已完成",
+      "priority": "P1",
+      "start_date": "2026-03-19T14:00:00+08:00",
+      "completion_date": "2026-03-19T16:00:00+08:00",
+      "notes": "clone-init-template.md + clone_management纳入治理base schema/manifest。Phase 1 gate由TS-WF-HARDEN-01满足。"
+    }
+  },
+  {
+    "task_id": "TS-TASK-SYNC",
+    "operation": "batch_create",
+    "fields": {
+      "task_id": "TS-TASK-SYNC",
+      "project_id": "R18",
+      "project_name": "R18 三向量扩展 + 驾驶舱 2.0 + 康波智库",
+      "project_status": "进行中",
+      "task_name": "战略任务追踪表补全（10条缺失任务+飞书同步制度建立）",
+      "task_status": "已完成",
+      "priority": "P0",
+      "start_date": "2026-03-19T18:00:00+08:00",
+      "completion_date": "2026-03-19T19:00:00+08:00",
+      "notes": "补全10条缺失任务(17→27)。制度：Task Spec最后一步强制回写飞书表。task-spec-quality-contract第14条。commit: e8a12bf"
+    }
+  }
+]
