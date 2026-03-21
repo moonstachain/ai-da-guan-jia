@@ -202,12 +202,18 @@ def update_select_options(
     field_type: int,
 ) -> None:
     payload = {"field_name": field_name, "type": field_type, "property": {"options": [{"name": opt} for opt in options]}}
-    api_request(
-        api,
-        f"/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/fields/{field_id}",
-        method="PUT",
-        payload=payload,
-    )
+    try:
+        api_request(
+            api,
+            f"/open-apis/bitable/v1/apps/{app_token}/tables/{table_id}/fields/{field_id}",
+            method="PUT",
+            payload=payload,
+        )
+    except RuntimeError as exc:
+        message = str(exc)
+        if "DataNotChange" in message or '"code": 1254606' in message:
+            return
+        raise
 
 
 def ensure_table_fields(
