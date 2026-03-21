@@ -17,7 +17,7 @@
     ],
     "requires_human_approval": true,
     "status": "pending_approval",
-    "created_at": "2026-03-19T09:38:13+08:00",
+    "created_at": "2026-03-22T07:42:39+08:00",
     "notes": "当前缺口: workflow-hardening | skill-deduper | skill-inventory-review"
   },
   {
@@ -38,7 +38,7 @@
     ],
     "requires_human_approval": true,
     "status": "pending_approval",
-    "created_at": "2026-03-19T09:38:13+08:00",
+    "created_at": "2026-03-22T07:42:39+08:00",
     "proposal_state": "pending_approval",
     "notes": ""
   },
@@ -59,7 +59,7 @@
     ],
     "requires_human_approval": true,
     "status": "pending_approval",
-    "created_at": "2026-03-19T09:38:13+08:00"
+    "created_at": "2026-03-22T07:42:39+08:00"
   },
   {
     "id": "TP-HA-001",
@@ -78,7 +78,7 @@
     ],
     "requires_human_approval": true,
     "status": "pending_approval",
-    "created_at": "2026-03-19T09:38:13+08:00",
+    "created_at": "2026-03-22T07:42:39+08:00",
     "notes": "只在现有 active theme 内提案，不新开主题，不直接固化 workflow。"
   }
 ]
