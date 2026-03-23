@@ -4,6 +4,12 @@
 
 截至 `2026-03-15`，内部同事版第一闭环 MVP 已经可以按 `1 位中台管理同事 + 5 个工作日 + 飞书前台 + AI大管家后端` 的方式启动。
 
+这份说明只覆盖 `Clone Kit` 的第一阶段，也就是 `internal colleague slice`。
+更大的产品化路线（战略合作伙伴 / 客户 clone）请看：
+
+- [clone-productization-contract.md](./references/clone-productization-contract.md)
+- [AI大管家-同事协作成长路径说明.md](./AI大管家-同事协作成长路径说明.md)
+
 如果你现在不只想跑第一周，而是要把这位同事一路带到 `半自治操盘 -> 方法进化 -> 组织复制`，继续看：
 
 - [AI大管家-同事协作成长路径说明.md](./AI大管家-同事协作成长路径说明.md)

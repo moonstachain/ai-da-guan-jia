@@ -298,3 +298,38 @@ bash scripts/internal_collaboration_playbook.sh founder-loop
 
 - `bash scripts/internal_collaboration_playbook.sh overview`
 - `bash scripts/internal_collaboration_playbook.sh status <clone-id>`
+
+## 12. Clone Kit 产品化顺序
+
+这份文档描述的是 `Clone Kit` 的第一阶段：`internal colleague slice`。
+
+更大的产品化顺序是：
+
+1. `internal colleague clone`
+2. `strategic partner clone`
+3. `client clone`
+
+这三层共用同一个 `AI大管家` 核心，只换实例配置，不复制共享核心：
+
+- `role_template_id`
+- `memory_namespace`
+- `visibility_policy`
+- `service_tier`
+- `org_id / tenant_id`
+- 人类审批边界
+
+`Clone Kit` 的标准件应该固定为：
+
+- 角色模板
+- 激活说明 / `CLONE-INIT.md`
+- `clone-registry / scorecard / training / review` 契约
+- `5` 天日常节奏
+- `capability_proposals` 提案回路
+- Feishu / GitHub 镜像规则
+
+真正算产品化的判断标准只有四个：
+
+- 新实例按模板开通，而不是每次重新聊出来
+- 第二个实例不需要复制 repo / skill 仓库
+- `memory_namespace` 彼此隔离
+- 高风险动作仍然人审，前台只做镜像

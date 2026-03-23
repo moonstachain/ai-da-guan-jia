@@ -6,6 +6,7 @@ Define the canonical lifecycle for one internal colleague clone from `activation
 
 This contract sits above the week-one MVP.
 The MVP remains the first validated slice of the larger lifecycle.
+The broader productization wrapper is defined in [clone-productization-contract.md](clone-productization-contract.md).
 
 ## Scope
 
@@ -15,6 +16,17 @@ The MVP remains the first validated slice of the larger lifecycle.
 - Default portfolio: `internal`
 - Default org and tenant: `yuanli-hq`
 - Default operating mode: `half-autonomous cockpit`
+
+## Productization Relationship
+
+This contract is the `Stage 1 / internal colleague slice` of the broader clone product line.
+
+- `internal colleague clone` is the first validated slice
+- `strategic partner clone` reuses the same shared core with partner-specific tenant and visibility settings
+- `client clone` reuses the same shared core with stricter tenant isolation and approval boundaries
+
+The shared core never forks per tenant.
+Only instance configuration changes.
 
 ## Control Surfaces
 
@@ -111,12 +123,14 @@ Required outcomes:
 - a second internal role can onboard without copying repos or skills
 - the founder compares clones from one HQ cockpit
 - shared-core promotion decisions affect templates rather than one-off chats
+- the path to strategic partner / client slices stays on the same registry and review backbone
 
 Required proof:
 
 - more than one internal employee clone exists
 - more than one internal role template is active
 - governance tables remain under one HQ bundle
+- the clone registry continues to separate tenant identity from shared core identity
 
 ## Required Monitoring Signals
 
@@ -164,3 +178,4 @@ No proposal may bypass `capability-proposals.json`.
 - do not use GitHub as the colleague's daily work entrance
 - do not copy the shared AI大管家 core per colleague
 - do not grant autonomous approval, payment, publish, delete, or legal confirmation
+- do not open strategic partner or client onboarding before the internal slice is stable
