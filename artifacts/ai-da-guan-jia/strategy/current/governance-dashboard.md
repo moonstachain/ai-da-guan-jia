@@ -124,9 +124,10 @@
 
 ## Active Threads
 
-- Total tracked threads: 9
-- Archived: 4
+- Total tracked threads: 10
+- Archived: 5
 - Active: 5
+- adagj-20260323-181122-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=github disposition=background_merge_queue :: 同步 AI大管家 能力到 GitHub 并导出技能镜像
 - adagj-20260322-074239-000000 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: AutoResearch 外部评估闭环
 - adagj-20260322-073510-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=none disposition=none :: 评估 Andrej Karpathy AutoResearch 对 AI大管家系统的参考/借鉴价值
 - adagj-20260319-092742-ts-kb-07 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: TS-KB-07 十五五政策信号层飞书建表 + 妙搭前端
@@ -134,13 +135,12 @@
 - adagj-20260318-retro-10d [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=none disposition=none :: 10天协同系统首次大盘点，并建立 23:00 递归复盘机制
 - adagj-20260318-gh6-closure [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: TS-GH-03 和 TS-DASH-04 联合验收通过，正式结项
 - adagj-20260318-194000-000000 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: 阅读、评估并执行 t0-t12-t15 relation-aware schema manifest，补建 T0/T12-T15 并回填 table_id
-- adagj-20260318-172718-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=none disposition=none :: 读取并执行 TS-YL-01：基于原力创业-6张新表种子数据包.xlsx，为康波 Base 准备 T6-T11 六张新表的本地 canonical、schema/seed 映射与后续 Feishu 落地计划，尽量少打扰人类
 
 ## Production Metrics
 
 - Theme Layer: proposal_acceptance=1/3 active_theme_focus=3/5
 - Strategy Layer: idea_to_verdict_cycle_time_hours=9.02 mother_strategy_reuse=6
-- Execution Layer: verified_closure_rate=0.67 human_interruption_count=0 workflow_reuse_rate=0.0
+- Execution Layer: verified_closure_rate=0.7 human_interruption_count=0 workflow_reuse_rate=0.0
 
 ## Current Gaps
 
@@ -160,9 +160,9 @@
 - evolution-log: closure=1.0 verify=10.0 reuse=1 distortion=2.0
 - agency-engineering-frontend-developer: closure=1.0 verify=4.0 reuse=1 distortion=0.0
 - spreadsheet: closure=1.0 verify=4.0 reuse=1 distortion=0.0
-- ai-da-guan-jia: closure=0.83 verify=5.99 reuse=6 distortion=0.67 proposal=0.97 support=2
+- ai-da-guan-jia: closure=0.86 verify=5.34 reuse=7 distortion=0.57 proposal=0.97 support=2
+- jiyao-youyao-haiyao: closure=0.67 verify=3.48 reuse=3 distortion=0.33 proposal=0.97 support=1
 - feishu-bitable-bridge: closure=0.5 verify=5.99 reuse=2 distortion=0.0 proposal=0.97 support=1
 - ai-metacognitive-core: closure=0.5 verify=5.49 reuse=2 distortion=1.0 proposal=0.97 support=1
 - autoresearch: closure=0.5 verify=5.49 reuse=2 distortion=1.0 proposal=0.97 support=1
-- jiyao-youyao-haiyao: closure=0.5 verify=4.49 reuse=2 distortion=0.5 proposal=0.97 support=1
 - yuanli-knowledge: closure=0.0 verify=5.49 reuse=1 distortion=0.0 proposal=0.97 support=1
