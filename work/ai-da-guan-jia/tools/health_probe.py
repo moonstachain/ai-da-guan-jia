@@ -49,6 +49,17 @@ def now_utc() -> datetime:
     return datetime.now(timezone.utc)
 
 
+def resolve_repo_root() -> Path:
+    try:
+        return Path(__file__).resolve().parents[3]
+    except IndexError:
+        return Path.cwd()
+
+
+def clone_scorecard_aggregate_path() -> Path:
+    return resolve_repo_root() / "artifacts" / "ai-da-guan-jia" / "clones" / "current" / "clone-scorecard-aggregate.json"
+
+
 def iso_utc(dt: datetime) -> str:
     return dt.astimezone(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
@@ -494,6 +505,60 @@ def resolve_clone_identity(root: Path, clone_state_dir: Path, arg_clone_id: str 
     return clone_id, tenant_id
 
 
+def resolve_instance_identity(instance_id: str, state: ProbeState) -> tuple[str, str]:
+    registry_path = resolve_repo_root() / "artifacts" / "ai-da-guan-jia" / "clones" / "current" / "clone-registry.json"
+    registry = read_json(registry_path, default=None, state=state)
+    clone_id = instance_id
+    tenant_id = f"tenant-{instance_id}"
+    if isinstance(registry, list):
+        for row in registry:
+            if not isinstance(row, dict):
+                continue
+            if str(row.get("clone_id") or "") == instance_id:
+                clone_id = str(row.get("clone_id") or instance_id)
+                tenant_id = str(row.get("tenant_id") or tenant_id)
+                return clone_id, tenant_id
+    state.assumptions.append(f"clone-registry.json missing entry for {instance_id}; identity inferred from instance_id")
+    return clone_id, tenant_id
+
+
+def update_scorecard_aggregate(
+    aggregate_path: Path,
+    instance_id: str,
+    clone_id: str,
+    scorecard_obj: dict[str, Any],
+    status: str,
+    state: ProbeState,
+    dry_run: bool,
+) -> None:
+    payload = read_json(aggregate_path, default=None, state=state)
+    items: list[dict[str, Any]] = []
+    if isinstance(payload, list):
+        items = [row for row in payload if isinstance(row, dict)]
+    elif payload not in (None, {}):
+        state.errors.append(f"unexpected scorecard aggregate shape at {aggregate_path}; reset to empty list")
+
+    updated_at = iso_utc(now_utc())
+    entry = {
+        "instance_id": instance_id,
+        "clone_id": clone_id,
+        "period": scorecard_obj.get("period"),
+        "dimensions": scorecard_obj.get("dimensions"),
+        "total": scorecard_obj.get("total"),
+        "status": status,
+        "updated_at": updated_at,
+    }
+    replaced = False
+    for idx, row in enumerate(items):
+        if str(row.get("instance_id") or "") == instance_id:
+            items[idx] = entry
+            replaced = True
+            break
+    if not replaced:
+        items.append(entry)
+    write_json_atomic(aggregate_path, items, dry_run=dry_run)
+
+
 def resolve_endpoint(root: Path, clone_state_dir: Path, arg_endpoint: str | None, state: ProbeState) -> str:
     if arg_endpoint is not None:
         return arg_endpoint.strip()
@@ -526,7 +591,11 @@ def push_webhook(endpoint: str, heartbeat: dict[str, Any], timeout: int, state: 
 
 def run_probe(args: argparse.Namespace) -> dict[str, Any]:
     state = ProbeState(assumptions=[], errors=[])
-    root = Path(args.root).expanduser().resolve()
+    instance_id = str(args.instance or "").strip()
+    if instance_id:
+        root = resolve_repo_root() / "artifacts" / "ai-da-guan-jia" / "clones" / "instances" / instance_id
+    else:
+        root = Path(args.root).expanduser().resolve()
     if not root.exists():
         raise FileNotFoundError(f"root path does not exist: {root}")
 
@@ -536,13 +605,16 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
     feedback_dir = root / "feedback"
     governance_path = root / "governance-dashboard.md"
 
-    clone_id, tenant_id = resolve_clone_identity(
-        root=root,
-        clone_state_dir=clone_state_dir,
-        arg_clone_id=args.clone_id,
-        arg_tenant_id=args.tenant_id,
-        state=state,
-    )
+    if instance_id:
+        clone_id, tenant_id = resolve_instance_identity(instance_id, state)
+    else:
+        clone_id, tenant_id = resolve_clone_identity(
+            root=root,
+            clone_state_dir=clone_state_dir,
+            arg_clone_id=args.clone_id,
+            arg_tenant_id=args.tenant_id,
+            state=state,
+        )
     run_stats = scan_runs(runs_dir, state)
     governance_stats = parse_governance_dashboard(governance_path, state)
     feedback_stats = scan_feedback(feedback_dir, state)
@@ -550,7 +622,7 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
     if not last_active:
         last_active = iso_utc(now_utc())
 
-    scorecard_path = clone_state_dir / "clone-scorecard.json"
+    scorecard_path = clone_state_dir / ("scorecard.json" if instance_id else "clone-scorecard.json")
     scorecard_obj, closure_ratio = update_scorecard(
         scorecard_path=scorecard_path,
         clone_id=clone_id,
@@ -569,7 +641,7 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
         completed_by_day=run_stats["completed_by_day"],
         has_run_history=bool(run_stats["has_run_history"]),
     )
-    alerts_path = clone_state_dir / "alerts-decisions.json"
+    alerts_path = clone_state_dir / ("alerts.json" if instance_id else "alerts-decisions.json")
     _, alerts_active = append_alerts(alerts_path, new_alerts=new_alerts, state=state, dry_run=args.dry_run)
 
     status = "healthy"
@@ -600,6 +672,17 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
     heartbeat_path = health_dir / "heartbeat.json"
     write_json_atomic(heartbeat_path, heartbeat, dry_run=args.dry_run)
 
+    if instance_id:
+        update_scorecard_aggregate(
+            aggregate_path=clone_scorecard_aggregate_path(),
+            instance_id=instance_id,
+            clone_id=clone_id,
+            scorecard_obj=scorecard_obj,
+            status=status,
+            state=state,
+            dry_run=args.dry_run,
+        )
+
     endpoint = resolve_endpoint(root, clone_state_dir, args.endpoint, state)
     webhook_sent = False
     if endpoint and not args.dry_run:
@@ -607,6 +690,7 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
 
     return {
         "root": str(root),
+        "instance_id": instance_id or None,
         "dry_run": bool(args.dry_run),
         "heartbeat_path": str(heartbeat_path),
         "scorecard_path": str(scorecard_path),
@@ -624,6 +708,7 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="TS-V2 PHASE0 D3 local health probe")
     parser.add_argument("--root", default=".", help="Clone-local root directory to scan")
+    parser.add_argument("--instance", help="Optional clone instance id to scan under artifacts/ai-da-guan-jia/clones/instances/")
     parser.add_argument("--clone-id", help="Optional override for clone_id")
     parser.add_argument("--tenant-id", help="Optional override for tenant_id")
     parser.add_argument("--endpoint", help="Optional webhook endpoint override")
