@@ -183,6 +183,14 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 14. GitHub 定位升级：它是分发基座，不只是归档面。详见 `docs/three-vector-architecture.md`。
 15. 康波智库三层专家体系：`T0 世界观 × 4 / T1 操作框架 × 8 / T2 行业深度 × 20`；详见 `docs/kangbo-expert-network.md`。
 
+
+## 体系的关键架构决策
+16. V3 clone productization keeps one shared core and one instance directory model; no per-clone repo is created in v1.
+17. `artifacts/ai-da-guan-jia/clones/current/` is the canonical control plane for clone registry and scorecard artifacts.
+18. `clone-seed` is the idempotent bootstrap path for `clones/instances/{clone_id}/` and must only upsert, never duplicate.
+19. `health_probe.py --instance` is the instance-aware probe entrypoint, while the legacy root-based path remains backward compatible.
+20. `sync-feishu --instance` reads instance-local `feishu-bridge/table-registry.json` and `sync-config.json` for `clone_governance`.
+21. `internal-operator` and `tier-1-internal` are first-class internal cohort fields and must not be normalized back to client defaults.
 ## 误吸收防火墙
 
 - 不把飞书当真相源

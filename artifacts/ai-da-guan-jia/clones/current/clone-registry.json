@@ -6,16 +6,17 @@
     "tenant_id": "hq-internal",
     "display_name": "Longxia COO Clone",
     "status": "active",
+    "clone_mode": "client",
     "actor_type": "internal-operator",
     "role_template_id": "ops-management",
     "visibility_policy": "hq_internal_full",
     "service_tier": "tier-1-internal",
     "manager_clone_id": "mother",
     "goal_model": "5-day-activation + daily-rhythm",
-    "shared_core_version": "v20",
+    "shared_core_version": "971e127",
     "memory_namespace": "longxia-private",
     "report_owner": "ray",
-    "created_at": "2026-03-25T07:08:18+08:00",
-    "updated_at": "2026-03-25T07:08:18+08:00"
+    "created_at": "2026-03-25T07:13:30+08:00",
+    "updated_at": "2026-03-25T07:13:30+08:00"
   }
 ]

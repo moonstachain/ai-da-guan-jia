@@ -6,7 +6,7 @@
   "cron": "0 9 * * *",
   "mode": "cron-first",
   "link": "",
-  "bridge_script": "",
-  "manifest": "",
-  "updated_at": "2026-03-25T07:08:18+08:00"
+  "bridge_script": "/Users/liming/.codex/skills/feishu-bitable-bridge/scripts/feishu_bitable_bridge.py",
+  "manifest": "/Users/liming/Documents/codex-ai-gua-jia-01/references/feishu-clone-review-base-schema.json",
+  "updated_at": "2026-03-25T07:13:30+08:00"
 }

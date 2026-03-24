@@ -47,7 +47,7 @@ except ModuleNotFoundError:  # pragma: no cover
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_DIR = SCRIPT_DIR.parent
-PROJECT_ROOT = SKILL_DIR.parents[1]
+PROJECT_ROOT = SKILL_DIR if (SKILL_DIR / "yuanli-os-claude").exists() else SKILL_DIR.parents[1]
 CODEX_HOME = Path(os.getenv("CODEX_HOME", str(Path.home() / ".codex"))).resolve()
 SKILLS_ROOT = CODEX_HOME / "skills"
 ARTIFACTS_ROOT = SKILL_DIR / "artifacts" / "ai-da-guan-jia"
