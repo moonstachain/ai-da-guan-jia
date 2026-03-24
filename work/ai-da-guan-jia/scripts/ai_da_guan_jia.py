@@ -151,6 +151,7 @@ ROLE_TEMPLATE_REGISTRY_PATH = CLONES_CURRENT_ROOT / "role-template-registry.json
 CLONE_ORG_REGISTRY_PATH = CLONES_CURRENT_ROOT / "org-registry.json"
 CLONE_TRAINING_STATE_PATH = CLONES_CURRENT_ROOT / "clone-training-state.json"
 CLONE_SCORECARD_PATH = CLONES_CURRENT_ROOT / "clone-scorecard.json"
+CLONE_SCORECARD_AGGREGATE_PATH = CLONES_CURRENT_ROOT / "clone-scorecard-aggregate.json"
 CLONE_AUTONOMY_TIER_PATH = CLONES_CURRENT_ROOT / "clone-autonomy-tier.json"
 CLONE_PROMOTION_QUEUE_PATH = CLONES_CURRENT_ROOT / "promotion-queue.json"
 CLONE_BUDGET_ALLOCATION_PATH = CLONES_CURRENT_ROOT / "budget-allocation.json"
@@ -8973,14 +8974,14 @@ CLONE_PORTFOLIO_SECTIONS = [
 ]
 CLONE_PORTFOLIO_CHOICES = ["internal", "client", "all"]
 CLONE_MODE_CHOICES = ["lab", "client"]
-CLONE_ACTOR_TYPE_CHOICES = ["founder", "employee", "satellite", "client_operator"]
+CLONE_ACTOR_TYPE_CHOICES = ["founder", "employee", "satellite", "internal-operator", "client_operator"]
 CLONE_VISIBILITY_POLICY_CHOICES = [
     "hq_internal_full",
     "hq_cross_org_summary",
     "tenant_operated_summary",
     "tenant_isolated_summary",
 ]
-CLONE_SERVICE_TIER_CHOICES = ["internal_core", "internal_support", "operated_v1", "client_trial"]
+CLONE_SERVICE_TIER_CHOICES = ["internal_core", "internal_support", "tier-1-internal", "operated_v1", "client_trial"]
 CLONE_PROMOTION_CHOICES = ["promote", "hold", "watch", "hibernate"]
 MIRROR_STATE_CHOICES = ["local_only", "dry_run_ready", "apply_failed", "mirrored", "blocked_auth"]
 DEFAULT_INTERNAL_ORG_ID = "yuanli-hq"
@@ -23057,7 +23058,7 @@ def clone_portfolio_for_actor(
     )
     if normalized_actor == "client_operator":
         return "client"
-    if normalized_actor in {"founder", "employee", "satellite"}:
+    if normalized_actor in {"founder", "employee", "satellite", "internal-operator"}:
         return "internal"
     if normalize_slug_part(org_id) == DEFAULT_INTERNAL_ORG_ID or normalize_slug_part(customer_id) == "self-fleet":
         return "internal"
@@ -23114,6 +23115,8 @@ def normalized_clone_service_tier(
         return "operated_v1"
     if actor_type == "satellite":
         return "internal_support"
+    if actor_type == "internal-operator":
+        return "tier-1-internal"
     return "internal_core"
 
 
@@ -23463,6 +23466,7 @@ def ensure_clone_factory_current_files() -> None:
         (CLONE_ORG_REGISTRY_PATH, []),
         (CLONE_TRAINING_STATE_PATH, []),
         (CLONE_SCORECARD_PATH, []),
+        (CLONE_SCORECARD_AGGREGATE_PATH, []),
         (CLONE_AUTONOMY_TIER_PATH, []),
         (CLONE_PROMOTION_QUEUE_PATH, []),
         (CLONE_BUDGET_ALLOCATION_PATH, []),
@@ -24452,6 +24456,275 @@ def refresh_clone_factory_state(
         "portfolio_report": portfolio,
         "records": records,
     }
+
+
+def clone_seed_slug_title(value: str) -> str:
+    parts = [part for part in re.split(r"[-_\s]+", str(value or "").strip()) if part]
+    if not parts:
+        return "Clone"
+    return " ".join(part[:1].upper() + part[1:] for part in parts)
+
+
+def current_claude_init_version() -> str:
+    claude_init_path = PROJECT_ROOT / "yuanli-os-claude" / "CLAUDE-INIT.md"
+    if not claude_init_path.exists():
+        return "unknown"
+    text = claude_init_path.read_text(encoding="utf-8")
+    match = re.search(r"V\d+(?:\.\d+)?", text)
+    return match.group(0) if match else "unknown"
+
+
+def clone_seed_instance_root(clone_id: str) -> Path:
+    return CLONES_ROOT / "instances" / str(clone_id or "").strip()
+
+
+def clone_seed_default_display_name(clone_id: str) -> str:
+    return f"{clone_seed_slug_title(clone_id)} COO Clone"
+
+
+def clone_seed_registry_row(
+    clone_id: str,
+    *,
+    colleague_name: str,
+    tier: str,
+    display_name: str,
+    customer_id: str,
+    org_id: str,
+    tenant_id: str,
+    actor_type: str,
+    role_template_id: str,
+    visibility_policy: str,
+    service_tier: str,
+    manager_clone_id: str,
+    goal_model: str,
+    memory_namespace: str,
+    report_owner: str,
+    shared_core_version: str,
+    clone_mode: str = "client",
+    created_at: str | None = None,
+) -> dict[str, Any]:
+    timestamp = str(created_at or iso_now())
+    return {
+        "clone_id": str(clone_id or "").strip(),
+        "customer_id": str(customer_id or "").strip(),
+        "org_id": str(org_id or "").strip(),
+        "tenant_id": str(tenant_id or "").strip(),
+        "display_name": str(display_name or "").strip(),
+        "status": "active",
+        "clone_mode": str(clone_mode or "client").strip() or "client",
+        "actor_type": str(actor_type or "").strip(),
+        "role_template_id": str(role_template_id or "").strip(),
+        "visibility_policy": str(visibility_policy or "").strip(),
+        "service_tier": str(service_tier or tier or "").strip(),
+        "manager_clone_id": str(manager_clone_id or "").strip(),
+        "goal_model": str(goal_model or "").strip(),
+        "shared_core_version": str(shared_core_version or current_shared_core_version()).strip(),
+        "memory_namespace": str(memory_namespace or "").strip(),
+        "report_owner": str(report_owner or colleague_name or "").strip(),
+        "created_at": timestamp,
+        "updated_at": timestamp,
+    }
+
+
+def clone_seed_template_replacements(
+    *,
+    clone_name: str,
+    created_at: str,
+    mother_init_version: str,
+    mother_org: str,
+    operator_name: str,
+    tenant_id: str,
+    memory_namespace: str,
+    skills_repo: str,
+    clone_repo: str,
+    shared_core_ref: str,
+    clone_type: str,
+    initial_maturity: str,
+    feedback_frequency: str,
+    mother_feedback_endpoint: str,
+    clone_base_app_token: str,
+    clone_main_table_id: str,
+    clone_task_table_id: str,
+    clone_evolution_table_id: str,
+    clone_scorecard_table_id: str,
+) -> dict[str, str]:
+    return {
+        "CLONE_NAME": clone_name,
+        "CREATED_AT": created_at,
+        "MOTHER_INIT_VERSION": mother_init_version,
+        "MOTHER_ORG": mother_org,
+        "OPERATOR_NAME": operator_name,
+        "TENANT_ID": tenant_id,
+        "MEMORY_NS": memory_namespace,
+        "SKILLS_REPO": skills_repo,
+        "CLONE_REPO": clone_repo,
+        "SHARED_CORE_REF": shared_core_ref,
+        "INITIAL_MATURITY": initial_maturity,
+        "CLONE_TYPE": clone_type,
+        "FEEDBACK_FREQUENCY": feedback_frequency,
+        "MOTHER_FEEDBACK_ENDPOINT": mother_feedback_endpoint,
+        "CLONE_BASE_APP_TOKEN": clone_base_app_token,
+        "CLONE_MAIN_TABLE_ID": clone_main_table_id,
+        "CLONE_TASK_TABLE_ID": clone_task_table_id,
+        "CLONE_EVOLUTION_TABLE_ID": clone_evolution_table_id,
+        "CLONE_SCORECARD_TABLE_ID": clone_scorecard_table_id,
+    }
+
+
+def render_clone_seed_template(template_path: Path, replacements: dict[str, str]) -> str:
+    text = template_path.read_text(encoding="utf-8")
+    for key, value in replacements.items():
+        text = text.replace(f"{{{{{key}}}}}", str(value))
+    return text
+
+
+def write_clone_seed_failure_report(
+    *,
+    report_path: Path,
+    clone_id: str,
+    failed_sub_task: str,
+    last_successful_state: str,
+    suggested_fix: str,
+    error: str,
+) -> None:
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(
+        "\n".join(
+            [
+                "# clone-seed failure report",
+                "",
+                f"- clone_id: {clone_id}",
+                f"- failed_sub_task: {failed_sub_task}",
+                f"- last_successful_state: {last_successful_state}",
+                f"- suggested_fix: {suggested_fix}",
+                f"- error: {error}",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def ensure_clone_seed_instance_tree(
+    *,
+    instance_root: Path,
+    clone_init_content: str,
+    table_registry_payload: dict[str, Any],
+    sync_config_payload: dict[str, Any],
+) -> dict[str, Path]:
+    paths: dict[str, Path] = {}
+    paths["instance_root"] = ensure_dir(instance_root)
+    clone_state_dir = ensure_dir(instance_root / "clone-state")
+    runs_dir = ensure_dir(instance_root / "runs")
+    feedback_dir = ensure_dir(instance_root / "feedback")
+    strategy_current_dir = ensure_dir(instance_root / "strategy" / "current")
+    feishu_bridge_dir = ensure_dir(instance_root / "feishu-bridge")
+    paths["clone_state_dir"] = clone_state_dir
+    paths["runs_dir"] = runs_dir
+    paths["feedback_dir"] = feedback_dir
+    paths["strategy_current_dir"] = strategy_current_dir
+    paths["feishu_bridge_dir"] = feishu_bridge_dir
+
+    (runs_dir / ".gitkeep").write_text("", encoding="utf-8")
+    (feedback_dir / ".gitkeep").write_text("", encoding="utf-8")
+    (strategy_current_dir / ".gitkeep").write_text("", encoding="utf-8")
+
+    write_json(clone_state_dir / "scorecard.json", {})
+    write_json(clone_state_dir / "alerts.json", [])
+    write_json(clone_state_dir / "proposals.json", [])
+    write_json(feishu_bridge_dir / "table-registry.json", table_registry_payload)
+    write_json(feishu_bridge_dir / "sync-config.json", sync_config_payload)
+    (instance_root / "CLONE-INIT.md").write_text(clone_init_content, encoding="utf-8")
+    paths["clone_init"] = instance_root / "CLONE-INIT.md"
+    return paths
+
+
+def load_clone_instance_bridge_config(instance_root: Path) -> dict[str, Any]:
+    bridge_dir = instance_root / "feishu-bridge"
+    table_registry_path = bridge_dir / "table-registry.json"
+    sync_config_path = bridge_dir / "sync-config.json"
+    table_registry = load_optional_json(table_registry_path) if table_registry_path.exists() else {}
+    sync_config = load_optional_json(sync_config_path) if sync_config_path.exists() else {}
+    if not isinstance(table_registry, dict):
+        table_registry = {}
+    if not isinstance(sync_config, dict):
+        sync_config = {}
+    return {
+        "instance_root": str(instance_root),
+        "table_registry_path": str(table_registry_path),
+        "sync_config_path": str(sync_config_path),
+        "table_registry": table_registry,
+        "sync_config": sync_config,
+        "link": str(table_registry.get("feishu_link") or sync_config.get("feishu_link") or "").strip(),
+        "bridge_script": str(sync_config.get("bridge_script") or "").strip(),
+        "manifest": str(sync_config.get("manifest") or "").strip(),
+        "portfolio": str(sync_config.get("portfolio") or "").strip(),
+        "report_date": str(sync_config.get("report_date") or "").strip(),
+    }
+
+
+def resolve_clone_governance_sync_context(
+    *,
+    instance_id: str | None,
+    report_date: str,
+    portfolio: str,
+    link_override: str | None,
+    bridge_script_override: str | None,
+) -> dict[str, Any]:
+    resolved: dict[str, Any] = {
+        "instance_id": str(instance_id or "").strip(),
+        "report_date": str(report_date or "").strip() or now_local().strftime("%Y-%m-%d"),
+        "portfolio": str(portfolio or "").strip() or "client",
+        "link_override": str(link_override or "").strip(),
+        "bridge_script_override": str(bridge_script_override or "").strip(),
+        "instance_root": "",
+        "table_registry_path": "",
+        "sync_config_path": "",
+    }
+    if not instance_id:
+        return resolved
+    instance_root = clone_seed_instance_root(instance_id)
+    bridge_config = load_clone_instance_bridge_config(instance_root)
+    resolved.update(
+        {
+            "instance_root": bridge_config["instance_root"],
+            "table_registry_path": bridge_config["table_registry_path"],
+            "sync_config_path": bridge_config["sync_config_path"],
+            "link_override": resolved["link_override"] or bridge_config["link"],
+            "bridge_script_override": resolved["bridge_script_override"] or bridge_config["bridge_script"],
+            "report_date": resolved["report_date"] or bridge_config["report_date"] or now_local().strftime("%Y-%m-%d"),
+            "portfolio": resolved["portfolio"] or bridge_config["portfolio"] or "internal",
+        }
+    )
+    return resolved
+
+
+def clone_seed_update_claude_init(instance_root: Path) -> dict[str, Any]:
+    decisions = [
+        "16. V3 clone productization keeps one shared core and one instance directory model; no per-clone repo is created in v1.",
+        "17. `artifacts/ai-da-guan-jia/clones/current/` is the canonical control plane for clone registry and scorecard artifacts.",
+        "18. `clone-seed` is the idempotent bootstrap path for `clones/instances/{clone_id}/` and must only upsert, never duplicate.",
+        "19. `health_probe.py --instance` is the instance-aware probe entrypoint, while the legacy root-based path remains backward compatible.",
+        "20. `sync-feishu --instance` reads instance-local `feishu-bridge/table-registry.json` and `sync-config.json` for `clone_governance`.",
+        "21. `internal-operator` and `tier-1-internal` are first-class internal cohort fields and must not be normalized back to client defaults.",
+    ]
+    current_path = PROJECT_ROOT / "yuanli-os-claude" / "CLAUDE-INIT.md"
+    template_path = PROJECT_ROOT / "yuanli-os-claude" / "CLAUDE-INIT-TEMPLATE.md"
+    updated_paths: list[str] = []
+    for path in (current_path, template_path):
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        anchor = "## 误吸收防火墙"
+        if anchor not in text:
+            continue
+        decision_block = "\n".join(["", "## 体系的关键架构决策", *[f"{item}" for item in decisions], ""])
+        if decisions[-1] in text:
+            continue
+        text = text.replace(anchor, decision_block + anchor, 1)
+        path.write_text(text, encoding="utf-8")
+        updated_paths.append(str(path))
+    return {"updated_paths": updated_paths, "decision_count": len(decisions)}
 
 
 def load_governance_signals() -> dict[str, Any]:
@@ -31909,6 +32182,148 @@ def command_deploy_rdagent_fin_quant(args: argparse.Namespace) -> int:
     return 0 if summary["status"] == "completed" else 1
 
 
+def command_clone_seed(args: argparse.Namespace) -> int:
+    ensure_clone_factory_current_files()
+    clone_id = str(args.clone_id or "").strip()
+    colleague_name = str(args.colleague_name or "").strip()
+    if not clone_id:
+        raise ValueError("--clone-id cannot be empty")
+    if not colleague_name:
+        raise ValueError("--colleague-name cannot be empty")
+    report_path = PROJECT_ROOT / "artifacts" / "ai-da-guan-jia" / "clones" / "clone-seed-failure-report.md"
+    try:
+        tier = str(args.tier or "tier-1-internal").strip() or "tier-1-internal"
+        created_at = str(args.created_at or iso_now())
+        shared_core_version = str(args.shared_core_version or current_shared_core_version()).strip()
+        display_name = str(args.display_name or clone_seed_default_display_name(clone_id)).strip()
+        customer_id = str(args.customer_id or "hq").strip() or "hq"
+        org_id = str(args.org_id or "moonstachain-hq").strip() or "moonstachain-hq"
+        tenant_id = str(args.tenant_id or "hq-internal").strip() or "hq-internal"
+        actor_type = str(args.actor_type or "internal-operator").strip() or "internal-operator"
+        role_template_id = str(args.role_template_id or "ops-management").strip() or "ops-management"
+        visibility_policy = str(args.visibility_policy or "hq_internal_full").strip() or "hq_internal_full"
+        service_tier = str(args.service_tier or tier).strip() or tier
+        manager_clone_id = str(args.manager_clone_id or "mother").strip() or "mother"
+        goal_model = str(args.goal_model or "5-day-activation + daily-rhythm").strip() or "5-day-activation + daily-rhythm"
+        memory_namespace = str(args.memory_namespace or f"{clone_id}-private").strip() or f"{clone_id}-private"
+        report_owner = str(args.report_owner or colleague_name).strip() or colleague_name
+        clone_mode = str(args.clone_mode or "client").strip() or "client"
+        mother_init_version = str(args.mother_init_version or current_claude_init_version()).strip() or "unknown"
+        mother_org = str(args.mother_org or "moonstachain-hq").strip() or "moonstachain-hq"
+        operator_name = str(args.colleague_name or colleague_name).strip() or colleague_name
+        skills_repo = str(args.skills_repo or "github.com/moonstachain/yuanli-os-skills-pack").strip()
+        clone_repo = str(args.clone_repo or str(PROJECT_ROOT.resolve())).strip()
+        shared_core_ref = str(args.shared_core_ref or str(PROJECT_ROOT.resolve())).strip()
+        clone_type = str(args.clone_type or "internal_colleague").strip() or "internal_colleague"
+        initial_maturity = str(args.initial_maturity or "0").strip() or "0"
+        feedback_frequency = str(args.feedback_frequency or "daily_23:00").strip() or "daily_23:00"
+        mother_feedback_endpoint = str(args.mother_feedback_endpoint or "pending").strip() or "pending"
+        clone_base_app_token = str(args.clone_base_app_token or "pending").strip() or "pending"
+        clone_main_table_id = str(args.clone_main_table_id or "pending").strip() or "pending"
+        clone_task_table_id = str(args.clone_task_table_id or "pending").strip() or "pending"
+        clone_evolution_table_id = str(args.clone_evolution_table_id or "pending").strip() or "pending"
+        clone_scorecard_table_id = str(args.clone_scorecard_table_id or "pending").strip() or "pending"
+
+        state = load_clone_factory_state()
+        registry_rows = list(state["registry"])
+        clone_row = clone_seed_registry_row(
+            clone_id,
+            colleague_name=colleague_name,
+            tier=tier,
+            display_name=display_name,
+            customer_id=customer_id,
+            org_id=org_id,
+            tenant_id=tenant_id,
+            actor_type=actor_type,
+            role_template_id=role_template_id,
+            visibility_policy=visibility_policy,
+            service_tier=service_tier,
+            manager_clone_id=manager_clone_id,
+            goal_model=goal_model,
+            memory_namespace=memory_namespace,
+            report_owner=report_owner,
+            shared_core_version=shared_core_version,
+            clone_mode=clone_mode,
+            created_at=created_at,
+        )
+        registry_rows = upsert_rows_by_key(registry_rows, "clone_id", clone_row)
+        write_json(CLONE_REGISTRY_PATH, registry_rows)
+        if not CLONE_SCORECARD_AGGREGATE_PATH.exists():
+            write_json(CLONE_SCORECARD_AGGREGATE_PATH, [])
+
+        instance_root = clone_seed_instance_root(clone_id)
+        clone_init_template_path = PROJECT_ROOT / "yuanli-os-claude" / "templates" / "clone-init-template.md"
+        clone_init_replacements = clone_seed_template_replacements(
+            clone_name=display_name,
+            created_at=created_at,
+            mother_init_version=mother_init_version,
+            mother_org=mother_org,
+            operator_name=operator_name,
+            tenant_id=tenant_id,
+            memory_namespace=memory_namespace,
+            skills_repo=skills_repo,
+            clone_repo=clone_repo,
+            shared_core_ref=shared_core_ref,
+            clone_type=clone_type,
+            initial_maturity=initial_maturity,
+            feedback_frequency=feedback_frequency,
+            mother_feedback_endpoint=mother_feedback_endpoint,
+            clone_base_app_token=clone_base_app_token,
+            clone_main_table_id=clone_main_table_id,
+            clone_task_table_id=clone_task_table_id,
+            clone_evolution_table_id=clone_evolution_table_id,
+            clone_scorecard_table_id=clone_scorecard_table_id,
+        )
+        clone_init_content = render_clone_seed_template(clone_init_template_path, clone_init_replacements)
+        instance_paths = ensure_clone_seed_instance_tree(
+            instance_root=instance_root,
+            clone_init_content=clone_init_content,
+            table_registry_payload={
+                "instance_id": clone_id,
+                "clone_id": clone_id,
+                "feishu_link": "",
+                "base_app_token": clone_base_app_token,
+                "main_table_id": clone_main_table_id,
+                "task_table_id": clone_task_table_id,
+                "evolution_table_id": clone_evolution_table_id,
+                "scorecard_table_id": clone_scorecard_table_id,
+                "primary_field": "",
+                "updated_at": created_at,
+            },
+            sync_config_payload={
+                "instance_id": clone_id,
+                "surface": "clone_governance",
+                "portfolio": "internal",
+                "report_date": "",
+                "cron": "0 9 * * *",
+                "mode": "cron-first",
+                "link": "",
+                "bridge_script": str(DEFAULT_BRIDGE),
+                "manifest": str(CLONE_REVIEW_SCHEMA_MANIFEST),
+                "updated_at": created_at,
+            },
+        )
+        decision_result = clone_seed_update_claude_init(instance_root)
+        print(f"clone_id: {clone_id}")
+        print(f"colleague_name: {colleague_name}")
+        print(f"tier: {tier}")
+        print(f"registry_path: {CLONE_REGISTRY_PATH}")
+        print(f"instance_root: {instance_root}")
+        print(f"clone_init_path: {instance_paths['clone_init']}")
+        print(f"claude_init_updated: {', '.join(decision_result['updated_paths']) or 'none'}")
+        return 0
+    except Exception as exc:  # noqa: BLE001
+        write_clone_seed_failure_report(
+            report_path=report_path,
+            clone_id=clone_id,
+            failed_sub_task="clone-seed",
+            last_successful_state="registry_or_instance_may_be_partial",
+            suggested_fix="Inspect the error and re-run clone-seed after fixing inputs or directory permissions.",
+            error=str(exc),
+        )
+        raise
+
+
 def command_register_clone(args: argparse.Namespace) -> int:
     ensure_clone_factory_current_files()
     state = load_clone_factory_state()
@@ -33468,18 +33883,28 @@ def run_dashboard_close_hooks(run_id: str, *, apply: bool) -> tuple[int, str]:
 
 def command_sync_feishu(args: argparse.Namespace) -> int:
     surface = str(getattr(args, "surface", "task_run") or "task_run").strip()
+    instance_id = str(getattr(args, "instance", "") or "").strip()
+    if instance_id and surface != "clone_governance":
+        raise ValueError("--instance is only supported when --surface clone_governance is used")
     if surface == "clone_governance":
-        report_date = str(getattr(args, "report_date", "") or now_local().strftime("%Y-%m-%d")).strip()
-        portfolio = str(getattr(args, "portfolio", "") or "client").strip()
-        returncode, status = run_clone_governance_feishu_sync(
-            report_date=report_date,
-            portfolio=portfolio,
-            apply=bool(args.apply),
+        resolved = resolve_clone_governance_sync_context(
+            instance_id=instance_id or None,
+            report_date=str(getattr(args, "report_date", "") or "").strip(),
+            portfolio=str(getattr(args, "portfolio", "") or "").strip(),
             link_override=args.link,
             bridge_script_override=args.bridge_script,
         )
+        returncode, status = run_clone_governance_feishu_sync(
+            report_date=str(resolved["report_date"]),
+            portfolio=str(resolved["portfolio"]),
+            apply=bool(args.apply),
+            link_override=str(resolved["link_override"]),
+            bridge_script_override=str(resolved["bridge_script_override"]),
+        )
         print(status)
         return returncode
+    if instance_id:
+        raise ValueError("--instance is only supported when --surface clone_governance is used")
     if not getattr(args, "run_id", None):
         raise ValueError("--run-id is required when --surface task_run is used")
     returncode, _ = run_feishu_sync(
@@ -35717,6 +36142,44 @@ def build_parser() -> argparse.ArgumentParser:
     deploy_rdagent_fin_quant.add_argument("--smoke-command", help="Optional smoke command passed through to the verify helper.")
     deploy_rdagent_fin_quant.set_defaults(func=command_deploy_rdagent_fin_quant)
 
+    clone_seed = subparsers.add_parser(
+        "clone-seed",
+        help="Bootstrap a clone registry row, instance directory, and clone init memory in one idempotent step.",
+    )
+    clone_seed.add_argument("--clone-id", required=True, help="Clone id for the new instance.")
+    clone_seed.add_argument("--tier", required=True, help="Seed tier label, such as tier-1-internal.")
+    clone_seed.add_argument("--colleague-name", required=True, help="Human colleague/operator name used in the clone init memory.")
+    clone_seed.add_argument("--display-name", help="Optional display name override.")
+    clone_seed.add_argument("--customer-id", help="Optional customer_id override.")
+    clone_seed.add_argument("--org-id", help="Optional org_id override.")
+    clone_seed.add_argument("--tenant-id", help="Optional tenant_id override.")
+    clone_seed.add_argument("--actor-type", choices=CLONE_ACTOR_TYPE_CHOICES, help="Optional actor_type override.")
+    clone_seed.add_argument("--clone-mode", choices=CLONE_MODE_CHOICES, default="client", help="Compatibility clone_mode field. Defaults to client.")
+    clone_seed.add_argument("--role-template-id", default="ops-management", help="Role template id for the registry row.")
+    clone_seed.add_argument("--visibility-policy", help="Optional visibility policy override.")
+    clone_seed.add_argument("--service-tier", help="Optional service_tier override.")
+    clone_seed.add_argument("--manager-clone-id", default="mother", help="Optional manager clone id override.")
+    clone_seed.add_argument("--goal-model", help="Optional goal model override.")
+    clone_seed.add_argument("--memory-namespace", help="Optional memory namespace override.")
+    clone_seed.add_argument("--report-owner", help="Optional report owner override.")
+    clone_seed.add_argument("--shared-core-version", help="Optional shared core version override.")
+    clone_seed.add_argument("--mother-init-version", help="Optional mother init version override.")
+    clone_seed.add_argument("--mother-org", help="Optional mother org override.")
+    clone_seed.add_argument("--skills-repo", help="Optional skills repo override.")
+    clone_seed.add_argument("--clone-repo", help="Optional clone repo path override.")
+    clone_seed.add_argument("--shared-core-ref", help="Optional shared core ref override.")
+    clone_seed.add_argument("--clone-type", help="Optional clone type override.")
+    clone_seed.add_argument("--initial-maturity", help="Optional initial maturity override.")
+    clone_seed.add_argument("--feedback-frequency", help="Optional feedback frequency override.")
+    clone_seed.add_argument("--mother-feedback-endpoint", help="Optional mother feedback endpoint override.")
+    clone_seed.add_argument("--clone-base-app-token", help="Optional Feishu base app token placeholder.")
+    clone_seed.add_argument("--clone-main-table-id", help="Optional Feishu main table id placeholder.")
+    clone_seed.add_argument("--clone-task-table-id", help="Optional Feishu task table id placeholder.")
+    clone_seed.add_argument("--clone-evolution-table-id", help="Optional Feishu evolution table id placeholder.")
+    clone_seed.add_argument("--clone-scorecard-table-id", help="Optional Feishu scorecard table id placeholder.")
+    clone_seed.add_argument("--created-at", help="Optional ISO datetime override.")
+    clone_seed.set_defaults(func=command_clone_seed)
+
     register_clone = subparsers.add_parser(
         "register-clone",
         help="Register one configured AI管家 clone without copying the shared skill base.",
@@ -35937,7 +36400,8 @@ def build_parser() -> argparse.ArgumentParser:
     sync.add_argument("--surface", choices=["task_run", "clone_governance"], default="task_run", help="Feishu sync surface. Defaults to task_run.")
     sync.add_argument("--run-id", help="Run id to mirror when --surface task_run is used.")
     sync.add_argument("--report-date", help="Optional report date used when --surface clone_governance is selected.")
-    sync.add_argument("--portfolio", choices=CLONE_PORTFOLIO_CHOICES, default="client", help="Clone governance portfolio slice when --surface clone_governance is selected.")
+    sync.add_argument("--portfolio", choices=CLONE_PORTFOLIO_CHOICES, default="", help="Clone governance portfolio slice when --surface clone_governance is selected.")
+    sync.add_argument("--instance", help="Optional clone instance id whose feishu-bridge config should be used for clone_governance.")
     sync.add_argument("--link", help="Optional Feishu wiki/base link override.")
     sync.add_argument("--primary-field", help="Optional primary field override.")
     sync.add_argument("--bridge-script", help="Optional bridge script path override.")
