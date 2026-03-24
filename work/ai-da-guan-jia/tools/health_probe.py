@@ -730,6 +730,7 @@ def main() -> int:
         "ok": len(result.get("errors", [])) == 0,
         "summary": {
             "root": result["root"],
+            "instance_id": result.get("instance_id"),
             "dry_run": result["dry_run"],
             "heartbeat_path": result["heartbeat_path"],
             "scorecard_path": result["scorecard_path"],
