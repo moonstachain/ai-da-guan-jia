@@ -1,0 +1,12 @@
+{
+  "instance_id": "longxia",
+  "surface": "clone_governance",
+  "portfolio": "internal",
+  "report_date": "",
+  "cron": "0 9 * * *",
+  "mode": "cron-first",
+  "link": "",
+  "bridge_script": "",
+  "manifest": "",
+  "updated_at": "2026-03-25T07:08:18+08:00"
+}
