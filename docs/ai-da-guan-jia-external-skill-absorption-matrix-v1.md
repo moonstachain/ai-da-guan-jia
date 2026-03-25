@@ -317,3 +317,5 @@ flowchart LR
 - 以后新增 skill 时，不会每次都从零判断
 - 以后做路由时，能直接按边界和证据分流
 - 以后做治理时，可以把真正的增量沉淀成规则，而不是目录堆叠
+
+日常版速查表见 [AI大管家 外部 Skill 默认路由表 v1](/Users/liming/Documents/codex-ai-gua-jia-01/docs/ai-da-guan-jia-external-skill-default-routing-table-v1.md)。
