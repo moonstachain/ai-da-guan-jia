@@ -24680,8 +24680,9 @@ def clone_seed_update_claude_init(instance_root: Path) -> dict[str, Any]:
     ]
     current_path = PROJECT_ROOT / "yuanli-os-claude" / "CLAUDE-INIT.md"
     template_path = PROJECT_ROOT / "yuanli-os-claude" / "CLAUDE-INIT-TEMPLATE.md"
+    current_clone_template_path = PROJECT_ROOT / "artifacts" / "ai-da-guan-jia" / "clones" / "current" / "clone-init-template.md"
     updated_paths: list[str] = []
-    for path in (current_path, template_path):
+    for path in (current_path, template_path, current_clone_template_path):
         if not path.exists():
             continue
         text = path.read_text(encoding="utf-8")
@@ -32223,7 +32224,7 @@ def command_clone_seed(args: argparse.Namespace) -> int:
         service_tier = str(args.service_tier or tier).strip() or tier
         manager_clone_id = str(args.manager_clone_id or "mother").strip() or "mother"
         goal_model = str(args.goal_model or "5-day-activation + daily-rhythm").strip() or "5-day-activation + daily-rhythm"
-        memory_namespace = str(args.memory_namespace or f"{clone_id}-private").strip() or f"{clone_id}-private"
+        memory_namespace = str(args.memory_namespace or f"ns-{clone_id}").strip() or f"ns-{clone_id}"
         report_owner = str(args.report_owner or colleague_name).strip() or colleague_name
         clone_mode = str(args.clone_mode or "client").strip() or "client"
         mother_init_version = str(args.mother_init_version or current_claude_init_version()).strip() or "unknown"
@@ -32270,7 +32271,11 @@ def command_clone_seed(args: argparse.Namespace) -> int:
             write_json(CLONE_SCORECARD_AGGREGATE_PATH, [])
 
         instance_root = clone_seed_instance_root(clone_id)
-        clone_init_template_path = PROJECT_ROOT / "yuanli-os-claude" / "templates" / "clone-init-template.md"
+        clone_init_template_path = (
+            PROJECT_ROOT / "artifacts" / "ai-da-guan-jia" / "clones" / "current" / "clone-init-template.md"
+            if (PROJECT_ROOT / "artifacts" / "ai-da-guan-jia" / "clones" / "current" / "clone-init-template.md").exists()
+            else PROJECT_ROOT / "yuanli-os-claude" / "templates" / "clone-init-template.md"
+        )
         clone_init_replacements = clone_seed_template_replacements(
             clone_name=display_name,
             created_at=created_at,
@@ -32383,7 +32388,7 @@ def command_register_clone(args: argparse.Namespace) -> int:
     goal_model = str(args.goal_model or template.get("goal_model") or "").strip()
     if not goal_model:
         raise ValueError("--goal-model cannot be empty unless --role-template-id provides a default goal model")
-    memory_namespace = str(args.memory_namespace or "").strip() or f"clone/{tenant_id}/{clone_id}"
+    memory_namespace = str(args.memory_namespace or "").strip() or f"ns-{clone_id}"
     report_owner = str(args.report_owner or "").strip() or DEFAULT_INTERNAL_REPORT_OWNER
     registry_row = {
         "clone_id": clone_id,

@@ -1,5 +1,5 @@
 # CLAUDE-INIT.md — 新 Claude 会话启动记忆
-# 最后更新：2026-03-19 · V18（workflow hardening gate applied）
+# 最后更新：2026-03-25 · V20（CLONE-03 activation loop applied）
 
 > 用法：在新 Claude 会话开始时先读本文件。
 > 定位：这是 `shared startup memory distribution object`，不是 runtime ledger。
@@ -64,6 +64,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - `TS-MIRROR-02A` 历史镜像补链：BW50 事件扩展 + linked_bw50_event_id 回填：进行中（Phase 1 已完成，Phase 2 需目标 React 仓库确认）
 - `TS-OC-02` task-spec Skill v1.1：草案入表 + 批准执行 闭环 MVP（已完成，草案待审 / 已审批待执行 两态已打通）
 - `TS-V2-PHASE0` clone 复制扩展：Phase 0 模板 / schema / health probe 已就绪，`clone_management` 已纳入治理 base schema/manifest，Phase 1 gate 已由 TS-WF-HARDEN-01 满足
+- `PROJ-V2-CLONE-03` COLLEAGUE-INIT 激活引导 + Feedback Loop：已完成（CLONE-INIT 正式版 + Onboarding SOP + activation prompt + feedback-digest + dogfood verify）
 - `TS-WF-HARDEN-01` workflow-hardening：已完成（WF-001..005 固化 + Workflow Registry 上线 + D6 1→3）
 - 驾驶舱 2.0 代码交付：已完成（`yuanli-os-dashboard-v2.zip`，5 页面 / 12 插件）
 - `I-REV-001` 递归复盘引擎：已落位（09:00 轻量 review + 23:00 深盘 + 周 / 月 / 季 / 年 rollup）
@@ -165,6 +166,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 ## 下一步阶段指针
 
 - `R18` 完整排期与依赖：详见 `docs/r18-roadmap.md`
+- `PROJ-DASH-V5-B`：Phase B 操作者工作台，承接 longxia 激活闭环之后的工作台落地
 - 三向量扩展详细方案：详见 `docs/three-vector-architecture.md`
 - Agent 三代演进定位：详见 `docs/agent-three-generations.md`
 - 康波智库专家体系：详见 `docs/kangbo-expert-network.md`
@@ -198,6 +200,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 20. `sync-feishu --instance` reads instance-local `feishu-bridge/table-registry.json` and `sync-config.json` for `clone_governance`.
 21. `internal-operator` and `tier-1-internal` are first-class internal cohort fields and must not be normalized back to client defaults.
 22. 递归深度驾驶舱模型：`/` 直达 CeoCockpit L0，`/deep-dive` 承接旧页面深钻，`/workspace` 预留给 Phase B 操作者工作台；Phase A 只接 3 个 capability，不接 `clone-scorecard`。
+23. `PROJ-V2-CLONE-03` 是人机激活任务而不是系统建设任务：交付物必须同时包含 CLONE-INIT、Onboarding SOP、activation prompt、feedback-digest、dogfood verify 与 task tracker 回写。
 ## 误吸收防火墙
 
 - 不把飞书当真相源

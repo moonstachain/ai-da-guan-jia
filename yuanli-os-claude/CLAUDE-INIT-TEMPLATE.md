@@ -1,9 +1,10 @@
 # CLAUDE-INIT-TEMPLATE.md — 新 Claude 会话启动记忆模板
-# 模板版本：2026-03-17 · V16-lite-template
+# 模板版本：2026-03-25 · V20-lite-template
 
 > 用法：填入你的飞书坐标和业务参数后，将此文件作为新 Claude 会话的第一条消息。
 > 定位：这是 `shared startup memory distribution object` 的模板，不是 runtime ledger。
 > 真相源边界：运行事实以本地 canonical artifacts 为准，GitHub / Feishu 只是 mirror 或 frontstage。
+> 版本提醒：如果你正在实例化 longxia / CLONE-03，请先确认母体 INIT 是 V20，而不是旧的 V18。
 
 ## 你是谁
 

@@ -14,10 +14,10 @@
     "manager_clone_id": "mother",
     "goal_model": "5-day-activation + daily-rhythm",
     "shared_core_version": "971e127",
-    "memory_namespace": "longxia-private",
+    "memory_namespace": "ns-longxia",
     "report_owner": "ray",
     "created_at": "2026-03-25T07:13:30+08:00",
-    "updated_at": "2026-03-25T07:13:30+08:00",
+    "updated_at": "2026-03-25T20:58:11+08:00",
     "portfolio_scope": "internal"
   }
 ]

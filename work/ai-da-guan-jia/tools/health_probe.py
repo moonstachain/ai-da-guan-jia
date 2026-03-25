@@ -17,6 +17,7 @@ import json
 import os
 import re
 import tempfile
+import sys
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -56,8 +57,16 @@ def resolve_repo_root() -> Path:
         return Path.cwd()
 
 
+REPO_ROOT = resolve_repo_root()
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.clone03_common import INSTANCE_ID, load_feishu_api, load_table_registry, table_meta  # noqa: E402
+from scripts.create_kangbo_signal_tables import DEFAULT_ACCOUNT_ID  # noqa: E402
+
+
 def clone_scorecard_aggregate_path() -> Path:
-    return resolve_repo_root() / "artifacts" / "ai-da-guan-jia" / "clones" / "current" / "clone-scorecard-aggregate.json"
+    return REPO_ROOT / "artifacts" / "ai-da-guan-jia" / "clones" / "current" / "clone-scorecard-aggregate.json"
 
 
 def iso_utc(dt: datetime) -> str:
@@ -265,7 +274,12 @@ def parse_governance_dashboard(path: Path, state: ProbeState) -> dict[str, Any]:
 def scan_feedback(feedback_dir: Path, state: ProbeState) -> dict[str, Any]:
     if not feedback_dir.exists():
         state.assumptions.append(f"{feedback_dir} missing; feedback_pending defaults to 0")
-        return {"feedback_pending": 0, "codex_proposals_today": 0, "last_feedback_activity": None}
+        return {
+            "feedback_pending": 0,
+            "codex_proposals_today": 0,
+            "last_feedback_activity": None,
+            "feedback_stale_hours": None,
+        }
 
     pending = 0
     proposals_today = 0
@@ -273,7 +287,7 @@ def scan_feedback(feedback_dir: Path, state: ProbeState) -> dict[str, Any]:
     today = datetime.now().astimezone().date()
 
     for item in feedback_dir.rglob("*"):
-        if not item.is_file():
+        if not item.is_file() or item.name.startswith(".") or item.name == ".gitkeep":
             continue
         pending += 1
         item_time = datetime.fromtimestamp(item.stat().st_mtime, tz=timezone.utc)
@@ -286,6 +300,7 @@ def scan_feedback(feedback_dir: Path, state: ProbeState) -> dict[str, Any]:
         "feedback_pending": pending,
         "codex_proposals_today": proposals_today,
         "last_feedback_activity": iso_utc(latest) if latest else None,
+        "feedback_stale_hours": ((now_utc() - latest).total_seconds() / 3600.0) if latest else None,
     }
 
 
@@ -311,6 +326,35 @@ def normalize_dimensions(payload: dict[str, Any]) -> dict[str, int]:
     for key in DIMENSION_KEYS:
         normalized[key] = clamp_dimension(int(source.get(key, 0))) if str(source.get(key, "0")).isdigit() else 0
     return normalized
+
+
+def load_feishu_probe_client() -> FeishuBitableAPI:
+    return load_feishu_api(DEFAULT_ACCOUNT_ID)
+
+
+def count_blocked_tasks(instance_id: str, state: ProbeState) -> dict[str, Any]:
+    try:
+        registry = load_table_registry(instance_id)
+        meta = table_meta(instance_id, "COO_Task_Tracker")
+        app_token = str(registry.get("base_app_token") or "").strip()
+        if not app_token:
+            raise RuntimeError("missing base_app_token in table registry")
+        api = load_feishu_probe_client()
+        records = api.list_records(app_token, meta["table_id"])
+        blocked_ids: list[str] = []
+        for record in records:
+            fields = record.get("fields") or {}
+            status = str(fields.get("status") or fields.get("task_status") or "").strip().lower()
+            if status in {"blocked", "阻塞"}:
+                blocked_ids.append(str(fields.get(meta["primary_field"]) or fields.get("task_id") or record.get("record_id") or "").strip())
+        return {
+            "blocked_task_count": len(blocked_ids),
+            "blocked_task_ids": [item for item in blocked_ids if item],
+            "task_table_id": meta["table_id"],
+        }
+    except Exception as exc:  # noqa: BLE001
+        state.errors.append(f"failed to query blocked tasks for {instance_id}: {exc}")
+        return {"blocked_task_count": None, "blocked_task_ids": [], "task_table_id": None}
 
 
 def update_scorecard(
@@ -400,8 +444,10 @@ def build_new_alerts(
     clone_id: str,
     closure_ratio: float | None,
     governance_stale_hours: float | None,
+    feedback_stale_hours: float | None,
     completed_by_day: dict[str, int],
     has_run_history: bool,
+    blocked_task_count: int | None,
 ) -> list[dict[str, Any]]:
     items: list[dict[str, Any]] = []
     now = iso_utc(now_utc())
@@ -413,6 +459,21 @@ def build_new_alerts(
                 "type": "drift",
                 "severity": "warning",
                 "message": f"governance-dashboard.md stale for {governance_stale_hours:.1f}h (>72h)",
+                "timestamp": now,
+                "decision": "investigate",
+                "resolved": False,
+                "resolved_at": None,
+                "resolution_note": None,
+            }
+            )
+
+    if feedback_stale_hours is not None and feedback_stale_hours > 72:
+        items.append(
+            {
+                "clone_id": clone_id,
+                "type": "feedback_stale",
+                "severity": "warning",
+                "message": f"feedback directory stale for {feedback_stale_hours:.1f}h (>72h)",
                 "timestamp": now,
                 "decision": "investigate",
                 "resolved": False,
@@ -438,6 +499,21 @@ def build_new_alerts(
                     "resolution_note": None,
                 }
             )
+
+    if blocked_task_count is not None and blocked_task_count > 0:
+        items.append(
+            {
+                "clone_id": clone_id,
+                "type": "blocked_tasks",
+                "severity": "warning",
+                "message": f"COO_Task_Tracker blocked tasks = {blocked_task_count}",
+                "timestamp": now,
+                "decision": "investigate",
+                "resolved": False,
+                "resolved_at": None,
+                "resolution_note": None,
+            }
+        )
 
     if closure_ratio is not None and closure_ratio < 0.3:
         items.append(
@@ -618,6 +694,7 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
     run_stats = scan_runs(runs_dir, state)
     governance_stats = parse_governance_dashboard(governance_path, state)
     feedback_stats = scan_feedback(feedback_dir, state)
+    blocked_stats = count_blocked_tasks(instance_id, state) if instance_id else {"blocked_task_count": None, "blocked_task_ids": [], "task_table_id": None}
     last_active = run_stats.get("last_active_session") or feedback_stats.get("last_feedback_activity") or governance_stats.get("updated_at")
     if not last_active:
         last_active = iso_utc(now_utc())
@@ -638,8 +715,10 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
         clone_id=clone_id,
         closure_ratio=closure_ratio,
         governance_stale_hours=governance_stats["stale_hours"],
+        feedback_stale_hours=feedback_stats["feedback_stale_hours"],
         completed_by_day=run_stats["completed_by_day"],
         has_run_history=bool(run_stats["has_run_history"]),
+        blocked_task_count=blocked_stats["blocked_task_count"],
     )
     alerts_path = clone_state_dir / ("alerts.json" if instance_id else "alerts-decisions.json")
     _, alerts_active = append_alerts(alerts_path, new_alerts=new_alerts, state=state, dry_run=args.dry_run)
@@ -661,6 +740,9 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
         "codex_proposals_today": int(feedback_stats["codex_proposals_today"]),
         "governance_maturity": int(governance_stats["governance_maturity"]),
         "feedback_pending": int(feedback_stats["feedback_pending"]),
+        "feedback_stale_hours": feedback_stats["feedback_stale_hours"],
+        "blocked_task_count": blocked_stats["blocked_task_count"],
+        "blocked_task_ids": blocked_stats["blocked_task_ids"],
         "alerts_active": int(alerts_active),
         "status": status,
     }
@@ -700,6 +782,9 @@ def run_probe(args: argparse.Namespace) -> dict[str, Any]:
         "webhook_sent": webhook_sent,
         "heartbeat": heartbeat,
         "scorecard": scorecard_obj,
+        "blocked_task_count": blocked_stats["blocked_task_count"],
+        "blocked_task_ids": blocked_stats["blocked_task_ids"],
+        "feedback_stale_hours": feedback_stats["feedback_stale_hours"],
         "assumptions": state.assumptions,
         "errors": state.errors,
     }
@@ -740,6 +825,8 @@ def main() -> int:
             "webhook_sent": result["webhook_sent"],
             "status": result["heartbeat"]["status"],
             "alerts_active": result["heartbeat"]["alerts_active"],
+            "feedback_stale_hours": result.get("feedback_stale_hours"),
+            "blocked_task_count": result.get("blocked_task_count"),
         },
     }
     if result.get("assumptions"):
