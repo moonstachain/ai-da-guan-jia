@@ -38,7 +38,7 @@
 - strategy-human-ai-success-efficiency [theme-human-ai-coevolution] :: validated :: mother=none :: 最大成功率与效率的人机协同
 - strategy-human-ai-low-interruption-convergence [theme-human-ai-coevolution] :: proposed :: mother=strategy-human-ai-success-efficiency :: 连续表达低打断收束
 - strategy-human-ai-mvp-fast-validation [theme-human-ai-coevolution] :: proposed :: mother=strategy-human-ai-success-efficiency :: 最小可控MVP快证
-- strategy-human-ai-consensus-before-automation [theme-human-ai-coevolution] :: proposed :: mother=strategy-human-ai-success-efficiency :: 上层共识先于自动化固化
+- strategy-human-ai-consensus-before-automation [theme-human-ai-coevolution] :: validated :: mother=strategy-human-ai-success-efficiency :: 上层共识先于自动化固化
 
 ## Experiment Registry
 
@@ -47,7 +47,7 @@
 - experiment-governance-transport-unblock-001 [strategy-governance-mainline-closure] :: verdict=passed :: scope=先补 auth / remote 边界，再跑 1 次真实 emit；缺权限就直接转 blocked_needs_user。
 - experiment-human-ai-low-interruption-round-001 [strategy-human-ai-low-interruption-convergence] :: verdict=pending_real_round :: scope=选择 1 次真实连续表达会话，只验证接话节奏、收束质量和最小必要追问。
 - experiment-human-ai-mvp-fast-validation-001 [strategy-human-ai-mvp-fast-validation] :: verdict=pending_real_round :: scope=围绕 1 个真实主题只跑最小链路，验证 idea -> strategy -> experiment -> verdict 是否顺畅闭环。
-- experiment-human-ai-consensus-before-automation-001 [strategy-human-ai-consensus-before-automation] :: verdict=pending_real_round :: scope=选择 1 条拟自动化链路，先只做共识和策略验证，不落地自动执行。
+- experiment-human-ai-consensus-before-automation-001 [strategy-human-ai-consensus-before-automation] :: verdict=passed :: scope=选择 1 条拟自动化链路，先只做共识和策略验证，不落地自动执行。
 
 ## Workflow Registry
 
@@ -120,27 +120,27 @@
 - I-GOV-001 [G1] 治理主线收口 :: active :: gap=low :: theme=theme-governance / strategy=strategy-governance-mainline-closure / experiment=none / workflow=none
 - I-AUTO-001 [G2] 提案自治引擎 :: active :: gap=high :: theme=theme-human-ai-coevolution / strategy=strategy-human-ai-success-efficiency / experiment=none / workflow=none
 - I-INC-001 [G3] AI 激励评分体系 :: active :: gap=high :: theme=theme-governance / strategy=none / experiment=none / workflow=none
-- I-CLONE-001 [G2] AI管家克隆体训练工厂 :: active :: gap=high :: theme=theme-human-ai-coevolution / strategy=strategy-human-ai-success-efficiency / experiment=none / workflow=none
+- I-CLONE-001 [G2] AI管家克隆体训练工厂 :: active :: gap=medium :: theme=theme-human-ai-coevolution / strategy=strategy-human-ai-success-efficiency / experiment=none / workflow=none
 
 ## Active Threads
 
-- Total tracked threads: 10
-- Archived: 5
-- Active: 5
+- Total tracked threads: 12
+- Archived: 6
+- Active: 6
+- adagj-20260325-091304-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-consensus-before-automation experiment=experiment-human-ai-consensus-before-automation-001 workflow=none canonical=none disposition=none :: 固化 AI大管家 控制面主链与冲突边界
+- adagj-20260325-084722-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=none disposition=none :: 深度盘点当前这批 skills，判断哪些可以未来被 AI大管家 整合使用，并收口本次 review-skills 与 review-governance。
 - adagj-20260323-181122-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=github disposition=background_merge_queue :: 同步 AI大管家 能力到 GitHub 并导出技能镜像
 - adagj-20260322-074239-000000 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: AutoResearch 外部评估闭环
 - adagj-20260322-073510-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=none disposition=none :: 评估 Andrej Karpathy AutoResearch 对 AI大管家系统的参考/借鉴价值
 - adagj-20260319-092742-ts-kb-07 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: TS-KB-07 十五五政策信号层飞书建表 + 妙搭前端
 - adagj-20260318-tsyl02-apply6 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=experiment-governance-transport-unblock-001 workflow=none canonical=github disposition=background_merge_queue :: TS-YL-02 final closure: sync T0 rating fields from the 256-row T9S diagnostic score table, mirror the run to Feishu, and mirror the run to GitHub.
 - adagj-20260318-retro-10d [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=none disposition=none :: 10天协同系统首次大盘点，并建立 23:00 递归复盘机制
-- adagj-20260318-gh6-closure [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: TS-GH-03 和 TS-DASH-04 联合验收通过，正式结项
-- adagj-20260318-194000-000000 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: 阅读、评估并执行 t0-t12-t15 relation-aware schema manifest，补建 T0/T12-T15 并回填 table_id
 
 ## Production Metrics
 
-- Theme Layer: proposal_acceptance=1/3 active_theme_focus=3/5
-- Strategy Layer: idea_to_verdict_cycle_time_hours=9.02 mother_strategy_reuse=6
-- Execution Layer: verified_closure_rate=0.7 human_interruption_count=0 workflow_reuse_rate=0.0
+- Theme Layer: proposal_acceptance=1/3 active_theme_focus=4/6
+- Strategy Layer: idea_to_verdict_cycle_time_hours=87.06 mother_strategy_reuse=6
+- Execution Layer: verified_closure_rate=0.67 human_interruption_count=0 workflow_reuse_rate=0.0
 
 ## Current Gaps
 
@@ -156,13 +156,13 @@
 
 ## Top Routing Credit
 
-- collab-sync: closure=1.0 verify=10.0 reuse=1 distortion=2.0
-- evolution-log: closure=1.0 verify=10.0 reuse=1 distortion=2.0
-- agency-engineering-frontend-developer: closure=1.0 verify=4.0 reuse=1 distortion=0.0
-- spreadsheet: closure=1.0 verify=4.0 reuse=1 distortion=0.0
-- ai-da-guan-jia: closure=0.86 verify=5.34 reuse=7 distortion=0.57 proposal=0.97 support=2
-- jiyao-youyao-haiyao: closure=0.67 verify=3.48 reuse=3 distortion=0.33 proposal=0.97 support=1
-- feishu-bitable-bridge: closure=0.5 verify=5.99 reuse=2 distortion=0.0 proposal=0.97 support=1
-- ai-metacognitive-core: closure=0.5 verify=5.49 reuse=2 distortion=1.0 proposal=0.97 support=1
-- autoresearch: closure=0.5 verify=5.49 reuse=2 distortion=1.0 proposal=0.97 support=1
-- yuanli-knowledge: closure=0.0 verify=5.49 reuse=1 distortion=0.0 proposal=0.97 support=1
+- ai-da-guan-jia: closure=0.71 verify=4.32 reuse=10 distortion=0.31 proposal=0.97 support=2
+- feishu-bitable-bridge: closure=1.0 verify=5.0 reuse=3 distortion=0.2 proposal=0.97 support=1
+- yuanli-knowledge: closure=1.0 verify=5.0 reuse=2 distortion=0.2 proposal=0.97 support=1
+- jiyao-youyao-haiyao: closure=0.67 verify=4.17 reuse=4 distortion=0.27 proposal=0.97 support=1
+- agency-engineering-frontend-developer: closure=1.0 verify=5.0 reuse=2 distortion=0.2
+- spreadsheet: closure=1.0 verify=5.0 reuse=2 distortion=0.2
+- ai-metacognitive-core: closure=0.5 verify=3.88 reuse=3 distortion=0.4 proposal=0.97 support=1
+- autoresearch: closure=0.5 verify=3.88 reuse=3 distortion=0.4 proposal=0.97 support=1
+- collab-sync: closure=0.0 verify=5.0 reuse=2 distortion=0.6
+- evolution-log: closure=0.0 verify=5.0 reuse=2 distortion=0.6

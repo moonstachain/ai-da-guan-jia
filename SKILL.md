@@ -162,6 +162,12 @@ The router must write `situation-map.md` and `route.json` before any later evolu
 - Discover the rest dynamically from `$CODEX_HOME/skills`.
 - Follow the fixed ranking order in [references/routing-policy.md](references/routing-policy.md): `任务适配度 > 验真能力 > 成本/算力 > 已有认证/登录态复用 > 新增复杂度`.
 - Prefer the smallest sufficient downstream combination. The default ceiling is 3 skills.
+- Treat the control-plane spine as `ai-metacognitive-core -> intent-grounding -> skill-router -> evidence-gate -> closure-evolution` whenever intent is fuzzy, routing is ambiguous, or completion claims need proof.
+- Route `jiyao-youyao-haiyao` for single-pass, low-interruption closures; route `jiyao-youyao-haiyao-zaiyao` for multi-stage work or repeated verification loops.
+- Route `knowledge-orchestrator` before `notion-*` when the task is KB-first; let `notion-*` handle capture, research, or documentation after the KB judgment, not instead of it.
+- Route `figma` for design context and `figma-implement-design` only for 1:1 implementation from an existing Figma source.
+- Treat `youquant-backtest-automation` as canonical for natural-language strategy-to-backtest work; keep `youquant-backtest` as a legacy alias.
+- Route Feishu writes only after the local canonical log exists and the payload is ready; mirrors never outrank truth.
 - Route `skill` creation or update requests to `skill-creator` first.
 - Route skill-training or skill-methodology requests to `skill-trainer-recursive` before direct scaffolding.
 - Route unfamiliar-domain learning, manual-first study, benchmark comparison, or "先读说明书/攻略/官方文档" requests to `guide-benchmark-learning` first.

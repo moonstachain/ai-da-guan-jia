@@ -1,25 +1,55 @@
 # Core Roster
 
-## ai-metacognitive-core
+## Control Plane Spine
+
+### ai-metacognitive-core
 
 - Role: expose distortion risk, truth condition, collaboration boundary, and evolution judgment before action.
 - Strengths: catches pseudo-completion, pseudo-understanding, and boundary confusion.
 - Weaknesses: does not execute domain work by itself.
-- Boundary: use as a judgment layer, not as a substitute for task delivery.
+- Boundary: use as the supervisory judgment layer above the rest of the chain.
+
+### intent-grounding
+
+- Role: turn a vague request into a bounded intent, success criteria, and a routeable task frame before downstream selection.
+- Strengths: reduces ambiguity before routing starts, makes hidden assumptions explicit.
+- Weaknesses: does not choose the final tool chain by itself.
+- Boundary: use before routing whenever the prompt is underspecified or likely to split into multiple interpretations.
+
+### skill-router
+
+- Role: select the smallest sufficient downstream combination and keep the mainline stable.
+- Strengths: stable route choice, overlap resolution, and combination discipline.
+- Weaknesses: depends on clean intent and good boundary input.
+- Boundary: use as the primary chooser once the task frame is grounded.
+
+### evidence-gate
+
+- Role: require proof-bearing evidence before completion, mirror sync, or truth promotion is accepted.
+- Strengths: blocks pseudo-closure, keeps results tied to verifiable artifacts.
+- Weaknesses: cannot invent evidence or replace execution.
+- Boundary: use as the completion gate, not as a brainstorming helper.
+
+### closure-evolution
+
+- Role: decide whether a completed run should be captured as a validated rule, policy, or reusable pattern.
+- Strengths: turns single runs into reusable governance assets.
+- Weaknesses: should not pre-empt task execution.
+- Boundary: use after the result is real and the evidence gate has passed.
 
 ## jiyao-youyao-haiyao
 
-- Role: enforce minimal interruption, dual verification, and cheapest reliable execution.
+- Role: enforce minimal interruption, dual verification, and the cheapest reliable single-pass execution.
 - Strengths: strong autonomy, cost ladder discipline, low-noise escalation.
 - Weaknesses: not a domain planner or knowledge specialist.
-- Boundary: use when the main risk is waste, interruption, or weak proof.
+- Boundary: use when the main risk is waste, interruption, or weak proof, and the work is still a single closure pass.
 
 ## jiyao-youyao-haiyao-zaiyao
 
-- Role: stronger meta-execution variant for complex multi-step work with short post-task reflection.
+- Role: stronger meta-execution variant for complex multi-step work with short post-task reflection and repeated verification.
 - Strengths: good for larger workflows that still need tight convergence.
 - Weaknesses: can be heavier than necessary for small tasks.
-- Boundary: use when the task is clearly complex and multi-stage.
+- Boundary: use when the task is clearly complex, multi-stage, or requires multiple proof cycles to converge.
 
 ## skill-creator
 
@@ -86,12 +116,9 @@
 
 ## Absorbed Missing Organs
 
-`ai-metacognitive-core` references several immune organs that are not installed locally as standalone skills:
+`ai-metacognitive-core` references several immune organs that are not installed locally as standalone skills.
+The control-plane spine above now makes the main chain explicit; keep this list only as a reminder of residual absorbed lineage:
 
-- `skill-router`
-- `evidence-gate`
-- `closure-evolution`
-- `intent-grounding`
 - `human-ai-collab-loop`
 
-In `AI大管家` v1, absorb those responsibilities into the routing policy, verification rules, and evolution log instead of adding hard dependencies.
+In `AI大管家` v1, absorb the residual responsibilities into the routing policy, verification rules, and evolution log instead of adding hard dependencies.

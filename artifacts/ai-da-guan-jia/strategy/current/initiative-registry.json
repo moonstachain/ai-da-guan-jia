@@ -60,7 +60,7 @@
       "skill-trainer-recursive",
       "strategy-governor"
     ],
-    "gap_level": "high",
+    "gap_level": "medium",
     "theme_id": "theme-human-ai-coevolution",
     "strategy_id": "strategy-human-ai-success-efficiency",
     "experiment_id": "",
