@@ -41,9 +41,13 @@
 ### 2.2 本轮已经跑过的代表性评估卡
 
 - [Context7 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-20260325-092708/evaluation-card.md)
-- [Task Master AI 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-20260325-094100-taskmaster/evaluation-card.json)
-- [Tavily 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-20260325-092741/evaluation-card.json)
+- [Context Optimization 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-20260325-092826/evaluation-card.md)
+- [Systematic Debugging 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-20260325-092911/evaluation-card.md)
+- [Task Master AI 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-taskmaster-20260325-092930/evaluation-card.md)
+- [Firecrawl 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-20260325-092826-02/evaluation-card.md)
+- [Codebase Memory MCP 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-codebase-memory-20260325-092955/evaluation-card.md)
 - [GPT Researcher 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/current/latest-evaluation.json)
+- [Tavily 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-20260325-092741/evaluation-card.json)
 - [AutoResearch 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-22/adagj-external-skill-20260322-073709/evaluation-card.json)
 
 ### 2.3 读法提醒
@@ -61,7 +65,10 @@
 | 代表项 | 当前判断 | 为什么值得现在整合 | 后续使用方式 |
 | --- | --- | --- | --- |
 | `Context7` | `directly_usable / install_now` | 适合做官方文档、版本差异、陌生库学习的前置工具 | 作为 docs-first / benchmark-first 入口，不进 skill core |
+| `Context Optimization` | 结构可直接映射 | 直接提升 token 与上下文效率 | 接到上下文压缩与路由层 |
+| `Systematic Debugging` | 结构可直接映射 | 适合做根因分析和调试顺序控制 | 接到 `ai-metacognitive-core` 与调试 playbook |
 | `Task Master AI` | `directly_usable / install_now` | 适合做 PRD -> task -> 执行的规划桥 | 先和 `task-spec`、`self-evolution-max` 做 benchmark，再决定是否 canonical 化 |
+| `File Search` | 结构可直接映射 | 补强代码库深搜与定位能力 | 作为 preflight / 代码导航层 |
 | `PDF Processing` | 结构可直接映射 | 与现有 `pdf` 能力高度同构 | 统一成文档工作流 adapter |
 | `DOCX` | 结构可直接映射 | 与现有 `doc` 能力同类 | 统一成文档工作流 adapter |
 | `PPTX` | 结构可直接映射 | 与现有 `slides` 能力同类 | 统一成文档工作流 adapter |
@@ -74,9 +81,6 @@
 | `Web Artifacts Builder` | 结构可直接映射 | 适合快速生成小型交互物件和 dashboard | 接到 Web artifact / dashboard adapter |
 | `Brand Guidelines` | 结构可直接映射 | 适合把品牌规范变成自动约束 | 接到品牌守护与设计验真 |
 | `Skill Creator` | 结构可直接映射 | 直接帮助技能生成和方法沉淀 | 作为 skill 生产入口 |
-| `File Search` | 结构可直接映射 | 补强代码库深搜与定位能力 | 作为 preflight / 代码导航层 |
-| `Systematic Debugging` | 结构可直接映射 | 适合做根因分析和调试顺序控制 | 接到 `ai-metacognitive-core` 与调试 playbook |
-| `Context Optimization` | 结构可直接映射 | 直接提升 token 与上下文效率 | 接到上下文压缩与路由层 |
 
 ### 3.2 需适配后整合
 
@@ -124,8 +128,8 @@
 
 | 代表项 | 当前判断 | 为什么只当情报 | 建议动作 |
 | --- | --- | --- | --- |
-| `Tavily` | `intel_only / research_only` | 实测输出验证还不够稳，包装信号强于闭环证据 | 先保留，不进入接入队列 |
 | `GPT Researcher` | `intel_only / research_only` | 当前评估结果显示 runtime mismatch 和 unverifiable output 风险 | 只做外部研究信号 |
+| `Tavily` | `intel_only / research_only` | 实测输出验证还不够稳，包装信号强于闭环证据 | 先保留，不进入接入队列 |
 | `AutoResearch` | `intel_only / research_only` | 适合参考方法，不适合直接收编 | 只保留方法启发 |
 | `Awesome Claude Skills` | 外部合集 | 更像目录入口，不是能力本体 | 仅作候选池 |
 | `Anthropic Skills` | 外部合集 | 官方精选池，适合做采样，不适合整包收编 | 仅作参考源 |
@@ -272,22 +276,37 @@ flowchart LR
 - 不破坏现有 route 边界
 - 可以沉淀成长期资产，而不是一次性漂亮 demo
 
-## 6. 优先级 Top 10
+## 6. 本次部署顺序（吸收队列）
+
+按这次你指定的优先级，后续吸收队列固定为：
+
+1. `Context7` - `install_now`
+2. `Context Optimization` - `benchmark_then_port`
+3. `Systematic Debugging` - `benchmark_then_port`
+4. `Task Master AI` - `benchmark_then_port`
+5. `Firecrawl` - `benchmark_then_port`
+6. `Codebase Memory MCP` - `benchmark_then_port`
+7. `GPT Researcher` - `research_only`
+8. `Tavily` - `research_only`
+
+其中 `Systematic Debugging` 可与 `File Search` 结成一组调试/预检旁路，但不改变上面的主顺序。
+
+## 7. 优先级 Top 10
 
 如果只做 10 件事，优先级建议是：
 
 1. 把 `Context7` 固化成 docs-first 的标准工具层入口。
-2. 把 `Task Master AI` 作为 PRD->task 桥做对照 benchmark，先和 `task-spec` / `self-evolution-max` 比。
-3. 建 `文档工作流 adapter`，统一 `PDF / DOCX / PPTX / XLSX / co-authoring`。
-4. 建 `设计产出 adapter`，统一 `Frontend / Canvas / Theme / Brand / Web Artifacts`。
-5. 建 `调试 / preflight adapter`，统一 `File Search / Debugging / Context Optimization`。
-6. 将 `Marketing Skills` 和 `Claude SEO` 拆成可复用的内容增长 playbook。
-7. 将 `NotebookLM Integration` 和 `Obsidian Skills` 只作为知识结构样本，不直接上升为 core。
-8. 将 `Remotion`、`Superpowers` 先 benchmark 再决定是否吸收。
-9. 把 `Tavily`、`GPT Researcher`、`AutoResearch` 固定为 intel-only 信号源。
+2. 把 `Context Optimization` 接到上下文压缩与 route 前预检层。
+3. 把 `Systematic Debugging` 固化成根因分析与调试顺序控制层，并把 `File Search` 作为旁路。
+4. 把 `Task Master AI` 作为 PRD->task 桥做对照 benchmark，先和 `task-spec` / `self-evolution-max` 比。
+5. 把 `Firecrawl` 作为采集桥保留在工具层，先做方法学吸收再谈 canonical 化。
+6. 把 `Codebase Memory MCP` 作为记忆桥保留在工具层，先验证是否真的比现有 memory 路由更强。
+7. 建 `文档工作流 adapter`，统一 `PDF / DOCX / PPTX / XLSX / co-authoring`。
+8. 建 `设计产出 adapter`，统一 `Frontend / Canvas / Theme / Brand / Web Artifacts`。
+9. 把 `GPT Researcher`、`Tavily` 固定为 intel-only 信号源，不进当前接入队列。
 10. 把外部 skill intake 的评价结果写回路由规则和验证清单，避免下次重复判断。
 
-## 7. 结论
+## 8. 结论
 
 这批外部 skill 的正确用法，不是“装得越多越强”，而是：
 
@@ -298,4 +317,3 @@ flowchart LR
 - 以后新增 skill 时，不会每次都从零判断
 - 以后做路由时，能直接按边界和证据分流
 - 以后做治理时，可以把真正的增量沉淀成规则，而不是目录堆叠
-

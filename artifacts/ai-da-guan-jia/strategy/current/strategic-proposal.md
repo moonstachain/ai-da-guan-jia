@@ -8,6 +8,7 @@
 - First initiative: 提案自治引擎
 - First active theme: theme-human-ai-coevolution
 - Frontstage focus override: theme-governance
+- External skill absorption queue: Context7 -> Context Optimization -> Systematic Debugging -> Task Master AI -> Firecrawl -> Codebase Memory MCP; GPT Researcher / Tavily stay intel-only.
 - Mother strategy: strategy-human-ai-success-efficiency
 - Governance closure mother strategy: strategy-governance-mainline-closure
 - Frontstage threads: 原力OS-治理体系研究 | 原力OS-分形设计主线 | 原力OS-信息聚合主线
