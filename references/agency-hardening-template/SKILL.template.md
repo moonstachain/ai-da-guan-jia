@@ -1,0 +1,1 @@
+@references/agency-hardening-template/SKILL.template.md
