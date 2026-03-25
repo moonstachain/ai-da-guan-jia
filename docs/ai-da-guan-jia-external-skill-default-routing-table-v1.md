@@ -40,6 +40,13 @@
 - 先进入本地安装验证
 - 只在通过验真后再考虑进入日常路由
 
+当前已验证路径：
+
+- `Context7`：`python3 scripts/check_codex_mcp.py`
+- `Task Master AI`：`PATH="/opt/homebrew/opt/node@22/bin:$PATH" python3 scripts/check_task_master_ai.py`
+- `Task Master AI` 需要 `Node 22`，当前系统默认 `node` 仍可保留为 `v20`，不要直接把系统默认 Node 改坏
+- 完整可用清单见 [Context7 与 Task Master AI 可用验证清单 v1](/Users/liming/Documents/codex-ai-gua-jia-01/docs/ai-da-guan-jia-context7-task-master-ready-checklist-v1.md)
+
 ### 3.2 `portable_reference`
 
 典型代表：
@@ -90,4 +97,3 @@
 ## 6. 一句话记忆
 
 `先评估，再分桶；可安装的不等于可收编；可参考的不等于可接入；看起来像底座的，大多就该留在底座。`
-

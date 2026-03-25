@@ -82,6 +82,13 @@
 | `Brand Guidelines` | 结构可直接映射 | 适合把品牌规范变成自动约束 | 接到品牌守护与设计验真 |
 | `Skill Creator` | 结构可直接映射 | 直接帮助技能生成和方法沉淀 | 作为 skill 生产入口 |
 
+#### 当前已验证可用
+
+- `Context7`：`python3 scripts/check_codex_mcp.py` 已返回 `ready`
+- `Task Master AI`：在 `Node 22` 路径下运行 `python3 scripts/check_task_master_ai.py` 已返回 `ready`
+- `Task Master AI` 的当前可用前提是先把 `PATH` 切到 `/opt/homebrew/opt/node@22/bin`
+- 完整可用清单见 [Context7 与 Task Master AI 可用验证清单 v1](/Users/liming/Documents/codex-ai-gua-jia-01/docs/ai-da-guan-jia-context7-task-master-ready-checklist-v1.md)
+
 ### 3.2 需适配后整合
 
 这些项有价值，但不能直接照搬，原因通常是：契约太宽、需要私有素材、或更适合作为方法样本。
