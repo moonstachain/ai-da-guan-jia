@@ -27137,6 +27137,39 @@ def write_clone_review_materials(factory_state: dict[str, Any]) -> dict[str, Any
     return bundle
 
 
+def clone_review_payload_path(table_name: str) -> Path:
+    safe_name = table_name.replace("/", "_").replace("\\", "_").strip() or "table"
+    return CLONES_CURRENT_ROOT / f"{safe_name}.payload.json"
+
+
+CLONE_REVIEW_PRIMARY_FIELD_OVERRIDES = {
+    "角色模板表": "多行文本",
+}
+
+
+def clone_review_live_primary_field(base_token: str, table_id: str) -> str:
+    if not base_token or not table_id:
+        return ""
+    try:
+        from dashboard.feishu_deploy import FeishuBitableAPI
+    except Exception:
+        return ""
+
+    app_id = str(os.getenv("FEISHU_APP_ID") or "").strip()
+    app_secret = str(os.getenv("FEISHU_APP_SECRET") or "").strip()
+    if not app_id or not app_secret:
+        return ""
+    api = FeishuBitableAPI(app_id, app_secret)
+    try:
+        fields = api.list_fields(base_token, table_id)
+    except Exception:
+        return ""
+    for field in fields:
+        if field.get("is_primary"):
+            return str(field.get("field_name") or "").strip()
+    return ""
+
+
 def write_clone_review_sync_result(payload: dict[str, Any]) -> None:
     write_json(CLONE_SYNC_RESULT_PATH, payload)
     report = load_optional_json(CLONE_PORTFOLIO_REPORT_PATH)
@@ -27235,11 +27268,26 @@ def sync_clone_review_to_feishu(
         for item in schema_payload.get("tables", [])
         if isinstance(item, dict) and item.get("table_name")
     }
+    base_token = str(schema_payload.get("base_token") or "").strip()
     failed = False
     for table_name, records in bundle["tables"].items():
-        payload_path = CLONES_CURRENT_ROOT / f"{table_name}.payload.json"
-        write_json(payload_path, records)
+        payload_path = clone_review_payload_path(table_name)
         meta = tables_meta.get(table_name, {})
+        live_primary_field = CLONE_REVIEW_PRIMARY_FIELD_OVERRIDES.get(table_name) or clone_review_live_primary_field(
+            base_token, str(meta.get("table_id") or "")
+        ) or str(
+            meta.get("primary_field") or ""
+        )
+        expected_primary_field = str(meta.get("primary_field") or "")
+        normalized_records: list[dict[str, Any]] = []
+        for row in records:
+            normalized_row = dict(row)
+            if live_primary_field and expected_primary_field and live_primary_field != expected_primary_field:
+                primary_value = normalized_row.pop(expected_primary_field, None)
+                if primary_value not in {None, ""}:
+                    normalized_row[live_primary_field] = primary_value
+            normalized_records.append(normalized_row)
+        write_json(payload_path, normalized_records)
         upsert_command = [
             "python3",
             str(bridge_script),
@@ -27249,7 +27297,7 @@ def sync_clone_review_to_feishu(
             "--table-id",
             str(meta.get("table_id") or ""),
             "--primary-field",
-            str(meta.get("primary_field") or ""),
+            live_primary_field,
             "--payload-file",
             str(payload_path),
             "--apply",
