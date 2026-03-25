@@ -17,7 +17,7 @@
     ],
     "requires_human_approval": true,
     "status": "pending_approval",
-    "created_at": "2026-03-25T09:27:01+08:00",
+    "created_at": "2026-03-25T20:12:37+08:00",
     "notes": "当前缺口: workflow-hardening | skill-deduper | skill-inventory-review"
   },
   {
@@ -29,18 +29,18 @@
     "experiment_id": "",
     "workflow_id": "",
     "title": "用大奖章/IBM 方法论加厚提案自治引擎",
-    "expected_gain": "能围绕战略目标稳定提出新线程和 skill 招募建议。",
+    "expected_gain": "能围绕战略目标稳定提出新线程和组织级 proposal 对象。",
     "resource_cost": "medium",
-    "verification": "生成 3 个高质量 thread proposals，并给出复用 vs 新建判断。",
+    "verification": "Phase 1 完成方法层定标；Phase 2 完成提案回路 MVP；Phase 3 完成治理联动；Phase 4 完成 skill / workflow / clone 三类对象扩张。",
     "required_skills": [
       "ai-da-guan-jia",
       "skill-trainer-recursive"
     ],
-    "requires_human_approval": true,
-    "status": "pending_approval",
-    "created_at": "2026-03-25T09:27:01+08:00",
-    "proposal_state": "pending_approval",
-    "notes": ""
+    "requires_human_approval": false,
+    "status": "completed",
+    "created_at": "2026-03-25T20:12:37+08:00",
+    "proposal_state": "completed",
+    "notes": "Phase 4 samples: adagj-20260325-195327-000000 | adagj-20260325-195327-000000 | adagj-20260325-195327-000000"
   },
   {
     "id": "TP-003",
@@ -59,7 +59,7 @@
     ],
     "requires_human_approval": true,
     "status": "pending_approval",
-    "created_at": "2026-03-25T09:27:01+08:00"
+    "created_at": "2026-03-25T20:12:37+08:00"
   },
   {
     "id": "TP-HA-001",
@@ -78,7 +78,7 @@
     ],
     "requires_human_approval": true,
     "status": "pending_approval",
-    "created_at": "2026-03-25T09:27:01+08:00",
+    "created_at": "2026-03-25T20:12:37+08:00",
     "notes": "只在现有 active theme 内提案，不新开主题，不直接固化 workflow。"
   }
 ]

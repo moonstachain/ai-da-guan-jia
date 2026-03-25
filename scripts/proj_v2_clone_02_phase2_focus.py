@@ -133,6 +133,12 @@ TABLE_SPECS: tuple[TableSpec, ...] = (
             FieldSpec("most_urgent_task", "text"),
             FieldSpec("most_urgent_reason", "text"),
             FieldSpec("highest_priority_next", "text"),
+            FieldSpec("strategic_priority_1", "text"),
+            FieldSpec("priority_1_progress", "text"),
+            FieldSpec("strategic_priority_2", "text"),
+            FieldSpec("priority_2_progress", "text"),
+            FieldSpec("strategic_priority_3", "text"),
+            FieldSpec("priority_3_progress", "text"),
             FieldSpec("governance_score", "number"),
             FieldSpec("governance_trend", "single_select", ("up", "down", "flat")),
             FieldSpec("clone_health_summary", "text"),
@@ -168,16 +174,22 @@ STRATEGIC_TASK_TABLE_ID = "tblB9JQ4cROTBUnr"
 
 FOCUS_RECORD = {
     "week_id": "2026-W13",
-    "top_risk": "PROJ-V2-CLONE Phase 2/3 执行窗口紧张，7天目标可能需要延展到10天",
-    "top_risk_action": "Phase 2今天启动，确保4张表+probe在2天内完成。Phase 3紧跟。",
-    "most_urgent_task": "PROJ-V2-CLONE-02",
-    "most_urgent_reason": "Phase 1已完成，Phase 2是同事激活的前置依赖。每晚1天=同事晚用1天。",
-    "highest_priority_next": "Phase 2建表+probe激活 → Phase 3 COLLEAGUE-INIT + dogfood",
+    "top_risk": "V5 首页若继续维持 15 个 capability 并行，首屏很难稳定压到 3 个调用。",
+    "top_risk_action": "先完成 6 字段 contract pass，再切 CeoCockpit / DeepDivePanel / workspace 路由。",
+    "most_urgent_task": "PROJ-DASH-V5-A",
+    "most_urgent_reason": "Phase A 决定首页能否只用 3 个 capability，并把钻入链固定下来。",
+    "highest_priority_next": "完成 L0 cockpit shell → 验证 /deep-dive 与 /workspace 占位路由 → 再推进 Phase B",
+    "strategic_priority_1": "PROJ-DASH-V5-A",
+    "priority_1_progress": "Phase A · L0 Cockpit Shell / Hook Split / Route Migration",
+    "strategic_priority_2": "PROJ-V2-CLONE-02",
+    "priority_2_progress": "Phase 2 · Feishu MVP Cockpit + Health Probe 激活",
+    "strategic_priority_3": "PROJ-V2-CLONE-03",
+    "priority_3_progress": "Phase 3 · COLLEAGUE-INIT 激活 + Feedback Loop",
     "governance_score": 26,
     "governance_trend": "up",
-    "clone_health_summary": "longxia实例已初始化，控制面14文件就绪，probe可读取。飞书4表待建。",
+    "clone_health_summary": "longxia 实例可读写，Phase A 首屏与任务轨道正在收敛到新架构。",
     "generated_by": "Claude",
-    "generated_at": 1742860800000,
+    "generated_at": 1774396800000,
 }
 
 TASK_PHASE2_RECORD = {
@@ -197,21 +209,21 @@ TASK_PHASE2_RECORD = {
     "notes": "Phase 2 MVP Cockpit 5表建表、bridge dry-run、health probe 与 weekly focus card wiring 完成。",
 }
 
-TASK_DASH_RECORD = {
-    "task_id": "PROJ-DASH-P1-01",
-    "project_id": "R18",
-    "project_name": "R18 三向量扩展 + 驾驶舱 2.0 + 康波智库",
+TASK_V5A_RECORD = {
+    "task_id": "PROJ-DASH-V5-A",
+    "project_id": "PROJ-DASH-V5",
+    "project_name": "递归深度驾驶舱 V5",
     "project_status": "进行中",
-    "task_name": "新增\"本周聚焦\"飞书表 + 驾驶舱决策聚焦卡片",
+    "task_name": "CEO 驾驶舱 L0 + L1 重构",
     "task_status": "已完成",
     "priority": "P1",
     "owner": "Codex",
     "start_date": "2026-03-25T00:00:00+08:00",
     "completion_date": "2026-03-25T00:00:00+08:00",
     "blockers": "",
-    "evidence_ref": "miaoda-v2/server/capabilities/yuanlios_weekly_focus_bitable.json",
-    "dependencies": "",
-    "notes": "本周聚焦飞书表与 Dashboard 顶部决策卡片已接入真实数据。",
+    "evidence_ref": "miaoda-v2/client/src/pages/CeoCockpit/CeoCockpit.tsx + miaoda-v2/client/src/hooks/useCeoL0Data.ts + miaoda-v2/client/src/app.tsx",
+    "dependencies": "本周聚焦 6 字段 contract pass",
+    "notes": "Phase A 完成后保留 /workspace 占位路由，DeepDivePanel 继续承接旧内容。",
 }
 
 
@@ -622,6 +634,12 @@ def build_weekly_focus_capability_payload(table_result: dict[str, Any]) -> dict[
                 {"id": fid("most_urgent_task"), "name": "most_urgent_task", "type": TEXT_FIELD, "bizType": "Text", "readable": True, "writeable": False},
                 {"id": fid("most_urgent_reason"), "name": "most_urgent_reason", "type": TEXT_FIELD, "bizType": "Text", "readable": True, "writeable": False},
                 {"id": fid("highest_priority_next"), "name": "highest_priority_next", "type": TEXT_FIELD, "bizType": "Text", "readable": True, "writeable": False},
+                {"id": fid("strategic_priority_1"), "name": "strategic_priority_1", "type": TEXT_FIELD, "bizType": "Text", "readable": True, "writeable": False},
+                {"id": fid("priority_1_progress"), "name": "priority_1_progress", "type": TEXT_FIELD, "bizType": "Text", "readable": True, "writeable": False},
+                {"id": fid("strategic_priority_2"), "name": "strategic_priority_2", "type": TEXT_FIELD, "bizType": "Text", "readable": True, "writeable": False},
+                {"id": fid("priority_2_progress"), "name": "priority_2_progress", "type": TEXT_FIELD, "bizType": "Text", "readable": True, "writeable": False},
+                {"id": fid("strategic_priority_3"), "name": "strategic_priority_3", "type": TEXT_FIELD, "bizType": "Text", "readable": True, "writeable": False},
+                {"id": fid("priority_3_progress"), "name": "priority_3_progress", "type": TEXT_FIELD, "bizType": "Text", "readable": True, "writeable": False},
                 {"id": fid("governance_score"), "name": "governance_score", "type": NUMBER_FIELD, "bizType": "Number", "readable": True, "writeable": False},
                 {
                     "id": fid("governance_trend"),
@@ -658,19 +676,17 @@ def build_weekly_focus_capability_payload(table_result: dict[str, Any]) -> dict[
 
 def write_coverage_mapping(table_results: list[dict[str, Any]], run_dir: Path) -> Path:
     mapping = [
-        ("任务状态追踪", "MVP覆盖", "COO_Task_Tracker"),
-        ("执行后复盘", "MVP覆盖", "COO_Evolution_Log"),
-        ("协同记录", "MVP覆盖", "COO_Collab_Log"),
-        ("运营指标", "MVP覆盖", "COO_Ops_Data"),
-        ("本周聚焦", "MVP覆盖", "本周聚焦"),
-        ("clone注册", "已有", "AI实例注册表"),
-        ("训练轮次", "已有", "训练轮次表"),
-        ("能力提案", "已有", "能力提案表"),
-        ("实例评分", "已有", "实例评分表"),
-        ("告警/每日报告", "deferred", "Phase 3 或后续"),
+        ("本周聚焦 6 字段 + CEO L0", "MVP覆盖", "本周聚焦 / CeoCockpit"),
+        ("L0 总控 + 治理成熟度", "MVP覆盖", "useCeoL0Data 3 capability"),
+        ("/deep-dive 深度分析面板", "MVP覆盖", "DeepDivePanel"),
+        ("/workspace 占位路由", "MVP覆盖", "WorkspacePlaceholder"),
+        ("战略任务追踪表同步", "MVP覆盖", "PROJ-DASH-V5-A"),
+        ("clone-scorecard_mirror", "deferred", "Phase B"),
+        ("useProjectContext / useTaskDetail / useAuditTrail", "deferred", "Phase B / C"),
+        ("OperatorWorkspace 独立 Base", "deferred", "Phase B"),
     ]
     lines = [
-        "# PROJ-V2-CLONE-02 / PROJ-DASH-P1-01 Coverage Mapping",
+        "# PROJ-DASH-V5-A Coverage Mapping",
         "",
         "| 契约要求 | 覆盖状态 | 覆盖表 / 去向 |",
         "|---|---|---|",
@@ -756,7 +772,7 @@ def summarize_plan(table_results: list[dict[str, Any]]) -> dict[str, Any]:
             for result in table_results
         ],
         "focus_record": FOCUS_RECORD,
-        "task_records": [TASK_PHASE2_RECORD, TASK_DASH_RECORD],
+        "task_records": [TASK_PHASE2_RECORD, TASK_V5A_RECORD],
     }
 
 
@@ -792,7 +808,7 @@ def run(*, apply: bool, run_id: str) -> dict[str, Any]:
                 api,
                 app_token,
                 STRATEGIC_TASK_SPEC,
-                TASK_DASH_RECORD,
+                TASK_V5A_RECORD,
                 apply=True,
                 table_id_override=STRATEGIC_TASK_TABLE_ID,
             )
@@ -815,7 +831,7 @@ def run(*, apply: bool, run_id: str) -> dict[str, Any]:
                 api,
                 app_token,
                 STRATEGIC_TASK_SPEC,
-                TASK_DASH_RECORD,
+                TASK_V5A_RECORD,
                 apply=False,
                 table_id_override=STRATEGIC_TASK_TABLE_ID,
             )

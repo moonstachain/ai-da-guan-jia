@@ -7,7 +7,7 @@
 - Frontstage Focus Override: theme-governance (registry active stays theme-human-ai-coevolution)
 - Wave 1 Complete: False
 - Recommended Next Focus:  [] :: 
-- I-AUTO-001 Status: Phase 4 in progress
+- I-AUTO-001 Status: Phase 4 complete :: next=production hardening backlog
 
 ## Strategic Goals
 
@@ -118,15 +118,16 @@
 ## Active Initiatives
 
 - I-GOV-001 [G1] 治理主线收口 :: active :: gap=low :: theme=theme-governance / strategy=strategy-governance-mainline-closure / experiment=none / workflow=none
-- I-AUTO-001 [G2] 提案自治引擎 :: active :: gap=high :: theme=theme-human-ai-coevolution / strategy=strategy-human-ai-success-efficiency / experiment=none / workflow=none
+- I-AUTO-001 [G2] 提案自治引擎 :: active :: gap=low :: theme=theme-human-ai-coevolution / strategy=strategy-human-ai-success-efficiency / experiment=none / workflow=none
 - I-INC-001 [G3] AI 激励评分体系 :: active :: gap=high :: theme=theme-governance / strategy=none / experiment=none / workflow=none
 - I-CLONE-001 [G2] AI管家克隆体训练工厂 :: active :: gap=medium :: theme=theme-human-ai-coevolution / strategy=strategy-human-ai-success-efficiency / experiment=none / workflow=none
 
 ## Active Threads
 
-- Total tracked threads: 12
-- Archived: 6
+- Total tracked threads: 13
+- Archived: 7
 - Active: 6
+- adagj-20260325-195327-000000 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: 请读取并执行 PROJ-DASH-V5_TaskSpec_Codex-Ready.md：先做 Contract Pass，再实现 PROJ-DASH-V5-A 的 L0 首屏拆分与路由迁移，并更新战略任务追踪。
 - adagj-20260325-091304-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-consensus-before-automation experiment=experiment-human-ai-consensus-before-automation-001 workflow=none canonical=none disposition=none :: 固化 AI大管家 控制面主链与冲突边界
 - adagj-20260325-084722-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=none disposition=none :: 深度盘点当前这批 skills，判断哪些可以未来被 AI大管家 整合使用，并收口本次 review-skills 与 review-governance。
 - adagj-20260323-181122-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=github disposition=background_merge_queue :: 同步 AI大管家 能力到 GitHub 并导出技能镜像
@@ -134,13 +135,12 @@
 - adagj-20260322-073510-000000 [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=none disposition=none :: 评估 Andrej Karpathy AutoResearch 对 AI大管家系统的参考/借鉴价值
 - adagj-20260319-092742-ts-kb-07 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=none workflow=none canonical=none disposition=none :: TS-KB-07 十五五政策信号层飞书建表 + 妙搭前端
 - adagj-20260318-tsyl02-apply6 [G1] theme=theme-governance strategy=strategy-governance-mainline-closure experiment=experiment-governance-transport-unblock-001 workflow=none canonical=github disposition=background_merge_queue :: TS-YL-02 final closure: sync T0 rating fields from the 256-row T9S diagnostic score table, mirror the run to Feishu, and mirror the run to GitHub.
-- adagj-20260318-retro-10d [G1] theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none workflow=none canonical=none disposition=none :: 10天协同系统首次大盘点，并建立 23:00 递归复盘机制
 
 ## Production Metrics
 
 - Theme Layer: proposal_acceptance=1/3 active_theme_focus=4/6
 - Strategy Layer: idea_to_verdict_cycle_time_hours=87.06 mother_strategy_reuse=6
-- Execution Layer: verified_closure_rate=0.67 human_interruption_count=0 workflow_reuse_rate=0.0
+- Execution Layer: verified_closure_rate=0.69 human_interruption_count=0 workflow_reuse_rate=0.0
 
 ## Current Gaps
 
@@ -150,19 +150,19 @@
 ## Proposal Queue
 
 - TP-001 [thread] theme-governance :: goal=G1 theme=theme-governance strategy=none experiment=none :: action=建立统一治理视图与战略 review :: status=pending_approval
-- TP-002 [thread] strategy-human-ai-success-efficiency :: goal=G2 theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none :: action=用大奖章/IBM 方法论加厚提案自治引擎 :: status=pending_approval
+- TP-002 [thread] strategy-human-ai-success-efficiency :: goal=G2 theme=theme-human-ai-coevolution strategy=strategy-human-ai-success-efficiency experiment=none :: action=用大奖章/IBM 方法论加厚提案自治引擎 :: status=completed
 - TP-003 [thread] theme-governance :: goal=G3 theme=theme-governance strategy=none experiment=none :: action=建立 agent scorecard 与提权机制 :: status=pending_approval
 - TP-HA-001 [thread] experiment-human-ai-mvp-fast-validation-001 :: goal=G2 theme=theme-human-ai-coevolution strategy=strategy-human-ai-mvp-fast-validation experiment=experiment-human-ai-mvp-fast-validation-001 :: action=在 theme-human-ai-coevolution 下运行一次人机协同 MVP 快证回合 :: status=pending_approval
 
 ## Top Routing Credit
 
-- ai-da-guan-jia: closure=0.71 verify=4.32 reuse=10 distortion=0.31 proposal=0.97 support=2
+- ai-da-guan-jia: closure=0.67 verify=4.47 reuse=10 distortion=0.33 proposal=0.97 support=2
 - feishu-bitable-bridge: closure=1.0 verify=5.0 reuse=3 distortion=0.2 proposal=0.97 support=1
 - yuanli-knowledge: closure=1.0 verify=5.0 reuse=2 distortion=0.2 proposal=0.97 support=1
-- jiyao-youyao-haiyao: closure=0.67 verify=4.17 reuse=4 distortion=0.27 proposal=0.97 support=1
+- jiyao-youyao-haiyao: closure=0.5 verify=4.38 reuse=6 distortion=0.35 proposal=0.97 support=1
+- ai-metacognitive-core: closure=0.5 verify=4.44 reuse=6 distortion=0.4 proposal=0.97 support=1
 - agency-engineering-frontend-developer: closure=1.0 verify=5.0 reuse=2 distortion=0.2
 - spreadsheet: closure=1.0 verify=5.0 reuse=2 distortion=0.2
-- ai-metacognitive-core: closure=0.5 verify=3.88 reuse=3 distortion=0.4 proposal=0.97 support=1
 - autoresearch: closure=0.5 verify=3.88 reuse=3 distortion=0.4 proposal=0.97 support=1
-- collab-sync: closure=0.0 verify=5.0 reuse=2 distortion=0.6
-- evolution-log: closure=0.0 verify=5.0 reuse=2 distortion=0.6
+- closure-evolution: closure=0.0 verify=5.0 reuse=2 distortion=0.6
+- evidence-gate: closure=0.0 verify=5.0 reuse=2 distortion=0.6

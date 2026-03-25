@@ -20,18 +20,23 @@
     "goal_id": "G2",
     "title": "提案自治引擎",
     "status": "active",
-    "summary": "围绕战略目标自动形成 initiative、thread、skill gap 和招募建议。",
+    "summary": "围绕战略目标自动形成 initiative、thread、skill gap 和组织级 proposal 对象；Phase 1-4 已完成。",
     "required_capabilities": [
       "ai-da-guan-jia",
       "strategy-governor",
       "skill-trainer-recursive"
     ],
-    "gap_level": "high",
+    "gap_level": "low",
     "theme_id": "theme-human-ai-coevolution",
     "strategy_id": "strategy-human-ai-success-efficiency",
     "experiment_id": "",
     "workflow_id": "",
-    "notes": []
+    "notes": [
+      "Phase 1-4 complete under 建议 + 待批 boundary.",
+      "skill sample: adagj-20260325-195327-000000",
+      "workflow sample: adagj-20260325-195327-000000",
+      "clone sample: adagj-20260325-195327-000000"
+    ]
   },
   {
     "id": "I-INC-001",

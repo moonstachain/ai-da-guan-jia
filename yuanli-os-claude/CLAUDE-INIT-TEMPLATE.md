@@ -144,6 +144,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 19. `health_probe.py --instance` is the instance-aware probe entrypoint, while the legacy root-based path remains backward compatible.
 20. `sync-feishu --instance` reads instance-local `feishu-bridge/table-registry.json` and `sync-config.json` for `clone_governance`.
 21. `internal-operator` and `tier-1-internal` are first-class internal cohort fields and must not be normalized back to client defaults.
+22. 递归深度驾驶舱模型：`/` 直达 CeoCockpit L0，`/deep-dive` 承接旧页面深钻，`/workspace` 预留给 Phase B 操作者工作台；Phase A 只接 3 个 capability，不接 `clone-scorecard`。
 ## 误吸收防火墙
 
 - 不把飞书当真相源

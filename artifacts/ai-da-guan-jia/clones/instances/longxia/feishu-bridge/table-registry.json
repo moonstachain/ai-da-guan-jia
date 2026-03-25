@@ -78,9 +78,15 @@
         "governance_trend": "flda8pz4lr",
         "clone_health_summary": "fldHga7CwI",
         "generated_by": "fldYK6vcjC",
-        "generated_at": "fldBNtz2YN"
+        "generated_at": "fldBNtz2YN",
+        "strategic_priority_1": "fld7OQ4FCr",
+        "priority_1_progress": "fldCDworh6",
+        "strategic_priority_2": "fld8YjDQJT",
+        "priority_2_progress": "fld12zxFin",
+        "strategic_priority_3": "fldgxqz17Y",
+        "priority_3_progress": "fldyX64gDh"
       }
     }
   },
-  "updated_at": "2026-03-25T10:56:47+08:00"
+  "updated_at": "2026-03-25T20:06:17+08:00"
 }
