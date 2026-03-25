@@ -1,1 +1,22 @@
-{}
+{
+  "clone_id": "longxia",
+  "period": "2026-03-25",
+  "dimensions": {
+    "D1_strategy_alignment": 0,
+    "D2_execution_quality": 0,
+    "D3_closure_rate": 4,
+    "D4_workflow_reuse": 0,
+    "D5_feedback_quality": 0,
+    "D6_autonomy_level": 0,
+    "D7_drift_frequency": 0,
+    "D8_skill_utilization": 2,
+    "D9_human_boundary_respect": 0,
+    "D10_evolution_contribution": 0
+  },
+  "total": 6,
+  "trend": "new",
+  "top_pain_points": [],
+  "skill_usage": {
+    "codex_proposals_today": 0
+  }
+}

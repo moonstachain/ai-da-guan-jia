@@ -89,6 +89,12 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 坐标属于启动摘要，不自动高于本地 canonical
 - 输出 Task Spec 时应区分 `confirmed / assumed / superseded`
 
+- Phase 2 MVP Cockpit 表：`COO_Task_Tracker / tblKpqoKd9Y1XLtv`
+- Phase 2 MVP Cockpit 表：`COO_Evolution_Log / tblOKFcPvmWeu0ts`
+- Phase 2 MVP Cockpit 表：`COO_Collab_Log / tblDBhdDRPEGFLFj`
+- Phase 2 MVP Cockpit 表：`COO_Ops_Data / tblvqUFValMXnVDp`
+- 本周聚焦：`本周聚焦 / tblw6DsBUCRMaRSj`
+
 ## 前台摘要
 
 - 治理驾驶舱 V2：在线，但仍有少量指标卡需重新绑表

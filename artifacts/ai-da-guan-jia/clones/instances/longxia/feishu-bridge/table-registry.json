@@ -1,12 +1,86 @@
 {
   "instance_id": "longxia",
   "clone_id": "longxia",
-  "feishu_link": "",
-  "base_app_token": "pending",
+  "feishu_link": "https://h52xu4gwob.feishu.cn/base/PVDgbdWYFaDLBiss0hlcM5WRnQc",
+  "base_app_token": "PVDgbdWYFaDLBiss0hlcM5WRnQc",
   "main_table_id": "pending",
   "task_table_id": "pending",
   "evolution_table_id": "pending",
   "scorecard_table_id": "pending",
   "primary_field": "",
-  "updated_at": "2026-03-25T07:13:30+08:00"
+  "tables": {
+    "COO_Task_Tracker": {
+      "table_id": "tblKpqoKd9Y1XLtv",
+      "primary_field": "task_id",
+      "purpose": "clone task state machine",
+      "field_ids": {
+        "task_id": "fldrJJ2Zug",
+        "task_name": "fldjoSxCLf",
+        "status": "fldCk5XcpK",
+        "priority": "fldkZW3hah",
+        "owner": "fldiwAPBKB",
+        "evidence": "fld2EFY6Pd",
+        "start_date": "fldZu9b037",
+        "completion_date": "fldMcnUkls",
+        "notes": "fld8dkel9b"
+      }
+    },
+    "COO_Evolution_Log": {
+      "table_id": "tblOKFcPvmWeu0ts",
+      "primary_field": "run_id",
+      "purpose": "post-task review",
+      "field_ids": {
+        "run_id": "fldynY9MBT",
+        "date": "fldPCzKDj1",
+        "task_ref": "fldofYqHmn",
+        "input": "fldGW9jzvh",
+        "output": "fldgE5lR7x",
+        "lesson_learned": "flduZ9Owak"
+      }
+    },
+    "COO_Collab_Log": {
+      "table_id": "tblDBhdDRPEGFLFj",
+      "primary_field": "log_id",
+      "purpose": "bi-directional collab record",
+      "field_ids": {
+        "log_id": "fldUpsZLzi",
+        "timestamp": "fldvdW5zab",
+        "actor": "fldhXZbL0A",
+        "action_type": "fldPx41B6l",
+        "summary": "fld6GSPgro",
+        "visibility": "fldhdJ8oxD"
+      }
+    },
+    "COO_Ops_Data": {
+      "table_id": "tblvqUFValMXnVDp",
+      "primary_field": "date",
+      "purpose": "operational metrics",
+      "field_ids": {
+        "date": "fld5VKOmX8",
+        "channel": "fld2wvkptd",
+        "metric_name": "fldtbEeGiL",
+        "metric_value": "fldPcWAhJ2",
+        "trend": "fldicvPNub"
+      }
+    },
+    "本周聚焦": {
+      "table_id": "tblw6DsBUCRMaRSj",
+      "primary_field": "week_id",
+      "purpose": "decision focus card",
+      "field_ids": {
+        "week_id": "fld6Fekpcc",
+        "top_risk": "fldArNkzXs",
+        "top_risk_action": "fld2ZOtJGV",
+        "most_urgent_task": "fldv2bE0PE",
+        "most_urgent_reason": "fld4OvQxXL",
+        "highest_priority_next": "fldAcw0f8u",
+        "governance_score": "fldqaRejHU",
+        "governance_trend": "flda8pz4lr",
+        "clone_health_summary": "fldHga7CwI",
+        "generated_by": "fldYK6vcjC",
+        "generated_at": "fldBNtz2YN"
+      }
+    }
+  },
+  "updated_at": "2026-03-25T10:56:47+08:00"
 }
