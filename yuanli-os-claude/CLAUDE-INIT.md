@@ -1,5 +1,5 @@
 # CLAUDE-INIT.md — 新 Claude 会话启动记忆
-# 最后更新：2026-03-25 · V20（CLONE-03 activation loop applied）
+# 最后更新：2026-03-25 · V21（TS-YS-STEPA-01 applied）
 
 > 用法：在新 Claude 会话开始时先读本文件。
 > 定位：这是 `shared startup memory distribution object`，不是 runtime ledger。
@@ -55,6 +55,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - `TS-V1-01` 卫星机治理对齐：阻塞，已完成对象校准与漂移归因，等待黑色卫星机恢复可达
 - `TS-DASH-01` 飞书表改造：已完成（4 旧表补字段 + 3 新表建表与 seed）
 - `TS-DASH-02` 驾驶舱 2.0 数据补齐：已完成（`26/40 canonical`）
+- `TS-YS-STEPA-01` 数据模型结构性补缺：已完成（三期 Base 结构补齐 + relation 链路 + KPI 扩容）
 - `TS-KB-03` 康波智库落地：已完成首轮闭环（`L2×33 + L3×49 + scan_t0 apply`），后续升级重点是 `manual -> scheduled`
 - `TS-KB-06` 财富三观认知层落地：已完成（本地 schema-first + 四页前端 + 真实飞书 wiring 已闭环）
 - `TS-KB-06-A` 智能资产·量化投资全景：已完成（量化全景表 + 二级钻取页面 + 路由验真）
@@ -79,6 +80,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 治理 wiki 节点：`Zge0wIkDDiGPsskJlLFcuT9Pnac`
 - 康波 wiki 节点：`INApw2UoXiSeMTkBMVFc5daVnle`
 - 康波 Base（投研）：`IqZhbMJJxaq8D4sHOvkciaWFnid`
+- 三期驾驶舱 Base（TS-YS-STEPA-01）：`CtltbMK3IaXLX8s0mTVcBw2Anth` · `https://h52xu4gwob.feishu.cn/base/CtltbMK3IaXLX8s0mTVcBw2Anth`
 - 康波表坐标：`L1_康波事件信号 / tbl6QgzUgcXq4HO5` · `L2_专家智库 / tbl82HhewJxuU8hV` · `L3_专家洞察 / tblcAxYlxfEHbPHv`
 - BW50 事件 / 矩阵 live 表：`BW50_重大事件1 / tbl5v57S6EUDFbNO` · `BW50_事件资产矩阵1 / tbl7xvp71C22Nwog`
 - 历史镜像 live 表：`L1_历史镜像表 / tblbFFR8KqgJ88lE`
