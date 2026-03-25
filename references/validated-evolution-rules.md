@@ -9,3 +9,5 @@ Each line is a validated improvement candidate that passed the evolution gate.
 - [adagj-20260310-100231-000000] 2026-03-10T10:02:31+08:00 :: 继续为 yuanli-xiaoshitou 增加一份人工确认版母题清单输入入口，把 v1 seed ontology 升成 user-validated ontology。
 - [adagj-20260310-100231-000000] 2026-03-10T10:02:31+08:00 :: 为 ai-da-guan-jia 增加“语料来源不等于工具需求”的路由规则测试。
 - [adagj-20260323-181122-000000] 2026-03-23T18:11:22+08:00 :: Promote the strongest verified improvement into the next schema, policy, or runtime iteration.
+- [adagj-20260325-091304-000000] 2026-03-25T09:13:04+08:00 :: 为 figma / youquant / notion / jiyao 增加更细的路由矩阵
+- [adagj-20260325-091304-000000] 2026-03-25T09:13:04+08:00 :: 在 validated-evolution-rules 中沉淀已验证边界
