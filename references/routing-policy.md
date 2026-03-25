@@ -16,6 +16,10 @@ Do not let a cheaper path outrank a clearly better-fit path. Do not let a famili
 
 - If the prompt is about skill inventory review, capability mapping, duplicate detection, system-wide skill evaluation, or a daily skill review, route `AI大管家` native `review-skills` flow first.
 - If the prompt is about one external skill, one GitHub skill repo, or “这个 skill 能不能用 / 怎么用 / 值不值得接”, route `AI大管家` native `evaluate-external-skill` flow first.
+- If the prompt is about choosing whether a recommended external skill should be absorbed, always classify it through `evaluate-external-skill` first, and do not jump straight to install or skill creation.
+- If the prompt is about an external repo that is mostly a marketplace page, an awesome list, or a signal aggregator, treat it as `intel_only` unless the evaluation card proves a local execution surface and verifiable output.
+- If the prompt is about `Task Master AI`, compare it against `task-spec` and `self-evolution-max` before promoting it as the canonical planning bridge.
+- If the prompt is about runtime/framework engines such as `LangGraph`, `Dify`, `CrewAI`, `n8n`, `Ollama`, `Open WebUI`, `Firecrawl`, `DSPy`, or `Spec Kit`, keep them in the tool/runtime layer by default and do not pull them into skill core unless a local adapter with evidence-backed tests already exists.
 - If the prompt is about learning an unfamiliar API, platform, tool, workflow, or method and explicitly mentions manuals, official docs, guides, tutorials, best practices, or benchmark comparison, route `guide-benchmark-learning` first.
 - If that unfamiliar-domain prompt is specifically about OpenAI products or APIs, route `openai-docs` after `guide-benchmark-learning`.
 - If the prompt is about `OpenClaw`, `小红书`, `博主`, `爆款`, `共进化`, or this content niche, route `openclaw-xhs-coevolution-lab` first.
@@ -44,6 +48,8 @@ Do not let a cheaper path outrank a clearly better-fit path. Do not let a famili
 - `figma` owns design context discovery, asset loading, and node inspection. `figma-implement-design` owns 1:1 production implementation from an existing Figma source. Do not route generic UI ideation to either unless there is an actual Figma source.
 - `youquant-backtest-automation` is the canonical route for natural-language strategy-to-backtest work. `youquant-backtest` is a legacy alias and should only be used when an existing flow already references that name.
 - Feishu mirror rule: create and freeze the local canonical log first, then generate `feishu-payload.json`, then run dry-run preview, then apply sync. Do not let a mirror become the source of truth.
+- External skill intake boundary: `directly_usable` means the repo can enter local installation verification; `portable_reference` means benchmark first and only port the useful pattern; `intel_only` means do not queue for adoption yet.
+- Batch `evaluate-external-skill` runs should use serial execution or explicit unique `run_id` values, so evidence bundles do not collide when two evaluations start in the same second.
 
 ## Selection Ceiling
 
