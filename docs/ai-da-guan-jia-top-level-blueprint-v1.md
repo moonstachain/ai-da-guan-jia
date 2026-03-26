@@ -172,3 +172,7 @@
 当前最小闭环实验说明见：
 
 - [ai-da-guan-jia-phase-1-minimum-closure-v1.md](/Users/liming/Documents/codex-ai-gua-jia-01/docs/ai-da-guan-jia-phase-1-minimum-closure-v1.md)
+
+当前这轮把 `总控台 + GitHub + Miaoda + Feishu 多维表` 统一成可落地设计包的实现入口见：
+
+- [or-force-os-unified-control-plane-v1.md](or-force-os-unified-control-plane-v1.md)

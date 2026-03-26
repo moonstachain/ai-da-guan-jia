@@ -1,0 +1,438 @@
+{
+  "summary": {
+    "goal": "把原力OS-AI大管家整理成一套可持续运转的统一控制面，让本体层、协同层、前台层、数据层和 clone 分装层使用同一套治理语言。",
+    "audience": [
+      "原力OS 共同治理者",
+      "Miaoda 前台维护者",
+      "Feishu 表结构维护者",
+      "GitHub 协同维护者"
+    ],
+    "time_grain": "day",
+    "generated_at": "2026-03-26T00:00:00+08:00"
+  },
+  "official_boundary": {
+    "supported_openapi": [
+      "bitable app metadata",
+      "tables",
+      "fields",
+      "records",
+      "views",
+      "dashboard list",
+      "dashboard copy"
+    ],
+    "manual_or_template_driven": [
+      "dashboard card creation",
+      "widget binding",
+      "canvas layout placement"
+    ],
+    "implementation_mode": "source views can be automated; dashboard cards remain checklist-driven in v1"
+  },
+  "public_rules": [
+    "One card answers one management question.",
+    "Every card points to one source view.",
+    "Diagnosis and action cards should make the next move explicit.",
+    "Long text, attachments, and raw payload fields should not become chart dimensions."
+  ],
+  "normalized_input": {
+    "goal": "把原力OS-AI大管家整理成一套可持续运转的统一控制面，让本体层、协同层、前台层、数据层和 clone 分装层使用同一套治理语言。",
+    "audience": [
+      "原力OS 共同治理者",
+      "Miaoda 前台维护者",
+      "Feishu 表结构维护者",
+      "GitHub 协同维护者"
+    ],
+    "decision_questions": [
+      {
+        "id": "dq-overview-01",
+        "layer": "overview",
+        "question": "当前系统健康吗？",
+        "metric_ids": [
+          "health_score"
+        ],
+        "dimension_ids": [
+          "health_domain"
+        ],
+        "action_target_ids": [
+          "health_queue"
+        ],
+        "chart_preference": "bar_chart"
+      },
+      {
+        "id": "dq-overview-02",
+        "layer": "overview",
+        "question": "当前最该盯的聚焦是什么？",
+        "metric_ids": [
+          "focus_item_count"
+        ],
+        "dimension_ids": [
+          "focus_state"
+        ],
+        "action_target_ids": [
+          "focus_queue"
+        ],
+        "chart_preference": "bar_chart"
+      },
+      {
+        "id": "dq-overview-03",
+        "layer": "overview",
+        "question": "当前阻塞与风险是什么？",
+        "metric_ids": [
+          "blocker_count",
+          "risk_count"
+        ],
+        "dimension_ids": [
+          "risk_level"
+        ],
+        "action_target_ids": [
+          "risk_queue"
+        ],
+        "chart_preference": "bar_chart"
+      },
+      {
+        "id": "dq-overview-04",
+        "layer": "overview",
+        "question": "本周进化了什么？",
+        "metric_ids": [
+          "evolution_delta_count"
+        ],
+        "dimension_ids": [
+          "week_key"
+        ],
+        "action_target_ids": [
+          "evolution_queue"
+        ],
+        "chart_preference": "line_chart"
+      },
+      {
+        "id": "dq-diagnosis-01",
+        "layer": "diagnosis",
+        "question": "当前运行态是什么？",
+        "metric_ids": [
+          "runtime_state_count"
+        ],
+        "dimension_ids": [
+          "runtime_state"
+        ],
+        "action_target_ids": [
+          "runtime_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-diagnosis-02",
+        "layer": "diagnosis",
+        "question": "当前 clone 态是什么？",
+        "metric_ids": [
+          "clone_count"
+        ],
+        "dimension_ids": [
+          "clone_status",
+          "tenant_id"
+        ],
+        "action_target_ids": [
+          "clone_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-diagnosis-03",
+        "layer": "diagnosis",
+        "question": "当前治理态是什么？",
+        "metric_ids": [
+          "governance_status_count"
+        ],
+        "dimension_ids": [
+          "governance_state"
+        ],
+        "action_target_ids": [
+          "governance_queue"
+        ],
+        "chart_preference": "table"
+      },
+      {
+        "id": "dq-action-01",
+        "layer": "action",
+        "question": "哪些事项需要人类点击？",
+        "metric_ids": [
+          "human_click_count"
+        ],
+        "dimension_ids": [
+          "human_boundary_state"
+        ],
+        "action_target_ids": [
+          "human_click_queue"
+        ],
+        "chart_preference": "detail_table"
+      },
+      {
+        "id": "dq-action-02",
+        "layer": "action",
+        "question": "哪些事项需要审批？",
+        "metric_ids": [
+          "approval_count"
+        ],
+        "dimension_ids": [
+          "approval_state"
+        ],
+        "action_target_ids": [
+          "approval_queue"
+        ],
+        "chart_preference": "detail_table"
+      },
+      {
+        "id": "dq-action-03",
+        "layer": "action",
+        "question": "哪些事项需要回写飞书？",
+        "metric_ids": [
+          "writeback_count"
+        ],
+        "dimension_ids": [
+          "writeback_state"
+        ],
+        "action_target_ids": [
+          "feishu_writeback_queue"
+        ],
+        "chart_preference": "detail_table"
+      }
+    ],
+    "tables": [
+      {
+        "id": "runtime_control",
+        "name": "L0_运行态总控",
+        "purpose": "承接健康度、当前聚焦、阻塞与风险、运行态的统一入口"
+      },
+      {
+        "id": "strategic_task_tracking",
+        "name": "战略任务追踪",
+        "purpose": "承接当前任务、负责人、优先级、阻塞、下一步动作"
+      },
+      {
+        "id": "clone_governance",
+        "name": "clone governance base",
+        "purpose": "承接 clone registry、scorecard、proposal、alert 与 risk 决策"
+      },
+      {
+        "id": "clone_instance_registry",
+        "name": "AI实例注册表",
+        "purpose": "承接每个 clone 实例的身份、状态、租户与内存命名空间"
+      },
+      {
+        "id": "clone_capability_proposals",
+        "name": "能力提案表",
+        "purpose": "承接 clone 向共享核心提交的能力晋升提案"
+      },
+      {
+        "id": "clone_risk_decision",
+        "name": "风险与决策表",
+        "purpose": "承接告警、风险、决策与处理状态"
+      },
+      {
+        "id": "evolution_chronicle",
+        "name": "原力OS进化编年史",
+        "purpose": "承接本周进化、规则沉淀与里程碑"
+      },
+      {
+        "id": "governance_maturity",
+        "name": "治理成熟度评估",
+        "purpose": "承接治理层成熟度与阶段判断"
+      },
+      {
+        "id": "collaboration_log",
+        "name": "三方协同日志",
+        "purpose": "承接 Feishu / GitHub / 本地 canonical 的回写与同步状态"
+      },
+      {
+        "id": "memory_health",
+        "name": "记忆层健康度",
+        "purpose": "承接记忆健康、隔离和回流质量"
+      }
+    ]
+  },
+  "cards": [
+    {
+      "card_id": "card-01",
+      "question_id": "dq-overview-01",
+      "question": "当前系统健康吗？",
+      "layer": "overview",
+      "source_view_id": "view-overview-health",
+      "chart_type": "bar_chart",
+      "metric_ids": [
+        "health_score"
+      ],
+      "dimension_ids": [
+        "health_domain"
+      ],
+      "action_target_ids": [
+        "health_queue"
+      ]
+    },
+    {
+      "card_id": "card-02",
+      "question_id": "dq-overview-02",
+      "question": "当前最该盯的聚焦是什么？",
+      "layer": "overview",
+      "source_view_id": "view-overview-focus",
+      "chart_type": "bar_chart",
+      "metric_ids": [
+        "focus_item_count"
+      ],
+      "dimension_ids": [
+        "focus_state"
+      ],
+      "action_target_ids": [
+        "focus_queue"
+      ]
+    },
+    {
+      "card_id": "card-03",
+      "question_id": "dq-overview-03",
+      "question": "当前阻塞与风险是什么？",
+      "layer": "overview",
+      "source_view_id": "view-overview-risk",
+      "chart_type": "bar_chart",
+      "metric_ids": [
+        "blocker_count",
+        "risk_count"
+      ],
+      "dimension_ids": [
+        "risk_level"
+      ],
+      "action_target_ids": [
+        "risk_queue"
+      ]
+    },
+    {
+      "card_id": "card-04",
+      "question_id": "dq-overview-04",
+      "question": "本周进化了什么？",
+      "layer": "overview",
+      "source_view_id": "view-overview-evolution",
+      "chart_type": "line_chart",
+      "metric_ids": [
+        "evolution_delta_count"
+      ],
+      "dimension_ids": [
+        "week_key"
+      ],
+      "action_target_ids": [
+        "evolution_queue"
+      ]
+    },
+    {
+      "card_id": "card-05",
+      "question_id": "dq-diagnosis-01",
+      "question": "当前运行态是什么？",
+      "layer": "diagnosis",
+      "source_view_id": "view-diagnosis-runtime",
+      "chart_type": "table",
+      "metric_ids": [
+        "runtime_state_count"
+      ],
+      "dimension_ids": [
+        "runtime_state"
+      ],
+      "action_target_ids": [
+        "runtime_queue"
+      ]
+    },
+    {
+      "card_id": "card-06",
+      "question_id": "dq-diagnosis-02",
+      "question": "当前 clone 态是什么？",
+      "layer": "diagnosis",
+      "source_view_id": "view-diagnosis-clone",
+      "chart_type": "table",
+      "metric_ids": [
+        "clone_count"
+      ],
+      "dimension_ids": [
+        "clone_status",
+        "tenant_id"
+      ],
+      "action_target_ids": [
+        "clone_queue"
+      ]
+    },
+    {
+      "card_id": "card-07",
+      "question_id": "dq-diagnosis-03",
+      "question": "当前治理态是什么？",
+      "layer": "diagnosis",
+      "source_view_id": "view-diagnosis-governance",
+      "chart_type": "table",
+      "metric_ids": [
+        "governance_status_count"
+      ],
+      "dimension_ids": [
+        "governance_state"
+      ],
+      "action_target_ids": [
+        "governance_queue"
+      ]
+    },
+    {
+      "card_id": "card-08",
+      "question_id": "dq-action-01",
+      "question": "哪些事项需要人类点击？",
+      "layer": "action",
+      "source_view_id": "view-action-human-click",
+      "chart_type": "detail_table",
+      "metric_ids": [
+        "human_click_count"
+      ],
+      "dimension_ids": [
+        "human_boundary_state"
+      ],
+      "action_target_ids": [
+        "human_click_queue"
+      ]
+    },
+    {
+      "card_id": "card-09",
+      "question_id": "dq-action-02",
+      "question": "哪些事项需要审批？",
+      "layer": "action",
+      "source_view_id": "view-action-approval",
+      "chart_type": "detail_table",
+      "metric_ids": [
+        "approval_count"
+      ],
+      "dimension_ids": [
+        "approval_state"
+      ],
+      "action_target_ids": [
+        "approval_queue"
+      ]
+    },
+    {
+      "card_id": "card-10",
+      "question_id": "dq-action-03",
+      "question": "哪些事项需要回写飞书？",
+      "layer": "action",
+      "source_view_id": "view-action-feishu-writeback",
+      "chart_type": "detail_table",
+      "metric_ids": [
+        "writeback_count"
+      ],
+      "dimension_ids": [
+        "writeback_state"
+      ],
+      "action_target_ids": [
+        "feishu_writeback_queue"
+      ]
+    }
+  ],
+  "automation_boundary": {
+    "supported": [
+      "bitable tables",
+      "views",
+      "records",
+      "dashboard source specs"
+    ],
+    "manual": [
+      "dashboard card creation",
+      "widget binding",
+      "layout placement"
+    ]
+  }
+}

@@ -1,0 +1,392 @@
+[
+  {
+    "id": "view-overview-health",
+    "view_name": "overview-当前系统健康吗",
+    "table_id": "runtime_control",
+    "table_name": "L0_运行态总控",
+    "question_id": "dq-overview-01",
+    "question": "当前系统健康吗？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "health_score",
+        "name": "健康度",
+        "aggregation": "derived_health_score"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "health_domain",
+        "name": "健康域",
+        "field": "health_domain"
+      }
+    ],
+    "filters": [
+      "time grain = day"
+    ],
+    "display_fields": [
+      "health_domain",
+      "health_state",
+      "risk_level",
+      "blocker_count",
+      "last_refresh_at"
+    ],
+    "action_target_ids": [
+      "health_queue"
+    ]
+  },
+  {
+    "id": "view-overview-focus",
+    "view_name": "overview-当前最该盯的聚焦是什么",
+    "table_id": "strategic_task_tracking",
+    "table_name": "战略任务追踪",
+    "question_id": "dq-overview-02",
+    "question": "当前最该盯的聚焦是什么？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "focus_item_count",
+        "name": "聚焦事项数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "focus_state",
+        "name": "聚焦状态",
+        "field": "task_status"
+      }
+    ],
+    "filters": [
+      "time grain = day",
+      "task_status in [in_progress, waiting_human, blocked_system]"
+    ],
+    "display_fields": [
+      "task_id",
+      "task_name",
+      "task_status",
+      "priority",
+      "owner",
+      "next_action",
+      "evidence_ref"
+    ],
+    "action_target_ids": [
+      "focus_queue"
+    ]
+  },
+  {
+    "id": "view-overview-risk",
+    "view_name": "overview-当前阻塞与风险是什么",
+    "table_id": "clone_risk_decision",
+    "table_name": "风险与决策表",
+    "question_id": "dq-overview-03",
+    "question": "当前阻塞与风险是什么？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "blocker_count",
+        "name": "阻塞数",
+        "aggregation": "count_filtered"
+      },
+      {
+        "id": "risk_count",
+        "name": "风险数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "risk_level",
+        "name": "风险等级",
+        "field": "severity"
+      }
+    ],
+    "filters": [
+      "time grain = day",
+      "decision_status in [pending_review, escalated] OR severity in [warning, critical]"
+    ],
+    "display_fields": [
+      "clone_id",
+      "alert_id",
+      "type",
+      "severity",
+      "message",
+      "decision",
+      "resolved",
+      "timestamp"
+    ],
+    "action_target_ids": [
+      "risk_queue"
+    ]
+  },
+  {
+    "id": "view-overview-evolution",
+    "view_name": "overview-本周进化了什么",
+    "table_id": "evolution_chronicle",
+    "table_name": "原力OS进化编年史",
+    "question_id": "dq-overview-04",
+    "question": "本周进化了什么？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "evolution_delta_count",
+        "name": "进化增量数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "week_key",
+        "name": "周键",
+        "field": "week_key"
+      }
+    ],
+    "filters": [
+      "time grain = week"
+    ],
+    "display_fields": [
+      "week_key",
+      "theme",
+      "delta_summary",
+      "evidence_ref",
+      "updated_at"
+    ],
+    "action_target_ids": [
+      "evolution_queue"
+    ]
+  },
+  {
+    "id": "view-diagnosis-runtime",
+    "view_name": "diagnosis-当前运行态是什么",
+    "table_id": "runtime_control",
+    "table_name": "L0_运行态总控",
+    "question_id": "dq-diagnosis-01",
+    "question": "当前运行态是什么？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "runtime_state_count",
+        "name": "运行态计数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "runtime_state",
+        "name": "运行态",
+        "field": "runtime_state"
+      }
+    ],
+    "filters": [
+      "time grain = day"
+    ],
+    "display_fields": [
+      "runtime_state",
+      "frontstage_focus",
+      "risk_level",
+      "blocker_count",
+      "last_refresh_at"
+    ],
+    "action_target_ids": [
+      "runtime_queue"
+    ]
+  },
+  {
+    "id": "view-diagnosis-clone",
+    "view_name": "diagnosis-当前clone态是什么",
+    "table_id": "clone_instance_registry",
+    "table_name": "AI实例注册表",
+    "question_id": "dq-diagnosis-02",
+    "question": "当前 clone 态是什么？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "clone_count",
+        "name": "实例数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "clone_status",
+        "name": "实例状态",
+        "field": "status"
+      },
+      {
+        "id": "tenant_id",
+        "name": "租户",
+        "field": "tenant_id"
+      }
+    ],
+    "filters": [
+      "time grain = day"
+    ],
+    "display_fields": [
+      "clone_id",
+      "display_name",
+      "tenant_id",
+      "memory_namespace",
+      "role_template_id",
+      "visibility_policy",
+      "service_tier",
+      "status",
+      "last_heartbeat"
+    ],
+    "action_target_ids": [
+      "clone_queue"
+    ]
+  },
+  {
+    "id": "view-diagnosis-governance",
+    "view_name": "diagnosis-当前治理态是什么",
+    "table_id": "governance_maturity",
+    "table_name": "治理成熟度评估",
+    "question_id": "dq-diagnosis-03",
+    "question": "当前治理态是什么？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "governance_status_count",
+        "name": "治理状态数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "governance_state",
+        "name": "治理状态",
+        "field": "maturity_state"
+      }
+    ],
+    "filters": [
+      "time grain = day"
+    ],
+    "display_fields": [
+      "maturity_state",
+      "maturity_score",
+      "decision_count",
+      "proposal_count",
+      "updated_at"
+    ],
+    "action_target_ids": [
+      "governance_queue"
+    ]
+  },
+  {
+    "id": "view-action-human-click",
+    "view_name": "action-哪些事项需要人类点击",
+    "table_id": "strategic_task_tracking",
+    "table_name": "战略任务追踪",
+    "question_id": "dq-action-01",
+    "question": "哪些事项需要人类点击？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "human_click_count",
+        "name": "人类点击数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "human_boundary_state",
+        "name": "人类边界状态",
+        "field": "human_boundary_state"
+      }
+    ],
+    "filters": [
+      "time grain = day",
+      "human_boundary_state != done"
+    ],
+    "display_fields": [
+      "task_id",
+      "task_name",
+      "task_status",
+      "human_boundary_state",
+      "required_human_action",
+      "owner",
+      "next_action"
+    ],
+    "action_target_ids": [
+      "human_click_queue"
+    ]
+  },
+  {
+    "id": "view-action-approval",
+    "view_name": "action-哪些事项需要审批",
+    "table_id": "clone_capability_proposals",
+    "table_name": "能力提案表",
+    "question_id": "dq-action-02",
+    "question": "哪些事项需要审批？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "approval_count",
+        "name": "审批数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "approval_state",
+        "name": "审批状态",
+        "field": "status"
+      }
+    ],
+    "filters": [
+      "time grain = day",
+      "status in [pending_review, deferred]"
+    ],
+    "display_fields": [
+      "proposal_id",
+      "clone_id",
+      "type",
+      "title",
+      "description",
+      "status",
+      "evidence",
+      "reviewed_at"
+    ],
+    "action_target_ids": [
+      "approval_queue"
+    ]
+  },
+  {
+    "id": "view-action-feishu-writeback",
+    "view_name": "action-哪些事项需要回写飞书",
+    "table_id": "collaboration_log",
+    "table_name": "三方协同日志",
+    "question_id": "dq-action-03",
+    "question": "哪些事项需要回写飞书？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "writeback_count",
+        "name": "待回写数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "writeback_state",
+        "name": "回写状态",
+        "field": "sync_state"
+      }
+    ],
+    "filters": [
+      "time grain = day",
+      "sync_state != mirrored"
+    ],
+    "display_fields": [
+      "event_id",
+      "surface",
+      "sync_state",
+      "writeback_target",
+      "evidence_ref",
+      "updated_at"
+    ],
+    "action_target_ids": [
+      "feishu_writeback_queue"
+    ]
+  }
+]

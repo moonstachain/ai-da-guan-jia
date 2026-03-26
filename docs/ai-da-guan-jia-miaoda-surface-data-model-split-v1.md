@@ -149,3 +149,8 @@
 2. 人类被拉去做人肉数据模型分析
 3. 运营主线在没有页面信号时重新开始空转
 4. 把“蓝图共识”继续当成“页面外显完成”
+
+更完整的 `Miaoda` 前台驾驶舱设计与卡片/源视图蓝图，见：
+
+- [docs/or-force-os-miaoda-cockpit-v1.md](docs/or-force-os-miaoda-cockpit-v1.md)
+- [specs/feishu/or-force-os-unified-control-center-v1/dashboard-blueprint.md](specs/feishu/or-force-os-unified-control-center-v1/dashboard-blueprint.md)
