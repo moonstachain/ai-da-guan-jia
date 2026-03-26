@@ -1,5 +1,5 @@
 # CLAUDE-INIT.md — 新 Claude 会话启动记忆
-# 最后更新：2026-03-25 · V21（TS-YS-STEPA-01 applied）
+# 最后更新：2026-03-26 · V22（PROJ-V5-BASE-01 applied）
 
 > 用法：在新 Claude 会话开始时先读本文件。
 > 定位：这是 `shared startup memory distribution object`，不是 runtime ledger。
@@ -97,6 +97,29 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - Phase 2 MVP Cockpit 表：`COO_Collab_Log / tblDBhdDRPEGFLFj`
 - Phase 2 MVP Cockpit 表：`COO_Ops_Data / tblvqUFValMXnVDp`
 - 本周聚焦：`本周聚焦 / tblw6DsBUCRMaRSj`
+
+- PROJ-V5 一体化 Base：`XecMbdGvOavVPgsEtvQcHhMQnec` · `https://h52xu4gwob.feishu.cn/base/XecMbdGvOavVPgsEtvQcHhMQnec`
+- PROJ-V5 注册文件：`artifacts/ai-da-guan-jia/feishu/table_registry_v2.json`
+- PROJ-V5 表坐标：
+  - `T01_runtime_control / tblCdtzVkGLs39Wx`
+  - `T02_weekly_focus / tbl5OMl77H4796cs`
+  - `T03_strategic_tasks / tblgXBNXy2UWxwGo`
+  - `T04_tenants / tblfPQgUVOKqlFjr`
+  - `T05_role_templates / tblkDhyEp9BysG31`
+  - `T06_clone_instances / tblgrjqoC6kcDCkn`
+  - `T07_clone_run_logs / tbl3HrIdVRuHbVnl`
+  - `T08_training_cycles / tblPrRF9eL4Z7JFw`
+  - `T09_capability_proposals / tblGu3iZ677rPPT1`
+  - `T10_clone_scores / tblKVZqEj7gIVKHX`
+  - `T11_clone_risks / tblN2rbsMWMliBnx`
+  - `T12_evolution_tracks / tblb7WMh1KUcTQqF`
+  - `T13_collaboration_logs / tblxMFagAe8g3PhL`
+  - `T14_memory_health / tblVMWHUpvockCOg`
+  - `T15_governance_maturity / tblh10UKUGa84UMs`
+  - `T16_evolution_chronicle / tblcSV3iGbIgIfqp`
+  - `T17_decisions / tbllbdyXivr19aTj`
+  - `T18_skill_inventory / tblajTZmoZiLC9UG`
+  - `T19_component_heatmap / tblTQsfvIfvAYfaI`
 
 ## 前台摘要
 
