@@ -1,0 +1,280 @@
+{
+  "id": "smart_youth_growth_eval",
+  "pluginKey": "@official-plugins/feishu-bitable",
+  "pluginVersion": "1.0.7",
+  "name": "智能少年 - 六维评估",
+  "description": "查询六维成长评估记录",
+  "tableKey": "T03",
+  "tableName": "T03_六维成长评估",
+  "mirrorSurface": {
+    "baseId": "QXwtbr1hGalDVBssed4cR8zNnIc",
+    "tableId": "tblIwj1MwIM5uEbc"
+  },
+  "formValue": {
+    "tableID": "tblIwj1MwIM5uEbc",
+    "fields": [
+      {
+        "id": "fld2Hn8IDc",
+        "name": "评估ID",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldE16aCVw",
+        "name": "孩子ID",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldDvh0LBm",
+        "name": "孩子姓名",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld6Y2D9fJ",
+        "name": "评估时间点",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldNUSlb1Y",
+        "name": "评估日期",
+        "type": 5,
+        "bizType": "DateTime",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld22gEemt",
+        "name": "总教头复核",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldcFCzwuU",
+        "name": "D1发现问题",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "flduJFIlK5",
+        "name": "D1行为证据",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldzvjopX0",
+        "name": "D1差值",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldNuGi661",
+        "name": "D2AI驾驭",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldPZCNHFg",
+        "name": "D2行为证据",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldJ7ncPNp",
+        "name": "D2差值",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld3D8LdhF",
+        "name": "D3动手造物",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld99BRurZ",
+        "name": "D3行为证据",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldcgHylnH",
+        "name": "D3差值",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldFrtWJGc",
+        "name": "D4仿真试错",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldaQ7HtGT",
+        "name": "D4行为证据",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldTfBsfbx",
+        "name": "D4差值",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld7SDWaV5",
+        "name": "D5抗压逆商",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldMb22tAa",
+        "name": "D5行为证据",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldv05JcYn",
+        "name": "D5差值",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldVF60KQI",
+        "name": "D6商业叙事",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldDlBQ28U",
+        "name": "D6行为证据",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldBZU227x",
+        "name": "D6差值",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldRShteZs",
+        "name": "总分",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldoGQEGtK",
+        "name": "费曼完整度",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldMmmFUHb",
+        "name": "波特竞争层级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldc42KKTw",
+        "name": "科尔伯格协作动机",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldaKNhnZi",
+        "name": "总教头判断",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldXbO3jqx",
+        "name": "评估人",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      }
+    ]
+  },
+  "actions": [
+    {
+      "key": "searchRecords",
+      "name": "搜索记录",
+      "description": "按孩子ID、评估日期或总教头复核读取评估记录",
+      "outputMode": "unary"
+    }
+  ],
+  "queryContract": {
+    "supportedOperators": [
+      "equals",
+      "not_equals",
+      "contains",
+      "in",
+      "gt",
+      "gte",
+      "lt",
+      "lte"
+    ],
+    "defaultSort": "descending",
+    "limit": 100
+  }
+}

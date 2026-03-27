@@ -1,0 +1,256 @@
+{
+  "id": "smart_youth_student_profile",
+  "pluginKey": "@official-plugins/feishu-bitable",
+  "pluginVersion": "1.0.7",
+  "name": "智能少年 - 学员档案",
+  "description": "查询学员主档案表",
+  "tableKey": "T01",
+  "tableName": "T01_学员主档案",
+  "mirrorSurface": {
+    "baseId": "QXwtbr1hGalDVBssed4cR8zNnIc",
+    "tableId": "tbl3Ltu38HsynI1P"
+  },
+  "formValue": {
+    "tableID": "tbl3Ltu38HsynI1P",
+    "fields": [
+      {
+        "id": "fldhGQVoFF",
+        "name": "孩子ID",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld2YiqEP8",
+        "name": "姓名",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldH5aAh6S",
+        "name": "昵称",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldSbPHk0v",
+        "name": "性别",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldrSo8PPK",
+        "name": "出生年份",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldPqZjqDi",
+        "name": "当前年龄",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldfxfaGF1",
+        "name": "年级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldY5215kM",
+        "name": "学校名称",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld4QYMa29",
+        "name": "来源渠道",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldygnqNgI",
+        "name": "产品线",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld6anol1K",
+        "name": "入营日期",
+        "type": 5,
+        "bizType": "DateTime",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldNyhr5pv",
+        "name": "当前Phase",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldo3pzcPo",
+        "name": "当前关卡",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldl74hU3g",
+        "name": "原力人格主型",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldnUGU7z8",
+        "name": "原力人格副型",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldEdqeezz",
+        "name": "原力人格第三型",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld2gd3rKq",
+        "name": "内在驱动方向",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldQvSzwJ2",
+        "name": "铁三角初始位置",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldh903dm1",
+        "name": "代表作品",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "flddMVToOF",
+        "name": "最高高光层级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "flds7G8k0U",
+        "name": "动机层级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldM5ouI11",
+        "name": "责任助教",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldvm8VIfc",
+        "name": "家长姓名",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldgTI8UiT",
+        "name": "家长电话",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldM0L9Vfy",
+        "name": "家长画像",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldL9PJ60n",
+        "name": "状态",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld9VJLHTI",
+        "name": "备注",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      }
+    ]
+  },
+  "actions": [
+    {
+      "key": "searchRecords",
+      "name": "搜索记录",
+      "description": "按孩子ID、姓名、状态或关卡读取学员主档案",
+      "outputMode": "unary"
+    }
+  ],
+  "queryContract": {
+    "supportedOperators": [
+      "equals",
+      "not_equals",
+      "contains",
+      "in",
+      "gt",
+      "gte",
+      "lt",
+      "lte"
+    ],
+    "defaultSort": "descending",
+    "limit": 100
+  }
+}
