@@ -11,10 +11,57 @@ import WealthPastPresentView from '../views/WealthPastPresentView.vue'
 import WealthEastWestView from '../views/WealthEastWestView.vue'
 import WealthVirtualRealView from '../views/WealthVirtualRealView.vue'
 import QuantPanoramaView from '../views/QuantPanoramaView.vue'
+import SmartYouthLayout from '../views/SmartYouth/SmartYouthLayout.vue'
+import StudentSelector from '../views/SmartYouth/StudentSelector.vue'
+import HeroMap from '../views/SmartYouth/HeroMap.vue'
+import GrowthRadar from '../views/SmartYouth/GrowthRadar.vue'
+import Highlights from '../views/SmartYouth/Highlights.vue'
+import ParentGuide from '../views/SmartYouth/ParentGuide.vue'
+import NotFound from '../views/SmartYouth/NotFound.vue'
 
 const routes = [
   {
     path: '/',
+    component: SmartYouthLayout,
+    children: [
+      {
+        path: '',
+        name: 'SmartYouthSelector',
+        component: StudentSelector
+      },
+      {
+        path: 'hero-map/:studentId',
+        name: 'SmartYouthHeroMap',
+        component: HeroMap,
+        props: true
+      },
+      {
+        path: 'growth/:studentId',
+        name: 'SmartYouthGrowth',
+        component: GrowthRadar,
+        props: true
+      },
+      {
+        path: 'highlights/:studentId',
+        name: 'SmartYouthHighlights',
+        component: Highlights,
+        props: true
+      },
+      {
+        path: 'parent-guide/:studentId',
+        name: 'SmartYouthParentGuide',
+        component: ParentGuide,
+        props: true
+      },
+      {
+        path: ':pathMatch(.*)*',
+        name: 'SmartYouthNotFound',
+        component: NotFound
+      }
+    ]
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
   },

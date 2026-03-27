@@ -5,7 +5,7 @@
 
     <header class="page-header">
       <div class="brand-row">
-        <router-link to="/" class="brand">MIROFISH</router-link>
+        <router-link to="/home" class="brand">MIROFISH</router-link>
         <span class="crumb">/ 认知入口</span>
       </div>
 

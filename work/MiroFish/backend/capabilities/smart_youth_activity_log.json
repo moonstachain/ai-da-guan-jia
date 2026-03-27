@@ -1,0 +1,360 @@
+{
+  "id": "smart_youth_activity_log",
+  "pluginKey": "@official-plugins/feishu-bitable",
+  "pluginVersion": "1.0.7",
+  "name": "智能少年 - 活动日志",
+  "description": "查询活动与学习日志",
+  "tableKey": "T02",
+  "tableName": "T02_活动与学习日志",
+  "mirrorSurface": {
+    "baseId": "QXwtbr1hGalDVBssed4cR8zNnIc",
+    "tableId": "tblvrQlXyUzbdB2v"
+  },
+  "formValue": {
+    "tableID": "tblvrQlXyUzbdB2v",
+    "fields": [
+      {
+        "id": "fldL4eY4uh",
+        "name": "日志ID",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldmNHlHb5",
+        "name": "孩子ID",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldfy31mr9",
+        "name": "孩子姓名",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld6f7jzGp",
+        "name": "日期",
+        "type": 5,
+        "bizType": "DateTime",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldmkoSkj2",
+        "name": "类型",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldEIBKFZk",
+        "name": "活动名称",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldmLbDiH4",
+        "name": "对应Phase",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld9NtjDbd",
+        "name": "出勤状态",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldWNZQWy7",
+        "name": "苏格拉底评级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldqYoTf9M",
+        "name": "发言样本量",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldMUgb53n",
+        "name": "样本量状态",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldhB6JLxD",
+        "name": "人工复核状态",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldbqMB3pJ",
+        "name": "主动提问次数",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldjRd2zpg",
+        "name": "追问最深层数",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldBSNj4xm",
+        "name": "深挖语言频次",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldvfIIogb",
+        "name": "持续停留话题",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld5F5shL0",
+        "name": "D1一句话总结",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldQCJkxdg",
+        "name": "与上次D1对比",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldvYJlwOE",
+        "name": "关键行为记录",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldkLlZszI",
+        "name": "英雄叙事评分",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldyd2dlfJ",
+        "name": "叙事阶段",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldd5ST3Fh",
+        "name": "ZPD状态",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld0RgyHCN",
+        "name": "布鲁姆认知层级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldy93JU50",
+        "name": "JTBD挖掘层级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldy2fhXPb",
+        "name": "同理心设计五步",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldUjpWRGk",
+        "name": "D1证据",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldxuNAjIY",
+        "name": "D2证据",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldvf3pqLA",
+        "name": "D3表现观察",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldcBjFGER",
+        "name": "D5表现观察",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldAQLjdzG",
+        "name": "D6表现观察",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldEo3x7rT",
+        "name": "金句名场面",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldDnPB2PU",
+        "name": "助教观察",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldyFUCiOE",
+        "name": "总教头批注",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld1mH2YSw",
+        "name": "录音链接",
+        "type": 15,
+        "bizType": "URL",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldu79LKem",
+        "name": "AI转写摘要",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld4N7eJsR",
+        "name": "填写人",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldTgMtRa9",
+        "name": "提取模型",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldswkrodg",
+        "name": "提取提示词版本",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldp33h72A",
+        "name": "提取时间",
+        "type": 5,
+        "bizType": "DateTime",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "flds9M2hHs",
+        "name": "下一步建议动作",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      }
+    ]
+  },
+  "actions": [
+    {
+      "key": "searchRecords",
+      "name": "搜索记录",
+      "description": "按孩子ID、日期或苏格拉底评级读取活动日志",
+      "outputMode": "unary"
+    }
+  ],
+  "queryContract": {
+    "supportedOperators": [
+      "equals",
+      "not_equals",
+      "contains",
+      "in",
+      "gt",
+      "gte",
+      "lt",
+      "lte"
+    ],
+    "defaultSort": "descending",
+    "limit": 100
+  }
+}

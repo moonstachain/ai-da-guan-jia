@@ -2,7 +2,7 @@
   <div class="wealth-page track-page east-west">
     <header class="page-header">
       <div class="brand-row">
-        <router-link to="/" class="brand">MIROFISH</router-link>
+        <router-link to="/home" class="brand">MIROFISH</router-link>
         <span class="crumb">/ 财富三观 · 东西之变</span>
       </div>
       <div class="nav-row">

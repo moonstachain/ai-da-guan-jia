@@ -477,7 +477,7 @@ const entityTypes = computed(() => {
 
 // 方法
 const goHome = () => {
-  router.push('/')
+  router.push('/home')
 }
 
 const goToNextStep = () => {

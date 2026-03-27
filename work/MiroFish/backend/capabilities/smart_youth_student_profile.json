@@ -182,6 +182,54 @@
         "writeable": false
       },
       {
+        "id": "fldvyqbfuJ",
+        "name": "D1基线评级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldeHQF08v",
+        "name": "D3基线评级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldqoVTXv1",
+        "name": "D6基线评级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldd0gcGZj",
+        "name": "肖像权授权",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldBc2U52K",
+        "name": "已解锁成就",
+        "type": 4,
+        "bizType": "MultiSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldqXdnTED",
+        "name": "关卡代号",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
         "id": "fldM5ouI11",
         "name": "责任助教",
         "type": 1,
@@ -218,14 +266,6 @@
         "name": "状态",
         "type": 3,
         "bizType": "SingleSelect",
-        "readable": true,
-        "writeable": false
-      },
-      {
-        "id": "fld9VJLHTI",
-        "name": "备注",
-        "type": 1,
-        "bizType": "Text",
         "readable": true,
         "writeable": false
       }

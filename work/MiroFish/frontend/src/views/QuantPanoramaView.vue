@@ -5,7 +5,7 @@
 
     <header class="page-header">
       <div class="brand-row">
-        <router-link to="/" class="brand">MIROFISH</router-link>
+        <router-link to="/home" class="brand">MIROFISH</router-link>
         <span class="crumb">/ 财富三观 · 虚实之变 · 量化投资全景</span>
       </div>
 

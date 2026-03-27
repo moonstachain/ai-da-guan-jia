@@ -3,7 +3,7 @@
     <!-- Header -->
     <header class="app-header">
       <div class="header-left">
-        <div class="brand" @click="router.push('/')">MIROFISH</div>
+        <div class="brand" @click="router.push('/home')">MIROFISH</div>
       </div>
       
       <div class="header-center">
@@ -141,7 +141,7 @@ const handleGoBack = () => {
   if (projectData.value?.project_id) {
     router.push({ name: 'Process', params: { projectId: projectData.value.project_id } })
   } else {
-    router.push('/')
+    router.push('/home')
   }
 }
 
@@ -431,4 +431,3 @@ onMounted(async () => {
   border-right: 1px solid #EAEAEA;
 }
 </style>
-

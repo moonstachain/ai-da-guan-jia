@@ -1,0 +1,120 @@
+{
+  "id": "smart_youth_orders",
+  "pluginKey": "@official-plugins/feishu-bitable",
+  "pluginVersion": "1.0.7",
+  "name": "智能少年 - 产品线成交",
+  "description": "查询产品线与成交记录",
+  "tableKey": "T07",
+  "tableName": "T07_产品线与成交",
+  "mirrorSurface": {
+    "baseId": "QXwtbr1hGalDVBssed4cR8zNnIc",
+    "tableId": "tblLgNGOGINU4RDh"
+  },
+  "formValue": {
+    "tableID": "tblLgNGOGINU4RDh",
+    "fields": [
+      {
+        "id": "fldAPRmxhP",
+        "name": "成交ID",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldzTX0B4V",
+        "name": "孩子ID",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldPKKGuYH",
+        "name": "家长姓名",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldwhM5hrB",
+        "name": "产品线",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldUjZtPdi",
+        "name": "成交金额",
+        "type": 2,
+        "bizType": "Number",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldl7NJxwm",
+        "name": "成交日期",
+        "type": 5,
+        "bizType": "DateTime",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fld5oPn8kK",
+        "name": "渠道来源",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldg5O4Jme",
+        "name": "关联机构ID",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldOK3rvsL",
+        "name": "续费状态",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldwfceUPh",
+        "name": "备注",
+        "type": 1,
+        "bizType": "Text",
+        "readable": true,
+        "writeable": false
+      }
+    ]
+  },
+  "actions": [
+    {
+      "key": "searchRecords",
+      "name": "搜索记录",
+      "description": "按孩子ID、产品线或续费状态读取成交记录",
+      "outputMode": "unary"
+    }
+  ],
+  "queryContract": {
+    "supportedOperators": [
+      "equals",
+      "not_equals",
+      "contains",
+      "in",
+      "gt",
+      "gte",
+      "lt",
+      "lte"
+    ],
+    "defaultSort": "descending",
+    "limit": 100
+  }
+}

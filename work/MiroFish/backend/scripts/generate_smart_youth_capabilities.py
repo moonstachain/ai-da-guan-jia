@@ -59,6 +59,13 @@ CAPABILITY_SPECS: tuple[CapabilitySpec, ...] = (
         search_hint="按孩子ID、姓名、状态或关卡读取学员主档案",
     ),
     CapabilitySpec(
+        capability_id="smart_youth_activity_log",
+        table_key="T02",
+        name="智能少年 - 活动日志",
+        description="查询活动与学习日志",
+        search_hint="按孩子ID、日期或苏格拉底评级读取活动日志",
+    ),
+    CapabilitySpec(
         capability_id="smart_youth_growth_eval",
         table_key="T03",
         name="智能少年 - 六维评估",
@@ -78,6 +85,20 @@ CAPABILITY_SPECS: tuple[CapabilitySpec, ...] = (
         name="智能少年 - 作品项目",
         description="查询作品与项目",
         search_hint="按孩子ID、项目状态或商业价值读取项目记录",
+    ),
+    CapabilitySpec(
+        capability_id="smart_youth_assets",
+        table_key="T06",
+        name="智能少年 - 对外展示资产",
+        description="查询对外展示资产与授权记录",
+        search_hint="按孩子ID、授权状态或可用场景读取展示资产",
+    ),
+    CapabilitySpec(
+        capability_id="smart_youth_orders",
+        table_key="T07",
+        name="智能少年 - 产品线成交",
+        description="查询产品线与成交记录",
+        search_hint="按孩子ID、产品线或续费状态读取成交记录",
     ),
 )
 
@@ -107,9 +128,12 @@ def build_capability_payload(spec: CapabilitySpec, registry: dict[str, Any]) -> 
     tables = registry.get("tables") or {}
     table_entry = tables.get({
         "T01": "T01_学员主档案",
+        "T02": "T02_活动与学习日志",
         "T03": "T03_六维成长评估",
         "T04": "T04_里程碑与高光时刻",
         "T05": "T05_作品与项目",
+        "T06": "T06_对外展示资产",
+        "T07": "T07_产品线与成交",
     }[spec.table_key])
     if not table_entry:
         raise KeyError(f"missing table entry for {spec.table_key}")

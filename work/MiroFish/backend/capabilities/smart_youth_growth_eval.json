@@ -238,6 +238,30 @@
         "writeable": false
       },
       {
+        "id": "fldCEQw8eT",
+        "name": "综合潜力评级",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldQM8Hihd",
+        "name": "三轮验证进度",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
+        "id": "fldZJIDer2",
+        "name": "推荐下一步",
+        "type": 3,
+        "bizType": "SingleSelect",
+        "readable": true,
+        "writeable": false
+      },
+      {
         "id": "fldaKNhnZi",
         "name": "总教头判断",
         "type": 1,
@@ -246,8 +270,8 @@
         "writeable": false
       },
       {
-        "id": "fldXbO3jqx",
-        "name": "评估人",
+        "id": "fldcfQ75xC",
+        "name": "总教头备注",
         "type": 1,
         "bizType": "Text",
         "readable": true,
