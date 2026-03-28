@@ -6,6 +6,8 @@
 
 如果你当前最关心的是“今天就开始用”，请先看 [AI大管家-个人决策台启用说明.md](AI大管家-个人决策台启用说明.md)。
 
+如果你要在一台新电脑上从 GitHub 和本地 canonical 资产重新复用整套能力，请先看 [AI大管家-新环境复用说明.md](AI大管家-新环境复用说明.md)。
+
 它不替代 [references/collaboration-charter.md](/Users/hay2045/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/references/collaboration-charter.md) 或 [references/meta-constitution.md](/Users/hay2045/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/references/meta-constitution.md)。
 
 如果你要快速理解这套系统的长期本体与当前实验的分层关系，再看：
