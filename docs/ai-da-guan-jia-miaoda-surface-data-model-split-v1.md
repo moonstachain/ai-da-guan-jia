@@ -154,3 +154,4 @@
 
 - [docs/or-force-os-miaoda-cockpit-v1.md](docs/or-force-os-miaoda-cockpit-v1.md)
 - [specs/feishu/or-force-os-unified-control-center-v1/dashboard-blueprint.md](specs/feishu/or-force-os-unified-control-center-v1/dashboard-blueprint.md)
+- [docs/or-force-os-geo-phase1-implementation-brief-v1.md](docs/or-force-os-geo-phase1-implementation-brief-v1.md)

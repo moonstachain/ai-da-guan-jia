@@ -1,0 +1,294 @@
+{
+  "summary": {
+    "goal": "把原力GEO系统先落成一个以 YSE 为单点试点的控制舱，让团队能看见蒸馏词、品牌知识库、内容生成、发布、收录和回写的完整闭环。",
+    "audience": [
+      "原力OS 共同治理者",
+      "YSE 试点执行者",
+      "Miaoda 页面执行面",
+      "Feishu 表结构维护者"
+    ],
+    "time_grain": "day",
+    "trial_scope": "YSE",
+    "generated_at": "2026-03-29T00:00:00+08:00"
+  },
+  "official_boundary": {
+    "supported_openapi": [
+      "bitable app metadata",
+      "tables",
+      "fields",
+      "records",
+      "views",
+      "dashboard list",
+      "dashboard copy"
+    ],
+    "manual_or_template_driven": [
+      "dashboard card creation",
+      "widget binding",
+      "canvas layout placement",
+      "content review queue handling"
+    ],
+    "canonical_truth": "local repository plus future Feishu source views",
+    "implementation_mode": "source views and table contracts can be automated; dashboard cards remain checklist-driven in v1"
+  },
+  "phase_gate": {
+    "phase_1": "YSE 单点试点：50 个蒸馏词、1 份品牌知识库、10 篇试验文章、3 个优先发布平台、5 个 AI 平台周度查询",
+    "phase_2": "把同一套 schema 复制到另外 4 条产品线，不返工表结构",
+    "phase_3": "在人工循环稳定后再做 geo-publish、geo-monitor 与 skill pack 封装"
+  },
+  "seed_materials": [
+    "原力GEO系统_全链路搭建路线图_V1.docx",
+    "回旋镖局_战略诊断报告_V1 (1).docx",
+    "供给侧瓶颈深度分析.docx",
+    "回旋镖局_商业模式创新与进化路线图_V1 (1).docx",
+    "全球标杆对标分析：七维度战略框架.docx",
+    "这份报告的核心逻辑.docx"
+  ],
+  "decision_questions": [
+    {
+      "id": "dq-overview-01",
+      "layer": "overview",
+      "question": "当前 YSE 试点健康吗？",
+      "metric_ids": [
+        "collection_rate_latest",
+        "collected_term_count"
+      ],
+      "dimension_ids": [
+        "date_key"
+      ],
+      "action_target_ids": [
+        "trial_health_queue"
+      ],
+      "chart_preference": "table"
+    },
+    {
+      "id": "dq-overview-02",
+      "layer": "overview",
+      "question": "当前最该盯的焦点蒸馏词是什么？",
+      "metric_ids": [
+        "p0_term_count",
+        "uncollected_term_count"
+      ],
+      "dimension_ids": [
+        "priority_band",
+        "collection_state"
+      ],
+      "action_target_ids": [
+        "focus_queue"
+      ],
+      "chart_preference": "bar_chart"
+    },
+    {
+      "id": "dq-overview-03",
+      "layer": "overview",
+      "question": "当前阻塞与风险是什么？",
+      "metric_ids": [
+        "uncollected_query_count",
+        "low_rank_query_count"
+      ],
+      "dimension_ids": [
+        "ai_platform",
+        "competitor_name"
+      ],
+      "action_target_ids": [
+        "risk_queue"
+      ],
+      "chart_preference": "table"
+    },
+    {
+      "id": "dq-overview-04",
+      "layer": "overview",
+      "question": "本周新增了哪些可验证进展？",
+      "metric_ids": [
+        "snapshot_count",
+        "collection_rate_latest"
+      ],
+      "dimension_ids": [
+        "date_key"
+      ],
+      "action_target_ids": [
+        "weekly_evolution_queue"
+      ],
+      "chart_preference": "line_chart"
+    },
+    {
+      "id": "dq-diagnosis-01",
+      "layer": "diagnosis",
+      "question": "YSE 蒸馏词库准备到什么程度？",
+      "metric_ids": [
+        "distill_term_count",
+        "p0_term_count",
+        "collected_term_count"
+      ],
+      "dimension_ids": [
+        "priority_band",
+        "collection_state"
+      ],
+      "action_target_ids": [
+        "distill_queue"
+      ],
+      "chart_preference": "table"
+    },
+    {
+      "id": "dq-diagnosis-02",
+      "layer": "diagnosis",
+      "question": "品牌知识库是否能支撑内容生成？",
+      "metric_ids": [
+        "knowledge_line_count"
+      ],
+      "dimension_ids": [
+        "product_line",
+        "keyword_bundle"
+      ],
+      "action_target_ids": [
+        "knowledge_queue"
+      ],
+      "chart_preference": "table"
+    },
+    {
+      "id": "dq-diagnosis-03",
+      "layer": "diagnosis",
+      "question": "发布与内容管线当前卡在哪里？",
+      "metric_ids": [
+        "content_draft_count"
+      ],
+      "dimension_ids": [
+        "content_type"
+      ],
+      "action_target_ids": [
+        "pipeline_queue"
+      ],
+      "chart_preference": "table"
+    },
+    {
+      "id": "dq-action-01",
+      "layer": "action",
+      "question": "哪些事项需要人类审核？",
+      "metric_ids": [
+        "review_needed_count"
+      ],
+      "dimension_ids": [
+        "publish_state"
+      ],
+      "action_target_ids": [
+        "human_review_queue"
+      ],
+      "chart_preference": "detail_table"
+    },
+    {
+      "id": "dq-action-02",
+      "layer": "action",
+      "question": "哪些事项需要发布或补发？",
+      "metric_ids": [
+        "publish_queue_count"
+      ],
+      "dimension_ids": [
+        "publish_state",
+        "publish_platform"
+      ],
+      "action_target_ids": [
+        "publish_queue"
+      ],
+      "chart_preference": "detail_table"
+    },
+    {
+      "id": "dq-action-03",
+      "layer": "action",
+      "question": "哪些事项需要回写证据或调整蒸馏词？",
+      "metric_ids": [
+        "uncollected_query_count"
+      ],
+      "dimension_ids": [
+        "ai_platform",
+        "competitor_name"
+      ],
+      "action_target_ids": [
+        "evidence_refresh_queue"
+      ],
+      "chart_preference": "detail_table"
+    }
+  ],
+  "tables": [
+    {
+      "id": "distill_words",
+      "name": "T01_蒸馏词库",
+      "grain": "distill_word",
+      "purpose": "存储所有蒸馏词和拓展问题，作为 GEO 的问题入口与优先级入口",
+      "fields": [
+        "ID",
+        "主关键词",
+        "拓展问题",
+        "所属产品线",
+        "优先级",
+        "当前收录状态",
+        "已收录平台"
+      ]
+    },
+    {
+      "id": "brand_knowledge",
+      "name": "T02_品牌知识库",
+      "grain": "product_line",
+      "purpose": "存储各产品线的品牌描述、差异化卖点和案例证据",
+      "fields": [
+        "产品线",
+        "品牌描述",
+        "差异化卖点",
+        "数据案例",
+        "关键词"
+      ]
+    },
+    {
+      "id": "content_library",
+      "name": "T03_内容库",
+      "grain": "content_item",
+      "purpose": "存储所有生成的 GEO 内容，用于审阅、复用和追踪",
+      "fields": [
+        "内容ID",
+        "标题",
+        "正文",
+        "蒸馏词ID",
+        "内容类型",
+        "创建时间"
+      ]
+    },
+    {
+      "id": "publish_records",
+      "name": "T04_发布记录",
+      "grain": "publish_event",
+      "purpose": "追踪内容发布状态、平台和文章链接",
+      "fields": [
+        "内容ID",
+        "发布平台",
+        "发布时间",
+        "状态",
+        "文章URL"
+      ]
+    },
+    {
+      "id": "monitoring_records",
+      "name": "T05_收录监测",
+      "grain": "monitor_event",
+      "purpose": "追踪 AI 平台对目标问法的收录和排名反馈",
+      "fields": [
+        "蒸馏词ID",
+        "AI平台",
+        "查询时间",
+        "是否收录",
+        "排名",
+        "竞品"
+      ]
+    },
+    {
+      "id": "ops_snapshots",
+      "name": "T06_运营快照",
+      "grain": "daily_snapshot",
+      "purpose": "汇总周度和月度运营数据，用于总览和复盘",
+      "fields": [
+        "日期",
+        "总蒸馏词",
+        "已收录数",
+        "收录率",
+        "各平台分布"
+      ]
+    }
+  ]
+}

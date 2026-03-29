@@ -72,8 +72,13 @@
 
 - `docs/or-force-os-github-design-v1.md`
 - `docs/or-force-os-miaoda-cockpit-v1.md`
+- `docs/or-force-os-geo-phase1-implementation-brief-v1.md`
 - `specs/feishu/or-force-os-unified-control-center-v1/dashboard-blueprint.md`
 - `specs/feishu/or-force-os-unified-control-center-v1/dashboard-blueprint.json`
 - `specs/feishu/or-force-os-unified-control-center-v1/source-views-spec.json`
 - `specs/feishu/or-force-os-unified-control-center-v1/dashboard-card-checklist.md`
-
+- `specs/feishu/or-force-os-geo-v1/dashboard-blueprint.md`
+- `specs/feishu/or-force-os-geo-v1/dashboard-blueprint.json`
+- `specs/feishu/or-force-os-geo-v1/source-views-spec.json`
+- `specs/feishu/or-force-os-geo-v1/dashboard-card-checklist.md`
+- `specs/feishu/or-force-os-geo-v1/miaoda-implementation.md`

@@ -1,0 +1,430 @@
+[
+  {
+    "id": "view-overview-health",
+    "view_name": "overview-当前 YSE 试点健康吗",
+    "table_id": "ops_snapshots",
+    "table_name": "T06_运营快照",
+    "question_id": "dq-overview-01",
+    "question": "当前 YSE 试点健康吗？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "collection_rate_latest",
+        "name": "最新收录率",
+        "aggregation": "latest"
+      },
+      {
+        "id": "collected_term_count",
+        "name": "已收录蒸馏词数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "date_key",
+        "name": "日期",
+        "field": "日期"
+      }
+    ],
+    "filters": [
+      "Phase 1 only",
+      "recent window = last 14 days"
+    ],
+    "display_fields": [
+      "日期",
+      "总蒸馏词",
+      "已收录数",
+      "收录率",
+      "各平台分布"
+    ],
+    "action_target_ids": [
+      "trial_health_queue"
+    ]
+  },
+  {
+    "id": "view-overview-focus",
+    "view_name": "overview-当前最该盯的焦点蒸馏词是什么",
+    "table_id": "distill_words",
+    "table_name": "T01_蒸馏词库",
+    "question_id": "dq-overview-02",
+    "question": "当前最该盯的焦点蒸馏词是什么？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "p0_term_count",
+        "name": "P0 蒸馏词数",
+        "aggregation": "count_filtered"
+      },
+      {
+        "id": "uncollected_term_count",
+        "name": "未收录蒸馏词数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "priority_band",
+        "name": "优先级",
+        "field": "优先级"
+      },
+      {
+        "id": "collection_state",
+        "name": "当前收录状态",
+        "field": "当前收录状态"
+      }
+    ],
+    "filters": [
+      "所属产品线 = YSE",
+      "优先级 = P0 OR 当前收录状态 != 已收录"
+    ],
+    "display_fields": [
+      "ID",
+      "主关键词",
+      "拓展问题",
+      "优先级",
+      "当前收录状态",
+      "已收录平台"
+    ],
+    "action_target_ids": [
+      "focus_queue"
+    ]
+  },
+  {
+    "id": "view-overview-risk",
+    "view_name": "overview-当前阻塞与风险是什么",
+    "table_id": "monitoring_records",
+    "table_name": "T05_收录监测",
+    "question_id": "dq-overview-03",
+    "question": "当前阻塞与风险是什么？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "uncollected_query_count",
+        "name": "未收录问法数",
+        "aggregation": "count_filtered"
+      },
+      {
+        "id": "low_rank_query_count",
+        "name": "低排名问法数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "ai_platform",
+        "name": "AI 平台",
+        "field": "AI平台"
+      },
+      {
+        "id": "competitor_name",
+        "name": "竞品",
+        "field": "竞品"
+      }
+    ],
+    "filters": [
+      "是否收录 = 否 OR 排名为空"
+    ],
+    "display_fields": [
+      "蒸馏词ID",
+      "AI平台",
+      "查询时间",
+      "是否收录",
+      "排名",
+      "竞品"
+    ],
+    "action_target_ids": [
+      "risk_queue"
+    ]
+  },
+  {
+    "id": "view-overview-evolution",
+    "view_name": "overview-本周新增了哪些可验证进展",
+    "table_id": "ops_snapshots",
+    "table_name": "T06_运营快照",
+    "question_id": "dq-overview-04",
+    "question": "本周新增了哪些可验证进展？",
+    "layer": "overview",
+    "metrics": [
+      {
+        "id": "snapshot_count",
+        "name": "快照条数",
+        "aggregation": "count"
+      },
+      {
+        "id": "collection_rate_latest",
+        "name": "最新收录率",
+        "aggregation": "latest"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "date_key",
+        "name": "日期",
+        "field": "日期"
+      }
+    ],
+    "filters": [
+      "recent window = last 4 weeks"
+    ],
+    "display_fields": [
+      "日期",
+      "总蒸馏词",
+      "已收录数",
+      "收录率",
+      "各平台分布"
+    ],
+    "action_target_ids": [
+      "weekly_evolution_queue"
+    ]
+  },
+  {
+    "id": "view-diagnosis-distill",
+    "view_name": "diagnosis-YSE 蒸馏词库准备到什么程度",
+    "table_id": "distill_words",
+    "table_name": "T01_蒸馏词库",
+    "question_id": "dq-diagnosis-01",
+    "question": "YSE 蒸馏词库准备到什么程度？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "distill_term_count",
+        "name": "蒸馏词总数",
+        "aggregation": "count"
+      },
+      {
+        "id": "p0_term_count",
+        "name": "P0 蒸馏词数",
+        "aggregation": "count_filtered"
+      },
+      {
+        "id": "collected_term_count",
+        "name": "已收录蒸馏词数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "priority_band",
+        "name": "优先级",
+        "field": "优先级"
+      },
+      {
+        "id": "collection_state",
+        "name": "当前收录状态",
+        "field": "当前收录状态"
+      }
+    ],
+    "filters": [
+      "所属产品线 = YSE"
+    ],
+    "display_fields": [
+      "ID",
+      "主关键词",
+      "拓展问题",
+      "所属产品线",
+      "优先级",
+      "当前收录状态",
+      "已收录平台"
+    ],
+    "action_target_ids": [
+      "distill_queue"
+    ]
+  },
+  {
+    "id": "view-diagnosis-knowledge",
+    "view_name": "diagnosis-品牌知识库是否能支撑内容生成",
+    "table_id": "brand_knowledge",
+    "table_name": "T02_品牌知识库",
+    "question_id": "dq-diagnosis-02",
+    "question": "品牌知识库是否能支撑内容生成？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "knowledge_line_count",
+        "name": "知识库行数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "product_line",
+        "name": "产品线",
+        "field": "产品线"
+      },
+      {
+        "id": "keyword_bundle",
+        "name": "关键词",
+        "field": "关键词"
+      }
+    ],
+    "filters": [
+      "产品线 = YSE"
+    ],
+    "display_fields": [
+      "产品线",
+      "品牌描述",
+      "差异化卖点",
+      "数据案例",
+      "关键词"
+    ],
+    "action_target_ids": [
+      "knowledge_queue"
+    ]
+  },
+  {
+    "id": "view-diagnosis-pipeline",
+    "view_name": "diagnosis-发布与内容管线当前卡在哪里",
+    "table_id": "content_library",
+    "table_name": "T03_内容库",
+    "question_id": "dq-diagnosis-03",
+    "question": "发布与内容管线当前卡在哪里？",
+    "layer": "diagnosis",
+    "metrics": [
+      {
+        "id": "content_draft_count",
+        "name": "内容草稿数",
+        "aggregation": "count"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "content_type",
+        "name": "内容类型",
+        "field": "内容类型"
+      }
+    ],
+    "filters": [
+      "Phase 1 only"
+    ],
+    "display_fields": [
+      "内容ID",
+      "标题",
+      "蒸馏词ID",
+      "内容类型",
+      "创建时间",
+      "正文"
+    ],
+    "action_target_ids": [
+      "pipeline_queue"
+    ]
+  },
+  {
+    "id": "view-action-human-review",
+    "view_name": "action-哪些事项需要人类审核",
+    "table_id": "publish_records",
+    "table_name": "T04_发布记录",
+    "question_id": "dq-action-01",
+    "question": "哪些事项需要人类审核？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "review_needed_count",
+        "name": "待审核记录数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "publish_state",
+        "name": "发布状态",
+        "field": "状态"
+      }
+    ],
+    "filters": [
+      "状态 = 待审核 OR 状态 = 需重写"
+    ],
+    "display_fields": [
+      "内容ID",
+      "发布平台",
+      "状态",
+      "发布时间",
+      "文章URL"
+    ],
+    "action_target_ids": [
+      "human_review_queue"
+    ]
+  },
+  {
+    "id": "view-action-publish-queue",
+    "view_name": "action-哪些事项需要发布或补发",
+    "table_id": "publish_records",
+    "table_name": "T04_发布记录",
+    "question_id": "dq-action-02",
+    "question": "哪些事项需要发布或补发？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "publish_queue_count",
+        "name": "待发布记录数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "publish_state",
+        "name": "发布状态",
+        "field": "状态"
+      },
+      {
+        "id": "publish_platform",
+        "name": "发布平台",
+        "field": "发布平台"
+      }
+    ],
+    "filters": [
+      "状态 = 待发布"
+    ],
+    "display_fields": [
+      "内容ID",
+      "发布平台",
+      "状态",
+      "发布时间",
+      "文章URL"
+    ],
+    "action_target_ids": [
+      "publish_queue"
+    ]
+  },
+  {
+    "id": "view-action-evidence-refresh",
+    "view_name": "action-哪些事项需要回写证据或调整蒸馏词",
+    "table_id": "monitoring_records",
+    "table_name": "T05_收录监测",
+    "question_id": "dq-action-03",
+    "question": "哪些事项需要回写证据或调整蒸馏词？",
+    "layer": "action",
+    "metrics": [
+      {
+        "id": "uncollected_query_count",
+        "name": "未收录问法数",
+        "aggregation": "count_filtered"
+      }
+    ],
+    "dimensions": [
+      {
+        "id": "ai_platform",
+        "name": "AI 平台",
+        "field": "AI平台"
+      },
+      {
+        "id": "competitor_name",
+        "name": "竞品",
+        "field": "竞品"
+      }
+    ],
+    "filters": [
+      "是否收录 = 否 OR 排名为空"
+    ],
+    "display_fields": [
+      "蒸馏词ID",
+      "AI平台",
+      "查询时间",
+      "是否收录",
+      "排名",
+      "竞品"
+    ],
+    "action_target_ids": [
+      "evidence_refresh_queue"
+    ]
+  }
+]
