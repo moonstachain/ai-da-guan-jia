@@ -159,6 +159,42 @@ class ExternalSkillEvalTest(unittest.TestCase):
         self.assertIn("rules_example", card["evidence"]["missing_source_ids"])
         self.assertEqual(card["review_questions"]["runtime_compatible"]["answer"], "conditional")
 
+    def test_evaluate_external_skill_repo_treats_moonstachain_claude_code_as_portable_reference(self) -> None:
+        readme_text = """
+        # Claude Code Python Porting Workspace
+
+        The main source tree is Python-first, and the repo is not yet a full runtime-equivalent replacement.
+        It exposes `parity-audit`, `show-command`, and `show-tool` for verification and inspection.
+        The visible workflow also centers on `route`, `summary`, and `manifest`, with `tests/` as the verification surface.
+
+        - `parity-audit`
+        - `show-command`
+        - `show-tool`
+        """
+
+        def fake_fetch(url: str, **_: object) -> dict[str, object]:
+            return self.http_404(url)
+
+        with patch.object(self.ai_da_guan_jia, "fetch_text_source", side_effect=fake_fetch):
+            card = self.ai_da_guan_jia.evaluate_external_skill_repo(
+                source_url="https://github.com/moonstachain/claude-code",
+                title="moonstachain/claude-code",
+                runtime_target="multi_harness",
+                readme_text=readme_text,
+            )
+
+        self.assertEqual(card["skill_name"], "moonstachain/claude-code")
+        self.assertEqual(card["runtime_target"], "multi_harness")
+        self.assertEqual(card["category"], "portable_reference")
+        self.assertEqual(card["can_use_now"], "conditional")
+        self.assertEqual(card["best_use_mode"], "benchmark_then_port")
+        self.assertIn("runtime_mismatch", card["risk_tags"])
+        self.assertNotIn("packaging_only_signal", card["risk_tags"])
+        self.assertEqual(card["key_modules_priority"][:3], ["parity-audit", "show-command", "show-tool"])
+        self.assertEqual(card["evaluation_lenses"][0]["title"], "产品化壳层")
+        self.assertEqual(card["evaluation_lenses"][1]["title"], "工作流拆分")
+        self.assertEqual(card["review_questions"]["runtime_compatible"]["answer"], "conditional")
+
     def test_command_evaluate_external_skill_writes_bundle(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
             temp_root = Path(tempdir)

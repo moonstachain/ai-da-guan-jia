@@ -49,6 +49,7 @@
 - [GPT Researcher 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/current/latest-evaluation.json)
 - [Tavily 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-25/adagj-external-skill-20260325-092741/evaluation-card.json)
 - [AutoResearch 评估卡](/Users/liming/Documents/codex-ai-gua-jia-01/artifacts/ai-da-guan-jia/external-skill-evals/2026-03-22/adagj-external-skill-20260322-073709/evaluation-card.json)
+- [moonstachain/claude-code 深度整合报告](./moonstachain-claude-code-deep-integration-report-v1.md)
 
 ### 2.3 读法提醒
 
