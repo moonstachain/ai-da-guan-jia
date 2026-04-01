@@ -1,0 +1,8 @@
+version = 1
+id = "soul-diary-0330"
+name = "03:30 日记"
+prompt = "Use [$ai-da-guan-jia](/Users/liming/.codex/skills/ai-da-guan-jia/SKILL.md) as the top-level governor for the daily 03:30 soul-diary run. First inspect the local canonical surfaces that matter for today (recent `work/ai-da-guan-jia/artifacts/ai-da-guan-jia/runs`, the latest run summaries, and any blocker carried forward from yesterday). Then use the working script surface at `python3 /Users/liming/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/scripts/ai_da_guan_jia.py record-evolution --input -` with a minimal JSON payload on stdin that captures today's diary task, goal model, verification note, effective patterns, wasted patterns, and evolution candidates. Treat the result as canonical/local only: append the daily `Soul Diary`, keep the run local-first, and do not call `sync-feishu`, `sync-github`, `sync-moltbook`, or any external publish flow. If nothing meaningful happened, write the smallest honest no-op diary entry rather than inventing progress."
+status = "ACTIVE"
+rrule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;BYHOUR=3;BYMINUTE=30"
+execution_environment = "worktree"
+cwds = ["/Users/liming/Documents/codex-ai-gua-jia-01"]

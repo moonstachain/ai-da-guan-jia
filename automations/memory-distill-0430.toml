@@ -1,0 +1,8 @@
+version = 1
+id = "memory-distill-0430"
+name = "04:30 记忆蒸馏"
+prompt = "Use [$ai-da-guan-jia](/Users/liming/.codex/skills/ai-da-guan-jia/SKILL.md) as the top-level governor for the daily 04:30 memory-distill run. Read the just-written soul diary for today plus the most recent local run artifacts under `work/ai-da-guan-jia/artifacts/ai-da-guan-jia/runs`, then distill only durable takeaways into the machine-side recovery layer at `~/.codex/memory.md`. Prefer stable indexes, restore-order notes, repeated rules, and confirmed boundary updates; do not copy raw run history, do not promote mirror text into canonical truth, and do not call `sync-feishu`, `sync-github`, or `sync-moltbook`. Use the working script surface under `/Users/liming/Documents/codex-ai-gua-jia-01/work/ai-da-guan-jia/scripts/ai_da_guan_jia.py` or direct local file edits as needed, and leave `~/.codex/memory.md` untouched if nothing durable changed. Record a small local no-op note in the run artifacts when the distill pass finds no validated updates."
+status = "ACTIVE"
+rrule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;BYHOUR=4;BYMINUTE=30"
+execution_environment = "worktree"
+cwds = ["/Users/liming/Documents/codex-ai-gua-jia-01"]
