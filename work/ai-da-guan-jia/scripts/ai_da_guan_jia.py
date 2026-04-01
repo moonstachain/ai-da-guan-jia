@@ -114,6 +114,9 @@ WINDOW_HEARTBEAT_HUMAN_BOUNDARY_KEYWORDS = (
     "主观",
     "拍板",
 )
+MEMORY_PATCH_SECTION_TITLE = "## 最近稳定摘要"
+MEMORY_PATCH_START_MARKER = "<!-- ai-da-guan-jia-memory-patch:start -->"
+MEMORY_PATCH_END_MARKER = "<!-- ai-da-guan-jia-memory-patch:end -->"
 
 
 def strategy_theme_registry_path() -> Path:
@@ -9055,7 +9058,16 @@ DEFAULT_ROLE_TEMPLATE_ROWS = [
         "default_service_tier": "internal_core",
     },
 ]
-CORE_COMMANDS = ["route", "close-task", "review-skills", "review-governance", "strategy-governor", "project-heartbeat", "window-heartbeat"]
+CORE_COMMANDS = [
+    "route",
+    "close-task",
+    "memory-patch",
+    "review-skills",
+    "review-governance",
+    "strategy-governor",
+    "project-heartbeat",
+    "window-heartbeat",
+]
 OPS_COMMANDS = [
     "register-satellite",
     "resolve-satellite",
@@ -27734,14 +27746,83 @@ def normalize_verification_result(raw: Any) -> dict[str, Any]:
 
 
 def load_input_payload(path_value: str) -> dict[str, Any]:
+    return load_json_object_payload(path_value, error_label="record-evolution input")
+
+
+def load_json_object_payload(path_value: str, *, error_label: str) -> dict[str, Any]:
     if path_value == "-":
         raw = sys.stdin.read()
         payload = json.loads(raw)
     else:
         payload = read_json(Path(path_value))
     if not isinstance(payload, dict):
-        raise ValueError("record-evolution input must be a JSON object")
+        raise ValueError(f"{error_label} must be a JSON object")
     return payload
+
+
+def resolve_memory_path(path_value: str | None = None) -> Path:
+    if path_value:
+        return Path(path_value).expanduser().resolve()
+    return (CODEX_HOME / "memory.md").resolve()
+
+
+def render_memory_patch_body(payload: dict[str, Any]) -> str:
+    if bool(payload.get("no_op")) or str(payload.get("status") or "").strip().lower() == "noop":
+        return ""
+    summary_lines = normalize_list(payload.get("summary_lines") or payload.get("summary"))
+    stable_rules = normalize_list(payload.get("stable_rules") or payload.get("confirmed_rules") or payload.get("rules"))
+    restore_order = normalize_list(payload.get("restore_order") or payload.get("recovery_order"))
+    boundary_updates = normalize_list(payload.get("boundary_updates") or payload.get("boundary_update"))
+    source_refs = normalize_list(payload.get("source_refs") or payload.get("evidence_refs"))
+    open_questions = normalize_list(payload.get("open_questions"))
+    if not any([summary_lines, stable_rules, restore_order, boundary_updates, source_refs, open_questions]):
+        return ""
+    lines: list[str] = []
+    created_at = str(payload.get("created_at") or iso_now()).strip()
+    run_id = str(payload.get("run_id") or "").strip()
+    title = str(payload.get("title") or payload.get("section_title") or "").strip()
+    if created_at:
+        lines.append(f"更新时间：{created_at}")
+    if run_id:
+        lines.append(f"Run ID：{run_id}")
+    if title:
+        lines.append(f"标题：{title}")
+    if summary_lines:
+        lines.extend(["", "### 稳定摘要"])
+        lines.extend(f"- {item}" for item in summary_lines)
+    if stable_rules:
+        lines.extend(["", "### 稳定规则"])
+        lines.extend(f"- {item}" for item in stable_rules)
+    if restore_order:
+        lines.extend(["", "### 恢复顺序"])
+        lines.extend(f"{index}. {item}" for index, item in enumerate(restore_order, start=1))
+    if boundary_updates:
+        lines.extend(["", "### 边界更新"])
+        lines.extend(f"- {item}" for item in boundary_updates)
+    if source_refs:
+        lines.extend(["", "### 来源引用"])
+        lines.extend(f"- {item}" for item in source_refs)
+    if open_questions:
+        lines.extend(["", "### 待跟踪问题"])
+        lines.extend(f"- {item}" for item in open_questions)
+    return "\n".join(lines).strip()
+
+
+def upsert_memory_patch_section(memory_text: str, patch_body: str) -> tuple[str, str]:
+    if not patch_body.strip():
+        return memory_text, "noop"
+    patch_block = f"{MEMORY_PATCH_START_MARKER}\n{patch_body.rstrip()}\n{MEMORY_PATCH_END_MARKER}"
+    pattern = re.compile(
+        re.escape(MEMORY_PATCH_START_MARKER) + r".*?" + re.escape(MEMORY_PATCH_END_MARKER),
+        re.DOTALL,
+    )
+    if pattern.search(memory_text):
+        updated = pattern.sub(patch_block, memory_text, count=1)
+        return updated, "updated" if updated != memory_text else "noop"
+    trimmed = memory_text.rstrip()
+    section = f"{MEMORY_PATCH_SECTION_TITLE}\n\n{patch_block}"
+    updated = f"{trimmed}\n\n{section}\n" if trimmed else f"{section}\n"
+    return updated, "created" if updated != memory_text else "noop"
 
 
 def save_evolution_bundle(run_dir: Path, evolution: dict[str, Any], route_payload: dict[str, Any]) -> None:
@@ -32929,6 +33010,32 @@ def command_record_evolution(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_memory_patch(args: argparse.Namespace) -> int:
+    payload = load_json_object_payload(args.input, error_label="memory-patch input")
+    memory_path = resolve_memory_path(getattr(args, "memory_path", None))
+    patch_body = render_memory_patch_body(payload)
+    if not patch_body.strip():
+        print(f"memory_path: {memory_path}")
+        print("memory_patch_status: noop")
+        print("memory_patch_reason: no_durable_content")
+        return 0
+
+    existing_text = memory_path.read_text(encoding="utf-8") if memory_path.exists() else ""
+    updated_text, status = upsert_memory_patch_section(existing_text, patch_body)
+    if status == "noop":
+        print(f"memory_path: {memory_path}")
+        print("memory_patch_status: noop")
+        print("memory_patch_reason: unchanged")
+        return 0
+
+    memory_path.parent.mkdir(parents=True, exist_ok=True)
+    memory_path.write_text(updated_text, encoding="utf-8")
+    print(f"memory_path: {memory_path}")
+    print(f"memory_patch_status: {status}")
+    print(f"memory_patch_lines: {len(patch_body.splitlines())}")
+    return 0
+
+
 def update_evolution_sync_status(run_dir: Path, status: str, result: dict[str, Any] | None = None) -> None:
     evolution_path = run_dir / "evolution.json"
     evolution = read_json(evolution_path)
@@ -36440,6 +36547,11 @@ def build_parser() -> argparse.ArgumentParser:
     record = subparsers.add_parser("record-evolution", help="Write the canonical evolution record from JSON input.")
     record.add_argument("--input", required=True, help="JSON file path or - for stdin.")
     record.set_defaults(func=command_record_evolution)
+
+    memory_patch = subparsers.add_parser("memory-patch", help="Apply a stable summary patch to ~/.codex/memory.md from JSON input.")
+    memory_patch.add_argument("--input", required=True, help="JSON file path or - for stdin.")
+    memory_patch.add_argument("--memory-path", help="Optional memory.md path override.")
+    memory_patch.set_defaults(func=command_memory_patch)
 
     sync = subparsers.add_parser("sync-feishu", help="Mirror a completed local run or clone governance bundle into Feishu via the bridge skill.")
     mode = sync.add_mutually_exclusive_group(required=True)
