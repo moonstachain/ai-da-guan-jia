@@ -1,5 +1,5 @@
 # CLAUDE-INIT.md — 新 Claude 会话启动记忆
-# 最后更新：2026-03-26 · V22（PROJ-V5-BASE-01 applied）
+# 最后更新：2026-04-03 · V23（PROJ-SKILL-CDG-01 applied）
 
 > 用法：在新 Claude 会话开始时先读本文件。
 > 定位：这是 `shared startup memory distribution object`，不是 runtime ledger。
@@ -130,6 +130,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 - 财富三观认知层：本地 schema-first + 四页前端 + 真实飞书表 wiring 已闭环；`TS-KB-06-A` 已完成量化投资全景钻取，`TS-KB-06-B` 已完成 live Bitable 写入
 - 十五五政策信号层：已完成 live Feishu 建表/seed 与 3 页前端接入；`TS-KB-07` 通过 `ts_kb_07_policy_signal_wire.py` 完成 4 张表写入与表坐标回填
 - OpenClaw Skill Pack：`task-spec v1.1` 草案入表 + 批准执行闭环 MVP 已完成，`草案待审 / 已审批待执行` 两态已打通到飞书战略任务追踪
+- Claude 侧治理 Skill：`claude-da-guan-jia` 已发布到 `yuanli-os-skills-pack`，并同步到 `work/ai-da-guan-jia/skills/claude-da-guan-jia/`
 - GitHub issue sync：`gh auth` 已恢复，TS-DASH-02 暴露的认证 blocker 已解除
 - GitHub 仍是分发基座，不是 runtime truth
 
@@ -226,6 +227,7 @@ Codex 是主要执行器，`AI大管家` 是知行脑与治理中枢，人类是
 21. `internal-operator` and `tier-1-internal` are first-class internal cohort fields and must not be normalized back to client defaults.
 22. 递归深度驾驶舱模型：`/` 直达 CeoCockpit L0，`/deep-dive` 承接旧页面深钻，`/workspace` 预留给 Phase B 操作者工作台；Phase A 只接 3 个 capability，不接 `clone-scorecard`。
 23. `PROJ-V2-CLONE-03` 是人机激活任务而不是系统建设任务：交付物必须同时包含 CLONE-INIT、Onboarding SOP、activation prompt、feedback-digest、dogfood verify 与 task tracker 回写。
+24. Claude 侧治理 Skill 与 Codex 侧 `SKILL.md` 并存：前者定义策略大脑的能力与路由语言，后者定义执行器的能力与执行约束；二者通过 `yuanli-os-skills-pack` canonical source 统一分发。
 ## 误吸收防火墙
 
 - 不把飞书当真相源
