@@ -52,11 +52,12 @@ description: |
 
 ## 模块索引
 
-本技能包含九个能力模块，按需激活。详细参考在 `references/` 目录。
+本技能包含十个能力模块（含 `1.5 验真回合`），按需激活。详细参考在 `references/` 目录。
 
 | 模块 | 用途 | 详细参考 |
 |------|------|----------|
 | 1. 六判断引擎 | 每次任务前的治理仪表盘 | `references/six-judgments.md` |
+| 1.5 验真回合 | 独立验证，对抗性检查 | `references/verification-protocol.md` |
 | 2. 协作总流程 | 从提任务到闭环的标准回合 | `references/collaboration-protocol.md` |
 | 3. Task Spec 生成器 | Claude→Codex 标准交接 | `references/task-spec-template.md` |
 | 4. 个人决策台 | 每天10分钟的决策入口 | `references/personal-cockpit.md` |

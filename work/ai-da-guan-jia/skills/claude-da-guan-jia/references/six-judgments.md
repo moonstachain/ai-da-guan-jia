@@ -72,6 +72,7 @@
 **Task Spec 中的验真要求**：
 每个验收标准必须附带验真方式。
 "Codex说做完了"不算验真。
+详细执行细则见 `references/verification-protocol.md`。
 
 ---
 
