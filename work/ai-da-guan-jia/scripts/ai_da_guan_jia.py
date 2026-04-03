@@ -33994,7 +33994,7 @@ def run_feishu_sync(
 
 def run_dashboard_close_hooks(run_id: str, *, apply: bool) -> tuple[int, str]:
     run_dir = find_run_dir(run_id)
-    hook_script = REPO_ROOT / "scripts" / "dashboard_close_task_hooks.py"
+    hook_script = SKILL_DIR / "scripts" / "dashboard_close_task_hooks.py"
     result_path = run_dir / f"dashboard-close-hooks-{'apply' if apply else 'dry-run'}.json"
     if not hook_script.exists():
         status = "dashboard_hook_missing_script"
@@ -35689,6 +35689,64 @@ def command_autopilot_resume(args: argparse.Namespace) -> int:
     return 0 if overall_status in {"completed", "failed_partial", "blocked_needs_user"} else 1
 
 
+# ---------------------------------------------------------------------------
+# Governance Engine v2 — command handlers
+# ---------------------------------------------------------------------------
+
+
+def _lazy_governance_engine():
+    """Lazy import to avoid circular dependency."""
+    import governance_engine
+    return governance_engine
+
+
+def command_governance_pipeline(args: argparse.Namespace) -> int:
+    ge = _lazy_governance_engine()
+    result = ge.run_pipeline(args.prompt)
+    if getattr(args, "json", False):
+        print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
+    else:
+        print(f"layers_executed: {result.layers_executed}")
+        print(f"final_decision: {result.final_decision.value}")
+        print(f"short_circuited: {result.short_circuited}")
+        print(f"total_elapsed_ms: {result.total_elapsed_ms:.1f}")
+        for lr in result.results:
+            print(f"\n--- Layer {lr.layer} ({lr.elapsed_ms:.1f}ms) → {lr.decision.value} ---")
+            for j in lr.judgments:
+                print(f"  {j.name}: {j.decision.value} — {j.reason}")
+    return 0
+
+
+def command_run_state(args: argparse.Namespace) -> int:
+    ge = _lazy_governance_engine()
+    if args.action == "show":
+        record = ge.load_state(args.run_id)
+        print(json.dumps(record.to_dict(), ensure_ascii=False, indent=2))
+    elif args.action == "advance":
+        target = ge.RunState(args.target) if args.target else None
+        record = ge.advance_state(args.run_id, target=target, reason=args.reason)
+        print(f"state: {record.current_state.value}")
+        print(json.dumps(record.to_dict(), ensure_ascii=False, indent=2))
+    elif args.action == "block":
+        record = ge.block_run(args.run_id, reason=args.reason or "Blocked by human")
+        print(f"state: {record.current_state.value}")
+    return 0
+
+
+def command_verify(args: argparse.Namespace) -> int:
+    ge = _lazy_governance_engine()
+    report = ge.verify_run(args.run_id, adversarial=getattr(args, "adversarial", False))
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+    return 0 if report["verdict"] == "verified" else 1
+
+
+def command_skill_harness(args: argparse.Namespace) -> int:
+    ge = _lazy_governance_engine()
+    result = ge.harness_recommend(args.prompt, limit=args.limit)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Local helper for the ai-da-guan-jia skill.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -36651,6 +36709,41 @@ def build_parser() -> argparse.ArgumentParser:
     close_task.add_argument("--bridge-script", help="Optional bridge script path override.")
     close_task.add_argument("--repo", help="Optional GitHub ops repo override in owner/name format.")
     close_task.set_defaults(func=command_close_task)
+
+    # --- Governance Engine (v2 optimized subsystem) ---
+    gov_pipeline = subparsers.add_parser(
+        "governance-pipeline",
+        help="Run the 3-layer judgment pipeline (fast gate → hooks → deep review).",
+    )
+    gov_pipeline.add_argument("--prompt", required=True, help="Task prompt to evaluate.")
+    gov_pipeline.add_argument("--json", action="store_true", help="Output as JSON.")
+    gov_pipeline.set_defaults(func=command_governance_pipeline)
+
+    gov_state = subparsers.add_parser(
+        "run-state",
+        help="Manage run lifecycle state machine (show/advance/block).",
+    )
+    gov_state.add_argument("--run-id", required=True, help="Run ID.")
+    gov_state.add_argument("--action", choices=["show", "advance", "block"], default="show")
+    gov_state.add_argument("--target", help="Target state for advance.")
+    gov_state.add_argument("--reason", default="", help="Reason for block.")
+    gov_state.set_defaults(func=command_run_state)
+
+    gov_verify = subparsers.add_parser(
+        "verify",
+        help="Verify a run's evidence bundle (optional: adversarial mode).",
+    )
+    gov_verify.add_argument("--run-id", required=True, help="Run ID.")
+    gov_verify.add_argument("--adversarial", action="store_true", help="Use adversarial verification mode.")
+    gov_verify.set_defaults(func=command_verify)
+
+    gov_harness = subparsers.add_parser(
+        "skill-harness",
+        help="Recommend skill combination for a task prompt.",
+    )
+    gov_harness.add_argument("--prompt", required=True, help="Task prompt.")
+    gov_harness.add_argument("--limit", type=int, default=3, help="Max skills to recommend.")
+    gov_harness.set_defaults(func=command_skill_harness)
 
     return parser
 
